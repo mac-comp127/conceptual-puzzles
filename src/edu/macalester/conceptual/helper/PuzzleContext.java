@@ -29,6 +29,10 @@ public class PuzzleContext {
         return rand;
     }
 
+    public <Choice> Choice choose(Choice... choices) {
+        return choices[getRandom().nextInt(choices.length)];
+    }
+
     public String getPuzzleCode() {
         return addChucksum(seed)
             .toString(36)
@@ -55,13 +59,13 @@ public class PuzzleContext {
     }
 
     // ------ Checksum computation ------
-
     // The seed format is as follows:
     //
     //     1 byte: leading zero
     //     8 bytes: actual long seed (big-endian)
     //     2 bytes: CRC-32 checksum
     //
+
     // We convert that to and from base 36 (0-9, a-z) with hyphens for legibility.
 
     private static BigInteger addChucksum(long num) {
