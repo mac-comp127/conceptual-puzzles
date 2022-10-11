@@ -3,6 +3,7 @@ package edu.macalester.conceptual.random;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.zip.CRC32;
 
@@ -59,40 +60,64 @@ public class PuzzleContext {
     }
 
     // ------ Checksum computation ------
-    // The seed format is as follows:
-    //
-    //     1 byte: leading zero
-    //     8 bytes: actual long seed (big-endian)
-    //     2 bytes: CRC-32 checksum
-    //
 
-    // We convert that to and from base 36 (0-9, a-z) with hyphens for legibility.
+    private enum CodeLayout {
+        // The puzzle code is a number encoded in base 36 (0-9, a-z) with hyphens for legibility.
+        // Once in its numeric form, the number has the following big-endian byte layout:
+        PUZZLE_NUMBER(1), // puzzle ID number
+        RANDOM_SEED(8),   // big-endian long seed for RNG
+        CHECKSUM(2);      // CRC-32 checksum (low 16 bits)
+
+        private final int size;
+
+        CodeLayout(int size) {
+            this.size = size;
+        }
+
+        int size() {
+            return size;
+        }
+
+        int offset() {
+            return offsetTo(this);
+        }
+
+        static int totalSize() {
+            return offsetTo(null);
+        }
+
+        private static int offsetTo(CodeLayout target) {
+            return Arrays.stream(values())
+                .takeWhile(component -> component != target)
+                .mapToInt(CodeLayout::size)
+                .sum();
+        }
+    }
 
     private static BigInteger addChucksum(long num) {
-        var bytes = ByteBuffer.allocate(11);
-        bytes.put((byte) 0);  // treat long as unsigned
-        bytes.putLong(num);
-        bytes.putShort(computeChecksum(bytes));
+        var bytes = ByteBuffer.allocate(CodeLayout.totalSize());
+        bytes.putLong(CodeLayout.RANDOM_SEED.offset(), num);
+        bytes.putShort(CodeLayout.CHECKSUM.offset(), computeChecksum(bytes));
         return new BigInteger(bytes.array());
     }
 
     private static long checkAndStripChecksum(BigInteger num) throws InvalidPuzzleCodeException {
         var rawBytes = num.toByteArray();
-        if (rawBytes.length > 11) {
+        if (rawBytes.length > CodeLayout.totalSize()) {
             throw new InvalidPuzzleCodeException("Seed code is too long");
         }
 
-        ByteBuffer bytes = ByteBuffer.allocate(11);
+        ByteBuffer bytes = ByteBuffer.allocate(CodeLayout.totalSize());
         bytes.position(bytes.limit() - rawBytes.length);  // leading zeros
         bytes.put(rawBytes);
 
-        short checksum = bytes.getShort(9);
-        bytes.putShort(9, (short) 0);
+        short checksum = bytes.getShort(CodeLayout.CHECKSUM.offset());
+        bytes.putShort(CodeLayout.CHECKSUM.offset(), (short) 0);  // checksum was computed when field was 0
         if (checksum != computeChecksum(bytes)) {
             throw new InvalidPuzzleCodeException("Checksum does not match; is there a typo?");
         }
 
-        return bytes.getLong(1);
+        return bytes.getLong(CodeLayout.RANDOM_SEED.offset());
     }
 
     private static short computeChecksum(ByteBuffer bytes) {
