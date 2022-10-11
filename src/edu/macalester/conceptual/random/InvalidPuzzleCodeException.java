@@ -1,4 +1,4 @@
-package edu.macalester.conceptual.helper;
+package edu.macalester.conceptual.random;
 
 public class InvalidPuzzleCodeException extends Exception {
     public InvalidPuzzleCodeException(String message) {

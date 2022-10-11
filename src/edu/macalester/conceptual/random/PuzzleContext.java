@@ -1,4 +1,4 @@
-package edu.macalester.conceptual.helper;
+package edu.macalester.conceptual.random;
 
 import java.math.BigInteger;
 import java.nio.ByteBuffer;

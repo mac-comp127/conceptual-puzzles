@@ -1,9 +1,14 @@
-package edu.macalester.conceptual.helper;
+package edu.macalester.conceptual.random;
 
 import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
+
+import edu.macalester.conceptual.ast.AstUtils;
 
 import static com.github.javaparser.utils.Utils.capitalize;
 
@@ -33,6 +38,13 @@ public class Nonsense {
         return words(ctx, NameFormat.LOWER_CAMEL_CASE, 3, 6, 4);
     }
 
+    public static MethodCallExpr methodCallExpr(PuzzleContext ctx, Expression... args) {
+        return new MethodCallExpr(
+            null,
+            methodName(ctx),
+            AstUtils.nodes(args));
+    }
+
     public static String propertyName(PuzzleContext ctx) {
         return words(ctx, NameFormat.LOWER_CAMEL_CASE, 2, 5, 3);
     }
@@ -43,6 +55,14 @@ public class Nonsense {
 
     public static String constantName(PuzzleContext ctx) {
         return words(ctx, NameFormat.SCREAMING_SNAKE_CASE, 2, 10, 6);
+    }
+
+    public static NameExpr variableNameExpr(PuzzleContext ctx) {
+        return new NameExpr(variableName(ctx));
+    }
+
+    public static NameExpr propertyNameExpr(PuzzleContext ctx) {
+        return new NameExpr(propertyName(ctx));
     }
 
     public static String words(
