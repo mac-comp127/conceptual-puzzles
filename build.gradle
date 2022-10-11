@@ -2,6 +2,14 @@ plugins {
     id 'java'
 }
 
+var javaVersion = 17
+
+java {
+  toolchain {
+    languageVersion.set(JavaLanguageVersion.of(javaVersion))
+  }
+}
+
 repositories {
     mavenCentral()
 }
@@ -19,9 +27,6 @@ dependencies {
 test {
     useJUnitPlatform()
 }
-
-sourceCompatibility = 1.16
-targetCompatibility = 1.16
 
 sourceSets.main.java.srcDirs = ['src']
 sourceSets.main.resources.srcDirs = ['res']
