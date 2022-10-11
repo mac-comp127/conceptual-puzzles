@@ -1,4 +1,4 @@
-package edu.macalester.conceptual.random;
+package edu.macalester.conceptual.context;
 
 import org.junit.jupiter.api.Test;
 

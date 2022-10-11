@@ -1,7 +1,7 @@
 package edu.macalester.conceptual.puzzles.loops;
 
-import edu.macalester.conceptual.random.InvalidPuzzleCodeException;
-import edu.macalester.conceptual.random.PuzzleContext;
+import edu.macalester.conceptual.context.InvalidPuzzleCodeException;
+import edu.macalester.conceptual.context.PuzzleContext;
 
 public class LoopTranslationPuzzle {
     public void generate(PuzzleContext ctx) {

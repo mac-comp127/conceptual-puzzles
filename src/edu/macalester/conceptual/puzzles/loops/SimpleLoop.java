@@ -11,7 +11,7 @@ import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.type.PrimitiveType;
 
 import edu.macalester.conceptual.util.Nonsense;
-import edu.macalester.conceptual.random.PuzzleContext;
+import edu.macalester.conceptual.context.PuzzleContext;
 
 import static edu.macalester.conceptual.ast.AstUtils.*;
 

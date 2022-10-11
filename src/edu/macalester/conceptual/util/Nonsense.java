@@ -9,8 +9,7 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 
 import edu.macalester.conceptual.ast.AstUtils;
-import edu.macalester.conceptual.random.PuzzleContext;
-import edu.macalester.conceptual.random.WeightedChoices;
+import edu.macalester.conceptual.context.PuzzleContext;
 
 import static com.github.javaparser.utils.Utils.capitalize;
 
