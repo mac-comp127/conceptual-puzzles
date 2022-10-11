@@ -1,4 +1,4 @@
-package edu.macalester.conceptual.random;
+package edu.macalester.conceptual.util;
 
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Expression;
@@ -9,6 +9,8 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 
 import edu.macalester.conceptual.ast.AstUtils;
+import edu.macalester.conceptual.random.PuzzleContext;
+import edu.macalester.conceptual.random.WeightedChoices;
 
 import static com.github.javaparser.utils.Utils.capitalize;
 

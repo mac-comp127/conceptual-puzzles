@@ -4,14 +4,23 @@ import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 import java.util.zip.CRC32;
 
-public class PuzzleContext {
+public final class PuzzleContext {
     private static final SecureRandom seedGenerator = new SecureRandom();
 
     private final long seed;
     private final Random rand;
+
+    private State state = State.SETUP;
+    private boolean showingSolution;
+    private boolean insideSolution;
+
+    private int curPartNum;
+
+    private PuzzlePrinter printer;
 
     public static PuzzleContext generate() {
         return new PuzzleContext(seedGenerator.nextLong());
@@ -26,16 +35,110 @@ public class PuzzleContext {
         rand = new Random(seed);
     }
 
+    static enum State {
+        SETUP,
+        WORKING,
+        CLOSED;
+    }
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // Problem / solution separation
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+    public void enableSolution() {
+        requireState(State.SETUP, "change solution visibility");
+        showingSolution = true;
+    }
+
+    public void emitPuzzle(Runnable puzzleGenerator) {
+        requireState(State.SETUP, "start emitting puzzle");
+        try {
+            state = State.WORKING;
+            puzzleGenerator.run();
+            printer.close();
+        } finally {
+            state = State.CLOSED;
+        }
+    }
+
+    public void setOutput(PuzzlePrinter printer) {
+        Objects.requireNonNull(printer, "printer cannot be null");
+        requireState(State.SETUP, "change output");
+        this.printer = printer;
+    }
+
+    public PuzzlePrinter output() {
+        requireState(State.WORKING, "produce output");
+        if (printer == null) {
+            printer = new PuzzlePrinter();
+        }
+        return printer;
+    }
+
+    public void solution(Runnable action) {
+        requireState(State.WORKING, "produce solution");
+        if (!showingSolution) {
+            return;
+        }
+        if (insideSolution) {
+            throw new IllegalStateException("already inside a solution section");
+        }
+        try {
+            insideSolution = true;
+            output().blankLine();
+            output().dividerLine();
+            output().heading("Solution");
+            output().blankLine();
+            action.run();
+            output().blankLine();
+        } finally {
+            insideSolution = false;
+        }
+    }
+
+    public void section(Runnable action) {
+        requireState(State.WORKING, "produce output");
+        curPartNum++;
+        output().dividerLine();
+        output().heading("Part " + curPartNum);
+        output().dividerLine();
+        output().blankLine();
+        action.run();
+    }
+
+    private void requireState(State requiredState, String action) {
+        if (state != requiredState) {
+            throw new IllegalStateException(
+                "Cannot " + action + " in " + state + " state;"
+                    + " must be in " + requiredState + " state");
+        }
+    }
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // Randomness
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
     public Random getRandom() {
+        if (insideSolution) {
+            // Using the RNG inside any of the conditionally executed solution sections would make
+            // subsequently generated random numbers differ depending on whether the solution
+            // is visible.
+            throw new IllegalStateException("cannot ask for randomness while inside solution section");
+        }
         return rand;
     }
 
-    public <Choice> Choice choose(Choice... choices) {
+    @SafeVarargs
+    public final <Choice> Choice choose(Choice... choices) {
         return choices[getRandom().nextInt(choices.length)];
     }
 
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // Puzzle code handling
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
     public String getPuzzleCode() {
-        return addChucksum(seed)
+        return addChecksum(seed)
             .toString(36)
             .replaceAll("l", "L")  // Avoid ambiguous chars (lowercase i and o are fine)
             .replaceAll(".{4}(?=.)", "$0-");
@@ -48,18 +151,9 @@ public class PuzzleContext {
         try {
             return checkAndStripChecksum(new BigInteger(cleanedPuzzleCode, 36));
         } catch (NumberFormatException nfe) {
-            throw new InvalidPuzzleCodeException("Invalid seed code format");
+            throw new InvalidPuzzleCodeException("Invalid format; this does not look like a puzzle code");
         }
     }
-
-    @Override
-    public String toString() {
-        return "PuzzleContext{"
-            + "seed=" + seed
-            + '}';
-    }
-
-    // ------ Checksum computation ------
 
     private enum CodeLayout {
         // The puzzle code is a number encoded in base 36 (0-9, a-z) with hyphens for legibility.
@@ -94,7 +188,7 @@ public class PuzzleContext {
         }
     }
 
-    private static BigInteger addChucksum(long num) {
+    private static BigInteger addChecksum(long num) {
         var bytes = ByteBuffer.allocate(CodeLayout.totalSize());
         bytes.putLong(CodeLayout.RANDOM_SEED.offset(), num);
         bytes.putShort(CodeLayout.CHECKSUM.offset(), computeChecksum(bytes));
@@ -124,5 +218,16 @@ public class PuzzleContext {
         CRC32 checksum = new CRC32();
         checksum.update(bytes.array());
         return (short) checksum.getValue();
+    }
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // Debug
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+    @Override
+    public String toString() {
+        return "PuzzleContext{"
+            + "code=" + getPuzzleCode()
+            + '}';
     }
 }

@@ -48,7 +48,7 @@ enum LoopForm {
                 + loop.getLoopVariable().getTypeAsString()
                 + ", initialized to "
                 + loop.getLoopVariable().getInitializer().orElseThrow()
-                + ". Then, until "
+                + ".\nThen, until "
                 + loop.getLoopVariable().getNameAsString()
                 + " "
                 + describeConditionNegation(loop.getEndCondition())

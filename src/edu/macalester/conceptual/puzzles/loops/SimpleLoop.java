@@ -10,7 +10,7 @@ import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.type.PrimitiveType;
 
-import edu.macalester.conceptual.random.Nonsense;
+import edu.macalester.conceptual.util.Nonsense;
 import edu.macalester.conceptual.random.PuzzleContext;
 
 import static edu.macalester.conceptual.ast.AstUtils.*;
@@ -21,7 +21,7 @@ public class SimpleLoop {
     private final Expression nextStep;
     private final Statement body;
 
-    public static SimpleLoop numericLoop(PuzzleContext ctx) {
+    public static SimpleLoop generateNumericLoop(PuzzleContext ctx) {
         VariableDeclarator loopVariable = Nonsense.variable(ctx, PrimitiveType.intType());
 
         loopVariable.setInitializer(
@@ -85,22 +85,5 @@ public class SimpleLoop {
 
     public Statement getBody() {
         return body;
-    }
-
-    public static void main(String[] args) throws Exception {
-        PuzzleContext ctx = PuzzleContext.generate();
-        for(int i = 0; i < 20; i++) {
-            var loop = numericLoop(ctx);
-            System.out.println("–––––––––––––––––––––––––––––––––––");
-            System.out.println(LoopForm.WHILE.format(loop));
-            System.out.println("–––––––––––––––––––––––––––––––––––");
-            System.out.println(LoopForm.FOR.format(loop));
-            System.out.println("–––––––––––––––––––––––––––––––––––");
-            System.out.println(LoopForm.ENGLISH.format(loop));
-            System.out.println("–––––––––––––––––––––––––––––––––––");
-            System.out.println(ctx.getPuzzleCode());
-            System.out.println();
-            System.out.println();
-        }
     }
 }
