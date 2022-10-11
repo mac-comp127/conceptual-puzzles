@@ -89,7 +89,7 @@ public class SimpleLoop {
 
     public static void main(String[] args) throws Exception {
         PuzzleContext ctx = PuzzleContext.generate();
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 20; i++) {
             var loop = numericLoop(ctx);
             System.out.println("–––––––––––––––––––––––––––––––––––");
             System.out.println(LoopForm.WHILE.format(loop));
@@ -99,6 +99,8 @@ public class SimpleLoop {
             System.out.println(LoopForm.ENGLISH.format(loop));
             System.out.println("–––––––––––––––––––––––––––––––––––");
             System.out.println(ctx.getPuzzleCode());
+            System.out.println();
+            System.out.println();
         }
     }
 }
