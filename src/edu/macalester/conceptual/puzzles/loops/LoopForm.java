@@ -14,6 +14,10 @@ import static edu.macalester.conceptual.ast.AstUtils.*;
 
 enum LoopForm {
     WHILE {
+        public String description() {
+            return "while loop";
+        }
+
         public String format(SimpleLoop loop) {
             return nodesToString(
                 variableDeclarationStmt(loop.getLoopVariable()),
@@ -27,6 +31,10 @@ enum LoopForm {
     },
 
     FOR {
+        public String description() {
+            return "for loop";
+        }
+
         public String format(SimpleLoop loop) {
             return nodesToString(
                 new ForStmt(
@@ -40,7 +48,11 @@ enum LoopForm {
         }
     },
 
-    ENGLISH {
+    NATURAL_LANGUAGE {
+        public String description() {
+            return "natural language description of a loop";
+        }
+
         public String format(SimpleLoop loop) {
             return "Declare a variable named `"
                 + loop.getLoopVariable().getNameAsString()
@@ -99,6 +111,8 @@ enum LoopForm {
                 "Cannot describe " + subpart + " of " + part + " node in English: " + node);
         }
     };
+
+    public abstract String description();
 
     public abstract String format(SimpleLoop loop);
 }

@@ -10,8 +10,8 @@ import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.type.PrimitiveType;
 
-import edu.macalester.conceptual.util.Nonsense;
 import edu.macalester.conceptual.context.PuzzleContext;
+import edu.macalester.conceptual.util.Nonsense;
 
 import static edu.macalester.conceptual.ast.AstUtils.*;
 

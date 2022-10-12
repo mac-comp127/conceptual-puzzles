@@ -1,33 +1,29 @@
 package edu.macalester.conceptual.puzzles.loops;
 
-import edu.macalester.conceptual.context.InvalidPuzzleCodeException;
 import edu.macalester.conceptual.context.PuzzleContext;
 
 public class LoopTranslationPuzzle {
     public void generate(PuzzleContext ctx) {
         ctx.section(() -> {
-            ctx.output().paragraph("Translate the following for loop into a while loop:");
-            var loop = SimpleLoop.generateNumericLoop(ctx);
-            ctx.output().codeBlock(LoopForm.FOR.format(loop));
-            ctx.solution(() ->
-                ctx.output().codeBlock(LoopForm.WHILE.format(loop)));
+            boolean direction = ctx.getRandom().nextBoolean();
+            LoopForm sourceForm = direction ? LoopForm.FOR : LoopForm.WHILE;
+            LoopForm targetForm = direction ? LoopForm.WHILE : LoopForm.FOR;
+
+            generateTranslationPuzzle(ctx, sourceForm, targetForm);
         });
 
         ctx.section(() -> {
-            ctx.output().paragraph("Translate the following while loop into a for loop:");
-            var loop = SimpleLoop.generateNumericLoop(ctx);
-            ctx.output().codeBlock(LoopForm.WHILE.format(loop));
-            ctx.solution(() ->
-                ctx.output().codeBlock(LoopForm.FOR.format(loop)));
+            generateTranslationPuzzle(ctx, LoopForm.NATURAL_LANGUAGE, LoopForm.FOR);
         });
+    }
 
-        ctx.section(() -> {
-            ctx.output().paragraph("Create a for loop with the following description:");
-            var loop = SimpleLoop.generateNumericLoop(ctx);
-            ctx.output().indented(() ->
-                ctx.output().paragraph(LoopForm.ENGLISH.format(loop)));
-            ctx.solution(() ->
-                ctx.output().codeBlock(LoopForm.FOR.format(loop)));
-        });
+    private static void generateTranslationPuzzle(PuzzleContext ctx, LoopForm sourceForm, LoopForm targetForm) {
+        ctx.output().paragraph(
+            "Translate the following " + sourceForm.description()
+            + " into a " + targetForm.description() + ":");
+        var loop = SimpleLoop.generateNumericLoop(ctx);
+        ctx.output().codeBlock(sourceForm.format(loop));
+        ctx.solution(() ->
+            ctx.output().codeBlock(targetForm.format(loop)));
     }
 }
