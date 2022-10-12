@@ -54,9 +54,15 @@ public final class PuzzleContext {
         requireState(State.SETUP, "start emitting puzzle");
         try {
             state = State.WORKING;
+            printer = new PuzzlePrinter();
+            output().setColorTheme(getRandom().nextFloat());
+            output().dividerLine(true);
+            output().println();
             puzzleGenerator.run();
-            printer.close();
+            output().dividerLine(true);
         } finally {
+            printer.close();
+            printer = null;
             state = State.CLOSED;
         }
     }
@@ -69,19 +75,17 @@ public final class PuzzleContext {
 
     public PuzzlePrinter output() {
         requireState(State.WORKING, "produce output");
-        if (printer == null) {
-            printer = new PuzzlePrinter();
-        }
         return printer;
     }
 
     public void section(Runnable action) {
         requireState(State.WORKING, "produce output");
         curPartNum++;
-        output().dividerLine();
-        output().heading("Part " + curPartNum);
-        output().dividerLine();
-        output().blankLine();
+        if (curPartNum > 1) {
+            output().dividerLine(false);
+            output().println();
+        }
+        output().heading("Part " + curPartNum, true);
         action.run();
     }
 
@@ -97,14 +101,8 @@ public final class PuzzleContext {
 
         try {
             insideSolution = true;
-            output().indented("┆", () -> {
-                output().dividerLine();
-                output().heading("Solution");
-                output().blankLine();
-                action.run();
-                output().dividerLine();
-            });
-            output().blankLine();
+            output().heading("Solution", false);
+            action.run();
         } finally {
             insideSolution = false;
         }
