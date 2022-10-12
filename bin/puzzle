@@ -1,0 +1,7 @@
+#!/bin/bash
+
+exec gradle \
+    run-cli \
+    --args "$*" \
+    --project-dir "$(dirname "$0")/.." \
+    --warn

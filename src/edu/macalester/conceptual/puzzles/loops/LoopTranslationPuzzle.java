@@ -30,21 +30,4 @@ public class LoopTranslationPuzzle {
                 ctx.output().codeBlock(LoopForm.FOR.format(loop)));
         });
     }
-
-    public static void main(String[] args) throws InvalidPuzzleCodeException {
-        PuzzleContext original = PuzzleContext.generate();
-        PuzzleContext duplicate = PuzzleContext.fromPuzzleCode(original.getPuzzleCode());
-
-        System.out.println(original.getPuzzleCode());
-        original.emitPuzzle(() -> {
-            new LoopTranslationPuzzle().generate(original);
-        });
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        duplicate.enableSolution();
-        duplicate.emitPuzzle(() -> {
-            new LoopTranslationPuzzle().generate(duplicate);
-        });
-    }
 }

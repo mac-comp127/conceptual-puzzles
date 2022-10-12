@@ -38,4 +38,3 @@ gradle-app.setting
 !.settings/org.eclipse.jdt.core.prefs
 .vscode/*
 !.vscode/settings.json
-bin

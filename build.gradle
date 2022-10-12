@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'eclipse'
 }
 
 var javaVersion = 17
@@ -28,6 +29,33 @@ test {
     useJUnitPlatform()
 }
 
+task('run-cli', dependsOn: 'classes', type: JavaExec) {
+    mainClass = 'edu.macalester.conceptual.CommandLine'
+    classpath = sourceSets.main.runtimeClasspath
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = java.toolchain.languageVersion  // run with sama Java used to compile
+    }
+}
+
 sourceSets.main.java.srcDirs = ['src']
 sourceSets.main.resources.srcDirs = ['res']
 sourceSets.test.java.srcDirs = ['test']
+
+// Nonsense workaround to keep VS Code Java from putting all of its class files
+// in bin/ (where the CLI lives) instead of build/ (where they belong, and where
+// both Gradle and IntelliJ manage to put them)
+// Adapted from https://github.com/gradle/gradle/issues/3839#issuecomment-512805239
+project.buildDir = 'build'
+eclipse.classpath {
+    defaultOutputDir = file('build')
+    file.whenMerged {
+        cp -> {
+            cp.entries.forEach {
+                entry -> if (entry.hasProperty('output')) {
+                    entry.output = entry.output.replace('bin/', 'build/')
+                }
+            }
+            cp.entries.unique(true)
+        }
+    }
+}
