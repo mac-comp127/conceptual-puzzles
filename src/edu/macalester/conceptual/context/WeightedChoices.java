@@ -1,4 +1,4 @@
-package edu.macalester.conceptual.util;
+package edu.macalester.conceptual.context;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import edu.macalester.conceptual.context.PuzzleContext;
 
 public class WeightedChoices<Choice> {
     private final List<WeightedChoice> choices;

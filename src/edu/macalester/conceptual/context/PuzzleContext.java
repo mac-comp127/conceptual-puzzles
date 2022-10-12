@@ -15,7 +15,7 @@ public final class PuzzleContext {
     private final Random rand;
 
     private State state = State.SETUP;
-    private boolean showingSolution;
+    private boolean solutionsVisible;
     private boolean insideSolution;
 
     private int curPartNum;
@@ -47,7 +47,7 @@ public final class PuzzleContext {
 
     public void enableSolution() {
         requireState(State.SETUP, "change solution visibility");
-        showingSolution = true;
+        solutionsVisible = true;
     }
 
     public void emitPuzzle(Runnable puzzleGenerator) {
@@ -75,27 +75,6 @@ public final class PuzzleContext {
         return printer;
     }
 
-    public void solution(Runnable action) {
-        requireState(State.WORKING, "produce solution");
-        if (!showingSolution) {
-            return;
-        }
-        if (insideSolution) {
-            throw new IllegalStateException("already inside a solution section");
-        }
-        try {
-            insideSolution = true;
-            output().blankLine();
-            output().dividerLine();
-            output().heading("Solution");
-            output().blankLine();
-            action.run();
-            output().blankLine();
-        } finally {
-            insideSolution = false;
-        }
-    }
-
     public void section(Runnable action) {
         requireState(State.WORKING, "produce output");
         curPartNum++;
@@ -104,6 +83,31 @@ public final class PuzzleContext {
         output().dividerLine();
         output().blankLine();
         action.run();
+    }
+
+    public void solution(Runnable action) {
+        requireState(State.WORKING, "produce solution");
+        if (insideSolution) {
+            throw new IllegalStateException("already inside a solution section");
+        }
+
+        if (!solutionsVisible) {
+            return;
+        }
+
+        try {
+            insideSolution = true;
+            output().indented("┆", () -> {
+                output().dividerLine();
+                output().heading("Solution");
+                output().blankLine();
+                action.run();
+                output().dividerLine();
+            });
+            output().blankLine();
+        } finally {
+            insideSolution = false;
+        }
     }
 
     private void requireState(State requiredState, String action) {

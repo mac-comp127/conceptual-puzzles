@@ -10,6 +10,7 @@ import com.github.javaparser.ast.type.Type;
 
 import edu.macalester.conceptual.ast.AstUtils;
 import edu.macalester.conceptual.context.PuzzleContext;
+import edu.macalester.conceptual.context.WeightedChoices;
 
 import static com.github.javaparser.utils.Utils.capitalize;
 

@@ -1,9 +1,8 @@
 package edu.macalester.conceptual.context;
 
-import java.io.Closeable;
 import java.io.PrintWriter;
 
-public class PuzzlePrinter implements Closeable {
+public class PuzzlePrinter {
     private final PrintWriter out = new PrintWriter(System.out);
     private String indent = "";
 
@@ -50,13 +49,13 @@ public class PuzzlePrinter implements Closeable {
 
     // Handles indentation and line break normalization
     private void print(String str) {
-        out.println(
+        out.print(
             str
-                .replaceAll("^|\\r?\\n", "$0" + indent)
+                .replaceAll("^|\\r?\\n(?!$)", "$0" + indent)
                 .replaceAll("\\r?\\n", System.lineSeparator()));
     }
 
     public void close() {
-        out.close();  // triggers flush
+        out.flush();  // do not close; this may close System.out!!
     }
 }
