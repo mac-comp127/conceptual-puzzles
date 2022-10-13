@@ -60,27 +60,10 @@ class PuzzleOptions {
         System.exit(0);
     }
 
-    public void printUsageAndExit() {
-        PrintWriter out = new PrintWriter(System.err, true);
-        out.println(
-            """
-                Commands:
-                  puzzle list           List available puzzle types
-                  puzzle gen <type>     Generate a new puzzle
-                  puzzle solve <code>   Print the solution to a puzzle
-                            
-                Options:
-                """.trim());
+    public void printOptions(PrintWriter out) {
+        out.println("Options:");
         new HelpFormatter().printOptions(out, 80, options, 2, 2);
         out.println();
-        out.println(
-            """
-                Examples:
-                  puzzle gen loops
-                  puzzle solve 1454-1234-1234
-                  puzzle gen loops --part 3 --repeat 5
-                """.trim());
-        System.exit(0);
     }
 
     private Option addOption(

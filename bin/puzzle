@@ -8,7 +8,7 @@ if [ -z "$args" ]; then
     args=" "
 fi
 
-PUZZLE_CLI_ARGS="$*" exec gradle \
+puzzle_command="$0" exec gradle \
     run-cli \
     --project-dir "$(dirname "$0")/.." \
     --args="$args" \
