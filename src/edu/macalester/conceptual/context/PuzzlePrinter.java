@@ -1,9 +1,11 @@
 package edu.macalester.conceptual.context;
 
+import com.github.javaparser.ParseProblemException;
+import com.github.javaparser.StaticJavaParser;
+
 import java.awt.Color;
 import java.io.Closeable;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -65,8 +67,9 @@ public class PuzzlePrinter implements Closeable {
     }
 
     public void codeBlock(String javaCode) {
-        indented(() ->
-            println(javaCode.strip()));
+        indented(() -> {
+            println(javaCode.strip());
+        });
         println();
     }
 

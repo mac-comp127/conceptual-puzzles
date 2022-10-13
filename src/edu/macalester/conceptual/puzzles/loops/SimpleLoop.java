@@ -1,89 +1,96 @@
 package edu.macalester.conceptual.puzzles.loops;
 
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.expr.AssignExpr;
-import com.github.javaparser.ast.expr.BinaryExpr;
-import com.github.javaparser.ast.expr.BinaryExpr.Operator;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.UnaryExpr;
-import com.github.javaparser.ast.stmt.ExpressionStmt;
-import com.github.javaparser.ast.stmt.Statement;
-import com.github.javaparser.ast.type.PrimitiveType;
-
 import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.util.Nonsense;
 
-import static edu.macalester.conceptual.ast.AstUtils.*;
+import static edu.macalester.conceptual.util.CodeFormatting.joinCode;
+import static edu.macalester.conceptual.util.CodeFormatting.joinStatements;
 
 class SimpleLoop {
-    private final VariableDeclarator loopVariable;
-    private final Expression endCondition;
-    private final Expression nextStep;
-    private final Statement body;
+    private final String varName, varType, initializer;
+    private final String endCondition;
+    private final String nextStep;
+    private final String body;
 
     public static SimpleLoop generateNumericLoop(PuzzleContext ctx) {
-        VariableDeclarator loopVariable = Nonsense.variable(ctx, PrimitiveType.intType());
-
-        loopVariable.setInitializer(
+        String varName = Nonsense.variableName(ctx);
+        String varType = ctx.choose("int", "int", "int", "long", "short", "double");
+        String initializer =
             ctx.getRandom().nextBoolean()
-                ? Nonsense.variableNameExpr(ctx)
-                : intLiteral(ctx.getRandom().nextInt(100)));
+                ? Nonsense.variableName(ctx)
+                : String.valueOf(ctx.getRandom().nextInt(100));
+
         boolean growing = ctx.getRandom().nextBoolean();
 
-        Expression endCondition =
-            new BinaryExpr(
-                loopVariable.getNameAsExpression(),
-                Nonsense.propertyNameExpr(ctx),
-                growing
-                    ? ctx.choose(Operator.LESS, Operator.LESS_EQUALS)
-                    : ctx.choose(Operator.GREATER, Operator.GREATER_EQUALS, Operator.NOT_EQUALS));
+        String endCondition = joinCode(
+            varName,
+            growing
+                ? ctx.choose("<", "<=")
+                : ctx.choose(">", ">=", "!="),
+            Nonsense.propertyName(ctx));
 
-        Expression nextStep =
+        String nextStep =
             ctx.getRandom().nextBoolean()
-                ? new UnaryExpr(
-                    loopVariable.getNameAsExpression(),
+                ? joinCode(
+                    varName,
+                    growing ? "++" : "--")
+                : joinCode(
+                    varName,
                     growing
-                        ? UnaryExpr.Operator.POSTFIX_INCREMENT
-                        : UnaryExpr.Operator.POSTFIX_DECREMENT)
-                : new AssignExpr(
-                    loopVariable.getNameAsExpression(),
-                    intLiteral(ctx.getRandom().nextInt(2, 5)),
-                    growing
-                        ? ctx.choose(AssignExpr.Operator.PLUS, AssignExpr.Operator.MULTIPLY)
-                        : ctx.choose(AssignExpr.Operator.MINUS, AssignExpr.Operator.DIVIDE));
+                        ? ctx.choose("+=", "*=")
+                        : ctx.choose("-=", "/="),
+                    String.valueOf(ctx.getRandom().nextInt(2, 5)));
 
-        Statement body =
-            new ExpressionStmt(
-                Nonsense.methodCallExpr(ctx, loopVariable.getNameAsExpression()));
+        String body =
+            joinStatements(
+                joinCode(
+                    Nonsense.methodName(ctx),
+                    "(", varName, ")"));
 
-        return new SimpleLoop(loopVariable, endCondition, nextStep, body);
+        return new SimpleLoop(varType, varName, initializer, endCondition, nextStep, body);
     }
 
-    private SimpleLoop(
-        VariableDeclarator loopVariable,
-        Expression endCondition,
-        Expression nextStep,
-        Statement body
+    public SimpleLoop(
+        String varType,
+        String varName,
+        String initializer,
+        String endCondition,
+        String nextStep,
+        String body
     ) {
-        this.loopVariable = loopVariable;
+        this.varType = varType;
+        this.varName = varName;
+        this.initializer = initializer;
         this.endCondition = endCondition;
         this.nextStep = nextStep;
         this.body = body;
     }
 
-    public VariableDeclarator getLoopVariable() {
-        return loopVariable;
+    public String getVarName() {
+        return varName;
     }
 
-    public Expression getEndCondition() {
+    public String getVarType() {
+        return varType;
+    }
+
+    public String getInitializer() {
+        return initializer;
+    }
+
+    public String getVarDeclaration() {
+        return joinCode(getVarType(), getVarName(), "=", getInitializer());
+    }
+
+    public String getEndCondition() {
         return endCondition;
     }
 
-    public Expression getNextStep() {
+    public String getNextStep() {
         return nextStep;
     }
 
-    public Statement getBody() {
+    public String getBody() {
         return body;
     }
 }

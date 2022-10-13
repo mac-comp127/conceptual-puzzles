@@ -1,5 +1,6 @@
 package edu.macalester.conceptual.puzzles.loops;
 
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.BinaryExpr;
@@ -11,6 +12,8 @@ import com.github.javaparser.ast.stmt.ForStmt;
 import com.github.javaparser.ast.stmt.WhileStmt;
 
 import static edu.macalester.conceptual.ast.AstUtils.*;
+import static edu.macalester.conceptual.util.CodeFormatting.joinCode;
+import static edu.macalester.conceptual.util.Prettifier.prettifyStatements;
 
 enum LoopForm {
     WHILE {
@@ -19,14 +22,13 @@ enum LoopForm {
         }
 
         public String format(SimpleLoop loop) {
-            return nodesToString(
-                variableDeclarationStmt(loop.getLoopVariable()),
-                new WhileStmt(
-                    loop.getEndCondition(),
-                    blockOf(
+            return prettifyStatements(
+                joinCode(
+                    loop.getVarDeclaration(), ";",
+                    "while(", loop.getEndCondition(), ") {",
                         loop.getBody(),
-                        new ExpressionStmt(
-                            loop.getNextStep()))));
+                        loop.getNextStep(), ";",
+                    "}"));
         }
     },
 
@@ -36,15 +38,15 @@ enum LoopForm {
         }
 
         public String format(SimpleLoop loop) {
-            return nodesToString(
-                new ForStmt(
-                    nodes(new VariableDeclarationExpr(
-                        loop.getLoopVariable())),
-                    loop.getEndCondition(),
-                    nodes(
-                        loop.getNextStep()),
-                    blockOf(
-                        loop.getBody())));
+            return prettifyStatements(
+                joinCode(
+                    "for(",
+                        loop.getVarDeclaration(), ";",
+                        loop.getEndCondition(), ";",
+                        loop.getNextStep(),
+                    ") {",
+                        loop.getBody(),
+                    "}"));
         }
     },
 
@@ -55,13 +57,13 @@ enum LoopForm {
 
         public String format(SimpleLoop loop) {
             return "Declare a variable named `"
-                + loop.getLoopVariable().getNameAsString()
+                + loop.getVarName()
                 + "` of type "
-                + loop.getLoopVariable().getTypeAsString()
+                + loop.getVarType()
                 + ", initialized to "
-                + loop.getLoopVariable().getInitializer().orElseThrow()
+                + loop.getInitializer()
                 + ".\nThen, until "
-                + loop.getLoopVariable().getNameAsString()
+                + loop.getVarName()
                 + " "
                 + describeConditionNegation(loop.getEndCondition())
                 + ", "
@@ -69,7 +71,8 @@ enum LoopForm {
                 + ".";
         }
 
-        private String describeConditionNegation(Expression cond) {
+        private String describeConditionNegation(String condStr) {
+            Expression cond = StaticJavaParser.parseExpression(condStr);
             if (cond instanceof BinaryExpr binary) {
                 String operator = switch (binary.getOperator()) {
                     case LESS -> "is greater than or equal to";
@@ -85,7 +88,8 @@ enum LoopForm {
             }
         }
 
-        private String describeStep(Expression step) {
+        private String describeStep(String stepStr) {
+            Expression step = StaticJavaParser.parseExpression(stepStr);
             if (step instanceof UnaryExpr unary) {
                 String operator = switch(unary.getOperator()) {
                     case POSTFIX_INCREMENT -> "increment";
