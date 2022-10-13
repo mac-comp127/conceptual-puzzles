@@ -10,7 +10,7 @@ class SimpleLoop {
     private final String varName, varType, initializer;
     private final String endCondition;
     private final String nextStep;
-    private final String body;
+    private String body;
 
     public static SimpleLoop generateNumericLoop(PuzzleContext ctx) {
         String varName = Nonsense.variableName(ctx);
@@ -41,11 +41,23 @@ class SimpleLoop {
                         : ctx.choose("-=", "/="),
                     String.valueOf(ctx.getRandom().nextInt(2, 5)));
 
+        int extraStatementPosition = ctx.getRandom().nextInt(4);
         String body =
             joinStatements(
+                extraStatementPosition == 0
+                    ? joinCode(Nonsense.methodName(ctx), "()")
+                    : null,
                 joinCode(
                     Nonsense.methodName(ctx),
-                    "(", varName, ")"));
+                    "(",
+                    varName,
+                    ctx.getRandom().nextBoolean()
+                        ? ", " + ctx.getRandom().nextInt(50)
+                        : "",
+                    ")"),
+                extraStatementPosition == 1
+                    ? joinCode(Nonsense.methodName(ctx), "()")
+                    : null);
 
         return new SimpleLoop(varType, varName, initializer, endCondition, nextStep, body);
     }
@@ -92,5 +104,9 @@ class SimpleLoop {
 
     public String getBody() {
         return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 }
