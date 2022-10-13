@@ -6,14 +6,9 @@ import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.UnaryExpr;
-import com.github.javaparser.ast.expr.VariableDeclarationExpr;
-import com.github.javaparser.ast.stmt.ExpressionStmt;
-import com.github.javaparser.ast.stmt.ForStmt;
-import com.github.javaparser.ast.stmt.WhileStmt;
 
-import static edu.macalester.conceptual.ast.AstUtils.*;
 import static edu.macalester.conceptual.util.CodeFormatting.joinCode;
-import static edu.macalester.conceptual.util.Prettifier.prettifyStatements;
+import static edu.macalester.conceptual.util.CodeFormatting.prettifyStatements;
 
 enum LoopForm {
     WHILE {
