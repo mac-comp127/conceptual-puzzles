@@ -15,7 +15,7 @@ import edu.macalester.conceptual.util.Nonsense;
 
 import static edu.macalester.conceptual.ast.AstUtils.*;
 
-public class SimpleLoop {
+class SimpleLoop {
     private final VariableDeclarator loopVariable;
     private final Expression endCondition;
     private final Expression nextStep;

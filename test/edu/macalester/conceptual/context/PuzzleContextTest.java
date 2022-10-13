@@ -2,6 +2,8 @@ package edu.macalester.conceptual.context;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,13 +11,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class PuzzleContextTest {
     @Test
     void contextShouldSurvivePuzzleCodeRoundTrip() throws Exception {
-        verifySeedRoundTrip(new PuzzleContext(0));
-        verifySeedRoundTrip(new PuzzleContext(1));
-        verifySeedRoundTrip(new PuzzleContext(-1));
-        verifySeedRoundTrip(new PuzzleContext(Long.MAX_VALUE));
-        verifySeedRoundTrip(new PuzzleContext(Long.MIN_VALUE));
+        verifySeedRoundTrip(new PuzzleContext(new PuzzleCode((byte) 0, 0)));
+        verifySeedRoundTrip(new PuzzleContext(new PuzzleCode((byte) 1, 1)));
+        verifySeedRoundTrip(new PuzzleContext(new PuzzleCode((byte) 127, -1)));
+        verifySeedRoundTrip(new PuzzleContext(new PuzzleCode((byte) 127, Long.MAX_VALUE)));
+        verifySeedRoundTrip(new PuzzleContext(new PuzzleCode((byte) 0, Long.MIN_VALUE)));
         for(int i = 0; i < 100; i++) {
-            verifySeedRoundTrip(PuzzleContext.generate());
+            verifySeedRoundTrip(PuzzleContext.generate((byte) i));
         }
     }
 
@@ -61,8 +63,21 @@ class PuzzleContextTest {
             recreated.getPuzzleCode(),
             "seed code mismatch for " + original);
         assertEquals(
-            original.getRandom().nextLong(),
-            recreated.getRandom().nextLong(),
-            "random output mismatch for " + original);
+            original.getPuzzleID(),
+            recreated.getPuzzleID(),
+            "puzzle ID mismatch for " + original);
+
+        PuzzlePrinter silent = new PuzzlePrinter(new PrintWriter(new StringWriter()));
+        original.setOutput(silent);
+        recreated.setOutput(silent);
+
+        original.emitPuzzle(() -> {
+            recreated.emitPuzzle(() -> {
+                assertEquals(
+                    original.getRandom().nextLong(),
+                    recreated.getRandom().nextLong(),
+                    "random output mismatch for " + original);
+            });
+        });
     }
 }

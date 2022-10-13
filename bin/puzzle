@@ -1,7 +1,15 @@
 #!/bin/bash
 
-exec gradle \
+args="$*"
+if [ -z "$args" ]; then
+    # Gradle blows up if --args receives an empty string as its argument.
+    # A single space, however, shows up as an empty args array by the time
+    # it makes it to our main method.
+    args=" "
+fi
+
+PUZZLE_CLI_ARGS="$*" exec gradle \
     run-cli \
-    --args "$*" \
     --project-dir "$(dirname "$0")/.." \
+    --args="$args" \
     --warn

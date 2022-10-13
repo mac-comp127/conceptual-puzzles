@@ -3,14 +3,22 @@ package edu.macalester.conceptual.context;
 import java.awt.Color;
 import java.io.Closeable;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class PuzzlePrinter implements Closeable {
-    private final PrintWriter out = new PrintWriter(System.out);
+    private final PrintWriter out;
     private String indent = "";
     private float hue;
+
+    public PuzzlePrinter() {
+        out = new PrintWriter(System.out);
+    }
+    public PuzzlePrinter(PrintWriter writer) {
+        out = writer;
+    }
 
     public void dividerLine(boolean primary) {
         println((primary ? "━" : "┄").repeat(80));

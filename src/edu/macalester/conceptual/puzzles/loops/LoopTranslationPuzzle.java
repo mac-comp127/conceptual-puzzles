@@ -1,8 +1,24 @@
 package edu.macalester.conceptual.puzzles.loops;
 
+import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.PuzzleContext;
 
-public class LoopTranslationPuzzle {
+public class LoopTranslationPuzzle implements Puzzle {
+    @Override
+    public byte id() {
+        return 0;
+    }
+
+    @Override
+    public String name() {
+        return "loop";
+    }
+
+    @Override
+    public String description() {
+        return "While loops and for loops";
+    }
+
     public void generate(PuzzleContext ctx) {
         ctx.section(() -> {
             boolean direction = ctx.getRandom().nextBoolean();
