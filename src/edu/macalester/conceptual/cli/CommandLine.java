@@ -108,6 +108,9 @@ public class CommandLine {
         ctx.emitPuzzle(() -> {
             for (int repeat = options.repeat(); repeat > 0; repeat--) {
                 puzzle.generate(ctx);
+                if (repeat > 1) {
+                    ctx.resetSectionCounter();
+                }
             }
         });
     }

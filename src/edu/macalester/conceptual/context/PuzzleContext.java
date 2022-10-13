@@ -1,12 +1,8 @@
 package edu.macalester.conceptual.context;
 
-import java.math.BigInteger;
-import java.nio.ByteBuffer;
 import java.security.SecureRandom;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
-import java.util.zip.CRC32;
 
 public final class PuzzleContext {
     private static final SecureRandom seedGenerator = new SecureRandom();
@@ -47,10 +43,10 @@ public final class PuzzleContext {
     // Lifecycle
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-    static enum State {
+    enum State {
         SETUP,
         WORKING,
-        CLOSED;
+        CLOSED
     }
 
     private void requireState(State requiredState, String action) {
@@ -72,11 +68,11 @@ public final class PuzzleContext {
 
     public void emitPuzzle(Runnable puzzleGenerator) {
         requireState(State.SETUP, "start emitting puzzle");
+        if (printer == null) {
+            printer = new PuzzlePrinter();
+        }
         try {
             state = State.WORKING;
-            if (printer == null) {
-                printer = new PuzzlePrinter();
-            }
             output().setColorTheme(getRandom().nextFloat());
             output().dividerLine(true);
             output().println();
@@ -109,6 +105,16 @@ public final class PuzzleContext {
         }
         output().heading("Part " + curPartNum, true);
         action.run();
+    }
+
+    public void resetSectionCounter() {
+        requireState(State.WORKING, "produce output");
+        curPartNum = 0;
+        output().dividerLine(true);
+        output().println();
+        output().println();
+        output().dividerLine(true);
+        output().println();
     }
 
     public void solution(Runnable action) {
