@@ -12,12 +12,13 @@ import java.util.List;
 
 class PuzzleOptions {
     private final Options options = new Options();
-    private final Option help, parts, repeat;
+    private final Option help, parts, repeat, includeSolutions;
     private final org.apache.commons.cli.CommandLine cmd;
 
     PuzzleOptions(String[] args) {
         parts = addOption("p", "parts", "i,j,...", "Show only parts with given numbers");
         repeat = addOption("r", "repeat", "num", "Generate <num> puzzles");
+        includeSolutions = addOption("s", "include-solutions", "Show solutions immediately when generating puzzle");
         help = addOption(null, "help", "Display this message");
         options.addOption(parts);
 
@@ -39,6 +40,10 @@ class PuzzleOptions {
 
     public int repeat() {
         return Integer.parseInt(cmd.getOptionValue(repeat, "1"));
+    }
+
+    public boolean includeSolutions() {
+        return cmd.hasOption(includeSolutions);
     }
 
     public List<Integer> parts() {

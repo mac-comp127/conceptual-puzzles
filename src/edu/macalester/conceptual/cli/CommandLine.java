@@ -32,6 +32,9 @@ public class CommandLine {
                 }
 
                 var ctx = PuzzleContext.generate(puzzle.id());
+                if (options.includeSolutions()) {
+                    ctx.enableSolution();
+                }
                 emitPuzzle(puzzle, ctx, options);
 
                 System.out.println();
