@@ -11,6 +11,8 @@ import java.util.function.Function;
 public enum CodeFormatting {
     ; // static utility class; no cases
 
+    public static final String ELIDED = "/* <<ELIDED>> */";
+
     public static String joinCode(String... parts) {
         return String.join(" ", removeNulls(parts));
     }
@@ -31,7 +33,7 @@ public enum CodeFormatting {
                 "{" + code + "}",                // Wrap statements in braces
                 StaticJavaParser::parseBlock)    // so they parse as one block.
             .replaceAll("^\\{|\\}$", "")         // Then strip outer braces
-            .replaceAll("(^|\r?\n)    ", "$1");  // and unindent.
+            .replaceAll("(^|\r?\n) {4}", "$1");  // and unindent.
     }
 
     public static String prettifyExpression(String code) {
@@ -53,7 +55,10 @@ public enum CodeFormatting {
 
     private static String prettify(String javaCode, Function<String, Node> parser) {
         try {
-            return parser.apply(javaCode).toString();
+            return parser
+                .apply(javaCode)
+                .toString()
+                .replace(ELIDED, "...");
         } catch (ParseProblemException parseError) {
             throw new RuntimeException(
                 "\n\nUnable to parse code:\n\n"
