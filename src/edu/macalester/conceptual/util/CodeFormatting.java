@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.function.Function;
 
+import static edu.macalester.conceptual.ast.AstUtils.*;
+
 public enum CodeFormatting {
     ; // static utility class; no cases
 
@@ -55,15 +57,19 @@ public enum CodeFormatting {
 
     private static String prettify(String javaCode, Function<String, Node> parser) {
         try {
-            return parser
-                .apply(javaCode)
-                .toString()
-                .replace(ELIDED, "...");
+            return prettify(
+                parser.apply(javaCode));
         } catch (ParseProblemException parseError) {
             throw new RuntimeException(
                 "\n\nUnable to parse code:\n\n"
                     + javaCode + "\n\n"
                     + parseError.getMessage());
         }
+    }
+
+    public static String prettify(Node node) {
+        return withParensAsNeeded(node)
+            .toString()
+            .replace(ELIDED, "...");
     }
 }

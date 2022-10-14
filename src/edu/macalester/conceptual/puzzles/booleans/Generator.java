@@ -6,7 +6,6 @@ import com.github.javaparser.ast.expr.UnaryExpr;
 
 import java.util.ArrayList;
 
-import edu.macalester.conceptual.ast.AstPrinter;
 import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.util.Nonsense;
 
@@ -27,7 +26,7 @@ public enum Generator {
 
         while (nodes.size() > 1) {
             int i = ctx.getRandom().nextInt(nodes.size());
-            if (ctx.getRandom().nextFloat() < 0.2) {
+            if (ctx.getRandom().nextFloat() < 0.2 && !(nodes.get(i) instanceof UnaryExpr)) {
                 nodes.add(
                     new UnaryExpr(
                         nodes.remove(i),
