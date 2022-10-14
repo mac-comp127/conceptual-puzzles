@@ -7,6 +7,10 @@ import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.UnaryExpr;
 
+import java.text.MessageFormat;
+
+import edu.macalester.conceptual.context.PuzzlePrinter;
+
 import static edu.macalester.conceptual.util.CodeFormatting.joinCode;
 import static edu.macalester.conceptual.util.CodeFormatting.prettifyStatements;
 
@@ -16,14 +20,15 @@ enum LoopForm {
             return "while loop";
         }
 
-        public String format(SimpleLoop loop) {
-            return prettifyStatements(
-                joinCode(
-                    loop.getVarDeclaration(), ";",
-                    "while(", loop.getEndCondition(), ") {",
-                        loop.getBody(),
-                        loop.getNextStep(), ";",
-                    "}"));
+        public void print(SimpleLoop loop, PuzzlePrinter output) {
+            output.codeBlock(
+                prettifyStatements(
+                    joinCode(
+                        loop.getVarDeclaration(), ";",
+                        "while(", loop.getEndCondition(), ") {",
+                            loop.getBody(),
+                            loop.getNextStep(), ";",
+                        "}")));
         }
     },
 
@@ -32,16 +37,17 @@ enum LoopForm {
             return "for loop";
         }
 
-        public String format(SimpleLoop loop) {
-            return prettifyStatements(
-                joinCode(
-                    "for(",
-                        loop.getVarDeclaration(), ";",
-                        loop.getEndCondition(), ";",
-                        loop.getNextStep(),
-                    ") {",
-                        loop.getBody(),
-                    "}"));
+        public void print(SimpleLoop loop, PuzzlePrinter output) {
+            output.codeBlock(
+                prettifyStatements(
+                    joinCode(
+                        "for(",
+                            loop.getVarDeclaration(), ";",
+                            loop.getEndCondition(), ";",
+                            loop.getNextStep(),
+                        ") {",
+                            loop.getBody(),
+                        "}")));
         }
     },
 
@@ -50,20 +56,21 @@ enum LoopForm {
             return "natural language description of a loop";
         }
 
-        public String format(SimpleLoop loop) {
-            return "Declare a variable named `"
-                + loop.getVarName()
-                + "` of type "
-                + loop.getVarType()
-                + ", initialized to "
-                + loop.getInitializer()
-                + ".\nThen, until "
-                + loop.getVarName()
-                + " "
-                + describeConditionNegation(loop.getEndCondition())
-                + ", "
-                + describeStep(loop.getNextStep())
-                + ".";
+        public void print(SimpleLoop loop, PuzzlePrinter output) {
+            output.blockquote(
+                "Declare a variable named `"
+                    + loop.getVarName()
+                    + "` of type `"
+                    + loop.getVarType()
+                    + "`, initialized to `"
+                    + loop.getInitializer()
+                    + "`.\nThen, until `"
+                    + loop.getVarName()
+                    + "` "
+                    + describeConditionNegation(loop.getEndCondition())
+                    + ", "
+                    + describeStep(loop.getNextStep())
+                    + ".");
         }
 
         private String describeConditionNegation(String condStr) {
@@ -77,7 +84,7 @@ enum LoopForm {
                     case NOT_EQUALS -> "equals";
                     default -> throw unsupported(cond, "endCondition", "operator");
                 };
-                return operator + " " + binary.getRight();
+                return operator + " `" + binary.getRight() + "`";
             } else {
                 throw unsupported(cond, "endCondition", "structure");
             }
@@ -91,15 +98,18 @@ enum LoopForm {
                     case POSTFIX_DECREMENT -> "decrement";
                     default -> throw unsupported(step, "nextStep", "operator");
                 };
-                return operator + " " + unary.getExpression();
+                return operator + " `" + unary.getExpression() + "`";
             } else if (step instanceof AssignExpr assign) {
-                return switch(assign.getOperator()) {
-                    case PLUS     -> "add "      + assign.getValue()  + " to "   + assign.getTarget();
-                    case MINUS    -> "subtract " + assign.getValue()  + " from " + assign.getTarget();
-                    case MULTIPLY -> "multiply " + assign.getTarget() + " by "   + assign.getValue();
-                    case DIVIDE   -> "divide "   + assign.getTarget() + " by "   + assign.getValue();
-                    default -> throw unsupported(step, "nextStep", "operator");
-                };
+                return MessageFormat.format(
+                    switch(assign.getOperator()) {
+                        case PLUS     -> "add `{1}` to `{0}`";
+                        case MINUS    -> "subtract `{1}` from `{0}`";
+                        case MULTIPLY -> "multiply `{0}` by `{1}`";
+                        case DIVIDE   -> "divide `{0}` by `{1}`";
+                        default -> throw unsupported(step, "nextStep", "operator");
+                    },
+                    assign.getTarget(),
+                    assign.getValue());
             } else {
                 throw unsupported(step, "nextStep", "structure");
             }
@@ -113,5 +123,5 @@ enum LoopForm {
 
     public abstract String description();
 
-    public abstract String format(SimpleLoop loop);
+    public abstract void print(SimpleLoop loop, PuzzlePrinter output);
 }

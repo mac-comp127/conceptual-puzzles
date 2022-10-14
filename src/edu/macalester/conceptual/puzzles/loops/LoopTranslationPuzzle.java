@@ -47,8 +47,8 @@ public class LoopTranslationPuzzle implements Puzzle {
         if (!includeBody) {
             loop.setBody(CodeFormatting.ELIDED);
         }
-        ctx.output().codeBlock(sourceForm.format(loop));
+        sourceForm.print(loop, ctx.output());
         ctx.solution(() ->
-            ctx.output().codeBlock(targetForm.format(loop)));
+            targetForm.print(loop, ctx.output()));
     }
 }
