@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import edu.macalester.conceptual.context.PuzzleContext;
-import edu.macalester.conceptual.puzzles.conditionals.BooleansAndConditionalsPuzzle;
+import edu.macalester.conceptual.puzzles.booleans.BooleansAndConditionalsPuzzle;
 import edu.macalester.conceptual.puzzles.loops.LoopTranslationPuzzle;
 
 public interface Puzzle {

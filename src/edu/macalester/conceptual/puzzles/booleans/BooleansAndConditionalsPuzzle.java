@@ -1,4 +1,4 @@
-package edu.macalester.conceptual.puzzles.conditionals;
+package edu.macalester.conceptual.puzzles.booleans;
 
 import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.PuzzleContext;
