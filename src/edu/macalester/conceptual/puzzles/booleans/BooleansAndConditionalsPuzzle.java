@@ -1,6 +1,5 @@
 package edu.macalester.conceptual.puzzles.booleans;
 
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.IfStmt;
 
 import edu.macalester.conceptual.Puzzle;
@@ -8,7 +7,6 @@ import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.util.Nonsense;
 
 import static com.github.javaparser.StaticJavaParser.parseBlock;
-import static com.github.javaparser.StaticJavaParser.parseStatement;
 import static edu.macalester.conceptual.ast.AstUtils.*;
 import static edu.macalester.conceptual.puzzles.booleans.Generator.generateBooleanExpr;
 import static edu.macalester.conceptual.util.CodeFormatting.ELIDED;

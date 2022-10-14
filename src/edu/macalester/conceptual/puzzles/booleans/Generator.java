@@ -10,9 +10,8 @@ import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.util.Nonsense;
 
 import static com.github.javaparser.StaticJavaParser.parseExpression;
-import static com.github.javaparser.ast.expr.BinaryExpr.Operator.AND;
-import static com.github.javaparser.ast.expr.BinaryExpr.Operator.OR;
-import static com.github.javaparser.ast.expr.UnaryExpr.Operator.LOGICAL_COMPLEMENT;
+import static com.github.javaparser.ast.expr.BinaryExpr.Operator.*;
+import static com.github.javaparser.ast.expr.UnaryExpr.Operator.*;
 import static edu.macalester.conceptual.ast.AstUtils.*;
 
 public enum Generator {
