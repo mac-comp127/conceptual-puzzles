@@ -27,6 +27,7 @@ public class PuzzlePrinter implements Closeable {
 
     public void dividerLine(boolean primary) {
         println((primary ? "━" : "┄").repeat(80));
+        println();
     }
 
     public void heading(String s, boolean primary) {

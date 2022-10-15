@@ -75,7 +75,6 @@ public final class PuzzleContext {
             state = State.WORKING;
             output().setColorTheme(getRandom().nextFloat());
             output().dividerLine(true);
-            output().println();
             puzzleGenerator.run();
             output().dividerLine(true);
         } finally {
@@ -101,7 +100,6 @@ public final class PuzzleContext {
         curPartNum++;
         if (curPartNum > 1) {
             output().dividerLine(false);
-            output().println();
         }
         output().heading("Part " + curPartNum, true);
         action.run();
@@ -112,9 +110,7 @@ public final class PuzzleContext {
         curPartNum = 0;
         output().dividerLine(true);
         output().println();
-        output().println();
         output().dividerLine(true);
-        output().println();
     }
 
     public void solution(Runnable action) {
@@ -149,6 +145,10 @@ public final class PuzzleContext {
             throw new IllegalStateException("cannot ask for randomness while inside solution section");
         }
         return rand;
+    }
+
+    public final <Choice> Choice chooseWithProb(double firstProbability, Choice choice0, Choice choice1) {
+        return getRandom().nextFloat() < firstProbability ? choice0 : choice1;
     }
 
     @SafeVarargs
