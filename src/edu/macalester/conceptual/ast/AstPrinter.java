@@ -60,6 +60,10 @@ public class AstPrinter {
         ignoredNodeAttrs = attrs;
     }
 
+    public void dump(Node node) {
+        dump(null, node, 0, true);
+    }
+
     /**
      * Recursively dumps the AST indented by the given number of spaces.
      */
