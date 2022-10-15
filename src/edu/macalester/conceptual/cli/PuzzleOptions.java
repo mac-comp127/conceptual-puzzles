@@ -9,6 +9,10 @@ import org.apache.commons.cli.ParseException;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 class PuzzleOptions {
     private final Options options = new Options();
@@ -17,7 +21,7 @@ class PuzzleOptions {
 
     PuzzleOptions(String[] args) {
         parts = addOption("p", "parts", "i,j,...", "Show only parts with given numbers");
-        repeat = addOption("r", "repeat", "num", "Generate <num> puzzles");
+        repeat = addOption("r", "repeat", "num", "Generate <num> different puzzles");
         includeSolutions = addOption("s", "include-solutions", "Show solutions immediately when generating puzzle");
         help = addOption(null, "help", "Display this message");
         options.addOption(parts);
@@ -44,6 +48,18 @@ class PuzzleOptions {
 
     public boolean includeSolutions() {
         return cmd.hasOption(includeSolutions);
+    }
+
+    public Set<Integer> partsToShow() {
+        if (!cmd.hasOption(parts)) {
+            return null;
+        }
+
+        return Pattern.compile(",")
+            .splitAsStream(cmd.getOptionValue(parts))
+            .map(String::trim)
+            .map(Integer::parseInt)
+            .collect(Collectors.toSet());
     }
 
     public List<Integer> parts() {
@@ -98,5 +114,21 @@ class PuzzleOptions {
             .build();
         options.addOption(option);
         return option;
+    }
+
+    public String toCommandLineOptions() {
+        StringBuffer out = new StringBuffer();
+        for (var opt : cmd.getOptions()) {
+            if (opt.getId() == includeSolutions.getId()) {
+                continue;
+            }
+            out.append(" ");
+            out.append(opt.getLongOpt() != null ? "--" + opt.getLongOpt() : "-" + opt.getOpt());
+            if (opt.getValue() != null) {
+                out.append(" ");
+                out.append(opt.getValue());
+            }
+        }
+        return out.toString();
     }
 }

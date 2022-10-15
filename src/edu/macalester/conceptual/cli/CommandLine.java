@@ -32,27 +32,34 @@ public class CommandLine {
                 }
 
                 var ctx = PuzzleContext.generate(puzzle.id());
-                if (options.includeSolutions()) {
-                    ctx.enableSolution();
-                }
+                applyOptionsToContext(options, ctx);
                 emitPuzzle(puzzle, ctx, options);
 
                 System.out.println();
                 System.out.println("Puzzle code: \u001b[7m " + ctx.getPuzzleCode() + " \u001b[0m");
                 System.out.println();
                 System.out.println("To see solution:");
-                System.out.println("  " + executableName() + " solve " + ctx.getPuzzleCode());
+                System.out.println("  " + executableName() + " solve " + ctx.getPuzzleCode()
+                    + options.toCommandLineOptions());
             }
             case "solve" -> {
                 requireCommandArgs(1, options);
                 var ctx = PuzzleContext.fromPuzzleCode(options.commandAndArgs().get(1));
                 var puzzle = Puzzle.find(ctx.getPuzzleID(), Puzzle::id, "id");
 
+                applyOptionsToContext(options, ctx);
                 ctx.enableSolution();
                 emitPuzzle(puzzle, ctx, options);
             }
             default -> options.usageError("Unknown command: " + command);
         }
+    }
+
+    private static void applyOptionsToContext(PuzzleOptions options, PuzzleContext ctx) {
+        if (options.includeSolutions()) {
+            ctx.enableSolution();
+        }
+        ctx.setPartsToShow(options.partsToShow());
     }
 
     private static void printHelp(PuzzleOptions options) {

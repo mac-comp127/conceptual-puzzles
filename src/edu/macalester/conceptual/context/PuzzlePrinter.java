@@ -17,6 +17,7 @@ public class PuzzlePrinter implements Closeable {
     private String indent = "";
     private boolean atStartOfLine = true;
     private float hue;
+    private int silenceLevel;
 
     public PuzzlePrinter() {
         out = new PrintWriter(System.out);
@@ -45,13 +46,13 @@ public class PuzzlePrinter implements Closeable {
         lines.add(outerSpacing);
 
         for (var line : lines) {
-            out.print(ansiCode('m', 1));  // bold
+            print(ansiCode('m', 1));  // bold
             if (primary) {
-                out.print(textColorCode(Color.BLACK, true));
-                out.print(textColorCode(Color.getHSBColor(hue, 0.8f, 1), false));
+                print(textColorCode(Color.BLACK, true));
+                print(textColorCode(Color.getHSBColor(hue, 0.8f, 1), false));
             } else {
-                out.print(textColorCode(Color.getHSBColor(hue, 0.6f, 1), true));
-                out.print(textColorCode(Color.getHSBColor(hue, 0.5f, 0.2f), false));
+                print(textColorCode(Color.getHSBColor(hue, 0.6f, 1), true));
+                print(textColorCode(Color.getHSBColor(hue, 0.5f, 0.2f), false));
             }
             print(line);
             resetAnsiStyling();
@@ -120,6 +121,14 @@ public class PuzzlePrinter implements Closeable {
         }
     }
 
+    public void silence() {
+        silenceLevel--;
+    }
+
+    public void unsilence() {
+        silenceLevel++;
+    }
+
     public void println() {
         println("");
     }
@@ -131,6 +140,9 @@ public class PuzzlePrinter implements Closeable {
 
     // Handles indentation and line break normalization
     private void print(String str) {
+        if (silenceLevel < 0) {
+            return;
+        }
         for (String part : str.split("(?=\\r?\\n)|(?<=\\n)")) { // lines + terminators as separate matches
             if (part.endsWith("\n")) {
                 atStartOfLine = true;
@@ -178,7 +190,7 @@ public class PuzzlePrinter implements Closeable {
     }
 
     private void resetAnsiStyling() {
-        out.print(ansiCode('m', 0));
+        print(ansiCode('m', 0));
     }
 
     private void colorTest() {

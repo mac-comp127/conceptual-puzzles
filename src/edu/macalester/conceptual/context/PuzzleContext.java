@@ -3,6 +3,8 @@ package edu.macalester.conceptual.context;
 import java.security.SecureRandom;
 import java.util.Objects;
 import java.util.Random;
+import java.util.Set;
+import java.util.function.Predicate;
 
 public final class PuzzleContext {
     private static final SecureRandom seedGenerator = new SecureRandom();
@@ -17,6 +19,7 @@ public final class PuzzleContext {
     private int curPartNum;
 
     private PuzzlePrinter printer;
+    private Set<Integer> partsToShow;
 
     public static PuzzleContext generate(byte puzzleID) {
         return new PuzzleContext(new PuzzleCode(puzzleID, seedGenerator.nextLong()));
@@ -38,6 +41,7 @@ public final class PuzzleContext {
     public byte getPuzzleID() {
         return code.puzzleID;
     }
+
 
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     // Lifecycle
@@ -95,14 +99,29 @@ public final class PuzzleContext {
         return printer;
     }
 
+    public void setPartsToShow(Set<Integer> partsToShow) {
+        this.partsToShow = partsToShow;
+    }
+
     public void section(Runnable action) {
         requireState(State.WORKING, "produce output");
         curPartNum++;
-        if (curPartNum > 1) {
-            output().dividerLine(false);
+
+        boolean hidden = partsToShow != null && !partsToShow.contains(curPartNum);
+        if (hidden) {
+            output().silence();
         }
-        output().heading("Part " + curPartNum, true);
-        action.run();
+        try {
+            if (curPartNum > 1) {
+                output().dividerLine(false);
+            }
+            output().heading("Part " + curPartNum, true);
+            action.run();
+        } finally {
+            if (hidden) {
+                output().unsilence();
+            }
+        }
     }
 
     public void resetSectionCounter() {
