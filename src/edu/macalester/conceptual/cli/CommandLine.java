@@ -129,9 +129,9 @@ public class CommandLine {
         out.println(
             """
             Usage examples:
-              puzzle gen loops
-              puzzle solve 1454-1234-1234
-              puzzle gen loops --part 3 --repeat 5
-            """.trim());
+              %1$s gen loops
+              %1$s solve 1454-1234-1234
+              %1$s gen loops --part 3 --repeat 5
+            """.trim().formatted(executableName()));
     }
 }
