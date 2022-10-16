@@ -3,8 +3,7 @@ package edu.macalester.conceptual.puzzles.loops;
 import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.util.Nonsense;
 
-import static edu.macalester.conceptual.util.CodeFormatting.joinCode;
-import static edu.macalester.conceptual.util.CodeFormatting.joinStatements;
+import static edu.macalester.conceptual.util.CodeFormatting.*;
 import static edu.macalester.conceptual.util.Randomness.*;
 
 class SimpleLoop {

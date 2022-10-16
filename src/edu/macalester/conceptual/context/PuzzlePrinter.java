@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import static edu.macalester.conceptual.util.CodeFormatting.prettify;
+import static edu.macalester.conceptual.util.CodeFormatting.*;
 
 public class PuzzlePrinter implements Closeable {
     private final boolean colorCode = false;  // print code in color? (doesn't handle white BG well)

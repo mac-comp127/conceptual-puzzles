@@ -8,8 +8,7 @@ import edu.macalester.conceptual.context.PuzzleContext;
 
 import static com.github.javaparser.ast.expr.BinaryExpr.Operator.*;
 import static edu.macalester.conceptual.ast.AstUtils.*;
-import static edu.macalester.conceptual.util.CodeFormatting.joinCode;
-import static edu.macalester.conceptual.util.CodeFormatting.prettifyStatements;
+import static edu.macalester.conceptual.util.CodeFormatting.*;
 
 public class ReturnBooleanPuzzle {
     static void generate(PuzzleContext ctx) {

@@ -9,9 +9,7 @@ import edu.macalester.conceptual.util.CodeFormatting;
 import edu.macalester.conceptual.util.Nonsense;
 import edu.macalester.conceptual.util.Randomness;
 
-import static edu.macalester.conceptual.util.CodeFormatting.ELIDED;
-import static edu.macalester.conceptual.util.CodeFormatting.joinStatements;
-import static edu.macalester.conceptual.util.CodeFormatting.prettifyStatements;
+import static edu.macalester.conceptual.util.CodeFormatting.*;
 import static edu.macalester.conceptual.util.Randomness.*;
 
 public class LoopTranslationPuzzle implements Puzzle {

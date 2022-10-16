@@ -11,8 +11,7 @@ import java.text.MessageFormat;
 
 import edu.macalester.conceptual.context.PuzzlePrinter;
 
-import static edu.macalester.conceptual.util.CodeFormatting.joinCode;
-import static edu.macalester.conceptual.util.CodeFormatting.prettifyStatements;
+import static edu.macalester.conceptual.util.CodeFormatting.*;
 
 enum LoopForm {
     WHILE {
