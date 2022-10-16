@@ -82,6 +82,4 @@ public enum CodeFormatting {
             .toString()
             .replace(ELIDED, "...");
     }
-
-
 }
