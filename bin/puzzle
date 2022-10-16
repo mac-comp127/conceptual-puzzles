@@ -8,6 +8,9 @@ if [ -z "$args" ]; then
     args=" "
 fi
 
+eval $(resize)  # sets COLUMNS to terminal size
+export COLUMNS
+
 puzzle_command="$0" exec gradle \
     run-cli \
     --project-dir "$(dirname "$0")/.." \

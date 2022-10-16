@@ -15,21 +15,33 @@ import static edu.macalester.conceptual.util.CodeFormatting.*;
 public class PuzzlePrinter implements Closeable {
     private final boolean colorCode = false;  // print code in color? (doesn't handle white BG well)
     private final PrintWriter out;
+
+    private int curColumn = 0, outputWidth;
+    private boolean wordWrapEnabled = true;
     private String indent = "";
-    private boolean atStartOfLine = true;
+
     private float hue;
+
     private int silenceLevel;
 
     public PuzzlePrinter() {
-        out = new PrintWriter(System.out);
+        this(new PrintWriter(System.out));
     }
+
     public PuzzlePrinter(PrintWriter writer) {
         out = writer;
+        try {
+            outputWidth = Integer.parseInt(System.getenv("COLUMNS"));
+        } catch(Exception e) {
+            outputWidth = 80;
+        }
     }
 
     public void dividerLine(boolean primary) {
-        println((primary ? "━" : "┄").repeat(80));
-        println();
+        nowrap(() -> {
+            println((primary ? "━" : "┄").repeat(outputWidth));
+            println();
+        });
     }
 
     public void heading(String s, boolean primary) {
@@ -46,21 +58,23 @@ public class PuzzlePrinter implements Closeable {
         lines.add(center);
         lines.add(outerSpacing);
 
-        for (var line : lines) {
-            print(ansiCode('m', 1));  // bold
-            if (primary) {
-                print(textColorCode(Color.BLACK, true));
-                print(textColorCode(Color.getHSBColor(hue, 0.8f, 1), false));
-            } else {
-                print(textColorCode(Color.getHSBColor(hue, 0.6f, 1), true));
-                print(textColorCode(Color.getHSBColor(hue, 0.5f, 0.2f), false));
+        nowrap(() -> {
+            for (var line : lines) {
+                print(ansiCode('m', 1));  // bold
+                if (primary) {
+                    print(textColorCode(Color.BLACK, true));
+                    print(textColorCode(Color.getHSBColor(hue, 0.8f, 1), false));
+                } else {
+                    print(textColorCode(Color.getHSBColor(hue, 0.6f, 1), true));
+                    print(textColorCode(Color.getHSBColor(hue, 0.5f, 0.2f), false));
+                }
+                print(line);
+                resetAnsiStyling();
+                println();
             }
-            print(line);
-            resetAnsiStyling();
-            println();
-        }
 
-        println();
+            println();
+        });
     }
 
     public void paragraph(String s, Object... formatArguments) {
@@ -71,7 +85,7 @@ public class PuzzlePrinter implements Closeable {
 
     public void bulletList(String... items) {
         for (String item : items) {
-            print("  - ");
+            nowrap(() -> print("  - "));
             indented("    ", () -> printFormattedText(item));
         }
         println();
@@ -93,7 +107,8 @@ public class PuzzlePrinter implements Closeable {
         }
 
         println(s.strip()
-            .replaceAll("`([^`]+)`", codeStyle + "$1" + endCodeStyle));
+            .replaceAll("`([^`]+)`", codeStyle + "$1" + endCodeStyle)  // style `code` snippets
+            .replaceAll("(?<!\\n)\\s*\\n\\s*(?!\\n)", " "));  // remove single \n (but preserve \n\n)
     }
 
     public void codeBlock(Node astNode) {
@@ -109,10 +124,12 @@ public class PuzzlePrinter implements Closeable {
             endCodeStyle = codeStyle = "";
         }
 
-        indented(() -> {
-            print(codeStyle);
-            print(javaCode.strip());
-            println(endCodeStyle);
+        nowrap(() -> {
+            indented(() -> {
+                print(codeStyle);
+                print(javaCode.strip());
+                println(endCodeStyle);
+            });
         });
         println();
     }
@@ -128,6 +145,16 @@ public class PuzzlePrinter implements Closeable {
             block.run();
         } finally {
             indent = prevIndent;
+        }
+    }
+
+    private void nowrap(Runnable block) {
+        var wasEnabled = wordWrapEnabled;
+        try {
+            wordWrapEnabled = false;
+            block.run();
+        } finally {
+            wordWrapEnabled = wasEnabled;
         }
     }
 
@@ -155,16 +182,43 @@ public class PuzzlePrinter implements Closeable {
         }
         for (String part : str.split("(?=\\r?\\n)|(?<=\\n)")) { // lines + terminators as separate matches
             if (part.endsWith("\n")) {
-                atStartOfLine = true;
-                out.println();
+                newline();
             } else {
-                if (atStartOfLine) {
-                    atStartOfLine = false;
-                    out.print(indent);
+                var wrappingUnit = wordWrapEnabled
+                    ? part.split(" ")
+                    : new String[] { part };
+                boolean firstUnit = true;
+                for (var unit : wrappingUnit) {
+                    if (wordWrapEnabled && curColumn + visibleWidth(unit) >= outputWidth) {
+                        newline();
+                    }
+
+                    if (curColumn == 0) {
+                        out.print(indent);
+                        curColumn += indent.length();
+                    } else if (!firstUnit) {
+                        out.print(" ");
+                        curColumn++;
+                    }
+
+                    out.print(unit);
+
+                    curColumn += visibleWidth(unit);
+                    firstUnit = false;
                 }
-                out.print(part);
             }
         }
+    }
+
+    private int visibleWidth(String word) {
+        return word
+            .replaceAll("\u001b\\[[0-9;]*[a-z]", "")
+            .length();
+    }
+
+    private void newline() {
+        out.println();
+        curColumn = 0;
     }
 
     public void setColorTheme(float hue) {
