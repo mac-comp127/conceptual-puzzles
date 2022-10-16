@@ -47,6 +47,7 @@ public final class PuzzleContext {
     }
 
     public void setDifficulty(int difficulty) {
+        requireState(State.SETUP, "set difficulty level");
         this.difficulty = difficulty;
     }
 

@@ -15,7 +15,7 @@ public class ReturnBooleanPuzzle {
         ctx.output().paragraph(
             "Simplify the following conditional chain so that it is a single return statement.");
 
-        var boolExpr = Generator.generateBooleanExpr(ctx, 3, false);
+        var boolExpr = Generator.generateBooleanExpr(ctx, 2 + ctx.getDifficulty(), false);
         ctx.output().codeBlock(
             toConditionalChainReturningBool(boolExpr, false));
 

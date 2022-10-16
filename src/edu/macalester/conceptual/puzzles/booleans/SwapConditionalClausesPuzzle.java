@@ -19,7 +19,7 @@ class SwapConditionalClausesPuzzle {
             out what the `else` refers to!
             """);
         var ifStmt = new IfStmt(
-            generateBooleanExpr(ctx, 3, true),
+            generateBooleanExpr(ctx, 1 + ctx.getDifficulty(), true),
             parseBlock(
                 "{"
                     + ELIDED

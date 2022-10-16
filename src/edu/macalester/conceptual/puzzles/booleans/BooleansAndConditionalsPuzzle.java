@@ -19,6 +19,16 @@ public class BooleansAndConditionalsPuzzle implements Puzzle {
         return "Booleans and conditionals";
     }
 
+    @Override
+    public int examDifficulty() {
+        return 1;
+    }
+
+    @Override
+    public int maxDifficulty() {
+        return 50;
+    }
+
     public void generate(PuzzleContext ctx) {
         ctx.section(() -> SwapConditionalClausesPuzzle.generate(ctx));
 
