@@ -15,6 +15,18 @@ public interface Puzzle {
 
     String description();
 
+    default int examDifficulty() {
+        return minDifficulty();
+    }
+
+    default int minDifficulty() {
+        return 0;
+    }
+
+    default int maxDifficulty() {
+        return 0;
+    }
+
     void generate(PuzzleContext ctx);
 
     public static final List<Puzzle> ALL = List.of(

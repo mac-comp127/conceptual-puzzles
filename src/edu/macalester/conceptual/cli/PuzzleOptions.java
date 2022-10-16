@@ -16,12 +16,13 @@ import java.util.stream.Collectors;
 
 class PuzzleOptions {
     private final Options options = new Options();
-    private final Option help, parts, repeat, includeSolutions;
+    private final Option help, parts, repeat, difficulty, includeSolutions;
     private final org.apache.commons.cli.CommandLine cmd;
 
     PuzzleOptions(String[] args) {
         parts = addOption("p", "parts", "i,j,...", "Show only parts with given numbers");
         repeat = addOption("r", "repeat", "num", "Generate <num> different puzzles");
+        difficulty = addOption("d", "difficulty", "num", "Change puzzle difficulty from default");
         includeSolutions = addOption("s", "include-solutions", "Show solutions immediately when generating puzzle");
         help = addOption(null, "help", "Display this message");
         options.addOption(parts);
@@ -44,6 +45,12 @@ class PuzzleOptions {
 
     public int repeat() {
         return Integer.parseInt(cmd.getOptionValue(repeat, "1"));
+    }
+
+    public Integer difficulty() {
+        return cmd.hasOption(difficulty)
+            ? Integer.parseInt(cmd.getOptionValue(difficulty))
+            : null;
     }
 
     public boolean includeSolutions() {

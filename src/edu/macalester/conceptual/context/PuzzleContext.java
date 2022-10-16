@@ -4,13 +4,13 @@ import java.security.SecureRandom;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
-import java.util.function.Predicate;
 
 public final class PuzzleContext {
     private static final SecureRandom seedGenerator = new SecureRandom();
 
     private final PuzzleCode code;
     private final Random rand;
+    private int difficulty;
 
     private State state = State.SETUP;
     private boolean solutionsVisible;
@@ -40,6 +40,14 @@ public final class PuzzleContext {
 
     public byte getPuzzleID() {
         return code.puzzleID;
+    }
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
     }
 
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––

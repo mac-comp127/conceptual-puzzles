@@ -32,7 +32,7 @@ public class CommandLine {
                 }
 
                 var ctx = PuzzleContext.generate(puzzle.id());
-                applyOptionsToContext(options, ctx);
+                applyOptionsToContext(options, ctx, puzzle);
                 emitPuzzle(puzzle, ctx, options);
 
                 System.out.println();
@@ -47,7 +47,7 @@ public class CommandLine {
                 var ctx = PuzzleContext.fromPuzzleCode(options.commandAndArgs().get(1));
                 var puzzle = Puzzle.find(ctx.getPuzzleID(), Puzzle::id, "id");
 
-                applyOptionsToContext(options, ctx);
+                applyOptionsToContext(options, ctx, puzzle);
                 ctx.enableSolution();
                 emitPuzzle(puzzle, ctx, options);
             }
@@ -55,10 +55,23 @@ public class CommandLine {
         }
     }
 
-    private static void applyOptionsToContext(PuzzleOptions options, PuzzleContext ctx) {
+    private static void applyOptionsToContext(PuzzleOptions options, PuzzleContext ctx, Puzzle puzzle) {
         if (options.includeSolutions()) {
             ctx.enableSolution();
         }
+
+        ctx.setDifficulty(
+            options.difficulty() != null
+                ? options.difficulty()
+                : puzzle.examDifficulty());
+        if (ctx.getDifficulty() < puzzle.minDifficulty() || ctx.getDifficulty() > puzzle.maxDifficulty()) {
+            System.err.println("Illegal difficult level: " + ctx.getDifficulty());
+            System.err.println("This puzzle type supports a difficulties in the range "
+                + puzzle.minDifficulty() + "..." + puzzle.maxDifficulty() + ".");
+            System.err.println("(The difficulty level to get credit is " + puzzle.examDifficulty() + ".)");
+            System.exit(0);
+        }
+
         ctx.setPartsToShow(options.partsToShow());
     }
 
