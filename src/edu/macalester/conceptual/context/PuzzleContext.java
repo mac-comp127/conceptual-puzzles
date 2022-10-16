@@ -178,15 +178,6 @@ public final class PuzzleContext {
         return rand;
     }
 
-    public final <Choice> Choice chooseWithProb(double firstProbability, Choice choice0, Choice choice1) {
-        return getRandom().nextFloat() < firstProbability ? choice0 : choice1;
-    }
-
-    @SafeVarargs
-    public final <Choice> Choice choose(Choice... choices) {
-        return choices[getRandom().nextInt(choices.length)];
-    }
-
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     // Debug
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––

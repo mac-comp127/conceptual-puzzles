@@ -9,17 +9,14 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 import com.google.common.collect.Lists;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
-import java.util.function.Supplier;
 
 import edu.macalester.conceptual.ast.AstUtils;
 import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.context.WeightedChoices;
 
 import static com.github.javaparser.utils.Utils.capitalize;
-import static edu.macalester.conceptual.util.CodeFormatting.insertAtRandomPosition;
+import static edu.macalester.conceptual.util.Randomness.*;
 
 public class Nonsense {
     private static final WeightedChoices<String>
@@ -66,9 +63,9 @@ public class Nonsense {
             insertAtRandomPosition(
                 ctx,
                 paddedArgs,
-                ctx.chooseWithProb(0.6,
-                    String.valueOf(ctx.getRandom().nextInt(-3, 10)),
-                    Nonsense.methodName(ctx)));
+                chooseWithProb(ctx, 0.6,
+                    () -> String.valueOf(ctx.getRandom().nextInt(-3, 10)),
+                    () -> Nonsense.methodName(ctx)));
         }
         return methodCall(ctx, paddedArgs.toArray(String[]::new));
     }
@@ -141,15 +138,6 @@ public class Nonsense {
             return word + "es";
         } else {
             return word + "s";
-        }
-    }
-
-    public static String withMinLength(int minLength, Supplier<String> supplier) {
-        while (true) {
-            String result = supplier.get();
-            if (result.length() >= minLength) {
-                return result;
-            }
         }
     }
 

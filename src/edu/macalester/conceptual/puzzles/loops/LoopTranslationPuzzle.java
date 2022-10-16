@@ -7,11 +7,12 @@ import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.util.CodeFormatting;
 import edu.macalester.conceptual.util.Nonsense;
+import edu.macalester.conceptual.util.Randomness;
 
 import static edu.macalester.conceptual.util.CodeFormatting.ELIDED;
-import static edu.macalester.conceptual.util.CodeFormatting.insertAtRandomPosition;
 import static edu.macalester.conceptual.util.CodeFormatting.joinStatements;
 import static edu.macalester.conceptual.util.CodeFormatting.prettifyStatements;
+import static edu.macalester.conceptual.util.Randomness.*;
 
 public class LoopTranslationPuzzle implements Puzzle {
     @Override
@@ -79,9 +80,9 @@ public class LoopTranslationPuzzle implements Puzzle {
             "Translate the following loop into a for-each loop:");
 
         var collType = Nonsense.typeName(ctx);
-        var elemVar = Nonsense.withMinLength(3, () -> Nonsense.variableName(ctx));
+        var elemVar = Randomness.withMinLength(3, () -> Nonsense.variableName(ctx));
         var collVar = Nonsense.pluralize(elemVar);
-        var indexVar = ctx.choose("n", "i");
+        var indexVar = chooseConst(ctx, "n", "i");
         String lengthExpr, indexedElemExpr;
         if (ctx.getRandom().nextBoolean()) {
             lengthExpr = collVar + ".length";
@@ -94,9 +95,9 @@ public class LoopTranslationPuzzle implements Puzzle {
         var curElemPlaceholder = "•";
         var bodyParts = new ArrayList<String>();
         for (int n = ctx.getRandom().nextInt(2, 3); n > 0; n--) {
-            var statementWithElem = ctx.choose(
-                Nonsense.methodCall(ctx, ctx.getRandom().nextInt(3), curElemPlaceholder),
-                curElemPlaceholder + "." + Nonsense.methodCall(ctx, ctx.getRandom().nextInt(3)));
+            var statementWithElem = choose(ctx,
+                () -> Nonsense.methodCall(ctx, ctx.getRandom().nextInt(3), curElemPlaceholder),
+                () -> curElemPlaceholder + "." + Nonsense.methodCall(ctx, ctx.getRandom().nextInt(3)));
             insertAtRandomPosition(ctx, bodyParts, statementWithElem);
         }
         for (int n = 0; n < ctx.getRandom().nextInt(3); n++) {

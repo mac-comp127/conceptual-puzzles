@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
-import edu.macalester.conceptual.context.PuzzleContext;
-
 import static edu.macalester.conceptual.ast.AstUtils.*;
 
 public enum CodeFormatting {
@@ -86,11 +84,4 @@ public enum CodeFormatting {
     }
 
 
-    public static <Elem> void insertAtRandomPosition(
-        PuzzleContext ctx,
-        List<Elem> mutableList,
-        Elem elem
-    ) {
-        mutableList.add(ctx.getRandom().nextInt(mutableList.size() + 1), elem);
-    }
 }

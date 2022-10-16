@@ -5,6 +5,7 @@ import edu.macalester.conceptual.util.Nonsense;
 
 import static edu.macalester.conceptual.util.CodeFormatting.joinCode;
 import static edu.macalester.conceptual.util.CodeFormatting.joinStatements;
+import static edu.macalester.conceptual.util.Randomness.*;
 
 class SimpleLoop {
     private final String varName, varType, initializer;
@@ -14,32 +15,32 @@ class SimpleLoop {
 
     public static SimpleLoop generateNumericLoop(PuzzleContext ctx) {
         String varName = Nonsense.variableName(ctx);
-        String varType = ctx.choose("int", "int", "int", "long", "short", "double");
+        String varType = chooseConst(ctx, "int", "int", "int", "long", "short", "double");
         String initializer =
-            ctx.getRandom().nextBoolean()
-                ? Nonsense.variableName(ctx)
-                : String.valueOf(ctx.getRandom().nextInt(100));
+            choose(ctx,
+                () -> Nonsense.variableName(ctx),
+                () -> String.valueOf(ctx.getRandom().nextInt(100)));
 
         boolean growing = ctx.getRandom().nextBoolean();
 
         String endCondition = joinCode(
             varName,
-            growing
-                ? ctx.choose("<", "<=")
-                : ctx.choose(">", ">=", "!="),
+            choose(ctx,
+                () -> chooseConst(ctx, "<", "<="),
+                () -> chooseConst(ctx, ">", ">=", "!=")),
             Nonsense.propertyName(ctx));
 
         String nextStep =
-            ctx.getRandom().nextBoolean()
-                ? joinCode(
+            choose(ctx,
+                () -> joinCode(
                     varName,
-                    growing ? "++" : "--")
-                : joinCode(
+                    growing ? "++" : "--"),
+                () -> joinCode(
                     varName,
                     growing
-                        ? ctx.choose("+=", "*=")
-                        : ctx.choose("-=", "/="),
-                    String.valueOf(ctx.getRandom().nextInt(2, 5)));
+                        ? chooseConst(ctx, "+=", "*=")
+                        : chooseConst(ctx, "-=", "/="),
+                    String.valueOf(ctx.getRandom().nextInt(2, 5))));
 
         int extraStatementPosition = ctx.getRandom().nextInt(4);
         String body =
@@ -51,9 +52,9 @@ class SimpleLoop {
                     Nonsense.methodName(ctx),
                     "(",
                     varName,
-                    ctx.getRandom().nextBoolean()
-                        ? ", " + ctx.getRandom().nextInt(50)
-                        : "",
+                    choose(ctx,
+                        () -> ", " + ctx.getRandom().nextInt(50),
+                        () -> ""),
                     ")"),
                 extraStatementPosition == 1
                     ? joinCode(Nonsense.methodName(ctx), "()")

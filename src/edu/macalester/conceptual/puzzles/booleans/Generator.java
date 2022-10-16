@@ -13,6 +13,7 @@ import static com.github.javaparser.StaticJavaParser.parseExpression;
 import static com.github.javaparser.ast.expr.BinaryExpr.Operator.*;
 import static com.github.javaparser.ast.expr.UnaryExpr.Operator.*;
 import static edu.macalester.conceptual.ast.AstUtils.*;
+import static edu.macalester.conceptual.util.Randomness.*;
 
 public enum Generator {
     ; // static methods only
@@ -43,7 +44,7 @@ public enum Generator {
                     new BinaryExpr(
                         nodes.remove(i),
                         nodes.remove(j),
-                        ctx.choose(OR, AND)));
+                        chooseConst(ctx, OR, AND)));
             }
         }
         return nodes.get(0);
@@ -51,9 +52,9 @@ public enum Generator {
 
     private static Expression generateLeaf(PuzzleContext ctx) {
         return parseExpression(
-            ctx.chooseWithProb(0.3,
-                atom(ctx, false) + comparisonOperator(ctx) + atom(ctx, true),
-                atom(ctx, false)));
+            chooseWithProb(ctx, 0.3,
+                () -> atom(ctx, false) + comparisonOperator(ctx) + atom(ctx, true),
+                () -> atom(ctx, false)));
     }
 
     private static String comparisonOperator(PuzzleContext ctx) {
@@ -68,11 +69,11 @@ public enum Generator {
     }
 
     private static String atom(PuzzleContext ctx, boolean allowInt) {
-        return ctx.chooseWithProb(allowInt ? 0.6 : 0,
-            String.valueOf(ctx.getRandom().nextInt(10)),
-            ctx.chooseWithProb(0.4,
-                Nonsense.methodName(ctx) + "()",
-                ctx.chooseWithProb(0.2, "!", "") + Nonsense.variableName(ctx)));
+        return chooseWithProb(ctx, allowInt ? 0.6 : 0,
+            () -> String.valueOf(ctx.getRandom().nextInt(10)),
+            () -> chooseWithProb(ctx, 0.4,
+                () -> Nonsense.methodName(ctx) + "()",
+                () -> chooseWithProb(ctx, 0.2, "!", "") + Nonsense.variableName(ctx)));
     }
 
     public static void main(String[] args) {
