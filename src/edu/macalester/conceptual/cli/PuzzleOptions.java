@@ -68,19 +68,6 @@ class PuzzleOptions {
             .collect(Collectors.toSet());
     }
 
-    public List<Integer> parts() {
-        if(!cmd.hasOption(parts)) {
-            return null;
-        }
-        return Arrays.stream(
-                cmd.getOptionValue(parts)
-                    .trim()
-                    .split("\\s*,\\s*"))
-            .mapToInt(Integer::parseInt)
-            .boxed()
-            .toList();
-    }
-
     public void usageError(String message) {
         System.err.println("puzzle: " + message);
         System.err.println("Run with --help for usage");

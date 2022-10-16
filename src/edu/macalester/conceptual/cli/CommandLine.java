@@ -12,12 +12,15 @@ public class CommandLine {
         var options = new PuzzleOptions(args);
 
         if (options.help() || options.commandAndArgs().isEmpty()) {
-            printHelp(options);
+            printHelp(options, false);
             return;
         }
 
         String command = options.commandAndArgs().get(0);
         switch(command) {
+            case "help" -> {
+                printHelp(options, true);
+            }
             case "list" -> {
                 requireCommandArgs(0, options);
                 listPuzzles();
@@ -113,10 +116,10 @@ public class CommandLine {
         ctx.setPartsToShow(options.partsToShow());
     }
 
-    private static void printHelp(PuzzleOptions options) {
+    private static void printHelp(PuzzleOptions options, boolean forceFullHelp) {
         PrintWriter out = new PrintWriter(System.err, true);
         printCommands(out);
-        if (options.help()) {
+        if (forceFullHelp || options.help()) {
             options.printOptions(out);
             printExamples(out);
         } else {
