@@ -20,7 +20,7 @@ public class BooleansAndConditionalsPuzzle implements Puzzle {
     }
 
     @Override
-    public int examDifficulty() {
+    public int goalDifficulty() {
         return 1;
     }
 

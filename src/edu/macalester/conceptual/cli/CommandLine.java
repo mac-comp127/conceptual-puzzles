@@ -1,6 +1,7 @@
 package edu.macalester.conceptual.cli;
 
 import java.io.PrintWriter;
+import java.text.MessageFormat;
 
 import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.InvalidPuzzleCodeException;
@@ -46,10 +47,47 @@ public class CommandLine {
                 requireCommandArgs(1, options);
                 var ctx = PuzzleContext.fromPuzzleCode(options.commandAndArgs().get(1));
                 var puzzle = Puzzle.find(ctx.getPuzzleID(), Puzzle::id, "id");
+                if(puzzle == null) {
+                    System.err.println("This puzzle code refers to a puzzle type that no longer exists.");
+                    System.err.println("Are you using an outdated code from a previous semester?");
+                    return;
+                }
 
                 applyOptionsToContext(options, ctx, puzzle);
                 ctx.enableSolution();
                 emitPuzzle(puzzle, ctx, options);
+
+                if (ctx.getDifficulty() != puzzle.goalDifficulty()) {
+                    System.out.println(MessageFormat.format(
+                        """
+                        ***************** PLEASE NOTE ******************
+                        ***                                          ***
+                        *** The puzzle above has a difficulty of {0}.  ***
+                        *** The difficulty level to get credit is {1}. ***
+                        ***                                          ***
+                        ************************************************
+
+                        To try the puzzle at the goal difficulty, omit the --difficulty option.
+                        """,
+                        ctx.getDifficulty(),
+                        puzzle.goalDifficulty()));
+                }
+                if (ctx.getDifficulty() > puzzle.minDifficulty()
+                    && puzzle.minDifficulty() < puzzle.goalDifficulty()
+                ) {
+                    System.out.println("Want to practice more basics first? Try a simpler puzzle:");
+                    System.out.println();
+                    System.out.println("  " + executableName() + " gen " + puzzle.name()
+                        + " --difficulty " + (ctx.getDifficulty() - 1));
+                    System.out.println();
+                }
+                if (ctx.getDifficulty() < puzzle.maxDifficulty()) {
+                    System.out.println("Want a bigger challenge? Try a harder difficulty level:");
+                    System.out.println();
+                    System.out.println("  " + executableName() + " gen " + puzzle.name()
+                        + " --difficulty " + (ctx.getDifficulty() + 1));
+                    System.out.println();
+                }
             }
             default -> options.usageError("Unknown command: " + command);
         }
@@ -63,12 +101,12 @@ public class CommandLine {
         ctx.setDifficulty(
             options.difficulty() != null
                 ? options.difficulty()
-                : puzzle.examDifficulty());
+                : puzzle.goalDifficulty());
         if (ctx.getDifficulty() < puzzle.minDifficulty() || ctx.getDifficulty() > puzzle.maxDifficulty()) {
             System.err.println("Illegal difficult level: " + ctx.getDifficulty());
-            System.err.println("This puzzle type supports a difficulties in the range "
+            System.err.println("The `" + puzzle.name() + "` puzzle must have a difficulty in the range "
                 + puzzle.minDifficulty() + "..." + puzzle.maxDifficulty() + ".");
-            System.err.println("(The difficulty level to get credit is " + puzzle.examDifficulty() + ".)");
+            System.err.println("(The difficulty level to get credit is " + puzzle.goalDifficulty() + ".)");
             System.exit(0);
         }
 

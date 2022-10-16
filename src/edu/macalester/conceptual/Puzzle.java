@@ -15,7 +15,7 @@ public interface Puzzle {
 
     String description();
 
-    default int examDifficulty() {
+    default int goalDifficulty() {
         return minDifficulty();
     }
 
@@ -29,12 +29,12 @@ public interface Puzzle {
 
     void generate(PuzzleContext ctx);
 
-    public static final List<Puzzle> ALL = List.of(
+    List<Puzzle> ALL = List.of(
         new BooleansAndConditionalsPuzzle(),
         new LoopTranslationPuzzle()
     );
 
-    public static <T> Puzzle find(T target, Function<Puzzle,T> property, String propertyName) {
+    static <T> Puzzle find(T target, Function<Puzzle,T> property, String propertyName) {
         List<Puzzle> results = Puzzle.ALL.stream()
             .filter(puzzle -> property.apply(puzzle).equals(target))
             .toList();
