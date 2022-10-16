@@ -3,10 +3,14 @@ package edu.macalester.conceptual.util;
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
+import com.google.common.collect.Streams;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
+
+import edu.macalester.conceptual.context.PuzzleContext;
 
 import static edu.macalester.conceptual.ast.AstUtils.*;
 
@@ -16,15 +20,23 @@ public enum CodeFormatting {
     public static final String ELIDED = "/* <<ELIDED>> */";
 
     public static String joinCode(String... parts) {
+        return joinCode(Arrays.asList(parts));
+    }
+
+    public static String joinCode(List<String> parts) {
         return String.join(" ", removeNulls(parts));
     }
 
     public static String joinStatements(String... parts) {
+        return joinStatements(Arrays.asList(parts));
+    }
+
+    public static String joinStatements(List<String> parts) {
         return String.join(";", removeNulls(parts)) + ";";
     }
 
-    private static Iterable<String> removeNulls(String[] parts) {
-        return Arrays.stream(parts)
+    private static Iterable<String> removeNulls(Iterable<String> parts) {
+        return Streams.stream(parts)
             .filter(Objects::nonNull)
             .toList();
     }
@@ -71,5 +83,14 @@ public enum CodeFormatting {
         return withParensAsNeeded(node)
             .toString()
             .replace(ELIDED, "...");
+    }
+
+
+    public static <Elem> void insertAtRandomPosition(
+        PuzzleContext ctx,
+        List<Elem> mutableList,
+        Elem elem
+    ) {
+        mutableList.add(ctx.getRandom().nextInt(mutableList.size() + 1), elem);
     }
 }

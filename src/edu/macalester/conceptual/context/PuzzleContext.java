@@ -42,7 +42,6 @@ public final class PuzzleContext {
         return code.puzzleID;
     }
 
-
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     // Lifecycle
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -149,6 +148,19 @@ public final class PuzzleContext {
         } finally {
             insideSolution = false;
         }
+    }
+
+    public void solutionChecklist(String... items) {
+        if (!insideSolution) {
+            throw new IllegalStateException("must be inside solution to print solution checklist");
+        }
+        if (items.length == 0) {
+            return;
+        }
+        output().paragraph(
+            "{0,choice,1#Something|1<Things} to double-check in your solution:",
+            items.length);
+        output().bulletList(items);
     }
 
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––

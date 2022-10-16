@@ -7,14 +7,19 @@ import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
+import com.google.common.collect.Lists;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import edu.macalester.conceptual.ast.AstUtils;
 import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.context.WeightedChoices;
 
 import static com.github.javaparser.utils.Utils.capitalize;
+import static edu.macalester.conceptual.util.CodeFormatting.insertAtRandomPosition;
 
 public class Nonsense {
     private static final WeightedChoices<String>
@@ -49,6 +54,23 @@ public class Nonsense {
 
     public static String methodName(PuzzleContext ctx) {
         return words(ctx, NameFormat.LOWER_CAMEL_CASE, 3, 6, 4);
+    }
+
+    public static String methodCall(PuzzleContext ctx, String... args) {
+        return methodName(ctx) + "(" + String.join(",", args) + ")";
+    }
+
+    public static String methodCall(PuzzleContext ctx, int extraArgs, String... args) {
+        var paddedArgs = Lists.newArrayList(args);
+        for (int n = 0; n < extraArgs; n++) {
+            insertAtRandomPosition(
+                ctx,
+                paddedArgs,
+                ctx.chooseWithProb(0.6,
+                    String.valueOf(ctx.getRandom().nextInt(-3, 10)),
+                    Nonsense.methodName(ctx)));
+        }
+        return methodCall(ctx, paddedArgs.toArray(String[]::new));
     }
 
     public static MethodCallExpr methodCallExpr(PuzzleContext ctx, Expression... args) {
@@ -112,6 +134,23 @@ public class Nonsense {
 
     public static String syllable(PuzzleContext ctx) {
         return ONSETS.choose(ctx) + NUCLEI.choose(ctx) + CODAS.choose(ctx);
+    }
+
+    public static String pluralize(String word) {
+        if (word.endsWith("s")) {
+            return word + "es";
+        } else {
+            return word + "s";
+        }
+    }
+
+    public static String withMinLength(int minLength, Supplier<String> supplier) {
+        while (true) {
+            String result = supplier.get();
+            if (result.length() >= minLength) {
+                return result;
+            }
+        }
     }
 
     public static enum NameFormat {

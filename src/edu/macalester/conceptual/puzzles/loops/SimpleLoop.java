@@ -62,6 +62,15 @@ class SimpleLoop {
         return new SimpleLoop(varType, varName, initializer, endCondition, nextStep, body);
     }
 
+    public static SimpleLoop makeCounterLoop(
+        String varName,
+        String min,
+        String max,
+        String body
+    ) {
+        return new SimpleLoop("int", varName, min, varName + "<" + max, varName + "++", body);
+    }
+
     public SimpleLoop(
         String varType,
         String varName,

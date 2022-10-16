@@ -5,6 +5,7 @@ import com.github.javaparser.ast.Node;
 import java.awt.Color;
 import java.io.Closeable;
 import java.io.PrintWriter;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -62,8 +63,17 @@ public class PuzzlePrinter implements Closeable {
         println();
     }
 
-    public void paragraph(String s) {
-        printFormattedText(s);
+    public void paragraph(String s, Object... formatArguments) {
+        printFormattedText(MessageFormat.format(s, formatArguments));
+        println();
+    }
+
+
+    public void bulletList(String... items) {
+        for (String item : items) {
+            print("  - ");
+            indented("    ", () -> printFormattedText(item));
+        }
         println();
     }
 
