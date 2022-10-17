@@ -11,4 +11,5 @@ chcp 65001 >nul
     run-cli ^
     --project-dir "%~dp0\.." ^
     --args=" %*" ^
+    --console=plain ^
     --warn
