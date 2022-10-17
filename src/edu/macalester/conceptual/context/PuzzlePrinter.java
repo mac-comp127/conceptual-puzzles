@@ -5,6 +5,7 @@ import com.github.javaparser.ast.Node;
 import java.awt.Color;
 import java.io.Closeable;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +26,7 @@ public class PuzzlePrinter implements Closeable {
     private int silenceLevel;
 
     public PuzzlePrinter() {
-        this(new PrintWriter(System.out, true));
+        this(new PrintWriter(System.out, true, StandardCharsets.UTF_8));
     }
 
     public PuzzlePrinter(PrintWriter writer) {
@@ -35,11 +36,14 @@ public class PuzzlePrinter implements Closeable {
         } catch(Exception e) {
             outputWidth = 80;
         }
+
+        // Clear to end of screen, to mop up any dangling bits of gradle’s progress bar
+        print(ansiCode('J', 0));
     }
 
     public void dividerLine(boolean primary) {
         nowrap(() -> {
-            println((primary ? "━" : "┄").repeat(outputWidth));
+            println((primary ? "─" : "┄").repeat(outputWidth));
             println();
         });
     }

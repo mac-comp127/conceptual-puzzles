@@ -1,18 +1,17 @@
 #!/bin/bash
 
-args="$*"
-if [ -z "$args" ]; then
-    # Gradle blows up if --args receives an empty string as its argument.
-    # A single space, however, shows up as an empty args array by the time
-    # it makes it to our main method.
-    args=" "
-fi
-
 eval $(resize)  # sets COLUMNS to terminal size
 export COLUMNS
+
+# Note the space before $* below.
+#
+# Gradle blows up if --args receives an empty string as its argument.
+# However, it trims space from the end of the --args argument, and
+# a single space thus shows up as an empty args array by the time
+# it makes it to our main method.
 
 puzzle_command="$0" exec gradle \
     run-cli \
     --project-dir "$(dirname "$0")/.." \
-    --args="$args" \
+    --args=" $*" \
     --warn
