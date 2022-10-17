@@ -115,14 +115,16 @@ public final class PuzzleContext {
         requireState(State.WORKING, "produce output");
         curPartNum++;
 
+        if (curPartNum > 1) {
+            output().dividerLine(false);
+        }
+
         boolean hidden = partsToShow != null && !partsToShow.contains(curPartNum);
         if (hidden) {
+            output().paragraph("(Skipping part " + curPartNum + ")");
             output().silence();
         }
         try {
-            if (curPartNum > 1) {
-                output().dividerLine(false);
-            }
             output().heading("Part " + curPartNum, true);
             action.run();
         } finally {

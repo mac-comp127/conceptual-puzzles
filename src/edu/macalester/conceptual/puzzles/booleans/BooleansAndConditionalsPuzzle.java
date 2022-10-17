@@ -33,5 +33,7 @@ public class BooleansAndConditionalsPuzzle implements Puzzle {
         ctx.section(() -> SwapConditionalClausesPuzzle.generate(ctx));
 
         ctx.section(() -> ReturnBooleanPuzzle.generate(ctx));
+
+        ctx.section(() -> SimplifyChainedConditionalsPuzzle.generate(ctx));
     }
 }

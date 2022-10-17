@@ -25,7 +25,7 @@ public class PuzzlePrinter implements Closeable {
     private int silenceLevel;
 
     public PuzzlePrinter() {
-        this(new PrintWriter(System.out));
+        this(new PrintWriter(System.out, true));
     }
 
     public PuzzlePrinter(PrintWriter writer) {

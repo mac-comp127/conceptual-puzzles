@@ -25,7 +25,7 @@ public enum Generator {
     ) {
         var nodes = new ArrayList<Expression>();
         for(int n = 0; n < numLeaves; n++) {
-            nodes.add(generateLeaf(ctx));
+            nodes.add(generateBooleanLeaf(ctx, true));
         }
 
         while (nodes.size() > 1) {
@@ -50,11 +50,13 @@ public enum Generator {
         return nodes.get(0);
     }
 
-    private static Expression generateLeaf(PuzzleContext ctx) {
+    public static Expression generateBooleanLeaf(PuzzleContext ctx, boolean allowMethodCalls) {
         return parseExpression(
             chooseWithProb(ctx, 0.3,
-                () -> atom(ctx, false) + comparisonOperator(ctx) + atom(ctx, true),
-                () -> atom(ctx, false)));
+                () -> atom(ctx, true, false, allowMethodCalls)
+                        + comparisonOperator(ctx)
+                        + atom(ctx, true, true, allowMethodCalls),
+                () -> atom(ctx, false, false, allowMethodCalls)));
     }
 
     private static String comparisonOperator(PuzzleContext ctx) {
@@ -68,12 +70,17 @@ public enum Generator {
         };
     }
 
-    private static String atom(PuzzleContext ctx, boolean allowInt) {
-        return chooseWithProb(ctx, allowInt ? 0.6 : 0,
+    private static String atom(
+        PuzzleContext ctx,
+        boolean numeric,
+        boolean allowLiteral,
+        boolean allowMethodCall
+    ) {
+        return chooseWithProb(ctx, allowLiteral ? 0.6 : 0,
             () -> String.valueOf(ctx.getRandom().nextInt(10)),
-            () -> chooseWithProb(ctx, 0.4,
+            () -> chooseWithProb(ctx, allowMethodCall ? 0.4 : 0,
                 () -> Nonsense.methodName(ctx) + "()",
-                () -> chooseWithProb(ctx, 0.2, "!", "") + Nonsense.variableName(ctx)));
+                () -> chooseWithProb(ctx, numeric ? 0 : 0.3, "!", "") + Nonsense.variableName(ctx)));
     }
 
     public static void main(String[] args) {

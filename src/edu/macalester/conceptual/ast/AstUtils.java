@@ -20,7 +20,9 @@ import com.github.javaparser.ast.stmt.Statement;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.github.javaparser.ast.expr.BinaryExpr.Operator.*;
 import static com.github.javaparser.ast.expr.UnaryExpr.Operator.*;
@@ -52,6 +54,20 @@ public enum AstUtils {
             .collect(Collectors.joining("\n"));
     }
 
+    public static Expression joinedWithOperator(
+        BinaryExpr.Operator operator,
+        Expression firstExpr,
+        Stream<Expression> exprs
+    ) {
+        return joinedWithOperator(operator, Stream.concat(Stream.of(firstExpr), exprs));
+    }
+
+    public static Expression joinedWithOperator(BinaryExpr.Operator operator, Stream<Expression> exprs) {
+        return exprs
+            .reduce((lhs, rhs) -> new BinaryExpr(lhs, rhs, AND))
+            .orElseThrow();
+    }
+
     /**
      * Add parentheses as necessary within the given AST to ensure that the emitted code respects
      * the actual structure of the tree.
@@ -70,13 +86,13 @@ public enum AstUtils {
             .forEach(AstUtils::insertParensAsNeeded);
         if (node instanceof Expression expr
             && node.getParentNode().orElse(null) instanceof Expression parentExpr
-            && getPrecedence(parentExpr) > getPrecedence(expr)
+            && getPrecedence(parentExpr, false) > getPrecedence(expr, true)
         ) {
             parentExpr.replace(expr, new EnclosedExpr(expr));
         }
     }
 
-    private static int getPrecedence(Expression expr) {
+    private static int getPrecedence(Expression expr, boolean asChild) {
         // Precedences taken from https://introcs.cs.princeton.edu/java/11precedence/
         if (expr instanceof UnaryExpr unary) {
             return switch(unary.getOperator()) {
@@ -104,6 +120,8 @@ public enum AstUtils {
             return 1;
         } else if (expr instanceof ConditionalExpr) {
             return 2;
+        } else if (expr instanceof EnclosedExpr) {
+            return asChild ? Integer.MAX_VALUE : Integer.MIN_VALUE;
         } else {
             return 17;
         }
