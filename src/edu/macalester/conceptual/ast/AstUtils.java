@@ -54,14 +54,6 @@ public enum AstUtils {
             .collect(Collectors.joining("\n"));
     }
 
-    public static Expression joinedWithOperator(
-        BinaryExpr.Operator operator,
-        Expression firstExpr,
-        Stream<Expression> exprs
-    ) {
-        return joinedWithOperator(operator, Stream.concat(Stream.of(firstExpr), exprs));
-    }
-
     public static Expression joinedWithOperator(BinaryExpr.Operator operator, Stream<Expression> exprs) {
         return exprs
             .reduce((lhs, rhs) -> new BinaryExpr(lhs, rhs, AND))
