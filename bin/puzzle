@@ -3,6 +3,8 @@
 eval $(resize)  # sets COLUMNS to terminal size
 export COLUMNS
 
+project_dir="$(dirname "$0")/.."
+
 # Note the space before $* below.
 #
 # Gradle blows up if --args receives an empty string as its argument.
@@ -10,9 +12,9 @@ export COLUMNS
 # a single space thus shows up as an empty args array by the time
 # it makes it to our main method.
 
-puzzle_command="$0" exec gradle \
+puzzle_command="$0" exec "$project_dir/gradlew" \
     run-cli \
-    --project-dir "$(dirname "$0")/.." \
+    --project-dir "$project_dir" \
     --args=" $*" \
     --console=plain \
     --warn
