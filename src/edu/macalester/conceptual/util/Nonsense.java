@@ -9,6 +9,7 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 import com.google.common.collect.Lists;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import edu.macalester.conceptual.ast.AstUtils;
@@ -32,6 +33,11 @@ public class Nonsense {
         "return", "short", "static", "strictfp", "super", "switch", "synchronized", "this", "throw",
         "throws", "transient", "true", "try", "void", "volatile", "while"
     );
+
+    private static Set<String> excludedWords = new HashSet<>(5000);
+    static {
+        excludedWords.addAll(PROHIBITED_WORDS);
+    }
 
     public static VariableDeclarator variable(PuzzleContext ctx) {
         return variable(ctx, type(ctx));
@@ -125,8 +131,9 @@ public class Nonsense {
                 builder.append(syllable(ctx));
             }
             result = builder.toString();
-        } while(PROHIBITED_WORDS.contains(result));
-        return result.toString();
+        } while(excludedWords.contains(result));
+        excludedWords.add(result);  // never generate the same word twice
+        return result;
     }
 
     public static String syllable(PuzzleContext ctx) {
