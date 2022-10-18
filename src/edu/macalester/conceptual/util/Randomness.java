@@ -8,6 +8,7 @@ import edu.macalester.conceptual.context.PuzzleContext;
 public enum Randomness {
     ; // static utility class
 
+    @SafeVarargs
     public static <Choice> Choice chooseConst(PuzzleContext ctx, Choice... choices) {
         return choices[ctx.getRandom().nextInt(choices.length)];
     }

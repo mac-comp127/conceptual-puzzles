@@ -109,7 +109,7 @@ class PuzzleOptions {
     }
 
     public String toCommandLineOptions() {
-        StringBuffer out = new StringBuffer();
+        StringBuilder out = new StringBuilder();
         for (var opt : cmd.getOptions()) {
             if (opt.getId() == includeSolutions.getId()) {
                 continue;

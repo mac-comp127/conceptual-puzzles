@@ -1,6 +1,5 @@
 package edu.macalester.conceptual.ast;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.expr.EnclosedExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.visitor.ModifierVisitor;

@@ -34,7 +34,7 @@ public class Nonsense {
         "throws", "transient", "true", "try", "void", "volatile", "while"
     );
 
-    private static Set<String> excludedWords = new HashSet<>(5000);
+    private static final Set<String> excludedWords = new HashSet<>(5000);
     static {
         excludedWords.addAll(PROHIBITED_WORDS);
     }
@@ -148,7 +148,7 @@ public class Nonsense {
         }
     }
 
-    public static enum NameFormat {
+    public enum NameFormat {
         LOWER_CAMEL_CASE {
             String formatFirstWord(String word) {
                 return word;
