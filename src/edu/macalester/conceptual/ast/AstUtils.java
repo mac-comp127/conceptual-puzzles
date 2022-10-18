@@ -5,6 +5,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.BinaryExpr;
+import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.expr.CastExpr;
 import com.github.javaparser.ast.expr.ConditionalExpr;
 import com.github.javaparser.ast.expr.EnclosedExpr;
@@ -142,6 +143,8 @@ public enum AstUtils {
 
                 default -> new UnaryExpr(new EnclosedExpr(expr), LOGICAL_COMPLEMENT);
             };
+        } else if (node instanceof BooleanLiteralExpr literal) {
+            return new BooleanLiteralExpr(!literal.getValue());
         } else {
             return new UnaryExpr(node, LOGICAL_COMPLEMENT);
         }

@@ -9,9 +9,31 @@ import com.github.javaparser.ast.visitor.Visitable;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import static com.github.javaparser.StaticJavaParser.parseExpression;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AstUtilsTest {
+
+    @Test
+    void negated() {
+        assertNegation("true", "false");
+        assertNegation("x", "!x");
+        assertNegation("x == y", "x != y");
+        assertNegation("x < y", "x >= y");
+        assertNegation("x > y", "x <= y");
+        assertNegation("x && y", "!x || !y");
+        assertNegation("x || y", "!x && !y");
+        assertNegation(
+            "a < b || c && d != e",
+            "a >= b && ❰!c || d == e❱");
+    }
+
+    private void assertNegation(String boolExpr0, String boolExpr1) {
+        var parsed0 = parseWithForcedNesting(boolExpr0);
+        var parsed1 = parseWithForcedNesting(boolExpr1);
+        assertEquals(parsed0, AstUtils.negated(parsed1));
+        assertEquals(parsed1, AstUtils.negated(parsed0));
+    }
 
     @Test
     void withParensAsNeeded() {
@@ -22,10 +44,15 @@ class AstUtilsTest {
         assertNoParensAdded("(x)");
         assertNoParensAdded("foo(-1)");
         assertNoParensAdded("foo(-1) + bar(x / baz(z))");
-        assertParensAdded("x + y * z", "x + ❰y * z❱");
+        assertNoParensAdded("x + ❰y * z❱");
         assertParensAdded("(x + y) * z", "❰x + y❱ * z");
         assertParensAdded("((x) + y) * (z)", "❰(x) + y❱ * (z)");
         assertNoParensAdded("foo[a].bar.baz(b.c[d])[e][f]");
+        assertNoParensAdded(
+            "❰a >= b && !c❱ || d == e");
+        assertParensAdded(
+            "a >= b && (!c || d == e)",
+            "a >= b && ❰!c || d == e❱");
     }
 
     @Test
@@ -47,7 +74,7 @@ class AstUtilsTest {
     }
 
     private void assertNoParensAdded(String expr) {
-        assertParensAdded(expr, expr);
+        assertParensAdded(expr.replaceAll("[❰❱]", ""), expr);
     }
 
     private void assertParensAdded(String expected, String rawExpr) {
@@ -69,7 +96,7 @@ class AstUtilsTest {
             .replace("❰", "(")
             .replace("❱", "/*" + removalMarker + "*/)");
 
-        var expr = StaticJavaParser.parseExpression(expression);
+        var expr = parseExpression(expression);
         expr.accept(new ModifierVisitor<>() {
             @Override
             public Visitable visit(EnclosedExpr parens, Object arg) {
