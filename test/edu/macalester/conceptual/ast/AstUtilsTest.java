@@ -6,6 +6,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.visitor.ModifierVisitor;
 import com.github.javaparser.ast.visitor.Visitable;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,6 +25,25 @@ class AstUtilsTest {
         assertParensAdded("x + y * z", "x + ❰y * z❱");
         assertParensAdded("(x + y) * z", "❰x + y❱ * z");
         assertParensAdded("((x) + y) * (z)", "❰(x) + y❱ * (z)");
+        assertNoParensAdded("foo[a].bar.baz(b.c[d])[e][f]");
+    }
+
+    @Test
+    @Disabled  // TODO: fix associativity if we ever need it
+    void withParensAsNeeded_associativity() {
+        assertNoParensAdded("a && b && c && d");
+        assertParensAdded(
+            "a && b && c && d",
+            "❰a && ❰b && c❱❱ && d");  // && is truly associative, even w/short-circuiting
+        assertParensAdded(
+            "a + b + c + d",
+            "❰❰a + b❱ + c❱ + d");  // left-branching expr doesn't need pars for left-associative +
+        assertParensAdded(
+            "a + (b + (c + d))",
+            "a + ❰b + ❰c + d❱❱");  // + is not associative (e.g. `"foo" + (1 + 2) + "bar"`)
+        assertParensAdded(
+            "a + (b + c) + d",
+            "❰a + ❰b + c❱❱ + d");
     }
 
     private void assertNoParensAdded(String expr) {

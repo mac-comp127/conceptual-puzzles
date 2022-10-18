@@ -65,6 +65,9 @@ public enum AstUtils {
      * the actual structure of the tree.
      *
      * (Somewhat surprising JavaParser doesn't already provide this!)
+     *
+     * WARNING: Does not properly account for associativity. Add explicit parens to distinguish
+     *          e.g. (a + b) + c from a + (b + c).
      */
     public static <NodeType extends Node> NodeType withParensAsNeeded(NodeType expr) {
         @SuppressWarnings("unchecked")
@@ -76,6 +79,7 @@ public enum AstUtils {
     private static void insertParensAsNeeded(Node node) {
         new ArrayList<>(node.getChildNodes())
             .forEach(AstUtils::insertParensAsNeeded);
+
         if (node instanceof Expression expr
             && node.getParentNode().orElse(null) instanceof Expression parentExpr
             && getPrecedence(parentExpr, false) > getPrecedence(expr, true)
