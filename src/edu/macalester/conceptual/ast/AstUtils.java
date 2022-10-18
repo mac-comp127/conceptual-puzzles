@@ -112,10 +112,8 @@ public enum AstUtils {
             return 1;
         } else if (expr instanceof ConditionalExpr) {
             return 2;
-        } else if (expr instanceof EnclosedExpr) {
+        } else {  // explicit parens, method calls, etc. should never force parens above or below
             return asChild ? Integer.MAX_VALUE : Integer.MIN_VALUE;
-        } else {
-            return 17;
         }
     }
 

@@ -56,7 +56,6 @@ public enum CodeFormatting {
         return prettify(code, StaticJavaParser::parseMethodDeclaration);
     }
 
-
     public static String prettifyTypeDecl(String code) {
         return prettify(code, StaticJavaParser::parseTypeDeclaration);
     }
