@@ -170,6 +170,10 @@ public class PuzzlePrinter implements Closeable {
         silenceLevel++;
     }
 
+    public boolean isSilenced() {
+        return silenceLevel < 0;
+    }
+
     public void println() {
         println("");
     }
@@ -181,7 +185,7 @@ public class PuzzlePrinter implements Closeable {
 
     // Handles indentation and line break normalization
     private void print(String str) {
-        if (silenceLevel < 0) {
+        if (isSilenced()) {
             return;
         }
         for (String part : str.split("(?=\\r?\\n)|(?<=\\n)")) { // lines + terminators as separate matches

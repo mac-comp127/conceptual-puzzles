@@ -152,7 +152,7 @@ public final class PuzzleContext {
             throw new IllegalStateException("already inside a solution section");
         }
 
-        if (!solutionsVisible) {
+        if (!solutionsVisible || output().isSilenced()) {
             return;
         }
 
