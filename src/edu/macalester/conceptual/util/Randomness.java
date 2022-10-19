@@ -2,6 +2,7 @@ package edu.macalester.conceptual.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.IntFunction;
 import java.util.function.Supplier;
 
@@ -59,10 +60,14 @@ public enum Randomness {
         }
     }
 
-    public static <T> List<T> generateList(int count, IntFunction<T> generator) {
+    public static <T> List<T> generateList(int count, Supplier<T> generator) {
+        return generateList(count, (done, left) -> generator.get());
+    }
+
+    public static <T> List<T> generateList(int count, BiFunction<Integer, Integer, T> generator) {
         var result = new ArrayList<T>(count);
         for (int n = 0; n < count; n++) {
-            result.add(generator.apply(n));
+            result.add(generator.apply(n, count - 1 - n));
         }
         return result;
     }

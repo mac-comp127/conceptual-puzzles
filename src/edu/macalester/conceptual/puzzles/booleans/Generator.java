@@ -21,7 +21,7 @@ public enum Generator {
         int numLeaves,
         boolean allowNegations
     ) {
-        var nodes = generateList(numLeaves, n ->
+        var nodes = generateList(numLeaves, () ->
             generateBooleanLeaf(ctx, true));
 
         while (nodes.size() > 1) {

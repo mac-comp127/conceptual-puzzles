@@ -12,7 +12,7 @@ public class Generator {
     public static String generateArithmeticExpression(PuzzleContext ctx, int numLeaves) {
         return joinExprsWithOperators(ctx,
             "+ - * / %".split(" "),
-            generateList(numLeaves, n -> Nonsense.word(ctx)));
+            generateList(numLeaves, () -> Nonsense.word(ctx)));
     }
 
     public static String generateArithmeticComparisonsExpression(
@@ -22,12 +22,12 @@ public class Generator {
     ) {
         return joinExprsWithOperators(ctx,
             "&& ||".split(" "),
-            generateList(boolLeaves, n ->
+            generateList(boolLeaves, () ->
                 chooseWithProb(ctx, 0.2,
                     () -> Nonsense.word(ctx),
                     () -> joinExprsWithOperators(ctx,
                         "== != < <= > >=".split(" "),
-                        generateList(2, m ->
+                        generateList(2, () ->
                             generateArithmeticExpression(ctx,
                                 ctx.getRandom().nextInt(1, maxArithLeaves + 1)))))));
     }

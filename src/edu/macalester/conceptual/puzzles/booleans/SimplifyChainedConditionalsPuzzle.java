@@ -28,9 +28,9 @@ import static edu.macalester.conceptual.util.Randomness.*;
 public class SimplifyChainedConditionalsPuzzle {
     public static void generate(PuzzleContext ctx) {
         List<ConditionAndBody> steps =
-            generateList(1 + ctx.getDifficulty(), n ->
+            generateList(1 + ctx.getDifficulty(), (done, remaining) ->
                 new ConditionAndBody(
-                    (n == 0 && ctx.getRandom().nextFloat() < 0.5)
+                    (remaining == 0 && ctx.getRandom().nextFloat() < 0.5)
                         ? null  // last one can be just `else`, no additional `if`
                         : Generator.generateBooleanLeaf(ctx, false),
                     new ExpressionStmt(
