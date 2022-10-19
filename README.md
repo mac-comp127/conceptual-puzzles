@@ -10,7 +10,7 @@ To try some puzzles:
 
 Once you have a terminal open:
 
-- Type `bin/puzzle` and press return/enter for basic usage instructions.
+- Type `bin/puzzle` (or possibly `bin\puzzle` on Windows, depending on which command prompt you are using) and press return/enter for basic usage instructions.
 - Type `bin/puzzle list` to see the different types of puzzles you can attempt.
 - Type `bin/puzzle --help` to see all the available options.
 
