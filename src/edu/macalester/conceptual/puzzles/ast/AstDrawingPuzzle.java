@@ -11,6 +11,7 @@ import edu.macalester.graphics.CanvasWindow;
 
 import static edu.macalester.conceptual.puzzles.ast.Generator.generateArithmeticComparisonsExpression;
 import static edu.macalester.conceptual.puzzles.ast.Generator.generateArithmeticExpression;
+import static edu.macalester.conceptual.puzzles.ast.Generator.generateStringAdditionExpression;
 
 public class AstDrawingPuzzle implements Puzzle {
     @Override
@@ -58,6 +59,11 @@ public class AstDrawingPuzzle implements Puzzle {
             int arithmeticLeaves = (int) Math.pow(totalLeaves, 0.2);
             outputPuzzle(ctx, generateArithmeticComparisonsExpression(
                 ctx, totalLeaves / arithmeticLeaves, arithmeticLeaves));
+        });
+
+        ctx.section(() -> {
+            outputPuzzle(ctx, generateStringAdditionExpression(
+                ctx, ctx.getDifficulty() + 4));
         });
     }
 
