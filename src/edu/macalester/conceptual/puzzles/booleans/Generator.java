@@ -4,8 +4,6 @@ import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.UnaryExpr;
 
-import java.util.ArrayList;
-
 import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.util.Nonsense;
 
@@ -23,10 +21,8 @@ public enum Generator {
         int numLeaves,
         boolean allowNegations
     ) {
-        var nodes = new ArrayList<Expression>();
-        for(int n = 0; n < numLeaves; n++) {
-            nodes.add(generateBooleanLeaf(ctx, true));
-        }
+        var nodes = generateList(numLeaves, n ->
+            generateBooleanLeaf(ctx, true));
 
         while (nodes.size() > 1) {
             int i = ctx.getRandom().nextInt(nodes.size());

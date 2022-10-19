@@ -1,6 +1,8 @@
 package edu.macalester.conceptual.util;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.IntFunction;
 import java.util.function.Supplier;
 
 import edu.macalester.conceptual.context.PuzzleContext;
@@ -55,5 +57,13 @@ public enum Randomness {
                 return result;
             }
         }
+    }
+
+    public static <T> List<T> generateList(int count, IntFunction<T> generator) {
+        var result = new ArrayList<T>(count);
+        for (int n = 0; n < count; n++) {
+            result.add(generator.apply(n));
+        }
+        return result;
     }
 }

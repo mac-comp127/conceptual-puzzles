@@ -17,24 +17,24 @@ import java.util.stream.Stream;
 import edu.macalester.conceptual.ast.AstUtils;
 import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.util.Nonsense;
+import edu.macalester.conceptual.util.Randomness;
 
 import static com.github.javaparser.ast.expr.BinaryExpr.Operator.*;
 import static com.github.javaparser.ast.expr.UnaryExpr.Operator.*;
 import static edu.macalester.conceptual.ast.AstUtils.*;
 import static edu.macalester.conceptual.util.CodeFormatting.*;
+import static edu.macalester.conceptual.util.Randomness.*;
 
 public class SimplifyChainedConditionalsPuzzle {
     public static void generate(PuzzleContext ctx) {
-        List<ConditionAndBody> steps = new ArrayList<>();
-        for (int n = 1 + ctx.getDifficulty(); n >= 0; n--) {
-            steps.add(
+        List<ConditionAndBody> steps =
+            generateList(1 + ctx.getDifficulty(), n ->
                 new ConditionAndBody(
                     (n == 0 && ctx.getRandom().nextFloat() < 0.5)
                         ? null  // last one can be just `else`, no additional `if`
                         : Generator.generateBooleanLeaf(ctx, false),
                     new ExpressionStmt(
                         Nonsense.methodCallExpr(ctx))));
-        }
 
         List<IfStmt> messyChain = createMessyChain(ctx, steps);
         IfStmt tidyChain = createTidyChain(steps);
