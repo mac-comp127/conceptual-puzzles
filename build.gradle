@@ -13,6 +13,7 @@ java {
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 tasks.withType(JavaCompile) {
@@ -23,6 +24,7 @@ dependencies {
     implementation group: 'com.github.javaparser', name: 'javaparser-symbol-solver-core', version: '3.23.+'
     implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
     implementation group: 'commons-cli', name: 'commons-cli', version: '1.5.+'
+    implementation group: 'com.github.mac-comp127', name: 'kilt-graphics', version: 'main-SNAPSHOT'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.9.+'
 }
 
@@ -34,7 +36,7 @@ task('run-cli', dependsOn: 'classes', type: JavaExec) {
     mainClass = 'edu.macalester.conceptual.cli.CommandLine'
     classpath = sourceSets.main.runtimeClasspath
     javaLauncher = javaToolchains.launcherFor {
-        languageVersion = java.toolchain.languageVersion  // run with sama Java used to compile
+        languageVersion = java.toolchain.languageVersion  // run with same Java used to compile
     }
 }
 
