@@ -1,7 +1,7 @@
 #!/bin/bash
 
-eval $(resize)  # sets COLUMNS to terminal size
-export COLUMNS
+term_size="$(stty size)"          # gives rows<sp>cols
+export COLUMNS="${term_size#* }"  # extract second number
 
 project_dir="$(dirname "$0")/.."
 
