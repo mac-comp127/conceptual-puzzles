@@ -54,8 +54,10 @@ public class AstDrawingPuzzle implements Puzzle {
         });
 
         ctx.section(() -> {
+            int totalLeaves = ctx.getDifficulty() + 2;
+            int arithmeticLeaves = (int) Math.pow(totalLeaves, 0.2);
             outputPuzzle(ctx, generateArithmeticComparisonsExpression(
-                ctx, ctx.getDifficulty() + 1, ctx.getDifficulty() / 2 + 1));
+                ctx, totalLeaves / arithmeticLeaves, arithmeticLeaves));
         });
     }
 
