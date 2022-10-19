@@ -2,6 +2,7 @@ package edu.macalester.conceptual.cli;
 
 import java.io.PrintWriter;
 import java.text.MessageFormat;
+import java.util.Arrays;
 
 import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.InvalidPuzzleCodeException;
@@ -16,83 +17,98 @@ public class CommandLine {
             return;
         }
 
-        String command = options.commandAndArgs().get(0);
-        switch(command) {
-            case "help" -> {
-                printHelp(options, true);
+        try {
+            String command = options.commandAndArgs().get(0);
+            switch(command) {
+                case "help" -> {
+                    printHelp(options, true);
+                }
+                case "list" -> {
+                    requireCommandArgs(0, options);
+                    listPuzzles();
+                }
+                case "gen" -> {
+                    generate(options);
+                }
+                case "solve" -> {
+                    solve(options);
+                }
+                default -> options.usageError("Unknown command: " + command);
             }
-            case "list" -> {
-                requireCommandArgs(0, options);
-                listPuzzles();
-            }
-            case "gen" -> {
-                requireCommandArgs(1, options);
-                var puzzleName = options.commandAndArgs().get(1);
-                var puzzle = Puzzle.find(puzzleName, Puzzle::name, "name");
-                if(puzzle == null) {
-                    System.err.println("Unknown puzzle type: " + puzzleName);
-                    System.err.println("Use `puzzle list` to see available options");
-                    return;
-                }
+        } catch(RuntimeException e) {
+            e.printStackTrace();
+            System.err.println();
+            System.err.println("Command line args: " + String.join(" ", args));
+            System.err.println();
+        }
+    }
 
-                var ctx = PuzzleContext.generate(puzzle.id());
-                applyOptionsToContext(options, ctx, puzzle);
-                emitPuzzle(puzzle, ctx, options);
+    private static void generate(PuzzleOptions options) {
+        requireCommandArgs(1, options);
+        var puzzleName = options.commandAndArgs().get(1);
+        var puzzle = Puzzle.find(puzzleName, Puzzle::name, "name");
+        if(puzzle == null) {
+            System.err.println("Unknown puzzle type: " + puzzleName);
+            System.err.println("Use `puzzle list` to see available options");
+            return;
+        }
 
-                System.out.println();
-                System.out.println("Puzzle code: \u001b[7m " + ctx.getPuzzleCode() + " \u001b[0m");
-                System.out.println();
-                System.out.println("To see solution:");
-                System.out.println("  " + executableName() + " solve " + ctx.getPuzzleCode()
-                    + options.toCommandLineOptions());
-            }
-            case "solve" -> {
-                requireCommandArgs(1, options);
-                var ctx = PuzzleContext.fromPuzzleCode(options.commandAndArgs().get(1));
-                var puzzle = Puzzle.find(ctx.getPuzzleID(), Puzzle::id, "id");
-                if(puzzle == null) {
-                    System.err.println("This puzzle code refers to a puzzle type that no longer exists.");
-                    System.err.println("Are you using an outdated code from a previous semester?");
-                    return;
-                }
+        var ctx = PuzzleContext.generate(puzzle.id());
+        applyOptionsToContext(options, ctx, puzzle);
+        emitPuzzle(puzzle, ctx, options);
 
-                applyOptionsToContext(options, ctx, puzzle);
-                ctx.enableSolution();
-                emitPuzzle(puzzle, ctx, options);
+        System.out.println();
+        System.out.println("Puzzle code: \u001b[7m " + ctx.getPuzzleCode() + " \u001b[0m");
+        System.out.println();
+        System.out.println("To see solution:");
+        System.out.println("  " + executableName() + " solve " + ctx.getPuzzleCode()
+            + options.toCommandLineOptions());
+    }
 
-                if (ctx.getDifficulty() != puzzle.goalDifficulty()) {
-                    System.out.println(MessageFormat.format(
-                        """
-                        ***************** PLEASE NOTE ******************
-                        ***                                          ***
-                        *** The puzzle above has a difficulty of {0}.  ***
-                        *** The difficulty level to get credit is {1}. ***
-                        ***                                          ***
-                        ************************************************
+    private static void solve(PuzzleOptions options) throws InvalidPuzzleCodeException {
+        requireCommandArgs(1, options);
+        var ctx = PuzzleContext.fromPuzzleCode(options.commandAndArgs().get(1));
+        var puzzle = Puzzle.find(ctx.getPuzzleID(), Puzzle::id, "id");
+        if(puzzle == null) {
+            System.err.println("This puzzle code refers to a puzzle type that no longer exists.");
+            System.err.println("Are you using an outdated code from a previous semester?");
+            return;
+        }
 
-                        To try the puzzle at the goal difficulty, omit the --difficulty option.
-                        """,
-                        ctx.getDifficulty(),
-                        puzzle.goalDifficulty()));
-                }
-                if (ctx.getDifficulty() > puzzle.minDifficulty()
-                    && puzzle.minDifficulty() < puzzle.goalDifficulty()
-                ) {
-                    System.out.println("Want to practice more basics first? Try a simpler puzzle:");
-                    System.out.println();
-                    System.out.println("  " + executableName() + " gen " + puzzle.name()
-                        + " --difficulty " + (ctx.getDifficulty() - 1));
-                    System.out.println();
-                }
-                if (ctx.getDifficulty() < puzzle.maxDifficulty()) {
-                    System.out.println("Want a bigger challenge? Try a harder difficulty level:");
-                    System.out.println();
-                    System.out.println("  " + executableName() + " gen " + puzzle.name()
-                        + " --difficulty " + (ctx.getDifficulty() + 1));
-                    System.out.println();
-                }
-            }
-            default -> options.usageError("Unknown command: " + command);
+        applyOptionsToContext(options, ctx, puzzle);
+        ctx.enableSolution();
+        emitPuzzle(puzzle, ctx, options);
+
+        if (ctx.getDifficulty() != puzzle.goalDifficulty()) {
+            System.out.println(MessageFormat.format(
+                """
+                ***************** PLEASE NOTE ******************
+                ***                                          ***
+                *** The puzzle above has a difficulty of {0}.  ***
+                *** The difficulty level to get credit is {1}. ***
+                ***                                          ***
+                ************************************************
+
+                To try the puzzle at the goal difficulty, omit the --difficulty option.
+                """,
+                ctx.getDifficulty(),
+                puzzle.goalDifficulty()));
+        }
+        if (ctx.getDifficulty() > puzzle.minDifficulty()
+            && puzzle.minDifficulty() < puzzle.goalDifficulty()
+        ) {
+            System.out.println("Want to practice more basics first? Try a simpler puzzle:");
+            System.out.println();
+            System.out.println("  " + executableName() + " gen " + puzzle.name()
+                + " --difficulty " + (ctx.getDifficulty() - 1));
+            System.out.println();
+        }
+        if (ctx.getDifficulty() < puzzle.maxDifficulty()) {
+            System.out.println("Want a bigger challenge? Try a harder difficulty level:");
+            System.out.println();
+            System.out.println("  " + executableName() + " gen " + puzzle.name()
+                + " --difficulty " + (ctx.getDifficulty() + 1));
+            System.out.println();
         }
     }
 

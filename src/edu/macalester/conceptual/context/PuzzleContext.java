@@ -89,6 +89,10 @@ public final class PuzzleContext {
             output().dividerLine(true);
             puzzleGenerator.run();
             output().dividerLine(true);
+        } catch(RuntimeException e) {
+            System.out.println();
+            System.out.println("Puzzle code caused exception: " + getPuzzleCode());
+            throw e;
         } finally {
             printer.close();
             printer = null;
