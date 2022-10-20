@@ -62,7 +62,7 @@ public class AstDrawing extends GraphicsGroup {
         var annotation = new GraphicsText(annotationText);
         annotation.setAlignment(TextAlignment.LEFT);
         annotation.setFont("Helvetica Neue, Helvetica, Arial, sans", FontStyle.PLAIN, 16);
-        annotation.setFillColor(Color.getHSBColor(options.annotationHue, 1f, 0.7f));
+        annotation.setFillColor(Color.getHSBColor(options.annotationHue, 1f, 0.8f));
 
         double childMarginX = 24, childMarginY = 8;
         double anchorX = label.getBounds().getWidth() / 2;
@@ -85,7 +85,7 @@ public class AstDrawing extends GraphicsGroup {
         this.anchorX = anchorX;
 
         add(label, anchorX, label.getHeight());
-        add(annotation, label.getBoundsInParent().getMaxX() + 6, label.getY());
+        add(annotation, label.getBoundsInParent().getMaxX() + childMarginX / 3, label.getY());
 
         double childX = 0;
         double childY = label.getPosition().getY() + Math.max(childMarginY * 6, childSpan * 0.25);
@@ -97,7 +97,7 @@ public class AstDrawing extends GraphicsGroup {
                 child.getPosition().getY() - childMarginY,
                 label.getPosition().getX(),
                 label.getPosition().getY() + childMarginY);
-            line.setStrokeColor(Color.getHSBColor(options.lineHue, 0.5f, 1.0f));
+            line.setStrokeColor(Color.getHSBColor(options.lineHue, 0.2f, 0.7f));
             add(line);
 
             childX += child.getWidth() + childMarginX;

@@ -8,7 +8,7 @@ public class ManualPuzzleTest {
         var puzzle = new AstDrawingPuzzle();
         PuzzleContext ctx = PuzzleContext.generate(puzzle.id());
         ctx.enableSolution();
-        ctx.setDifficulty(puzzle.maxDifficulty());
+        ctx.setDifficulty(puzzle.goalDifficulty());
         ctx.emitPuzzle(() -> puzzle.generate(ctx));
     }
 }
