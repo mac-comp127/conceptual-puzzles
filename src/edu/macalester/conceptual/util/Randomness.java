@@ -3,7 +3,6 @@ package edu.macalester.conceptual.util;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.IntFunction;
 import java.util.function.Supplier;
 
 import edu.macalester.conceptual.context.PuzzleContext;

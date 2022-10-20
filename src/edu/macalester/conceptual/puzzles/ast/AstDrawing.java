@@ -18,24 +18,27 @@ import edu.macalester.graphics.TextAlignment;
 public class AstDrawing extends GraphicsGroup {
     private final double anchorX;
 
-    public static AstDrawing of(Expression expr, String decls) {
-        var evaluationResult = formatValue(Evaluator.evaluate(Object.class, expr.toString(), decls));
+    public static AstDrawing of(Expression expr, Options options) {
+        var evaluationResult = formatValue(
+            Evaluator.evaluate(Object.class, expr.toString(), options.varDecls));
 
         if (expr instanceof EnclosedExpr enclosed) {
-            return AstDrawing.of(enclosed.getInner(), decls);
+            return AstDrawing.of(enclosed.getInner(), options);
         } else if (expr instanceof UnaryExpr unary) {
             return new AstDrawing(
                 unary.getOperator().asString(),
                 evaluationResult,
-                AstDrawing.of(unary.getExpression(), decls));
+                options,
+                AstDrawing.of(unary.getExpression(), options));
         } else if (expr instanceof BinaryExpr binary) {
             return new AstDrawing(
                 binary.getOperator().asString(),
                 evaluationResult,
-                AstDrawing.of(binary.getLeft(), decls),
-                AstDrawing.of(binary.getRight(), decls));
+                options,
+                AstDrawing.of(binary.getLeft(), options),
+                AstDrawing.of(binary.getRight(), options));
         } else {
-            return new AstDrawing(expr.toString(), evaluationResult);
+            return new AstDrawing(expr.toString(), evaluationResult, options);
         }
     }
 
@@ -47,11 +50,11 @@ public class AstDrawing extends GraphicsGroup {
         }
     }
 
-    public AstDrawing(String labelText, String annotation, AstDrawing... children) {
-        this(labelText, annotation, Arrays.asList(children));
+    public AstDrawing(String labelText, String annotationText, Options options, AstDrawing... children) {
+        this(labelText, annotationText, options, Arrays.asList(children));
     }
 
-    public AstDrawing(String labelText, String annotationText, List<AstDrawing> children) {
+    public AstDrawing(String labelText, String annotationText, Options options, List<AstDrawing> children) {
         var label = new GraphicsText(labelText);
         label.setAlignment(TextAlignment.CENTER);
         label.setFont("SF Mono, Menlo, Consolas, monospaced", FontStyle.BOLD, 24);
@@ -59,7 +62,7 @@ public class AstDrawing extends GraphicsGroup {
         var annotation = new GraphicsText(annotationText);
         annotation.setAlignment(TextAlignment.LEFT);
         annotation.setFont("Helvetica Neue, Helvetica, Arial, sans", FontStyle.PLAIN, 16);
-        annotation.setFillColor(new Color(0xCB06B4));
+        annotation.setFillColor(Color.getHSBColor(options.annotationHue, 1f, 0.7f));
 
         double childMarginX = 24, childMarginY = 8;
         double anchorX = label.getBounds().getWidth() / 2;
@@ -82,7 +85,7 @@ public class AstDrawing extends GraphicsGroup {
         this.anchorX = anchorX;
 
         add(label, anchorX, label.getHeight());
-        add(annotation, label.getBoundsInParent().getMaxX() + 6, label.getCenter().getY());
+        add(annotation, label.getBoundsInParent().getMaxX() + 6, label.getY());
 
         double childX = 0;
         double childY = label.getPosition().getY() + Math.max(childMarginY * 6, childSpan * 0.25);
@@ -94,10 +97,16 @@ public class AstDrawing extends GraphicsGroup {
                 child.getPosition().getY() - childMarginY,
                 label.getPosition().getX(),
                 label.getPosition().getY() + childMarginY);
-            line.setStrokeColor(new Color(0x5269FF));
+            line.setStrokeColor(Color.getHSBColor(options.lineHue, 0.5f, 1.0f));
             add(line);
 
             childX += child.getWidth() + childMarginX;
         }
     }
+
+    public record Options(
+        String varDecls,
+        float lineHue,
+        float annotationHue
+    ) { }
 }

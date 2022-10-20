@@ -2,7 +2,6 @@ package edu.macalester.conceptual.cli;
 
 import java.io.PrintWriter;
 import java.text.MessageFormat;
-import java.util.Arrays;
 
 import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.InvalidPuzzleCodeException;

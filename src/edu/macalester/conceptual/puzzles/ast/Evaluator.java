@@ -2,9 +2,8 @@ package edu.macalester.conceptual.puzzles.ast;
 
 import org.joor.Reflect;
 
+import java.io.PrintStream;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Evaluator {
     public static <T> T evaluate(Class<T> type, String javaExpression, String varDeclarations) {
@@ -25,10 +24,24 @@ public class Evaluator {
             Supplier<T> evaluator = Reflect.compile("ExpressionWrapper", javaSource).create().get();
             return evaluator.get();
         } catch(RuntimeException e) {
-            System.err.println("Error while evaluating expression. Expression wrapper:");
-            System.err.println();
-            System.err.println(javaSource);
-            throw e;
+            throw new EvaluationException(e, javaSource);
         }
+    }
+}
+
+class EvaluationException extends RuntimeException {
+    private final String javaSource;
+
+    public EvaluationException(Exception cause, String javaSource) {
+        super(cause);
+        this.javaSource = javaSource;
+    }
+
+    @Override
+    public void printStackTrace(PrintStream s) {
+        s.println("Error while evaluating expression. Expression wrapper:");
+        s.println();
+        s.println(javaSource);
+        super.printStackTrace(s);
     }
 }

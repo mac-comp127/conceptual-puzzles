@@ -229,7 +229,11 @@ public class PuzzlePrinter implements Closeable {
         curColumn = 0;
     }
 
-    public void setColorTheme(float hue) {
+    float themeHue() {
+        return hue;
+    }
+
+    void setThemeHue(float hue) {
         this.hue = ((hue % 1) + 1) % 1;
     }
 

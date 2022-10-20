@@ -85,7 +85,7 @@ public final class PuzzleContext {
         }
         try {
             state = State.WORKING;
-            output().setColorTheme(getRandom().nextFloat());
+            output().setThemeHue(getRandom().nextFloat());
             output().dividerLine(true);
             puzzleGenerator.run();
             output().dividerLine(true);
@@ -129,13 +129,21 @@ public final class PuzzleContext {
             output().silence();
         }
         try {
-            output().heading("Part " + curPartNum, true);
+            output().heading(currentSectionTitle(), true);
             action.run();
         } finally {
             if (hidden) {
                 output().unsilence();
             }
         }
+    }
+
+    public String currentSectionTitle() {
+        return "Part " + curPartNum;
+    }
+
+    public float currentSectionHue() {
+        return output().themeHue();
     }
 
     public void resetSectionCounter() {
