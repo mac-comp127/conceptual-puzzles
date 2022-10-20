@@ -3,32 +3,41 @@ package edu.macalester.conceptual.puzzles.ast;
 import java.util.List;
 
 import edu.macalester.conceptual.context.PuzzleContext;
-import edu.macalester.conceptual.util.Nonsense;
 import edu.macalester.conceptual.util.Randomness;
 
 import static edu.macalester.conceptual.util.Randomness.*;
 
 public class Generator {
-    public static String generateArithmeticExpression(PuzzleContext ctx, int numLeaves) {
+    public static String generateArithmeticExpression(
+        PuzzleContext ctx,
+        VariablePool vars,
+        int numLeaves
+    ) {
         return joinExprsWithOperators(ctx,
             "+ - * / %",
-            generateList(numLeaves, () -> Nonsense.word(ctx)));
+            generateList(numLeaves, () ->
+                choose(ctx,
+                    () -> choose(ctx,
+                        () -> vars.generateInt(ctx),
+                        () -> vars.generateDouble(ctx)),
+                    () -> String.valueOf(ctx.getRandom().nextInt(10)))));
     }
 
     public static String generateArithmeticComparisonsExpression(
         PuzzleContext ctx,
-        int boolLeaves,
+        VariablePool vars,
+        int numBoolLeaves,
         int maxArithmeticLeaves
     ) {
         return joinExprsWithOperators(ctx,
             "&& ||",
-            generateList(boolLeaves, () ->
+            generateList(numBoolLeaves, () ->
                 chooseWithProb(ctx, 0.2,
-                    () -> Nonsense.word(ctx),
+                    () -> vars.generateBool(ctx),
                     () -> joinExprsWithOperators(ctx,
                         "== != < <= > >=",
                         generateList(2, () ->
-                            generateArithmeticExpression(ctx,
+                            generateArithmeticExpression(ctx, vars,
                                 ctx.getRandom().nextInt(1, maxArithmeticLeaves + 1)))))));
     }
 
