@@ -32,7 +32,7 @@ public class Generator {
         return joinExprsWithOperators(ctx,
             "&& ||",
             generateList(numBoolLeaves, () ->
-                chooseWithProb(ctx, 0.2,
+                chooseWithProb(ctx, 0.3,
                     () -> vars.generateBool(ctx),
                     () -> joinExprsWithOperators(ctx,
                         "== != < <= > >=",
