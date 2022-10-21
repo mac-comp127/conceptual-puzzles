@@ -21,6 +21,7 @@ import com.github.javaparser.ast.stmt.Statement;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -58,6 +59,26 @@ public enum AstUtils {
         return exprs
             .reduce((lhs, rhs) -> new BinaryExpr(lhs, rhs, AND))
             .orElseThrow();
+    }
+
+    public static <NodeType extends Node> List<NodeType> allDescendentsOfType(Class<NodeType> type, Node node) {
+        var results = new ArrayList<NodeType>();
+        addDescendentsOfType(type, node, results);
+        return results;
+    }
+
+    private static <NodeType extends Node> void addDescendentsOfType(
+        Class<NodeType> type,
+        Node node,
+        List<NodeType> results
+    ) {
+        if (type.isInstance(node)) {
+            //noinspection unchecked
+            results.add((NodeType) node);
+        }
+        for (var child : node.getChildNodes()) {
+            addDescendentsOfType(type, child, results);
+        }
     }
 
     /**

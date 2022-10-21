@@ -84,14 +84,14 @@ public class AstDrawingPuzzle implements Puzzle {
     ) {
         var code = generateValidExpr(exprGenerator);
 
-        if (code.vars.isEmpty()) {
+        if (code.vars().isEmpty()) {
             ctx.output().paragraph("Draw the AST and evaluation tree for the following expression:");
         } else {
             ctx.output().paragraph("Given the following variables:");
-            ctx.output().codeBlock(prettifyStatements(code.vars.allDeclarations()));
+            ctx.output().codeBlock(prettifyStatements(code.vars().allDeclarations()));
             ctx.output().paragraph("...draw the AST and evaluation tree for the following expression:");
         }
-        ctx.output().codeBlock(code.expr);
+        ctx.output().codeBlock(code.expr());
 
         ctx.solution(() -> {
             ctx.output().paragraph("<< drawing in canvas window >>");
@@ -103,12 +103,11 @@ public class AstDrawingPuzzle implements Puzzle {
     }
 
     private static void showDrawingInWindow(PuzzleContext ctx, ExprWithVars code) {
+        AstDrawing.annotateWithEvaluation(code);
         var ast = AstDrawing.of(
-            code.expr,
-            new AstDrawing.Options(
-                code.vars.allDeclarations(),
-                ctx.currentSectionHue(),
-                ctx.currentSectionHue()));
+            code.expr(),
+            ctx.currentSectionHue());
+
         double margin = 24;
         var screensize = Toolkit.getDefaultToolkit().getScreenSize();
         double scale = Math.min(1,
@@ -133,7 +132,7 @@ public class AstDrawingPuzzle implements Puzzle {
             exprAsString = exprGenerator.apply(vars);
 
             try {
-                Evaluator.evaluate(Object.class, exprAsString, vars.allDeclarations());
+                Evaluator.evaluate(Object.class, vars, exprAsString);
                 return new ExprWithVars(
                     StaticJavaParser.parseExpression(exprAsString),
                     exprAsString,
@@ -143,10 +142,4 @@ public class AstDrawingPuzzle implements Puzzle {
             }
         } while(true);
     }
-
-    private static record ExprWithVars(
-        Expression expr,
-        String exprAsString,
-        VariablePool vars
-    ) { }
 }

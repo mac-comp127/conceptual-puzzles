@@ -6,7 +6,7 @@ import java.io.PrintStream;
 import java.util.function.Supplier;
 
 public class Evaluator {
-    public static <T> T evaluate(Class<T> type, String javaExpression, String varDeclarations) {
+    public static <T> T evaluate(Class<T> type, VariablePool vars, String javaExpression) {
         var javaSource = String.format(
             """
             public class ExpressionWrapper implements java.util.function.Supplier<%1$s> {
@@ -17,7 +17,7 @@ public class Evaluator {
             }
             """,
             type.getName(),
-            varDeclarations,
+            vars.allDeclarations(),
             javaExpression);
 
         try {
