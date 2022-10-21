@@ -18,6 +18,7 @@ import edu.macalester.graphics.GraphicsText;
 import edu.macalester.graphics.Line;
 import edu.macalester.graphics.TextAlignment;
 
+import static com.github.javaparser.ast.expr.BinaryExpr.Operator.*;
 import static edu.macalester.conceptual.ast.AstUtils.*;
 
 public class AstDrawing extends GraphicsGroup {
@@ -39,6 +40,25 @@ public class AstDrawing extends GraphicsGroup {
                 + ")");
         for (int i = 0; i < allExprs.size(); i++) {
             allExprs.get(i).setData(DRAWING_ANNOTATION, formatValue(evaluationResults.get(i)));
+        }
+    }
+
+    public static void showShortCircuiting(ExprWithVars code) {
+        for (var expr : allDescendentsOfType(BinaryExpr.class, code.expr())) {
+            if (!expr.getLeft().containsData(DRAWING_ANNOTATION)) {
+                continue;
+            }
+            var leftValue = expr.getLeft().getData(DRAWING_ANNOTATION);
+
+            if (
+                expr.getOperator() == AND && leftValue.equals("false")
+                || expr.getOperator() == OR && leftValue.equals("true")
+            ) {
+                for (var rightDescendant : allDescendentsOfType(Expression.class, expr.getRight())) {
+                    rightDescendant.removeData(DRAWING_ANNOTATION);
+                }
+                expr.getRight().setData(DRAWING_ANNOTATION, "never evaluated");
+            }
         }
     }
 

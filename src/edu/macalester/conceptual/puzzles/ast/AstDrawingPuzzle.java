@@ -65,7 +65,9 @@ public class AstDrawingPuzzle implements Puzzle {
             outputPuzzle(ctx,
                 (vars) -> generateArithmeticComparisonsExpression(ctx, vars,
                     totalLeaves / arithmeticLeaves, arithmeticLeaves),
-                "Does your tree correctly reflect the precedence of && and ||?");
+                "Does your tree correctly reflect the precedence of && and ||?",
+                "Did you correctly show short-circuiting? (That is when the right branch of && or ||"
+                    + " is never evaluated because the left branch already determines the answer.)");
         });
 
         ctx.section(() -> {
@@ -104,6 +106,7 @@ public class AstDrawingPuzzle implements Puzzle {
 
     private static void showDrawingInWindow(PuzzleContext ctx, ExprWithVars code) {
         AstDrawing.annotateWithEvaluation(code);
+        AstDrawing.showShortCircuiting(code);
         var ast = AstDrawing.of(
             code.expr(),
             ctx.currentSectionHue());
