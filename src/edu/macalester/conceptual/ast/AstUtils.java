@@ -61,13 +61,13 @@ public enum AstUtils {
             .orElseThrow();
     }
 
-    public static <NodeType extends Node> List<NodeType> allDescendentsOfType(Class<NodeType> type, Node node) {
+    public static <NodeType extends Node> List<NodeType> allDescendantsOfType(Class<NodeType> type, Node node) {
         var results = new ArrayList<NodeType>();
-        addDescendentsOfType(type, node, results);
+        addDescendantsOfType(type, node, results);
         return results;
     }
 
-    private static <NodeType extends Node> void addDescendentsOfType(
+    private static <NodeType extends Node> void addDescendantsOfType(
         Class<NodeType> type,
         Node node,
         List<NodeType> results
@@ -77,7 +77,7 @@ public enum AstUtils {
             results.add((NodeType) node);
         }
         for (var child : node.getChildNodes()) {
-            addDescendentsOfType(type, child, results);
+            addDescendantsOfType(type, child, results);
         }
     }
 

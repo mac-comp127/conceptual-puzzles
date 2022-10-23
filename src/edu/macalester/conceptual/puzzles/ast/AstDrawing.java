@@ -24,10 +24,10 @@ import static edu.macalester.conceptual.ast.AstUtils.*;
 public class AstDrawing extends GraphicsGroup {
     private final double anchorX;
 
-    public static final DataKey<String> DRAWING_ANNOTATION = new DataKey<String>() { };
+    public static final DataKey<String> DRAWING_ANNOTATION = new DataKey<>() { };
 
     public static void annotateWithEvaluation(ExprWithVars code) {
-        List<Expression> allExprs = allDescendentsOfType(Expression.class, code.expr());
+        List<Expression> allExprs = allDescendantsOfType(Expression.class, code.expr());
         var evaluationResults =
             Evaluator.evaluate(
                 List.class,
@@ -44,7 +44,7 @@ public class AstDrawing extends GraphicsGroup {
     }
 
     public static void showShortCircuiting(ExprWithVars code) {
-        for (var expr : allDescendentsOfType(BinaryExpr.class, code.expr())) {
+        for (var expr : allDescendantsOfType(BinaryExpr.class, code.expr())) {
             if (!expr.getLeft().containsData(DRAWING_ANNOTATION)) {
                 continue;
             }
@@ -54,7 +54,7 @@ public class AstDrawing extends GraphicsGroup {
                 expr.getOperator() == AND && leftValue.equals("false")
                 || expr.getOperator() == OR && leftValue.equals("true")
             ) {
-                for (var rightDescendant : allDescendentsOfType(Expression.class, expr.getRight())) {
+                for (var rightDescendant : allDescendantsOfType(Expression.class, expr.getRight())) {
                     rightDescendant.removeData(DRAWING_ANNOTATION);
                 }
                 expr.getRight().setData(DRAWING_ANNOTATION, "never evaluated");

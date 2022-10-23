@@ -1,7 +1,6 @@
 package edu.macalester.conceptual.puzzles.ast;
 
 import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.expr.Expression;
 
 import java.awt.Toolkit;
 import java.util.function.Function;
