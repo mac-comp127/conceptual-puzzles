@@ -18,6 +18,7 @@ import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +36,10 @@ public enum AstUtils {
         return new IntegerLiteralExpr(String.valueOf(i));
     }
 
+    public static ClassOrInterfaceType classNamed(String name) {
+        return new ClassOrInterfaceType(null, name);
+    }
+
     public static ExpressionStmt variableDeclarationStmt(VariableDeclarator variable) {
         return new ExpressionStmt(
             new VariableDeclarationExpr(variable));
@@ -49,15 +54,13 @@ public enum AstUtils {
         return new BlockStmt(nodes(statements));
     }
 
-    public static String nodesToString(Node... nodes) {
-        return Arrays.stream(nodes)
-            .map(Node::toString)
-            .collect(Collectors.joining("\n"));
+    public static Expression joinedWithOperator(BinaryExpr.Operator operator, Expression... exprs) {
+        return joinedWithOperator(operator, Arrays.stream(exprs));
     }
 
     public static Expression joinedWithOperator(BinaryExpr.Operator operator, Stream<Expression> exprs) {
         return exprs
-            .reduce((lhs, rhs) -> new BinaryExpr(lhs, rhs, AND))
+            .reduce((lhs, rhs) -> new BinaryExpr(lhs, rhs, operator))
             .orElseThrow();
     }
 
@@ -84,9 +87,9 @@ public enum AstUtils {
     /**
      * Add parentheses as necessary within the given AST to ensure that the emitted code respects
      * the actual structure of the tree.
-     *
+     * <p>
      * (Somewhat surprising JavaParser doesn't already provide this!)
-     *
+     * <p>
      * WARNING: Does not properly account for associativity. Add explicit parens to distinguish
      *          e.g. (a + b) + c from a + (b + c).
      */
