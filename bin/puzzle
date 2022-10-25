@@ -1,11 +1,19 @@
 #!/bin/bash
 
-term_size="$(stty size)"          # gives rows<sp>cols
-export COLUMNS="${term_size#* }"  # extract second number
+export COLUMNS="$(tput cols)"  # Get width of terminal for formatting
 
+set -e
 project_dir="$(dirname "$0")/.."
 
-# Note the space before $* below.
+# Build with Gradle in regular console mode, so that we get a progress
+# bar for the slow first-time build
+
+"$project_dir/gradlew" build --project-dir "$project_dir" --warn
+
+# Now run the app with --console=plain, because Gradle likes to
+# clobber the program output with its own progress bar.
+#
+# Note the space before $* below:
 #
 # Gradle blows up if --args receives an empty string as its argument.
 # However, it trims space from the end of the --args argument, and
