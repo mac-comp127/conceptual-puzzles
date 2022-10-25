@@ -40,12 +40,16 @@ public class CommandLine {
             System.err.println("Command line args: " + String.join(" ", args));
             System.err.println();
         }
+
+        if (System.getenv().containsKey("PUZZLE_EXIT_IMMEDIATELY")) {
+            System.exit(0);  // so integration tests don't hang waiting for CanvasWindows to close
+        }
     }
 
     private static void generate(PuzzleOptions options) {
         requireCommandArgs(1, options);
         var puzzleName = options.commandAndArgs().get(1);
-        var puzzle = Puzzle.find(puzzleName, Puzzle::name, "name");
+        var puzzle = Puzzle.findByName(puzzleName);
         if(puzzle == null) {
             System.err.println("Unknown puzzle type: " + puzzleName);
             System.err.println("Use `puzzle list` to see available options");
@@ -67,7 +71,7 @@ public class CommandLine {
     private static void solve(PuzzleOptions options) throws InvalidPuzzleCodeException {
         requireCommandArgs(1, options);
         var ctx = PuzzleContext.fromPuzzleCode(options.commandAndArgs().get(1));
-        var puzzle = Puzzle.find(ctx.getPuzzleID(), Puzzle::id, "id");
+        var puzzle = Puzzle.findByID(ctx.getPuzzleID());
         if(puzzle == null) {
             System.err.println("This puzzle code refers to a puzzle type that no longer exists.");
             System.err.println("Are you using an outdated code from a previous semester?");

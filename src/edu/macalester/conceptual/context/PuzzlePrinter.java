@@ -174,7 +174,7 @@ public class PuzzlePrinter implements Closeable {
         return silenceLevel < 0;
     }
 
-    public void println() {
+    private void println() {
         println("");
     }
 

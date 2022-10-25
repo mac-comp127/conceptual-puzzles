@@ -150,7 +150,6 @@ public final class PuzzleContext {
         requireState(State.WORKING, "produce output");
         curPartNum = 0;
         output().dividerLine(true);
-        output().println();
         output().dividerLine(true);
     }
 

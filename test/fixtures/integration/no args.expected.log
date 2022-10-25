@@ -1,0 +1,7 @@
+Commands:
+  puzzle list           List available puzzle types
+  puzzle gen <type>     Generate a new puzzle
+  puzzle solve <code>   Print the solution to a puzzle
+
+To see all options:
+  bin/puzzle --help

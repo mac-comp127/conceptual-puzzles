@@ -1,0 +1,81 @@
+[0J────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;85m            [0m
+[1m[38;5;16m[48;5;85m   PART 1   [0m
+[1m[38;5;16m[48;5;85m            [0m
+
+Translate the following for loop into a while loop:
+
+    for (double ra = eng; ra <= cir; ra--) {
+        trac(ra);
+    }
+
+[1m[38;5;122m[48;5;22m              [0m
+[1m[38;5;122m[48;5;22m   SOLUTION   [0m
+[1m[38;5;122m[48;5;22m              [0m
+
+    double ra = eng;
+    while (ra <= cir) {
+        trac(ra);
+        ra--;
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;171m            [0m
+[1m[38;5;16m[48;5;171m   PART 2   [0m
+[1m[38;5;16m[48;5;171m            [0m
+
+Translate the following natural language description of a loop into a for loop:
+
+  │ Declare a variable named [4mgred[24m of type [4mint[24m, initialized to [4m61[24m. Then, until
+  │ [4mgred[24m is greater than [4mitZotdi[24m, add [4m4[24m to [4mgred[24m.
+
+[1m[38;5;213m[48;5;53m              [0m
+[1m[38;5;213m[48;5;53m   SOLUTION   [0m
+[1m[38;5;213m[48;5;53m              [0m
+
+    for (int gred = 61; gred <= itZotdi; gred += 4) {
+        ...
+    }
+
+Something to double-check in your solution:
+
+  - Did you use the correct operator in the loop’s end condition ([4mgred <=
+    itZotdi[24m)?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;227m            [0m
+[1m[38;5;16m[48;5;227m   PART 3   [0m
+[1m[38;5;16m[48;5;227m            [0m
+
+Translate the following loop into a for-each loop:
+
+    List<OtalOsal> usses;
+    ...
+
+    for (int i = 0; i < usses.size(); i++) {
+        diptar(drae, usses.get(i));
+        necras(0);
+        trel(4, usses.get(i));
+    }
+
+[1m[38;5;228m[48;5;58m              [0m
+[1m[38;5;228m[48;5;58m   SOLUTION   [0m
+[1m[38;5;228m[48;5;58m              [0m
+
+    for (OtalOsal uss : usses) {
+        diptar(drae, uss);
+        necras(0);
+        trel(4, uss);
+    }
+
+It is OK if you gave the variable for the individual collection element ([4muss[24m) a
+different name, such as [4melem[24m. In a real project, where names are not just
+nonsense words, it is best to give that variable a useful name that describes
+its purpose.
+
+────────────────────────────────────────────────────────────────────────────────
+
+[0m

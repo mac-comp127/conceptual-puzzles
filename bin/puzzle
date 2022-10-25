@@ -1,6 +1,8 @@
 #!/bin/bash
 
-export COLUMNS="$(tput cols)"  # Get width of terminal for formatting
+if [ -n "$TERM" -a "$TERM" != "dumb" ]; then
+    export COLUMNS="$(tput cols)"  # Get width of terminal for formatting
+fi
 
 set -e
 project_dir="$(dirname "$0")/.."
@@ -8,7 +10,7 @@ project_dir="$(dirname "$0")/.."
 # Build with Gradle in regular console mode, so that we get a progress
 # bar for the slow first-time build
 
-"$project_dir/gradlew" build --project-dir "$project_dir" --warn
+"$project_dir/gradlew" compileJava --project-dir "$project_dir" --warn
 
 # Now run the app with --console=plain, because Gradle likes to
 # clobber the program output with its own progress bar.

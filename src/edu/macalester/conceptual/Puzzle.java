@@ -36,7 +36,15 @@ public interface Puzzle {
         new LoopTranslationPuzzle()
     );
 
-    static <T> Puzzle find(T target, Function<Puzzle,T> property, String propertyName) {
+    public static Puzzle findByID(byte id) {
+        return find(id, Puzzle::id, "id");
+    }
+
+    public static Puzzle findByName(String name) {
+        return find(name, Puzzle::name, "name");
+    }
+
+    private static <T> Puzzle find(T target, Function<Puzzle,T> property, String propertyName) {
         List<Puzzle> results = Puzzle.ALL.stream()
             .filter(puzzle -> property.apply(puzzle).equals(target))
             .toList();
