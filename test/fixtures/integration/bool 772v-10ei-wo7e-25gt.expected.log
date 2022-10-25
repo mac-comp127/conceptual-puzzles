@@ -110,9 +110,9 @@ Things to double-check in your solution:
 [0m
 Want to practice more basics first? Try a simpler puzzle:
 
-  bin/puzzle gen bool --difficulty 0
+  puzzle gen bool --difficulty 0
 
 Want a bigger challenge? Try a harder difficulty level:
 
-  bin/puzzle gen bool --difficulty 2
+  puzzle gen bool --difficulty 2
 

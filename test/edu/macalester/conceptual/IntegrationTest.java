@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -64,10 +65,10 @@ public class IntegrationTest {
             name,
             () -> {
                 var expectedOutputFile = Path.of("test", "fixtures", "integration", name + ".expected.log");
-                var actualOutputFile = File.createTempFile(name, ".actual.log").toPath();
+                var actualOutputFile = File.createTempFile(name + "-", ".actual.log").toPath();
 
                 var command = new ArrayList<String>();
-                command.add(Path.of("bin", "puzzle").toString());
+                command.add(Path.of("bin", "puzzle" + (isWindows() ? ".bat" : "")).toString());
                 command.addAll(Arrays.asList(cliArgs));
                 System.out.println(command);
                 var builder = new ProcessBuilder()
@@ -93,10 +94,30 @@ public class IntegrationTest {
                         escapePath(actualOutputFile),
                         escapePath(expectedOutputFile)));
                 }
-                var expectedOutput = Files.readAllLines(expectedOutputFile, StandardCharsets.UTF_8);
-                var actualOutput = Files.readAllLines(actualOutputFile, StandardCharsets.UTF_8);
-                assertEquals(expectedOutput, actualOutput);
+                assertEquals(
+                    readPuzzleLog(expectedOutputFile),
+                    readPuzzleLog(actualOutputFile),
+                    MessageFormat.format(
+                        """
+                        Mismatched integration test output
+                        Expected output file: {0}
+                        Actual output file: {1}
+                        """,
+                        expectedOutputFile,
+                        actualOutputFile));
             });
+    }
+
+    private static List<String> readPuzzleLog(Path file) throws IOException {
+        try (var lines = Files.lines(file, StandardCharsets.UTF_8)) {
+            return lines
+                .map(line -> line.replaceAll("bin[/\\\\]puzzle", "puzzle"))
+                .toList();
+        }
+    }
+
+    private static boolean isWindows() {
+        return System.getProperty("os.name").contains("Windows");
     }
 
     private String escapePath(Path path) {

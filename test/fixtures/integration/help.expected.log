@@ -11,6 +11,6 @@ Options:
   -s,--include-solutions  Show solutions immediately when generating puzzle
 
 Usage examples:
-  bin/puzzle gen loops
-  bin/puzzle solve 1454-1234-1234
-  bin/puzzle gen loops --part 3 --repeat 5
+  puzzle gen loops
+  puzzle solve 1454-1234-1234
+  puzzle gen loops --part 3 --repeat 5

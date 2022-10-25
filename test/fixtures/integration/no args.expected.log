@@ -4,4 +4,4 @@ Commands:
   puzzle solve <code>   Print the solution to a puzzle
 
 To see all options:
-  bin/puzzle --help
+  puzzle --help
