@@ -32,7 +32,9 @@ class AstUtilsTest {
                         intLiteral(2),
                         intLiteral(3),
                         intLiteral(5)))));
-        assertEquals("{\n    Foo bar = 2 + 3 + 5;\n}", code.toString());
+        assertEquals(
+            "{ Foo bar = 2 + 3 + 5; }",
+            code.toString().replaceAll("\\s+", " "));
     }
 
     @Test
