@@ -76,6 +76,7 @@ public class IntegrationTest {
                     .redirectErrorStream(true)
                     .redirectOutput(actualOutputFile.toFile());
                 builder.environment().put("PUZZLE_EXIT_IMMEDIATELY", "1");
+                builder.environment().put("IGNORE_CONSOLE_WIDTH", "1");
 
                 builder
                     .start()
@@ -91,8 +92,8 @@ public class IntegrationTest {
                             mv {1} {2}
                         """,
                         name,
-                        escapePath(actualOutputFile),
-                        escapePath(expectedOutputFile)));
+                        fullPath(actualOutputFile),
+                        fullPath(expectedOutputFile)));
                 }
                 assertEquals(
                     readPuzzleLog(expectedOutputFile),
@@ -103,8 +104,8 @@ public class IntegrationTest {
                         Expected output file: {0}
                         Actual output file: {1}
                         """,
-                        expectedOutputFile,
-                        actualOutputFile));
+                        fullPath(expectedOutputFile),
+                        fullPath(actualOutputFile)));
             });
     }
 
@@ -120,7 +121,7 @@ public class IntegrationTest {
         return System.getProperty("os.name").contains("Windows");
     }
 
-    private String escapePath(Path path) {
-        return path.toAbsolutePath().toString().replace(" ", "\\ ");
+    private String fullPath(Path path) {
+        return "'" + path.toAbsolutePath().toString() + "'";
     }
 }

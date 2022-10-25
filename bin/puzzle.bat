@@ -1,8 +1,9 @@
 @echo off
 
 REM Get window width (from https://stackoverflow.com/a/14981267)
-for /F "usebackq tokens=2* delims=: " %%W in (`mode con ^| findstr Columns`) do set CONSOLE_WIDTH=%%W
-set "COLUMNS=%CONSOLE_WIDTH%"
+IF "%IGNORE_CONSOLE_WIDTH%"=="" (
+    for /F "usebackq tokens=2* delims=: " %%W in (`mode con ^| findstr Columns`) do set COLUMNS=%%W
+)
 
 REM Switch to UTF-8
 chcp 65001 >nul

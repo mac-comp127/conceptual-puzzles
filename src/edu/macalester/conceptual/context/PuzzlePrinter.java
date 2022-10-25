@@ -188,8 +188,10 @@ public class PuzzlePrinter implements Closeable {
         if (isSilenced()) {
             return;
         }
-        for (String part : str.split("(?=\\r?\\n)|(?<=\\n)")) { // lines + terminators as separate matches
-            if (part.endsWith("\n")) {
+
+        str = str.replace("\r\n", "\n"); // normalize line breaks on Windows
+        for (String part : str.split("(?=\n)|(?<=\n)")) { // lines + terminators as separate matches
+            if (part.equals("\n")) {
                 newline();
             } else {
                 var wrappingUnit = wordWrapEnabled
