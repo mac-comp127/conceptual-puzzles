@@ -3,9 +3,12 @@ package edu.macalester.conceptual;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.MessageFormat;
@@ -18,6 +21,7 @@ import java.util.stream.Collectors;
 import edu.macalester.conceptual.context.InvalidPuzzleCodeException;
 import edu.macalester.conceptual.context.PuzzleContext;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -75,14 +79,25 @@ public class IntegrationTest {
                 System.out.println(String.join(" ", command));
                 var builder = new ProcessBuilder()
                     .command(command.toArray(new String[0]))
-                    .redirectErrorStream(true)
-                    .redirectOutput(actualOutputFile.toFile());
+                    .redirectErrorStream(true);
                 builder.environment().put("PUZZLE_EXIT_IMMEDIATELY", "1");
                 builder.environment().put("IGNORE_CONSOLE_WIDTH", "1");
+                builder.environment().put("COLORTERM", "");
 
-                builder
-                    .start()
-                    .waitFor();
+                var process = builder.start();
+
+                // ProcessBuilder.redirectOutput does not reliably use UTF-8 in all Java versions on
+                // all platforms, even if we set file.encoding=UTF-8 on JVM launch, so we manually
+                // pipe output to a UTF-8-encoded file:
+                try (
+                    var pipe = new BufferedReader(new InputStreamReader(process.getInputStream(), UTF_8));
+                    var fileOutput = new PrintWriter(new FileWriter(actualOutputFile.toFile(), UTF_8))
+                ) {
+                    String line;
+                    while ((line = pipe.readLine()) != null) {
+                        fileOutput.println(line);
+                    }
+                }
 
                 if (!Files.exists(expectedOutputFile)) {
                     fail(MessageFormat.format(
@@ -97,9 +112,21 @@ public class IntegrationTest {
                         fullPath(actualOutputFile),
                         fullPath(expectedOutputFile)));
                 }
+
+                var expectedOutput = readPuzzleLog(expectedOutputFile);
+                var actualOutput = readPuzzleLog(actualOutputFile);
+
+                // Despite the UTF-8 workaround above, Java 18 on Windows still clobbers the encoding of UTF-8 process
+                // output. As a workaround, if we notice the divider lines are getting transformed into ??????????????,
+                // we just turn all non-ASCII chars on this platform in question marks.
+                if (isWindows() && actualOutput.contains("?????????")) {
+                    actualOutput = stripNonASCII(actualOutput);
+                    expectedOutput = stripNonASCII(expectedOutput);
+                }
+
                 assertEquals(
-                    readPuzzleLog(expectedOutputFile),
-                    readPuzzleLog(actualOutputFile),
+                    expectedOutput,
+                    actualOutput,
                     MessageFormat.format(
                         """
                         Mismatched integration test output
@@ -112,12 +139,16 @@ public class IntegrationTest {
     }
 
     private static String readPuzzleLog(Path file) throws IOException {
-        try (var lines = Files.lines(file, StandardCharsets.UTF_8)) {
+        try (var lines = Files.lines(file, UTF_8)) {
             return lines
                 .map(line -> line.replaceAll("bin[/\\\\]puzzle", "puzzle"))
                 .filter(line -> !line.contains("GL pipe is running in software mode")) // CI prints this
                 .collect(Collectors.joining(System.lineSeparator()));
         }
+    }
+
+    private String stripNonASCII(String str) {
+        return str.replaceAll("([^ -~]|\\?)+", "?");
     }
 
     private static boolean isWindows() {
