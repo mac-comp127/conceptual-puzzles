@@ -115,6 +115,7 @@ public class IntegrationTest {
         try (var lines = Files.lines(file, StandardCharsets.UTF_8)) {
             return lines
                 .map(line -> line.replaceAll("bin[/\\\\]puzzle", "puzzle"))
+                .filter(line -> !line.contains("GL pipe is running in software mode")) // CI prints this
                 .collect(Collectors.joining(System.lineSeparator()));
         }
     }
