@@ -21,7 +21,7 @@ Given the following variables:
 
 ...draw the AST and evaluation tree for the following expression:
 
-    corpis - in % ho - urm
+    corpis % in - ho * urm
 
 [1m[38;5;141m[48;5;17m              [0m
 [1m[38;5;141m[48;5;17m   SOLUTION   [0m
@@ -42,15 +42,13 @@ Things to double-check in your solution:
 
 Given the following variables:
 
-    double er = 2.0;
-    boolean cess = false;
-    int delan = 3;
-    double la = 5.0;
-    boolean pnas = true;
+    double voawess = 4.0;
+    int up = 9;
+    boolean tela = true;
 
 ...draw the AST and evaluation tree for the following expression:
 
-    5 < er || cess || delan < la && pnas
+    voawess <= 1 && (up != 3 && tela)
 
 [1m[38;5;222m[48;5;52m              [0m
 [1m[38;5;222m[48;5;52m   SOLUTION   [0m
@@ -73,7 +71,7 @@ Things to double-check in your solution:
 
 Draw the AST and evaluation tree for the following expression:
 
-    0 + 1 + 2 + 3 + 4 + "5"
+    0 + "1" + 2 + 3 + 4
 
 [1m[38;5;123m[48;5;23m              [0m
 [1m[38;5;123m[48;5;23m   SOLUTION   [0m
@@ -104,11 +102,11 @@ expression.
 
 Given the following variables:
 
-    int rasar = 6;
+    double danla = 3.0;
 
 ...draw the AST and evaluation tree for the following expression:
 
-    4 * 9 * 6 / rasar
+    0 + 7 / 1 - danla
 
 [1m[38;5;213m[48;5;53m              [0m
 [1m[38;5;213m[48;5;53m   SOLUTION   [0m
@@ -129,14 +127,14 @@ Things to double-check in your solution:
 
 Given the following variables:
 
-    int car = 1;
-    int sa = 5;
-    double bad = 5.0;
-    int pidenk = 1;
+    int hun = 3;
+    int feeman = 4;
+    int zio = 7;
+    double o = 3.0;
 
 ...draw the AST and evaluation tree for the following expression:
 
-    5 > 6 && car != 2 && sa >= bad && pidenk > 7
+    (1 >= hun && feeman == zio && o > 7)
 
 [1m[38;5;192m[48;5;22m              [0m
 [1m[38;5;192m[48;5;22m   SOLUTION   [0m
@@ -159,7 +157,7 @@ Things to double-check in your solution:
 
 Draw the AST and evaluation tree for the following expression:
 
-    0 + 1 + "2" + 3 + 4 + 5
+    (0 + 1 + "2" + 3) + 4
 
 [1m[38;5;111m[48;5;17m              [0m
 [1m[38;5;111m[48;5;17m   SOLUTION   [0m
@@ -188,9 +186,15 @@ expression.
 [1m[38;5;16m[48;5;203m   PART 1   [0m
 [1m[38;5;16m[48;5;203m            [0m
 
-Draw the AST and evaluation tree for the following expression:
+Given the following variables:
 
-    3 * 5 / 7 + 0
+    int ir = 3;
+    double pouphtesm = 4.0;
+    int ta = 1;
+
+...draw the AST and evaluation tree for the following expression:
+
+    ir * pouphtesm % ta - 2
 
 [1m[38;5;210m[48;5;52m              [0m
 [1m[38;5;210m[48;5;52m   SOLUTION   [0m
@@ -211,14 +215,13 @@ Things to double-check in your solution:
 
 Given the following variables:
 
-    double dess = 1.0;
-    double phiss = 4.0;
-    int bas = 7;
-    boolean phaissqo = true;
+    double prel = 5.0;
+    double deflol = 5.0;
+    double dias = 2.0;
 
 ...draw the AST and evaluation tree for the following expression:
 
-    2 == dess || phiss < bas && 0 != 9 && phaissqo
+    prel == deflol || dias < 8 && 0 > 0
 
 [1m[38;5;121m[48;5;22m              [0m
 [1m[38;5;121m[48;5;22m   SOLUTION   [0m
@@ -241,7 +244,7 @@ Things to double-check in your solution:
 
 Draw the AST and evaluation tree for the following expression:
 
-    0 + 1 + 2 + "3" + 4 + 5
+    0 + 1 + "2" + 3 + 4
 
 [1m[38;5;177m[48;5;17m              [0m
 [1m[38;5;177m[48;5;17m   SOLUTION   [0m
@@ -272,12 +275,11 @@ expression.
 
 Given the following variables:
 
-    int aidfu = 6;
-    int iacbad = 9;
+    double tegnpeth = 5.0;
 
 ...draw the AST and evaluation tree for the following expression:
 
-    aidfu - iacbad - 1 / 7
+    9 / 3 * 9 - tegnpeth
 
 [1m[38;5;228m[48;5;58m              [0m
 [1m[38;5;228m[48;5;58m   SOLUTION   [0m
@@ -298,14 +300,13 @@ Things to double-check in your solution:
 
 Given the following variables:
 
-    double ga = 4.0;
-    int ross = 9;
-    boolean har = true;
-    int gelqun = 6;
+    boolean melpid = true;
+    boolean gamod = false;
+    int sti = 4;
 
 ...draw the AST and evaluation tree for the following expression:
 
-    7 != ga && 6 >= ross || har && 0 <= gelqun
+    melpid && gamod && sti != 7
 
 [1m[38;5;123m[48;5;23m              [0m
 [1m[38;5;123m[48;5;23m   SOLUTION   [0m
@@ -328,7 +329,7 @@ Things to double-check in your solution:
 
 Draw the AST and evaluation tree for the following expression:
 
-    0 + 1 + "2" + 3 + 4 + 5
+    0 + 1 + "2" + 3 + 4
 
 [1m[38;5;212m[48;5;52m              [0m
 [1m[38;5;212m[48;5;52m   SOLUTION   [0m
@@ -359,12 +360,11 @@ expression.
 
 Given the following variables:
 
-    double ectrou = 5.0;
-    int ne = 5;
+    double eu = 3.0;
 
 ...draw the AST and evaluation tree for the following expression:
 
-    7 % 3 * ectrou % ne
+    (5 % 1 * eu) + 7
 
 [1m[38;5;156m[48;5;22m              [0m
 [1m[38;5;156m[48;5;22m   SOLUTION   [0m
@@ -385,14 +385,14 @@ Things to double-check in your solution:
 
 Given the following variables:
 
-    int dioumre = 6;
+    double ossgead = 1.0;
+    double jerttre = 2.0;
+    int bong = 8;
     int eng = 4;
-    int frintfi = 9;
-    double wuron = 4.0;
 
 ...draw the AST and evaluation tree for the following expression:
 
-    dioumre != 5 && eng > 4 && 0 == frintfi || 6 < wuron
+    4 <= ossgead && jerttre != bong || eng > 4
 
 [1m[38;5;105m[48;5;17m              [0m
 [1m[38;5;105m[48;5;17m   SOLUTION   [0m
@@ -415,7 +415,7 @@ Things to double-check in your solution:
 
 Draw the AST and evaluation tree for the following expression:
 
-    0 + 1 + "2" + 3 + 4 + 5
+    0 + "1" + 2 + 3 + 4
 
 [1m[38;5;216m[48;5;52m              [0m
 [1m[38;5;216m[48;5;52m   SOLUTION   [0m
@@ -446,13 +446,11 @@ expression.
 
 Given the following variables:
 
-    double isstan = 1.0;
-    double puemusp = 1.0;
-    double phantcan = 1.0;
+    double moc = 4.0;
 
 ...draw the AST and evaluation tree for the following expression:
 
-    isstan / 3 + puemusp + phantcan
+    8 - 3 % 7 * moc
 
 [1m[38;5;122m[48;5;22m              [0m
 [1m[38;5;122m[48;5;22m   SOLUTION   [0m
@@ -473,14 +471,11 @@ Things to double-check in your solution:
 
 Given the following variables:
 
-    boolean aal = false;
-    int ripi = 7;
-    int gant = 9;
-    int bolci = 8;
+    double uangant = 3.0;
 
 ...draw the AST and evaluation tree for the following expression:
 
-    aal && 2 <= ripi || 6 != gant || 2 == bolci
+    (8 < 8 || 4 < 4 || 0 < uangant)
 
 [1m[38;5;213m[48;5;53m              [0m
 [1m[38;5;213m[48;5;53m   SOLUTION   [0m
@@ -503,7 +498,7 @@ Things to double-check in your solution:
 
 Draw the AST and evaluation tree for the following expression:
 
-    0 + 1 + 2 + "3" + 4 + 5
+    0 + 1 + "2" + 3 + 4
 
 [1m[38;5;228m[48;5;58m              [0m
 [1m[38;5;228m[48;5;58m   SOLUTION   [0m

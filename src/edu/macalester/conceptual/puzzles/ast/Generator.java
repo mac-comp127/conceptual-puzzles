@@ -59,12 +59,30 @@ public class Generator {
         List<String> exprs
     ) {
         var operatorChoices = operatorChoicesStr.split(" ");
+
+        // Sometimes add parens around a random subsequence
+        int openParen, closeParen;
+        if (exprs.size() > 2 && ctx.getRandom().nextBoolean()) {
+            int pos0 = ctx.getRandom().nextInt(exprs.size()),
+                pos1 = (pos0 + 1 + ctx.getRandom().nextInt(exprs.size() - 2)) % exprs.size();
+            openParen = Math.min(pos0, pos1);
+            closeParen = Math.max(pos0, pos1);
+        } else {
+            openParen = closeParen = -1;
+        }
+
         var result = new StringBuilder();
-        for (var expr : exprs) {
+        for (int n = 0; n < exprs.size(); n++) {
             if (!result.isEmpty()) {
                 result.append(Randomness.chooseConst(ctx, operatorChoices));
             }
-            result.append(expr);
+            if (n == openParen) {
+                result.append('(');
+            }
+            result.append(exprs.get(n));
+            if (n == closeParen) {
+                result.append(')');
+            }
         }
         return result.toString();
     }

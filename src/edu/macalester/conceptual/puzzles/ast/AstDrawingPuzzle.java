@@ -59,7 +59,7 @@ public class AstDrawingPuzzle implements Puzzle {
         });
 
         ctx.section(() -> {
-            int totalLeaves = ctx.getDifficulty() + 2;
+            int totalLeaves = ctx.getDifficulty() + 1;
             int arithmeticLeaves = (int) Math.pow(totalLeaves, 0.2);
             outputPuzzle(ctx,
                 (vars) -> generateArithmeticComparisonsExpression(ctx, vars,
@@ -72,7 +72,7 @@ public class AstDrawingPuzzle implements Puzzle {
         ctx.section(() -> {
             outputPuzzle(ctx,
                 (vars) -> generateStringAdditionExpression(
-                    ctx, ctx.getDifficulty() + 4),
+                    ctx, ctx.getDifficulty() + 3),
                 "Did you indicate the distinction between ints and Strings?",
                 "Are your left/right branches correct?");
         });

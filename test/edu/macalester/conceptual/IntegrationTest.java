@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import edu.macalester.conceptual.context.InvalidPuzzleCodeException;
 import edu.macalester.conceptual.context.PuzzleContext;
@@ -110,11 +111,11 @@ public class IntegrationTest {
             });
     }
 
-    private static List<String> readPuzzleLog(Path file) throws IOException {
+    private static String readPuzzleLog(Path file) throws IOException {
         try (var lines = Files.lines(file, StandardCharsets.UTF_8)) {
             return lines
                 .map(line -> line.replaceAll("bin[/\\\\]puzzle", "puzzle"))
-                .toList();
+                .collect(Collectors.joining(System.lineSeparator()));
         }
     }
 
