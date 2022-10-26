@@ -38,6 +38,11 @@ public class Evaluator {
             this.javaSource = javaSource;
         }
 
+        public EvaluationException(String message) {
+            super(message);
+            this.javaSource = null;
+        }
+
         @Override
         public void printStackTrace(PrintStream s) {
             s.println("Error while evaluating expression. Expression wrapper:");

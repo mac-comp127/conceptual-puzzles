@@ -139,6 +139,15 @@ public class AstDrawingPuzzle implements Puzzle {
                     vars);
                 tree.attachEvaluationResults();
                 tree.showShortCircuiting();
+
+                for (var subexpr : tree.subexprs()) {
+                    EvaluationTree.valueOf(subexpr).ifPresent(val -> {
+                        if (val instanceof Double doubleVal && doubleVal.isNaN()) {
+                            throw new Evaluator.EvaluationException("expr generates NaN");
+                        }
+                    });
+                }
+
                 return tree;
             } catch (Evaluator.EvaluationException e) {
                 // expression causes division by zero or similar; try again!
