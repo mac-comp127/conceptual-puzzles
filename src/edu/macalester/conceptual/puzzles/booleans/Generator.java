@@ -80,7 +80,7 @@ public enum Generator {
     }
 
     public static void main(String[] args) {
-        var ctx = PuzzleContext.generate((byte) 0);
+        var ctx = PuzzleContext.generate((byte) 0, (byte) 0);
         ctx.emitPuzzle(() -> {
             for(int n = 1; n <= 10; n++) {
                 System.out.println();

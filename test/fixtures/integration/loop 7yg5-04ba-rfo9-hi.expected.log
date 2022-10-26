@@ -1,0 +1,474 @@
+[0J────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;86m            [0m
+[1m[38;5;16m[48;5;86m   PART 1   [0m
+[1m[38;5;16m[48;5;86m            [0m
+
+Translate the following while loop into a for loop:
+
+    int he = 95;
+    while (he < fust) {
+        fambun(he, 35);
+        swem();
+        he /= 3;
+    }
+
+[1m[38;5;123m[48;5;23m              [0m
+[1m[38;5;123m[48;5;23m   SOLUTION   [0m
+[1m[38;5;123m[48;5;23m              [0m
+
+    for (int he = 95; he < fust; he /= 3) {
+        fambun(he, 35);
+        swem();
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;207m            [0m
+[1m[38;5;16m[48;5;207m   PART 2   [0m
+[1m[38;5;16m[48;5;207m            [0m
+
+Translate the following natural language description of a loop into a for loop:
+
+  │ Declare a variable named [4mpli[24m of type [4mshort[24m, initialized to [4m44[24m. Then, until
+  │ [4mpli[24m is less than [4mfese[24m, divide [4mpli[24m by [4m2[24m.
+
+[1m[38;5;213m[48;5;53m              [0m
+[1m[38;5;213m[48;5;53m   SOLUTION   [0m
+[1m[38;5;213m[48;5;53m              [0m
+
+    for (short pli = 44; pli >= fese; pli /= 2) {
+        ...
+    }
+
+Something to double-check in your solution:
+
+  - Did you use the correct operator in the loop’s end condition ([4mpli >= fese[24m)?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;191m            [0m
+[1m[38;5;16m[48;5;191m   PART 3   [0m
+[1m[38;5;16m[48;5;191m            [0m
+
+Translate the following loop into a for-each loop:
+
+    List<Splesm> heds;
+    ...
+
+    for (int n = 0; n < heds.size(); n++) {
+        heds.get(n).gesspa();
+        heds.get(n).cecNial(roban, 5);
+    }
+
+[1m[38;5;192m[48;5;22m              [0m
+[1m[38;5;192m[48;5;22m   SOLUTION   [0m
+[1m[38;5;192m[48;5;22m              [0m
+
+    for (Splesm hed : heds) {
+        hed.gesspa();
+        hed.cecNial(roban, 5);
+    }
+
+It is OK if you gave the variable for the individual collection element ([4mhed[24m) a
+different name, such as [4melem[24m. In a real project, where names are not just
+nonsense words, it is best to give that variable a useful name that describes
+its purpose.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;69m            [0m
+[1m[38;5;16m[48;5;69m   PART 1   [0m
+[1m[38;5;16m[48;5;69m            [0m
+
+Translate the following while loop into a for loop:
+
+    short blo = 51;
+    while (blo != soss) {
+        tion(blo);
+        blo -= 3;
+    }
+
+[1m[38;5;111m[48;5;17m              [0m
+[1m[38;5;111m[48;5;17m   SOLUTION   [0m
+[1m[38;5;111m[48;5;17m              [0m
+
+    for (short blo = 51; blo != soss; blo -= 3) {
+        tion(blo);
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;203m            [0m
+[1m[38;5;16m[48;5;203m   PART 2   [0m
+[1m[38;5;16m[48;5;203m            [0m
+
+Translate the following natural language description of a loop into a for loop:
+
+  │ Declare a variable named [4mho[24m of type [4mint[24m, initialized to [4mpoll[24m. Then, until [4mho[24m
+  │ is greater than or equal to [4mmacas[24m, increment [4mho[24m.
+
+[1m[38;5;210m[48;5;52m              [0m
+[1m[38;5;210m[48;5;52m   SOLUTION   [0m
+[1m[38;5;210m[48;5;52m              [0m
+
+    for (int ho = poll; ho < macas; ho++) {
+        ...
+    }
+
+Something to double-check in your solution:
+
+  - Did you use the correct operator in the loop’s end condition ([4mho < macas[24m)?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;84m            [0m
+[1m[38;5;16m[48;5;84m   PART 3   [0m
+[1m[38;5;16m[48;5;84m            [0m
+
+Translate the following loop into a for-each loop:
+
+    List<Wiocthrost> eaeses;
+    ...
+
+    for (int i = 0; i < eaeses.size(); i++) {
+        eaeses.get(i).smaCac(3);
+        badOshi(estSaspe, 6, eaeses.get(i));
+    }
+
+[1m[38;5;121m[48;5;22m              [0m
+[1m[38;5;121m[48;5;22m   SOLUTION   [0m
+[1m[38;5;121m[48;5;22m              [0m
+
+    for (Wiocthrost eaes : eaeses) {
+        eaes.smaCac(3);
+        badOshi(estSaspe, 6, eaes);
+    }
+
+It is OK if you gave the variable for the individual collection element ([4meaes[24m) a
+different name, such as [4melem[24m. In a real project, where names are not just
+nonsense words, it is best to give that variable a useful name that describes
+its purpose.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;135m            [0m
+[1m[38;5;16m[48;5;135m   PART 1   [0m
+[1m[38;5;16m[48;5;135m            [0m
+
+Translate the following for loop into a while loop:
+
+    for (int bis = 56; bis >= pesje; bis -= 2) {
+        bast(bis);
+    }
+
+[1m[38;5;177m[48;5;17m              [0m
+[1m[38;5;177m[48;5;17m   SOLUTION   [0m
+[1m[38;5;177m[48;5;17m              [0m
+
+    int bis = 56;
+    while (bis >= pesje) {
+        bast(bis);
+        bis -= 2;
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;227m            [0m
+[1m[38;5;16m[48;5;227m   PART 2   [0m
+[1m[38;5;16m[48;5;227m            [0m
+
+Translate the following natural language description of a loop into a for loop:
+
+  │ Declare a variable named [4mlos[24m of type [4mshort[24m, initialized to [4m50[24m. Then, until
+  │ [4mlos[24m is less than [4mpriw[24m, decrement [4mlos[24m.
+
+[1m[38;5;228m[48;5;58m              [0m
+[1m[38;5;228m[48;5;58m   SOLUTION   [0m
+[1m[38;5;228m[48;5;58m              [0m
+
+    for (short los = 50; los >= priw; los--) {
+        ...
+    }
+
+Something to double-check in your solution:
+
+  - Did you use the correct operator in the loop’s end condition ([4mlos >= priw[24m)?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;87m            [0m
+[1m[38;5;16m[48;5;87m   PART 3   [0m
+[1m[38;5;16m[48;5;87m            [0m
+
+Translate the following loop into a for-each loop:
+
+    List<CesSoc> cons;
+    ...
+
+    for (int n = 0; n < cons.size(); n++) {
+        cons.get(n).sodSkirun();
+        ichpoc();
+        cons.get(n).pheTala();
+    }
+
+[1m[38;5;123m[48;5;23m              [0m
+[1m[38;5;123m[48;5;23m   SOLUTION   [0m
+[1m[38;5;123m[48;5;23m              [0m
+
+    for (CesSoc con : cons) {
+        con.sodSkirun();
+        ichpoc();
+        con.pheTala();
+    }
+
+It is OK if you gave the variable for the individual collection element ([4mcon[24m) a
+different name, such as [4melem[24m. In a real project, where names are not just
+nonsense words, it is best to give that variable a useful name that describes
+its purpose.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;205m            [0m
+[1m[38;5;16m[48;5;205m   PART 1   [0m
+[1m[38;5;16m[48;5;205m            [0m
+
+Translate the following while loop into a for loop:
+
+    int nete = 53;
+    while (nete > sip) {
+        care(nete);
+        nete /= 2;
+    }
+
+[1m[38;5;212m[48;5;52m              [0m
+[1m[38;5;212m[48;5;52m   SOLUTION   [0m
+[1m[38;5;212m[48;5;52m              [0m
+
+    for (int nete = 53; nete > sip; nete /= 2) {
+        care(nete);
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;119m            [0m
+[1m[38;5;16m[48;5;119m   PART 2   [0m
+[1m[38;5;16m[48;5;119m            [0m
+
+Translate the following natural language description of a loop into a for loop:
+
+  │ Declare a variable named [4mom[24m of type [4mint[24m, initialized to [4m32[24m. Then, until [4mom[24m
+  │ is greater than [4mnimin[24m, decrement [4mom[24m.
+
+[1m[38;5;156m[48;5;22m              [0m
+[1m[38;5;156m[48;5;22m   SOLUTION   [0m
+[1m[38;5;156m[48;5;22m              [0m
+
+    for (int om = 32; om <= nimin; om--) {
+        ...
+    }
+
+Something to double-check in your solution:
+
+  - Did you use the correct operator in the loop’s end condition ([4mom <= nimin[24m)?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;63m            [0m
+[1m[38;5;16m[48;5;63m   PART 3   [0m
+[1m[38;5;16m[48;5;63m            [0m
+
+Translate the following loop into a for-each loop:
+
+    List<HemMeng> onts;
+    ...
+
+    for (int n = 0; n < onts.size(); n++) {
+        onts.get(n).mards();
+        onts.get(n).phism();
+    }
+
+[1m[38;5;105m[48;5;17m              [0m
+[1m[38;5;105m[48;5;17m   SOLUTION   [0m
+[1m[38;5;105m[48;5;17m              [0m
+
+    for (HemMeng ont : onts) {
+        ont.mards();
+        ont.phism();
+    }
+
+It is OK if you gave the variable for the individual collection element ([4mont[24m) a
+different name, such as [4melem[24m. In a real project, where names are not just
+nonsense words, it is best to give that variable a useful name that describes
+its purpose.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;209m            [0m
+[1m[38;5;16m[48;5;209m   PART 1   [0m
+[1m[38;5;16m[48;5;209m            [0m
+
+Translate the following while loop into a for loop:
+
+    double hi = 86;
+    while (hi >= sed) {
+        cerDued();
+        eght(hi);
+        hi++;
+    }
+
+[1m[38;5;216m[48;5;52m              [0m
+[1m[38;5;216m[48;5;52m   SOLUTION   [0m
+[1m[38;5;216m[48;5;52m              [0m
+
+    for (double hi = 86; hi >= sed; hi++) {
+        cerDued();
+        eght(hi);
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;86m            [0m
+[1m[38;5;16m[48;5;86m   PART 2   [0m
+[1m[38;5;16m[48;5;86m            [0m
+
+Translate the following natural language description of a loop into a for loop:
+
+  │ Declare a variable named [4mpang[24m of type [4mshort[24m, initialized to [4m52[24m. Then, until
+  │ [4mpang[24m is greater than [4mbifri[24m, decrement [4mpang[24m.
+
+[1m[38;5;122m[48;5;22m              [0m
+[1m[38;5;122m[48;5;22m   SOLUTION   [0m
+[1m[38;5;122m[48;5;22m              [0m
+
+    for (short pang = 52; pang <= bifri; pang--) {
+        ...
+    }
+
+Something to double-check in your solution:
+
+  - Did you use the correct operator in the loop’s end condition ([4mpang <=
+    bifri[24m)?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;207m            [0m
+[1m[38;5;16m[48;5;207m   PART 3   [0m
+[1m[38;5;16m[48;5;207m            [0m
+
+Translate the following loop into a for-each loop:
+
+    List<KelOd> eils;
+    ...
+
+    for (int n = 0; n < eils.length; n++) {
+        stuss(eils[n]);
+        eils[n].spiClesme(swap, oski);
+    }
+
+[1m[38;5;213m[48;5;53m              [0m
+[1m[38;5;213m[48;5;53m   SOLUTION   [0m
+[1m[38;5;213m[48;5;53m              [0m
+
+    for (KelOd eil : eils) {
+        stuss(eil);
+        eil.spiClesme(swap, oski);
+    }
+
+It is OK if you gave the variable for the individual collection element ([4meil[24m) a
+different name, such as [4melem[24m. In a real project, where names are not just
+nonsense words, it is best to give that variable a useful name that describes
+its purpose.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;227m            [0m
+[1m[38;5;16m[48;5;227m   PART 1   [0m
+[1m[38;5;16m[48;5;227m            [0m
+
+Translate the following for loop into a while loop:
+
+    for (long pir = fo; pir <= puf; pir++) {
+        hadDelnam(pir, 16);
+    }
+
+[1m[38;5;228m[48;5;58m              [0m
+[1m[38;5;228m[48;5;58m   SOLUTION   [0m
+[1m[38;5;228m[48;5;58m              [0m
+
+    long pir = fo;
+    while (pir <= puf) {
+        hadDelnam(pir, 16);
+        pir++;
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;75m            [0m
+[1m[38;5;16m[48;5;75m   PART 2   [0m
+[1m[38;5;16m[48;5;75m            [0m
+
+Translate the following natural language description of a loop into a for loop:
+
+  │ Declare a variable named [4mceec[24m of type [4mlong[24m, initialized to [4mesa[24m. Then, until
+  │ [4mceec[24m equals [4msaut[24m, decrement [4mceec[24m.
+
+[1m[38;5;117m[48;5;17m              [0m
+[1m[38;5;117m[48;5;17m   SOLUTION   [0m
+[1m[38;5;117m[48;5;17m              [0m
+
+    for (long ceec = esa; ceec != saut; ceec--) {
+        ...
+    }
+
+Something to double-check in your solution:
+
+  - Did you use the correct operator in the loop’s end condition ([4mceec != saut[24m)?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;204m            [0m
+[1m[38;5;16m[48;5;204m   PART 3   [0m
+[1m[38;5;16m[48;5;204m            [0m
+
+Translate the following loop into a for-each loop:
+
+    List<Oschia> irbes;
+    ...
+
+    for (int n = 0; n < irbes.size(); n++) {
+        risk();
+        irbes.get(n).besten();
+        slio();
+        cheden(1, irbes.get(n), -3);
+    }
+
+[1m[38;5;211m[48;5;52m              [0m
+[1m[38;5;211m[48;5;52m   SOLUTION   [0m
+[1m[38;5;211m[48;5;52m              [0m
+
+    for (Oschia irbe : irbes) {
+        risk();
+        irbe.besten();
+        slio();
+        cheden(1, irbe, -3);
+    }
+
+It is OK if you gave the variable for the individual collection element ([4mirbe[24m) a
+different name, such as [4melem[24m. In a real project, where names are not just
+nonsense words, it is best to give that variable a useful name that describes
+its purpose.
+
+────────────────────────────────────────────────────────────────────────────────
+
+[0m

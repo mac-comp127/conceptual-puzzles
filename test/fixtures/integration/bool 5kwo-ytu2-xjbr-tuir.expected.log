@@ -1,0 +1,1005 @@
+[0J────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;86m            [0m
+[1m[38;5;16m[48;5;86m   PART 1   [0m
+[1m[38;5;16m[48;5;86m            [0m
+
+This if statement has a very long first clause, and a very short else clause.
+This makes it hard to read: the tiny else clause is so far from the condition,
+it’s hard to figure out what the [4melse[24m refers to!
+
+    if (frehum() != 8 || ascian() || (!ru || seiGroci() || coem() < 8) && bise() < 5) {
+        ...
+        // Lots of code here
+        ...
+    } else {
+        conra();
+    }
+
+Improve readability by refactoring this conditional so that what is now the else
+clause comes first, and the first clause comes second.
+
+[1m[38;5;123m[48;5;23m              [0m
+[1m[38;5;123m[48;5;23m   SOLUTION   [0m
+[1m[38;5;123m[48;5;23m              [0m
+
+    if (frehum() == 8 && !ascian() && (ru && !seiGroci() && coem() >= 8 || bise() >= 5)) {
+        conra();
+    } else {
+        ...
+        // Lots of code here
+        ...
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;207m            [0m
+[1m[38;5;16m[48;5;207m   PART 2   [0m
+[1m[38;5;16m[48;5;207m            [0m
+
+Simplify the following conditional chain so that it is a single return
+statement.
+
+    if (!mape) {
+        if (douc) {
+            if (men) {
+                if (!si) {
+                    if (boar > cong) {
+                        return true;
+                    }
+                }
+            }
+        }
+        if (mo != 3) {
+            if (!si) {
+                if (boar > cong) {
+                    return true;
+                }
+            }
+        }
+        if (e) {
+            if (!si) {
+                if (boar > cong) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+
+[1m[38;5;213m[48;5;53m              [0m
+[1m[38;5;213m[48;5;53m   SOLUTION   [0m
+[1m[38;5;213m[48;5;53m              [0m
+
+    return !mape && (douc && men || mo != 3 || e) && !si && boar > cong;
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+Bonus challenge: rewrite the if/else chain above so that instead of consisting
+of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the end, it has many
+[4mreturn false;[24m statements with one [4mreturn true;[24m at the end.
+
+[1m[38;5;213m[48;5;53m              [0m
+[1m[38;5;213m[48;5;53m   SOLUTION   [0m
+[1m[38;5;213m[48;5;53m              [0m
+
+    if (mape) {
+        return false;
+    }
+    if (!douc) {
+        if (mo == 3) {
+            if (!e) {
+                return false;
+            }
+        }
+    }
+    if (!men) {
+        if (mo == 3) {
+            if (!e) {
+                return false;
+            }
+        }
+    }
+    if (si) {
+        return false;
+    }
+    if (boar <= cong) {
+        return false;
+    }
+    return true;
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;191m            [0m
+[1m[38;5;16m[48;5;191m   PART 3   [0m
+[1m[38;5;16m[48;5;191m            [0m
+
+Simplify the following messy chain of conditionals:
+
+    if (os > 5) {
+        huvios();
+    } else if ((thed != 3) == true && os <= 5) {
+        tedqam();
+    }
+    if (bli == false && os <= 5 && (thed != 3) != true) {
+        ument();
+    } else if (gioc == true && os <= 5 && (thed != 3) != true && bli != false) {
+        pavin();
+    } else if (teer == true && os <= 5 && (thed != 3) != true && bli != false && gioc != true) {
+        suicbi();
+    }
+    if (os <= 5 && (thed != 3) != true && bli != false && gioc != true && teer != true) {
+        dust();
+    }
+
+[1m[38;5;192m[48;5;22m              [0m
+[1m[38;5;192m[48;5;22m   SOLUTION   [0m
+[1m[38;5;192m[48;5;22m              [0m
+
+    if (os > 5) {
+        huvios();
+    } else if (thed != 3) {
+        tedqam();
+    } else if (!bli) {
+        ument();
+    } else if (gioc) {
+        pavin();
+    } else if (teer) {
+        suicbi();
+    } else {
+        dust();
+    }
+
+Things to double-check in your solution:
+
+  - Did you remove / simplify all the [4m== true[24m and [4m== false[24m checks?
+  - This particular conditional chain can end with just an [4melse[24m, no final [4mif[24m.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;69m            [0m
+[1m[38;5;16m[48;5;69m   PART 1   [0m
+[1m[38;5;16m[48;5;69m            [0m
+
+This if statement has a very long first clause, and a very short else clause.
+This makes it hard to read: the tiny else clause is so far from the condition,
+it’s hard to figure out what the [4melse[24m refers to!
+
+    if (lia && !(!prou || !(prur != vael) && need() != 2 || !sha || ant)) {
+        ...
+        // Lots of code here
+        ...
+    } else {
+        sunMaong();
+    }
+
+Improve readability by refactoring this conditional so that what is now the else
+clause comes first, and the first clause comes second.
+
+[1m[38;5;111m[48;5;17m              [0m
+[1m[38;5;111m[48;5;17m   SOLUTION   [0m
+[1m[38;5;111m[48;5;17m              [0m
+
+    if (!lia || !prou || !(prur != vael) && need() != 2 || !sha || ant) {
+        sunMaong();
+    } else {
+        ...
+        // Lots of code here
+        ...
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;203m            [0m
+[1m[38;5;16m[48;5;203m   PART 2   [0m
+[1m[38;5;16m[48;5;203m            [0m
+
+Simplify the following conditional chain so that it is a single return
+statement.
+
+    if (tarni() >= 0) {
+        if (uprur()) {
+            if (pocpar()) {
+                if (chis()) {
+                    return true;
+                }
+            }
+        }
+        if (!sin) {
+            if (pocpar()) {
+                if (chis()) {
+                    return true;
+                }
+            }
+        }
+        if (iorPhocpe()) {
+            if (pocpar()) {
+                if (chis()) {
+                    return true;
+                }
+            }
+        }
+    }
+    if (vean != acsi) {
+        if (uprur()) {
+            if (pocpar()) {
+                if (chis()) {
+                    return true;
+                }
+            }
+        }
+        if (!sin) {
+            if (pocpar()) {
+                if (chis()) {
+                    return true;
+                }
+            }
+        }
+        if (iorPhocpe()) {
+            if (pocpar()) {
+                if (chis()) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+
+[1m[38;5;210m[48;5;52m              [0m
+[1m[38;5;210m[48;5;52m   SOLUTION   [0m
+[1m[38;5;210m[48;5;52m              [0m
+
+    return (tarni() >= 0 || vean != acsi) && (uprur() || !sin || iorPhocpe()) && pocpar() && chis();
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+Bonus challenge: rewrite the if/else chain above so that instead of consisting
+of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the end, it has many
+[4mreturn false;[24m statements with one [4mreturn true;[24m at the end.
+
+[1m[38;5;210m[48;5;52m              [0m
+[1m[38;5;210m[48;5;52m   SOLUTION   [0m
+[1m[38;5;210m[48;5;52m              [0m
+
+    if (tarni() < 0) {
+        if (vean == acsi) {
+            return false;
+        }
+    }
+    if (!uprur()) {
+        if (sin) {
+            if (!iorPhocpe()) {
+                return false;
+            }
+        }
+    }
+    if (!pocpar()) {
+        return false;
+    }
+    if (!chis()) {
+        return false;
+    }
+    return true;
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;84m            [0m
+[1m[38;5;16m[48;5;84m   PART 3   [0m
+[1m[38;5;16m[48;5;84m            [0m
+
+Simplify the following messy chain of conditionals:
+
+    if (ioe >= 1) {
+        aseBriju();
+    }
+    if (ira == true && ioe < 1) {
+        treng();
+    } else if (a && ioe < 1 && ira != true) {
+        rihia();
+    }
+    if (theo == true && ioe < 1 && ira != true && !a) {
+        ciwGrin();
+    }
+    if (na && ioe < 1 && ira != true && !a && theo != true) {
+        cosint();
+    } else if (ioe < 1 && ira != true && !a && theo != true && !na) {
+        etmes();
+    }
+
+[1m[38;5;121m[48;5;22m              [0m
+[1m[38;5;121m[48;5;22m   SOLUTION   [0m
+[1m[38;5;121m[48;5;22m              [0m
+
+    if (ioe >= 1) {
+        aseBriju();
+    } else if (ira) {
+        treng();
+    } else if (a) {
+        rihia();
+    } else if (theo) {
+        ciwGrin();
+    } else if (na) {
+        cosint();
+    } else {
+        etmes();
+    }
+
+Things to double-check in your solution:
+
+  - Did you remove / simplify all the [4m== true[24m and [4m== false[24m checks?
+  - This particular conditional chain can end with just an [4melse[24m, no final [4mif[24m.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;135m            [0m
+[1m[38;5;16m[48;5;135m   PART 1   [0m
+[1m[38;5;16m[48;5;135m            [0m
+
+This if statement has a very long first clause, and a very short else clause.
+This makes it hard to read: the tiny else clause is so far from the condition,
+it’s hard to figure out what the [4melse[24m refers to!
+
+    if (sacgo() > oish || !u || poc || (vass() || ecpar() != 7) && melVocaum()) {
+        ...
+        // Lots of code here
+        ...
+    } else {
+        colruc();
+    }
+
+Improve readability by refactoring this conditional so that what is now the else
+clause comes first, and the first clause comes second.
+
+[1m[38;5;177m[48;5;17m              [0m
+[1m[38;5;177m[48;5;17m   SOLUTION   [0m
+[1m[38;5;177m[48;5;17m              [0m
+
+    if (sacgo() <= oish && u && !poc && (!vass() && ecpar() == 7 || !melVocaum())) {
+        colruc();
+    } else {
+        ...
+        // Lots of code here
+        ...
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;227m            [0m
+[1m[38;5;16m[48;5;227m   PART 2   [0m
+[1m[38;5;16m[48;5;227m            [0m
+
+Simplify the following conditional chain so that it is a single return
+statement.
+
+    if (erpu) {
+        return true;
+    }
+    if (ress == gneBogur()) {
+        if (ucnu) {
+            if (iamo) {
+                return true;
+            }
+        }
+        if (tapeab()) {
+            return true;
+        }
+        if (vane) {
+            return true;
+        }
+    }
+    if (lidorm()) {
+        if (ucnu) {
+            if (iamo) {
+                return true;
+            }
+        }
+        if (tapeab()) {
+            return true;
+        }
+        if (vane) {
+            return true;
+        }
+    }
+    return false;
+
+[1m[38;5;228m[48;5;58m              [0m
+[1m[38;5;228m[48;5;58m   SOLUTION   [0m
+[1m[38;5;228m[48;5;58m              [0m
+
+    return erpu || (ress == gneBogur() || lidorm()) && (ucnu && iamo || tapeab() || vane);
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+Bonus challenge: rewrite the if/else chain above so that instead of consisting
+of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the end, it has many
+[4mreturn false;[24m statements with one [4mreturn true;[24m at the end.
+
+[1m[38;5;228m[48;5;58m              [0m
+[1m[38;5;228m[48;5;58m   SOLUTION   [0m
+[1m[38;5;228m[48;5;58m              [0m
+
+    if (!erpu) {
+        if (ress != gneBogur()) {
+            if (!lidorm()) {
+                return false;
+            }
+        }
+        if (!ucnu) {
+            if (!tapeab()) {
+                if (!vane) {
+                    return false;
+                }
+            }
+        }
+        if (!iamo) {
+            if (!tapeab()) {
+                if (!vane) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;87m            [0m
+[1m[38;5;16m[48;5;87m   PART 3   [0m
+[1m[38;5;16m[48;5;87m            [0m
+
+Simplify the following messy chain of conditionals:
+
+    if (vere == true) {
+        womAstent();
+    }
+    if (go == false && vere != true) {
+        pelter();
+    }
+    if (cic == true && vere != true && go != false) {
+        fess();
+    }
+    if (umo && vere != true && go != false && cic != true) {
+        ciaes();
+    } else if (ti == true && vere != true && go != false && cic != true && !umo) {
+        gidi();
+    }
+    if (vere != true && go != false && cic != true && !umo && ti != true) {
+        sarmo();
+    }
+
+[1m[38;5;123m[48;5;23m              [0m
+[1m[38;5;123m[48;5;23m   SOLUTION   [0m
+[1m[38;5;123m[48;5;23m              [0m
+
+    if (vere) {
+        womAstent();
+    } else if (!go) {
+        pelter();
+    } else if (cic) {
+        fess();
+    } else if (umo) {
+        ciaes();
+    } else if (ti) {
+        gidi();
+    } else {
+        sarmo();
+    }
+
+Things to double-check in your solution:
+
+  - Did you remove / simplify all the [4m== true[24m and [4m== false[24m checks?
+  - This particular conditional chain can end with just an [4melse[24m, no final [4mif[24m.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;206m            [0m
+[1m[38;5;16m[48;5;206m   PART 1   [0m
+[1m[38;5;16m[48;5;206m            [0m
+
+This if statement has a very long first clause, and a very short else clause.
+This makes it hard to read: the tiny else clause is so far from the condition,
+it’s hard to figure out what the [4melse[24m refers to!
+
+    if (ejid && osm != thaHuwa() && !ta && (pu || !(!pir && nea == 8))) {
+        ...
+        // Lots of code here
+        ...
+    } else {
+        phes();
+    }
+
+Improve readability by refactoring this conditional so that what is now the else
+clause comes first, and the first clause comes second.
+
+[1m[38;5;212m[48;5;52m              [0m
+[1m[38;5;212m[48;5;52m   SOLUTION   [0m
+[1m[38;5;212m[48;5;52m              [0m
+
+    if (!ejid || osm == thaHuwa() || ta || !pu && !pir && nea == 8) {
+        phes();
+    } else {
+        ...
+        // Lots of code here
+        ...
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;119m            [0m
+[1m[38;5;16m[48;5;119m   PART 2   [0m
+[1m[38;5;16m[48;5;119m            [0m
+
+Simplify the following conditional chain so that it is a single return
+statement.
+
+    if (mipang()) {
+        if (berm) {
+            if (!car) {
+                if (!hudi) {
+                    return true;
+                }
+            }
+            if (crin == whul) {
+                if (!hudi) {
+                    return true;
+                }
+            }
+        }
+        if (tril()) {
+            if (!car) {
+                if (!hudi) {
+                    return true;
+                }
+            }
+            if (crin == whul) {
+                if (!hudi) {
+                    return true;
+                }
+            }
+        }
+        if (!unn) {
+            if (!car) {
+                if (!hudi) {
+                    return true;
+                }
+            }
+            if (crin == whul) {
+                if (!hudi) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+
+[1m[38;5;156m[48;5;22m              [0m
+[1m[38;5;156m[48;5;22m   SOLUTION   [0m
+[1m[38;5;156m[48;5;22m              [0m
+
+    return mipang() && (berm || tril() || !unn) && (!car || crin == whul) && !hudi;
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+Bonus challenge: rewrite the if/else chain above so that instead of consisting
+of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the end, it has many
+[4mreturn false;[24m statements with one [4mreturn true;[24m at the end.
+
+[1m[38;5;156m[48;5;22m              [0m
+[1m[38;5;156m[48;5;22m   SOLUTION   [0m
+[1m[38;5;156m[48;5;22m              [0m
+
+    if (!mipang()) {
+        return false;
+    }
+    if (!berm) {
+        if (!tril()) {
+            if (unn) {
+                return false;
+            }
+        }
+    }
+    if (car) {
+        if (crin != whul) {
+            return false;
+        }
+    }
+    if (hudi) {
+        return false;
+    }
+    return true;
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;63m            [0m
+[1m[38;5;16m[48;5;63m   PART 3   [0m
+[1m[38;5;16m[48;5;63m            [0m
+
+Simplify the following messy chain of conditionals:
+
+    if (ad == true) {
+        rick();
+    }
+    if (tri <= cen && ad != true) {
+        tost();
+    }
+    if (o == true && ad != true && tri > cen) {
+        stao();
+    } else if (mass == true && ad != true && tri > cen && o != true) {
+        nooFruai();
+    }
+    if (hia == true && ad != true && tri > cen && o != true && mass != true) {
+        kiint();
+    }
+    if (auc == true && ad != true && tri > cen && o != true && mass != true && hia != true) {
+        satrin();
+    }
+
+[1m[38;5;105m[48;5;17m              [0m
+[1m[38;5;105m[48;5;17m   SOLUTION   [0m
+[1m[38;5;105m[48;5;17m              [0m
+
+    if (ad) {
+        rick();
+    } else if (tri <= cen) {
+        tost();
+    } else if (o) {
+        stao();
+    } else if (mass) {
+        nooFruai();
+    } else if (hia) {
+        kiint();
+    } else if (auc) {
+        satrin();
+    }
+
+Things to double-check in your solution:
+
+  - Did you remove / simplify all the [4m== true[24m and [4m== false[24m checks?
+  - This particular conditional chain must end with an [4melse if[24m, not just [4melse[24m.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;209m            [0m
+[1m[38;5;16m[48;5;209m   PART 1   [0m
+[1m[38;5;16m[48;5;209m            [0m
+
+This if statement has a very long first clause, and a very short else clause.
+This makes it hard to read: the tiny else clause is so far from the condition,
+it’s hard to figure out what the [4melse[24m refers to!
+
+    if (anci() || (!osro && gu || !gosm) && ci && ce) {
+        ...
+        // Lots of code here
+        ...
+    } else {
+        pidNolord();
+    }
+
+Improve readability by refactoring this conditional so that what is now the else
+clause comes first, and the first clause comes second.
+
+[1m[38;5;216m[48;5;52m              [0m
+[1m[38;5;216m[48;5;52m   SOLUTION   [0m
+[1m[38;5;216m[48;5;52m              [0m
+
+    if (!anci() && ((osro || !gu) && gosm || !ci || !ce)) {
+        pidNolord();
+    } else {
+        ...
+        // Lots of code here
+        ...
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;85m            [0m
+[1m[38;5;16m[48;5;85m   PART 2   [0m
+[1m[38;5;16m[48;5;85m            [0m
+
+Simplify the following conditional chain so that it is a single return
+statement.
+
+    if (fon <= 2) {
+        if (ade) {
+            if (su) {
+                if (col) {
+                    if (thiTrend()) {
+                        return true;
+                    }
+                    if (rontho() == ferSoste()) {
+                        if (we) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+
+[1m[38;5;122m[48;5;22m              [0m
+[1m[38;5;122m[48;5;22m   SOLUTION   [0m
+[1m[38;5;122m[48;5;22m              [0m
+
+    return fon <= 2 && ade && su && col && (thiTrend() || rontho() == ferSoste() && we);
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+Bonus challenge: rewrite the if/else chain above so that instead of consisting
+of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the end, it has many
+[4mreturn false;[24m statements with one [4mreturn true;[24m at the end.
+
+[1m[38;5;122m[48;5;22m              [0m
+[1m[38;5;122m[48;5;22m   SOLUTION   [0m
+[1m[38;5;122m[48;5;22m              [0m
+
+    if (fon > 2) {
+        return false;
+    }
+    if (!ade) {
+        return false;
+    }
+    if (!su) {
+        return false;
+    }
+    if (!col) {
+        return false;
+    }
+    if (!thiTrend()) {
+        if (rontho() != ferSoste()) {
+            return false;
+        }
+        if (!we) {
+            return false;
+        }
+    }
+    return true;
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;207m            [0m
+[1m[38;5;16m[48;5;207m   PART 3   [0m
+[1m[38;5;16m[48;5;207m            [0m
+
+Simplify the following messy chain of conditionals:
+
+    if (ene == false) {
+        cafPhao();
+    } else if (doc == false && ene != false) {
+        lefIshi();
+    } else if (pula == true && ene != false && doc != false) {
+        creDaspas();
+    }
+    if (ei == hi && ene != false && doc != false && pula != true) {
+        fersod();
+    } else if (cing < 3 && ene != false && doc != false && pula != true && ei != hi) {
+        honAes();
+    } else if (ene != false && doc != false && pula != true && ei != hi && cing >= 3) {
+        engCoke();
+    }
+
+[1m[38;5;213m[48;5;53m              [0m
+[1m[38;5;213m[48;5;53m   SOLUTION   [0m
+[1m[38;5;213m[48;5;53m              [0m
+
+    if (!ene) {
+        cafPhao();
+    } else if (!doc) {
+        lefIshi();
+    } else if (pula) {
+        creDaspas();
+    } else if (ei == hi) {
+        fersod();
+    } else if (cing < 3) {
+        honAes();
+    } else {
+        engCoke();
+    }
+
+Things to double-check in your solution:
+
+  - Did you remove / simplify all the [4m== true[24m and [4m== false[24m checks?
+  - This particular conditional chain can end with just an [4melse[24m, no final [4mif[24m.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;227m            [0m
+[1m[38;5;16m[48;5;227m   PART 1   [0m
+[1m[38;5;16m[48;5;227m            [0m
+
+This if statement has a very long first clause, and a very short else clause.
+This makes it hard to read: the tiny else clause is so far from the condition,
+it’s hard to figure out what the [4melse[24m refers to!
+
+    if (!(eeel <= 3 || !(hite < osscic() && cienga() != mic)) && !(whuc || drio() || dreuis() >= 3)) {
+        ...
+        // Lots of code here
+        ...
+    } else {
+        eicBed();
+    }
+
+Improve readability by refactoring this conditional so that what is now the else
+clause comes first, and the first clause comes second.
+
+[1m[38;5;228m[48;5;58m              [0m
+[1m[38;5;228m[48;5;58m   SOLUTION   [0m
+[1m[38;5;228m[48;5;58m              [0m
+
+    if (eeel <= 3 || !(hite < osscic() && cienga() != mic) || whuc || drio() || dreuis() >= 3) {
+        eicBed();
+    } else {
+        ...
+        // Lots of code here
+        ...
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;75m            [0m
+[1m[38;5;16m[48;5;75m   PART 2   [0m
+[1m[38;5;16m[48;5;75m            [0m
+
+Simplify the following conditional chain so that it is a single return
+statement.
+
+    if (mithil()) {
+        if (essi == sar) {
+            return true;
+        }
+    }
+    if (flei >= lad) {
+        if (sed < peblal()) {
+            return true;
+        }
+    }
+    if (ciePro()) {
+        return true;
+    }
+    if (dei) {
+        if (wopeng()) {
+            return true;
+        }
+    }
+    return false;
+
+[1m[38;5;117m[48;5;17m              [0m
+[1m[38;5;117m[48;5;17m   SOLUTION   [0m
+[1m[38;5;117m[48;5;17m              [0m
+
+    return mithil() && essi == sar || flei >= lad && sed < peblal() || ciePro() || dei && wopeng();
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+Bonus challenge: rewrite the if/else chain above so that instead of consisting
+of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the end, it has many
+[4mreturn false;[24m statements with one [4mreturn true;[24m at the end.
+
+[1m[38;5;117m[48;5;17m              [0m
+[1m[38;5;117m[48;5;17m   SOLUTION   [0m
+[1m[38;5;117m[48;5;17m              [0m
+
+    if (!mithil()) {
+        if (flei < lad) {
+            if (!ciePro()) {
+                if (!dei) {
+                    return false;
+                }
+                if (!wopeng()) {
+                    return false;
+                }
+            }
+        }
+        if (sed >= peblal()) {
+            if (!ciePro()) {
+                if (!dei) {
+                    return false;
+                }
+                if (!wopeng()) {
+                    return false;
+                }
+            }
+        }
+    }
+    if (essi != sar) {
+        if (flei < lad) {
+            if (!ciePro()) {
+                if (!dei) {
+                    return false;
+                }
+                if (!wopeng()) {
+                    return false;
+                }
+            }
+        }
+        if (sed >= peblal()) {
+            if (!ciePro()) {
+                if (!dei) {
+                    return false;
+                }
+                if (!wopeng()) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;204m            [0m
+[1m[38;5;16m[48;5;204m   PART 3   [0m
+[1m[38;5;16m[48;5;204m            [0m
+
+Simplify the following messy chain of conditionals:
+
+    if (isa == true) {
+        fosAss();
+    }
+    if (pser != scle && isa != true) {
+        seio();
+    } else if (diho == true && isa != true && pser == scle) {
+        gidtri();
+    }
+    if (reir > 0 && isa != true && pser == scle && diho != true) {
+        sark();
+    }
+    if (fult == true && isa != true && pser == scle && diho != true && reir <= 0) {
+        less();
+    } else if (isa != true && pser == scle && diho != true && reir <= 0 && fult != true) {
+        puss();
+    }
+
+[1m[38;5;211m[48;5;52m              [0m
+[1m[38;5;211m[48;5;52m   SOLUTION   [0m
+[1m[38;5;211m[48;5;52m              [0m
+
+    if (isa) {
+        fosAss();
+    } else if (pser != scle) {
+        seio();
+    } else if (diho) {
+        gidtri();
+    } else if (reir > 0) {
+        sark();
+    } else if (fult) {
+        less();
+    } else {
+        puss();
+    }
+
+Things to double-check in your solution:
+
+  - Did you remove / simplify all the [4m== true[24m and [4m== false[24m checks?
+  - This particular conditional chain can end with just an [4melse[24m, no final [4mif[24m.
+
+────────────────────────────────────────────────────────────────────────────────
+
+[0m
+***************** PLEASE NOTE ******************
+***                                          ***
+*** The puzzle above has a difficulty of 5.  ***
+*** The difficulty level to get credit is 1. ***
+***                                          ***
+************************************************
+
+To try the puzzle at the goal difficulty, generate a puzzle without the --difficulty option.
+
+Want to practice more basics first? Try a simpler puzzle:
+
+  bin/puzzle gen bool --difficulty 4
+
+Want a bigger challenge? Try a harder difficulty level:
+
+  bin/puzzle gen bool --difficulty 6
+

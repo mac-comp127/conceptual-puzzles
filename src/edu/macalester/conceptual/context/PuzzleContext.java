@@ -8,9 +8,8 @@ import java.util.Set;
 public final class PuzzleContext {
     private static final SecureRandom seedGenerator = new SecureRandom();
 
-    private final PuzzleCode code;
+    private PuzzleCode code;
     private final Random rand;
-    private int difficulty;
 
     private State state = State.SETUP;
     private boolean solutionsVisible;
@@ -21,8 +20,8 @@ public final class PuzzleContext {
     private PuzzlePrinter printer;
     private Set<Integer> partsToShow;
 
-    public static PuzzleContext generate(byte puzzleID) {
-        return new PuzzleContext(new PuzzleCode(puzzleID, seedGenerator.nextLong()));
+    public static PuzzleContext generate(byte puzzleID, byte difficulty) {
+        return new PuzzleContext(new PuzzleCode(puzzleID, difficulty, seedGenerator.nextLong()));
     }
 
     public static PuzzleContext fromPuzzleCode(String puzzleCode) throws InvalidPuzzleCodeException {
@@ -31,7 +30,7 @@ public final class PuzzleContext {
 
     PuzzleContext(PuzzleCode code) {
         this.code = code;
-        rand = new Random(code.seed);
+        rand = new Random(code.seed());
     }
 
     public String getPuzzleCode() {
@@ -39,16 +38,11 @@ public final class PuzzleContext {
     }
 
     public byte getPuzzleID() {
-        return code.puzzleID;
+        return code.puzzleID();
     }
 
-    public int getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(int difficulty) {
-        requireState(State.SETUP, "set difficulty level");
-        this.difficulty = difficulty;
+    public byte getDifficulty() {
+        return code.difficulty();
     }
 
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––

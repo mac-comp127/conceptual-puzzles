@@ -31,12 +31,12 @@ public class AstDrawingPuzzle implements Puzzle {
     }
 
     @Override
-    public int goalDifficulty() {
+    public byte goalDifficulty() {
         return 2;
     }
 
     @Override
-    public int maxDifficulty() {
+    public byte maxDifficulty() {
         return 50;
     }
 

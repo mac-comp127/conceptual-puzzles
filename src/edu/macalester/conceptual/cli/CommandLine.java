@@ -23,8 +23,7 @@ public class CommandLine {
                     printHelp(options, true);
                 }
                 case "list" -> {
-                    requireCommandArgs(0, options);
-                    listPuzzles();
+                    listPuzzles(options);
                 }
                 case "gen" -> {
                     generate(options);
@@ -56,7 +55,11 @@ public class CommandLine {
             return;
         }
 
-        var ctx = PuzzleContext.generate(puzzle.id());
+        var ctx = PuzzleContext.generate(
+            puzzle.id(),
+            options.difficulty() != null
+                ? options.difficulty()
+                : puzzle.goalDifficulty());
         applyOptionsToContext(options, ctx, puzzle);
         emitPuzzle(puzzle, ctx, options);
 
@@ -64,8 +67,7 @@ public class CommandLine {
         System.out.println("Puzzle code: \u001b[7m " + ctx.getPuzzleCode() + " \u001b[0m");
         System.out.println();
         System.out.println("To see solution:");
-        System.out.println("  " + executableName() + " solve " + ctx.getPuzzleCode()
-            + options.toCommandLineOptions());
+        System.out.println("  " + executableName() + " solve " + ctx.getPuzzleCode());
     }
 
     private static void solve(PuzzleOptions options) throws InvalidPuzzleCodeException {
@@ -92,7 +94,7 @@ public class CommandLine {
                 ***                                          ***
                 ************************************************
 
-                To try the puzzle at the goal difficulty, omit the --difficulty option.
+                To try the puzzle at the goal difficulty, generate a puzzle without the --difficulty option.
                 """,
                 ctx.getDifficulty(),
                 puzzle.goalDifficulty()));
@@ -120,10 +122,6 @@ public class CommandLine {
             ctx.enableSolution();
         }
 
-        ctx.setDifficulty(
-            options.difficulty() != null
-                ? options.difficulty()
-                : puzzle.goalDifficulty());
         if (ctx.getDifficulty() < puzzle.minDifficulty() || ctx.getDifficulty() > puzzle.maxDifficulty()) {
             System.err.println("Illegal difficult level: " + ctx.getDifficulty());
             System.err.println("The `" + puzzle.name() + "` puzzle must have a difficulty in the range "
@@ -164,7 +162,9 @@ public class CommandLine {
         }
     }
 
-    private static void listPuzzles() {
+    private static void listPuzzles(PuzzleOptions options) {
+        requireCommandArgs(0, options);
+
         System.out.println("Available puzzle types:");
         System.out.println();
 

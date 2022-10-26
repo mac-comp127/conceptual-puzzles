@@ -11,21 +11,21 @@ import static org.junit.jupiter.api.Assertions.*;
 class PuzzleContextTest {
     @Test
     void contextShouldSurvivePuzzleCodeRoundTrip() throws Exception {
-        verifySeedRoundTrip(new PuzzleContext(new PuzzleCode((byte) 0, 0)));
-        verifySeedRoundTrip(new PuzzleContext(new PuzzleCode((byte) 1, 1)));
-        verifySeedRoundTrip(new PuzzleContext(new PuzzleCode((byte) 127, -1)));
-        verifySeedRoundTrip(new PuzzleContext(new PuzzleCode((byte) 127, Long.MAX_VALUE)));
-        verifySeedRoundTrip(new PuzzleContext(new PuzzleCode((byte) 0, Long.MIN_VALUE)));
+        verifySeedRoundTrip(new PuzzleContext(new PuzzleCode((byte) 0, (byte) 0, 0)));
+        verifySeedRoundTrip(new PuzzleContext(new PuzzleCode((byte) 1, (byte) 1, 1)));
+        verifySeedRoundTrip(new PuzzleContext(new PuzzleCode((byte) 127, (byte) -1, -1)));
+        verifySeedRoundTrip(new PuzzleContext(new PuzzleCode((byte) 127, (byte) 127, Long.MAX_VALUE)));
+        verifySeedRoundTrip(new PuzzleContext(new PuzzleCode((byte) 0, (byte) -128, Long.MIN_VALUE)));
         for(int i = 0; i < 100; i++) {
-            verifySeedRoundTrip(PuzzleContext.generate((byte) i));
+            verifySeedRoundTrip(PuzzleContext.generate((byte) i, (byte) (50 - i)));
         }
     }
 
     @Test
     void seedsAreCaseInsensitive() throws Exception {
         assertContextsEqual(
-            PuzzleContext.fromPuzzleCode("2QFJ-dt51-3IGM-pyk8"),
-            PuzzleContext.fromPuzzleCode("2qfJ-DT51-3igm-PYK8"));
+            PuzzleContext.fromPuzzleCode("azL3-gi7s-cR4p-zYm2"),
+            PuzzleContext.fromPuzzleCode("AZl3-GI7s-Cr4p-ZyM2"));
     }
 
     @Test
@@ -62,6 +62,10 @@ class PuzzleContextTest {
             original.getPuzzleCode(),
             recreated.getPuzzleCode(),
             "seed code mismatch for " + original);
+        assertEquals(
+            original.getDifficulty(),
+            recreated.getDifficulty(),
+            "difficulty mismatch for " + original);
         assertEquals(
             original.getPuzzleID(),
             recreated.getPuzzleID(),

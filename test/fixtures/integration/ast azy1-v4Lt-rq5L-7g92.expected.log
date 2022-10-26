@@ -1,0 +1,529 @@
+[0J────────────────────────────────────────────────────────────────────────────────
+
+For each of the Java expressions below:
+
+  - Draw an AST for the expression.
+  - Show how the expression evaluates at each node in the tree.
+
+Be sure that your tree accurately reflects how Java would evaluate the
+expression.
+
+[1m[38;5;16m[48;5;99m            [0m
+[1m[38;5;16m[48;5;99m   PART 1   [0m
+[1m[38;5;16m[48;5;99m            [0m
+
+Given the following variables:
+
+    int corpis = 6;
+    double in = 5.0;
+    double ho = 4.0;
+    int urm = 8;
+
+...draw the AST and evaluation tree for the following expression:
+
+    corpis - in % ho - urm
+
+[1m[38;5;141m[48;5;17m              [0m
+[1m[38;5;141m[48;5;17m   SOLUTION   [0m
+[1m[38;5;141m[48;5;17m              [0m
+
+<< drawing in canvas window >>
+
+Things to double-check in your solution:
+
+  - Do you have the left and right branches on the correct side?
+  - Did you indicate the difference between ints and floating point values?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;215m            [0m
+[1m[38;5;16m[48;5;215m   PART 2   [0m
+[1m[38;5;16m[48;5;215m            [0m
+
+Given the following variables:
+
+    double er = 2.0;
+    boolean cess = false;
+    int delan = 3;
+    double la = 5.0;
+    boolean pnas = true;
+
+...draw the AST and evaluation tree for the following expression:
+
+    5 < er || cess || delan < la && pnas
+
+[1m[38;5;222m[48;5;52m              [0m
+[1m[38;5;222m[48;5;52m   SOLUTION   [0m
+[1m[38;5;222m[48;5;52m              [0m
+
+<< drawing in canvas window >>
+
+Things to double-check in your solution:
+
+  - Does your tree correctly reflect the precedence of && and ||?
+  - Did you correctly show short-circuiting? (That is when the right branch of
+    && or || is never evaluated because the left branch already determines the
+    answer.)
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;87m            [0m
+[1m[38;5;16m[48;5;87m   PART 3   [0m
+[1m[38;5;16m[48;5;87m            [0m
+
+Draw the AST and evaluation tree for the following expression:
+
+    0 + 1 + 2 + 3 + 4 + "5"
+
+[1m[38;5;123m[48;5;23m              [0m
+[1m[38;5;123m[48;5;23m   SOLUTION   [0m
+[1m[38;5;123m[48;5;23m              [0m
+
+<< drawing in canvas window >>
+
+Things to double-check in your solution:
+
+  - Did you indicate the distinction between ints and Strings?
+  - Are your left/right branches correct?
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+For each of the Java expressions below:
+
+  - Draw an AST for the expression.
+  - Show how the expression evaluates at each node in the tree.
+
+Be sure that your tree accurately reflects how Java would evaluate the
+expression.
+
+[1m[38;5;16m[48;5;207m            [0m
+[1m[38;5;16m[48;5;207m   PART 1   [0m
+[1m[38;5;16m[48;5;207m            [0m
+
+Given the following variables:
+
+    int rasar = 6;
+
+...draw the AST and evaluation tree for the following expression:
+
+    4 * 9 * 6 / rasar
+
+[1m[38;5;213m[48;5;53m              [0m
+[1m[38;5;213m[48;5;53m   SOLUTION   [0m
+[1m[38;5;213m[48;5;53m              [0m
+
+<< drawing in canvas window >>
+
+Things to double-check in your solution:
+
+  - Do you have the left and right branches on the correct side?
+  - Did you indicate the difference between ints and floating point values?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;155m            [0m
+[1m[38;5;16m[48;5;155m   PART 2   [0m
+[1m[38;5;16m[48;5;155m            [0m
+
+Given the following variables:
+
+    int car = 1;
+    int sa = 5;
+    double bad = 5.0;
+    int pidenk = 1;
+
+...draw the AST and evaluation tree for the following expression:
+
+    5 > 6 && car != 2 && sa >= bad && pidenk > 7
+
+[1m[38;5;192m[48;5;22m              [0m
+[1m[38;5;192m[48;5;22m   SOLUTION   [0m
+[1m[38;5;192m[48;5;22m              [0m
+
+<< drawing in canvas window >>
+
+Things to double-check in your solution:
+
+  - Does your tree correctly reflect the precedence of && and ||?
+  - Did you correctly show short-circuiting? (That is when the right branch of
+    && or || is never evaluated because the left branch already determines the
+    answer.)
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;69m            [0m
+[1m[38;5;16m[48;5;69m   PART 3   [0m
+[1m[38;5;16m[48;5;69m            [0m
+
+Draw the AST and evaluation tree for the following expression:
+
+    0 + 1 + "2" + 3 + 4 + 5
+
+[1m[38;5;111m[48;5;17m              [0m
+[1m[38;5;111m[48;5;17m   SOLUTION   [0m
+[1m[38;5;111m[48;5;17m              [0m
+
+<< drawing in canvas window >>
+
+Things to double-check in your solution:
+
+  - Did you indicate the distinction between ints and Strings?
+  - Are your left/right branches correct?
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+For each of the Java expressions below:
+
+  - Draw an AST for the expression.
+  - Show how the expression evaluates at each node in the tree.
+
+Be sure that your tree accurately reflects how Java would evaluate the
+expression.
+
+[1m[38;5;16m[48;5;203m            [0m
+[1m[38;5;16m[48;5;203m   PART 1   [0m
+[1m[38;5;16m[48;5;203m            [0m
+
+Draw the AST and evaluation tree for the following expression:
+
+    3 * 5 / 7 + 0
+
+[1m[38;5;210m[48;5;52m              [0m
+[1m[38;5;210m[48;5;52m   SOLUTION   [0m
+[1m[38;5;210m[48;5;52m              [0m
+
+<< drawing in canvas window >>
+
+Things to double-check in your solution:
+
+  - Do you have the left and right branches on the correct side?
+  - Did you indicate the difference between ints and floating point values?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;84m            [0m
+[1m[38;5;16m[48;5;84m   PART 2   [0m
+[1m[38;5;16m[48;5;84m            [0m
+
+Given the following variables:
+
+    double dess = 1.0;
+    double phiss = 4.0;
+    int bas = 7;
+    boolean phaissqo = true;
+
+...draw the AST and evaluation tree for the following expression:
+
+    2 == dess || phiss < bas && 0 != 9 && phaissqo
+
+[1m[38;5;121m[48;5;22m              [0m
+[1m[38;5;121m[48;5;22m   SOLUTION   [0m
+[1m[38;5;121m[48;5;22m              [0m
+
+<< drawing in canvas window >>
+
+Things to double-check in your solution:
+
+  - Does your tree correctly reflect the precedence of && and ||?
+  - Did you correctly show short-circuiting? (That is when the right branch of
+    && or || is never evaluated because the left branch already determines the
+    answer.)
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;171m            [0m
+[1m[38;5;16m[48;5;171m   PART 3   [0m
+[1m[38;5;16m[48;5;171m            [0m
+
+Draw the AST and evaluation tree for the following expression:
+
+    0 + 1 + 2 + "3" + 4 + 5
+
+[1m[38;5;177m[48;5;17m              [0m
+[1m[38;5;177m[48;5;17m   SOLUTION   [0m
+[1m[38;5;177m[48;5;17m              [0m
+
+<< drawing in canvas window >>
+
+Things to double-check in your solution:
+
+  - Did you indicate the distinction between ints and Strings?
+  - Are your left/right branches correct?
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+For each of the Java expressions below:
+
+  - Draw an AST for the expression.
+  - Show how the expression evaluates at each node in the tree.
+
+Be sure that your tree accurately reflects how Java would evaluate the
+expression.
+
+[1m[38;5;16m[48;5;227m            [0m
+[1m[38;5;16m[48;5;227m   PART 1   [0m
+[1m[38;5;16m[48;5;227m            [0m
+
+Given the following variables:
+
+    int aidfu = 6;
+    int iacbad = 9;
+
+...draw the AST and evaluation tree for the following expression:
+
+    aidfu - iacbad - 1 / 7
+
+[1m[38;5;228m[48;5;58m              [0m
+[1m[38;5;228m[48;5;58m   SOLUTION   [0m
+[1m[38;5;228m[48;5;58m              [0m
+
+<< drawing in canvas window >>
+
+Things to double-check in your solution:
+
+  - Do you have the left and right branches on the correct side?
+  - Did you indicate the difference between ints and floating point values?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;87m            [0m
+[1m[38;5;16m[48;5;87m   PART 2   [0m
+[1m[38;5;16m[48;5;87m            [0m
+
+Given the following variables:
+
+    double ga = 4.0;
+    int ross = 9;
+    boolean har = true;
+    int gelqun = 6;
+
+...draw the AST and evaluation tree for the following expression:
+
+    7 != ga && 6 >= ross || har && 0 <= gelqun
+
+[1m[38;5;123m[48;5;23m              [0m
+[1m[38;5;123m[48;5;23m   SOLUTION   [0m
+[1m[38;5;123m[48;5;23m              [0m
+
+<< drawing in canvas window >>
+
+Things to double-check in your solution:
+
+  - Does your tree correctly reflect the precedence of && and ||?
+  - Did you correctly show short-circuiting? (That is when the right branch of
+    && or || is never evaluated because the left branch already determines the
+    answer.)
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;205m            [0m
+[1m[38;5;16m[48;5;205m   PART 3   [0m
+[1m[38;5;16m[48;5;205m            [0m
+
+Draw the AST and evaluation tree for the following expression:
+
+    0 + 1 + "2" + 3 + 4 + 5
+
+[1m[38;5;212m[48;5;52m              [0m
+[1m[38;5;212m[48;5;52m   SOLUTION   [0m
+[1m[38;5;212m[48;5;52m              [0m
+
+<< drawing in canvas window >>
+
+Things to double-check in your solution:
+
+  - Did you indicate the distinction between ints and Strings?
+  - Are your left/right branches correct?
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+For each of the Java expressions below:
+
+  - Draw an AST for the expression.
+  - Show how the expression evaluates at each node in the tree.
+
+Be sure that your tree accurately reflects how Java would evaluate the
+expression.
+
+[1m[38;5;16m[48;5;119m            [0m
+[1m[38;5;16m[48;5;119m   PART 1   [0m
+[1m[38;5;16m[48;5;119m            [0m
+
+Given the following variables:
+
+    double ectrou = 5.0;
+    int ne = 5;
+
+...draw the AST and evaluation tree for the following expression:
+
+    7 % 3 * ectrou % ne
+
+[1m[38;5;156m[48;5;22m              [0m
+[1m[38;5;156m[48;5;22m   SOLUTION   [0m
+[1m[38;5;156m[48;5;22m              [0m
+
+<< drawing in canvas window >>
+
+Things to double-check in your solution:
+
+  - Do you have the left and right branches on the correct side?
+  - Did you indicate the difference between ints and floating point values?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;63m            [0m
+[1m[38;5;16m[48;5;63m   PART 2   [0m
+[1m[38;5;16m[48;5;63m            [0m
+
+Given the following variables:
+
+    int dioumre = 6;
+    int eng = 4;
+    int frintfi = 9;
+    double wuron = 4.0;
+
+...draw the AST and evaluation tree for the following expression:
+
+    dioumre != 5 && eng > 4 && 0 == frintfi || 6 < wuron
+
+[1m[38;5;105m[48;5;17m              [0m
+[1m[38;5;105m[48;5;17m   SOLUTION   [0m
+[1m[38;5;105m[48;5;17m              [0m
+
+<< drawing in canvas window >>
+
+Things to double-check in your solution:
+
+  - Does your tree correctly reflect the precedence of && and ||?
+  - Did you correctly show short-circuiting? (That is when the right branch of
+    && or || is never evaluated because the left branch already determines the
+    answer.)
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;209m            [0m
+[1m[38;5;16m[48;5;209m   PART 3   [0m
+[1m[38;5;16m[48;5;209m            [0m
+
+Draw the AST and evaluation tree for the following expression:
+
+    0 + 1 + "2" + 3 + 4 + 5
+
+[1m[38;5;216m[48;5;52m              [0m
+[1m[38;5;216m[48;5;52m   SOLUTION   [0m
+[1m[38;5;216m[48;5;52m              [0m
+
+<< drawing in canvas window >>
+
+Things to double-check in your solution:
+
+  - Did you indicate the distinction between ints and Strings?
+  - Are your left/right branches correct?
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+For each of the Java expressions below:
+
+  - Draw an AST for the expression.
+  - Show how the expression evaluates at each node in the tree.
+
+Be sure that your tree accurately reflects how Java would evaluate the
+expression.
+
+[1m[38;5;16m[48;5;86m            [0m
+[1m[38;5;16m[48;5;86m   PART 1   [0m
+[1m[38;5;16m[48;5;86m            [0m
+
+Given the following variables:
+
+    double isstan = 1.0;
+    double puemusp = 1.0;
+    double phantcan = 1.0;
+
+...draw the AST and evaluation tree for the following expression:
+
+    isstan / 3 + puemusp + phantcan
+
+[1m[38;5;122m[48;5;22m              [0m
+[1m[38;5;122m[48;5;22m   SOLUTION   [0m
+[1m[38;5;122m[48;5;22m              [0m
+
+<< drawing in canvas window >>
+
+Things to double-check in your solution:
+
+  - Do you have the left and right branches on the correct side?
+  - Did you indicate the difference between ints and floating point values?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;207m            [0m
+[1m[38;5;16m[48;5;207m   PART 2   [0m
+[1m[38;5;16m[48;5;207m            [0m
+
+Given the following variables:
+
+    boolean aal = false;
+    int ripi = 7;
+    int gant = 9;
+    int bolci = 8;
+
+...draw the AST and evaluation tree for the following expression:
+
+    aal && 2 <= ripi || 6 != gant || 2 == bolci
+
+[1m[38;5;213m[48;5;53m              [0m
+[1m[38;5;213m[48;5;53m   SOLUTION   [0m
+[1m[38;5;213m[48;5;53m              [0m
+
+<< drawing in canvas window >>
+
+Things to double-check in your solution:
+
+  - Does your tree correctly reflect the precedence of && and ||?
+  - Did you correctly show short-circuiting? (That is when the right branch of
+    && or || is never evaluated because the left branch already determines the
+    answer.)
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;191m            [0m
+[1m[38;5;16m[48;5;191m   PART 3   [0m
+[1m[38;5;16m[48;5;191m            [0m
+
+Draw the AST and evaluation tree for the following expression:
+
+    0 + 1 + 2 + "3" + 4 + 5
+
+[1m[38;5;228m[48;5;58m              [0m
+[1m[38;5;228m[48;5;58m   SOLUTION   [0m
+[1m[38;5;228m[48;5;58m              [0m
+
+<< drawing in canvas window >>
+
+Things to double-check in your solution:
+
+  - Did you indicate the distinction between ints and Strings?
+  - Are your left/right branches correct?
+
+────────────────────────────────────────────────────────────────────────────────
+
+[0m
+Want to practice more basics first? Try a simpler puzzle:
+
+  bin/puzzle gen ast --difficulty 1
+
+Want a bigger challenge? Try a harder difficulty level:
+
+  bin/puzzle gen ast --difficulty 3
+

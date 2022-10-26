@@ -45,9 +45,9 @@ class PuzzleOptions {
         return Integer.parseInt(cmd.getOptionValue(repeat, "1"));
     }
 
-    public Integer difficulty() {
+    public Byte difficulty() {
         return cmd.hasOption(difficulty)
-            ? Integer.parseInt(cmd.getOptionValue(difficulty))
+            ? Byte.parseByte(cmd.getOptionValue(difficulty))
             : null;
     }
 
@@ -106,21 +106,5 @@ class PuzzleOptions {
             .build();
         options.addOption(option);
         return option;
-    }
-
-    public String toCommandLineOptions() {
-        StringBuilder out = new StringBuilder();
-        for (var opt : cmd.getOptions()) {
-            if (opt.getId() == includeSolutions.getId()) {
-                continue;
-            }
-            out.append(" ");
-            out.append(opt.getLongOpt() != null ? "--" + opt.getLongOpt() : "-" + opt.getOpt());
-            if (opt.getValue() != null) {
-                out.append(" ");
-                out.append(opt.getValue());
-            }
-        }
-        return out.toString();
     }
 }

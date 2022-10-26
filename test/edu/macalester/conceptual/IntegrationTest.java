@@ -22,9 +22,10 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class IntegrationTest {
     private static final List<String> PUZZLE_CODES = List.of(
-        "3n79-zz4j-92du-da40",  // loop
-        "ejt6-nLqk-y7iy-jhk7",  // ast
-        "772v-10ei-wo7e-25gt"   // bool
+        "7yg5-04ba-rfo9-hi",    // loop
+        "azy1-v4Lt-rq5L-7g92",  // ast
+        "5i42-dtog-jq0h-93cn",  // bool
+        "5kwo-ytu2-xjbr-tuir"   // bool, difficulty = 5
     );
 
     @TestFactory
@@ -37,7 +38,7 @@ public class IntegrationTest {
         for (var code : PUZZLE_CODES) {
             var puzzle = Puzzle.findByID(PuzzleContext.fromPuzzleCode(code).getPuzzleID());
             puzzlesNotCovered.remove(puzzle);
-            tests.add(createIntegrationTest(puzzle.name() + " " + code, "solve", code));
+            tests.add(createIntegrationTest(puzzle.name() + " " + code, "solve", code, "--repeat=6"));
         }
 
         tests.add(DynamicTest.dynamicTest(
@@ -70,7 +71,7 @@ public class IntegrationTest {
                 var command = new ArrayList<String>();
                 command.add(Path.of("bin", "puzzle" + (isWindows() ? ".bat" : "")).toString());
                 command.addAll(Arrays.asList(cliArgs));
-                System.out.println(command);
+                System.out.println(String.join(" ", command));
                 var builder = new ProcessBuilder()
                     .command(command.toArray(new String[0]))
                     .redirectErrorStream(true)

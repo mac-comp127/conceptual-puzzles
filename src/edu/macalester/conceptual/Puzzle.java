@@ -16,15 +16,15 @@ public interface Puzzle {
 
     String description();
 
-    default int goalDifficulty() {
+    default byte goalDifficulty() {
         return minDifficulty();
     }
 
-    default int minDifficulty() {
+    default byte minDifficulty() {
         return 0;
     }
 
-    default int maxDifficulty() {
+    default byte maxDifficulty() {
         return 0;
     }
 
