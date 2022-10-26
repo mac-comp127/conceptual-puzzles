@@ -1,0 +1,29 @@
+name: Regression tests
+
+on:
+  push:
+    branches: [ main, ci ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
+        java-version: [18, 17, 16]
+        java-distro: [temurin, zulu]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: ${{ matrix.java-distro }}
+
+      - name: Build and run tests
+        run: ./gradlew test -i --console=plain --no-daemon
