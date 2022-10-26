@@ -7,6 +7,7 @@ import java.util.function.Function;
 
 import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.PuzzleContext;
+import edu.macalester.conceptual.util.Evaluator;
 import edu.macalester.graphics.CanvasWindow;
 
 import static edu.macalester.conceptual.puzzles.ast.Generator.generateArithmeticComparisonsExpression;
@@ -103,9 +104,7 @@ public class AstDrawingPuzzle implements Puzzle {
         });
     }
 
-    private static void showDrawingInWindow(PuzzleContext ctx, ExprWithVars code) {
-        AstDrawing.annotateWithEvaluation(code);
-        AstDrawing.showShortCircuiting(code);
+    private static void showDrawingInWindow(PuzzleContext ctx, EvaluationTree code) {
         var ast = AstDrawing.of(
             code.expr(),
             ctx.currentSectionHue());
@@ -125,7 +124,7 @@ public class AstDrawingPuzzle implements Puzzle {
         window.draw();
     }
 
-    private static ExprWithVars generateValidExpr(Function<VariablePool, String> exprGenerator) {
+    private static EvaluationTree generateValidExpr(Function<VariablePool, String> exprGenerator) {
         VariablePool vars;
         String exprAsString;
 
@@ -134,12 +133,14 @@ public class AstDrawingPuzzle implements Puzzle {
             exprAsString = exprGenerator.apply(vars);
 
             try {
-                Evaluator.evaluate(Object.class, vars, exprAsString);
-                return new ExprWithVars(
+                var tree = new EvaluationTree(
                     StaticJavaParser.parseExpression(exprAsString),
                     exprAsString,
                     vars);
-            } catch (EvaluationException e) {
+                tree.attachEvaluationResults();
+                tree.showShortCircuiting();
+                return tree;
+            } catch (Evaluator.EvaluationException e) {
                 // expression causes division by zero or similar; try again!
             }
         } while(true);

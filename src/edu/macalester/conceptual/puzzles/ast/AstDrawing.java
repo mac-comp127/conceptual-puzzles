@@ -24,48 +24,11 @@ import static edu.macalester.conceptual.ast.AstUtils.*;
 public class AstDrawing extends GraphicsGroup {
     private final double anchorX;
 
-    public static final DataKey<String> DRAWING_ANNOTATION = new DataKey<>() { };
-
-    public static void annotateWithEvaluation(ExprWithVars code) {
-        List<Expression> allExprs = allDescendantsOfType(Expression.class, code.expr());
-        var evaluationResults =
-            Evaluator.evaluate(
-                List.class,
-                code.vars(),
-                "java.util.List.of(\n"
-                    + allExprs.stream()
-                        .map(AstUtils::withParensAsNeeded)
-                        .map(Object::toString)
-                        .collect(Collectors.joining(",\n"))
-                + ")");
-        for (int i = 0; i < allExprs.size(); i++) {
-            allExprs.get(i).setData(DRAWING_ANNOTATION, formatValue(evaluationResults.get(i)));
-        }
-    }
-
-    public static void showShortCircuiting(ExprWithVars code) {
-        for (var expr : allDescendantsOfType(BinaryExpr.class, code.expr())) {
-            if (!expr.getLeft().containsData(DRAWING_ANNOTATION)) {
-                continue;
-            }
-            var leftValue = expr.getLeft().getData(DRAWING_ANNOTATION);
-
-            if (
-                expr.getOperator() == AND && leftValue.equals("false")
-                || expr.getOperator() == OR && leftValue.equals("true")
-            ) {
-                for (var rightDescendant : allDescendantsOfType(Expression.class, expr.getRight())) {
-                    rightDescendant.removeData(DRAWING_ANNOTATION);
-                }
-                expr.getRight().setData(DRAWING_ANNOTATION, "never evaluated");
-            }
-        }
-    }
-
     public static AstDrawing of(Expression expr, float hue) {
-        var annotation = expr.containsData(DRAWING_ANNOTATION)
-            ? expr.getData(DRAWING_ANNOTATION)
-            : null;
+        String annotation =
+            EvaluationTree.valueOf(expr)
+                .map(AstDrawing::formatValue)
+                .orElse(null);
 
         if (expr instanceof EnclosedExpr enclosed) {
             return AstDrawing.of(enclosed.getInner(), hue);
@@ -150,9 +113,4 @@ public class AstDrawing extends GraphicsGroup {
             childX += child.getWidth() + childMarginX;
         }
     }
-
-    public record Options(
-        float lineHue,
-        float annotationHue
-    ) { }
 }
