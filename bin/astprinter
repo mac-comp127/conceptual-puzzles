@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e
+project_dir="$(dirname "$0")/.."
+
+exec "$project_dir/gradlew" \
+    print-ast \
+    --project-dir "$project_dir" \
+    --args=" $*"

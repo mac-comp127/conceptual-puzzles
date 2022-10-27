@@ -1,12 +1,13 @@
 package edu.macalester.conceptual.ast;
 
 import com.github.javaparser.StaticJavaParser;
-import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 
-import java.io.FileInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -14,12 +15,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
  * Dumps javaparser’s AST in a human-friendly form.
- *
- * The main function parses and dumps Java source files given as command-line args.
+ * Use this class via the <code>bin/astprinter</code> script.
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class AstPrinter {
@@ -27,17 +28,40 @@ public class AstPrinter {
     private final int tabSize;
 
     public static void main(String[] args) throws Exception {
-        AstPrinter astPrinter = new AstPrinter(3);
-        for(String file : args) {
-            System.out.println();
-            System.out.println("––––––––––––––––––––––––––––––––––");
-            System.out.println(file);
-            System.out.println("––––––––––––––––––––––––––––––––––");
-            System.out.println();
-            System.out.flush();
-            CompilationUnit cu = StaticJavaParser.parse(new FileInputStream(file));
-            astPrinter.dump(null, cu, 0, true);
+        if (args.length != 1) {
+            System.err.println(
+                """
+                usage: astprinter <parse-unit>
+                
+                Examples:
+                    echo '3 + foo.bar(17 * 2)' | bin/astprinter expr
+                    echo '{ int x = 3; return x; }' | bin/astprinter stmt
+                    echo 'int foo(String bar) { return 0; }' | bin/astprinter method
+                    echo 'public interface Foo { void bar(); }' | bin/astprinter class
+                    bin/astprinter file < src/edu/macalester/conceptual/Puzzle.java
+                """);
+            System.exit(0);
         }
+        Function<String,Node> parser = switch (args[0]) {
+            case "expr" -> StaticJavaParser::parseExpression;
+            case "stmt" -> StaticJavaParser::parseStatement;
+            case "method" -> StaticJavaParser::parseMethodDeclaration;
+            case "class" -> StaticJavaParser::parseTypeDeclaration;
+            case "file" -> StaticJavaParser::parse;
+            default -> {
+                System.err.println();
+                System.err.println("Unknown parse-unit: " + args[0]);
+                System.err.println("Must be one of: expr stmt method class file");
+                System.err.println();
+                System.exit(0);
+                yield null;
+            }
+        };
+        new AstPrinter(3).dump(
+            parser.apply(
+                new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8))
+                    .lines()
+                    .collect(Collectors.joining(System.lineSeparator()))));
     }
 
     public AstPrinter(int tabSize) {
@@ -61,12 +85,17 @@ public class AstPrinter {
         ignoredNodeAttrs = attrs;
     }
 
+    /**
+     * Prints the AST for the given node.
+     */
     public void dump(Node node) {
         dump(null, node, 0, true);
     }
 
     /**
-     * Recursively dumps the AST indented by the given number of spaces.
+     * Prints the AST for the given node indented by the given number of spaces.
+     *
+     * @param descend If false, show node but do not show children.
      */
     public void dump(String label, Node node, int indentation, boolean descend) {
         String prefix = (label == null) ? "" : label + ": ";

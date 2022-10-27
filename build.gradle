@@ -33,11 +33,17 @@ test {
     useJUnitPlatform()
 }
 
-task('run-cli', dependsOn: 'classes', type: JavaExec) {
-    mainClass = 'edu.macalester.conceptual.cli.CommandLine'
-    classpath = sourceSets.main.runtimeClasspath
-    javaLauncher = javaToolchains.launcherFor {
-        languageVersion = java.toolchain.languageVersion  // run with same Java used to compile
+[
+    'run-cli':   'edu.macalester.conceptual.cli.CommandLine',
+    'print-ast': 'edu.macalester.conceptual.ast.AstPrinter'
+].each { taskName, mainClassName ->
+    task(taskName, dependsOn: 'classes', type: JavaExec) {
+        mainClass = mainClassName
+        classpath = sourceSets.main.runtimeClasspath
+        standardInput = System.in
+        javaLauncher = javaToolchains.launcherFor {
+            languageVersion = java.toolchain.languageVersion
+        }
     }
 }
 
