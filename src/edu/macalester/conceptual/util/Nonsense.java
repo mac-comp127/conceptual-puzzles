@@ -12,7 +12,6 @@ import com.google.common.collect.Lists;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.macalester.conceptual.ast.AstUtils;
 import edu.macalester.conceptual.context.PuzzleContext;
 
 import static com.github.javaparser.utils.Utils.capitalize;

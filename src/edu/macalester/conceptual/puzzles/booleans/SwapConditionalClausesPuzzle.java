@@ -6,8 +6,8 @@ import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.util.Nonsense;
 
 import static com.github.javaparser.StaticJavaParser.parseBlock;
-import static edu.macalester.conceptual.ast.AstUtils.*;
 import static edu.macalester.conceptual.puzzles.booleans.Generator.generateBooleanExpr;
+import static edu.macalester.conceptual.util.AstUtils.negated;
 import static edu.macalester.conceptual.util.CodeFormatting.*;
 
 class SwapConditionalClausesPuzzle {

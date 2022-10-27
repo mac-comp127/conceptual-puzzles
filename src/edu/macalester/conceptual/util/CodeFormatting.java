@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
-import static edu.macalester.conceptual.ast.AstUtils.*;
+import static edu.macalester.conceptual.util.AstUtils.withParensAsNeeded;
 
 /**
  * A variety of helper methods for working with code in string form.
@@ -19,7 +19,7 @@ import static edu.macalester.conceptual.ast.AstUtils.*;
  * need to be well-typed, refer to variables that actually exist, etc., but it does need to parse.
  * <p>
  * Note that the {@link #prettify(Node)} method to <i>format</i> an AST node is also in this class.
- * For help <i>constructing</i> JavaPaser ASTs, see {@link edu.macalester.conceptual.ast.AstUtils}.
+ * For help <i>constructing</i> JavaPaser ASTs, see {@link AstUtils}.
  */
 public enum CodeFormatting {
     ; // static utility class; no cases

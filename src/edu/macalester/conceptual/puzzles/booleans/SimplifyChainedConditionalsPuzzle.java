@@ -14,13 +14,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import edu.macalester.conceptual.ast.AstUtils;
 import edu.macalester.conceptual.context.PuzzleContext;
+import edu.macalester.conceptual.util.AstUtils;
 import edu.macalester.conceptual.util.Nonsense;
 
 import static com.github.javaparser.ast.expr.BinaryExpr.Operator.*;
 import static com.github.javaparser.ast.expr.UnaryExpr.Operator.*;
-import static edu.macalester.conceptual.ast.AstUtils.*;
+import static edu.macalester.conceptual.util.AstUtils.blockOf;
+import static edu.macalester.conceptual.util.AstUtils.joinedWithOperator;
 import static edu.macalester.conceptual.util.CodeFormatting.*;
 import static edu.macalester.conceptual.util.Randomness.*;
 

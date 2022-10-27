@@ -1,4 +1,4 @@
-package edu.macalester.conceptual.ast;
+package edu.macalester.conceptual.util;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;

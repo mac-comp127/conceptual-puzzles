@@ -35,7 +35,7 @@ test {
 
 [
     'run-cli':   'edu.macalester.conceptual.cli.CommandLine',
-    'print-ast': 'edu.macalester.conceptual.ast.AstPrinter'
+    'print-ast': 'edu.macalester.conceptual.util.AstPrinter'
 ].each { taskName, mainClassName ->
     task(taskName, dependsOn: 'classes', type: JavaExec) {
         mainClass = mainClassName
