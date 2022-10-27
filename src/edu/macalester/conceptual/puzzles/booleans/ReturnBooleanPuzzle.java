@@ -37,6 +37,9 @@ public class ReturnBooleanPuzzle {
         });
     }
 
+    /**
+     * Turns a boolean expr into nested + sequential if statements.
+     */
     private static String toConditionalChainReturningBool(Expression boolExpr, boolean negated) {
         if (negated) {
             boolExpr = negated(boolExpr);
@@ -70,6 +73,10 @@ public class ReturnBooleanPuzzle {
         return "if(" + boolExpr + "){" + leafStmt + "}";
     }
 
+    /**
+     * There is no tidy way to turn <code>(complex boolean expr) && whatever</code> into pure
+     * conditionals, so we rearrange things so that boolExpr never contains such a subtree.
+     */
     private static Expression removeLeftBranchingAnds(Expression boolExpr) {
         if (!(boolExpr instanceof BinaryExpr binary)) {
             return boolExpr;

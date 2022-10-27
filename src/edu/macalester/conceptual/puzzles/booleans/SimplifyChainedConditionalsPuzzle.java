@@ -26,6 +26,7 @@ import static edu.macalester.conceptual.util.Randomness.*;
 
 public class SimplifyChainedConditionalsPuzzle {
     public static void generate(PuzzleContext ctx) {
+        // The list of conditions and subsequent actions which will turn into successive if stmts
         List<ConditionAndBody> steps =
             generateList(1 + ctx.getDifficulty(), (done, remaining) ->
                 new ConditionAndBody(
@@ -56,47 +57,76 @@ public class SimplifyChainedConditionalsPuzzle {
         });
     }
 
+    /*
+     * Turns the given steps into sequential if statements, sometimes omitting else clauses.
+     * Each new if statement includes the negation of all the previous steps, and adds some
+     * unnecessary `== true` tests and the like.
+     *
+     * For example, steps [a, b, c] might become:
+     *
+     *   if (a) { ... }
+     *   if (b && !a) { ... }
+     *   if (c && !a && !b) { ... }
+     *
+     * It might also become:
+     *
+     *   if (a) { ... }
+     *   else if (b == true && !a) { ... }
+     *   if (c && !a && b == false) { ... }
+     */
     private static List<IfStmt> createMessyChain(PuzzleContext ctx, List<ConditionAndBody> steps) {
         List<Expression> previousNegations = new ArrayList<>();
         List<IfStmt> messyChain = new ArrayList<>();
         IfStmt prevConditional = null;
         for (var step : steps) {
-            List<Expression> additionalMessyConditions;
+            List<Expression> curMessyConditions;  // condition to add on this step
             if (step.condition == null) {
                 // Nothing new to add; just use all the previous negations!
                 // (This is an `else` with no additional `if` in the simplified version.)
-                additionalMessyConditions = List.of();
+                curMessyConditions = List.of();
             } else {
-                additionalMessyConditions = List.of(
+                curMessyConditions = List.of(
                     obfuscated(ctx, step.condition));
             }
 
             var curConditional =
                 new IfStmt(
-                    joinedWithOperator(
+                    joinedWithOperator(  // cur condition && negation of all previous ones
                         AND,
                         Stream.concat(
-                            additionalMessyConditions.stream(),
+                            curMessyConditions.stream(),
                             previousNegations.stream())),
                     blockOf(step.body),
                     null);  // `else` will be attached in subsequent iterations if needed
 
             if (prevConditional == null || ctx.getRandom().nextFloat() < 0.5) {
-                // Sometimes just start a new conditional chain, no else clause
+                // Sometimes just start a new conditional chain, no else clause!
                 // (Makes no difference because negated previous conditions have same effect as else)
                 messyChain.add(curConditional);
             } else {
+                // Sometimes attach this new monstrosity to the previous conditional
+                // as its else clause
                 prevConditional.setElseStmt(curConditional);
             }
             prevConditional = curConditional;
 
-            additionalMessyConditions.stream()
+            // Add negation of this step’s conditions to the growing snowball
+            curMessyConditions.stream()
                 .map(AstUtils::negated)
                 .forEachOrdered(previousNegations::add);
         }
         return messyChain;
     }
 
+    /*
+     * Turns the given steps into a single if/else chain, with no nonsense.
+     *
+     * For example, steps [a, b, c] become:
+     *
+     *   if (a) { ... }
+     *   else if (b) { ... }
+     *   else if (c) { ... }
+     */
     private static IfStmt createTidyChain(List<ConditionAndBody> steps) {
         IfStmt tidyChain = null, lastStep = null;
         for (var step : steps) {
@@ -120,6 +150,7 @@ public class SimplifyChainedConditionalsPuzzle {
     private static Expression obfuscated(PuzzleContext ctx, Expression boolExpr) {
         boolean isBinary = boolExpr instanceof BinaryExpr;
 
+        // Sometimes just leave x == y alone
         if (ctx.getRandom().nextFloat() < (isBinary ? 0.8 : 0.2)) {
             return boolExpr;
         }
@@ -140,7 +171,4 @@ public class SimplifyChainedConditionalsPuzzle {
         Expression condition,
         Statement body
     ) { }
-
-    private record IfElseChain(
-    ) {}
 }

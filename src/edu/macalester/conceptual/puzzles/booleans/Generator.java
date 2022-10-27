@@ -16,6 +16,9 @@ import static edu.macalester.conceptual.util.Randomness.*;
 public enum Generator {
     ; // static methods only
 
+    /**
+     * Generates expressions like <code>foo && bar < baz || !zot</code>.
+     */
     public static Expression generateBooleanExpr(
         PuzzleContext ctx,
         int numLeaves,
@@ -46,6 +49,9 @@ public enum Generator {
         return nodes.get(0);
     }
 
+    /**
+     * Generates expressions like <code>foo</code> or <code>bar < baz</code>.
+     */
     public static Expression generateBooleanLeaf(PuzzleContext ctx, boolean allowMethodCalls) {
         return parseExpression(
             chooseWithProb(ctx, 0.3,

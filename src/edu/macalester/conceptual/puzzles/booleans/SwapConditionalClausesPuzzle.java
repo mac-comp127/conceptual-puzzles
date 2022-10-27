@@ -38,7 +38,7 @@ class SwapConditionalClausesPuzzle {
             ctx.output().codeBlock(
                 new IfStmt(
                     negated(ifStmt.getCondition()),
-                    ifStmt.getElseStmt().orElseThrow(),
+                    ifStmt.getElseStmt().orElseThrow(), // second clause first!
                     ifStmt.getThenStmt()));
         });
     }
