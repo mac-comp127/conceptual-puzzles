@@ -53,6 +53,8 @@ public class AstDrawing extends GraphicsGroup {
     private static String formatValue(Object value) {
         if (value instanceof String) {
             return "\"" + value + "\"";
+        } else if (value instanceof Double doubleVal) {
+            return value.toString().replaceAll("(\\.\\d\\d)\\d+", "$1…");
         } else {
             return value.toString();
         }
