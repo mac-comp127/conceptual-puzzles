@@ -108,7 +108,7 @@ public class AstDrawingPuzzle implements Puzzle {
     private static void showDrawingInWindow(PuzzleContext ctx, EvaluationTree code) {
         var ast = AstDrawing.of(
             code.expr(),
-            ctx.currentSectionHue());
+            ctx.currentSectionHue());  // coordinate graphics with section heading color in console
 
         double margin = 24;
         var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -126,22 +126,28 @@ public class AstDrawingPuzzle implements Puzzle {
         window.draw();
     }
 
+    /**
+     * Repeatedly attempts to generate an expression that does not cause division by zero, NaNs, etc.
+     */
     private static EvaluationTree generateValidExpr(Function<VariablePool, String> exprGenerator) {
         VariablePool vars;
         String exprAsString;
 
         do {
+            // Generate a random expression
             vars = new VariablePool();
             exprAsString = exprGenerator.apply(vars);
+            var tree = new EvaluationTree(
+                StaticJavaParser.parseExpression(exprAsString),
+                exprAsString,
+                vars);
 
             try {
-                var tree = new EvaluationTree(
-                    StaticJavaParser.parseExpression(exprAsString),
-                    exprAsString,
-                    vars);
-                tree.attachEvaluationResults();
-                tree.showShortCircuiting();
+                // Try evaluating it. Does it fail parsing? Cause a division by zero error? etc.
+                tree.attachEvaluationResults();  // Attaches evaluation results to tree
+                tree.showShortCircuiting();      // Removes bool roads not taken
 
+                // For heaven’s sake, don’t make students deal with NaN yet
                 for (var subexpr : tree.subexprs()) {
                     EvaluationTree.valueOf(subexpr).ifPresent(val -> {
                         if (val instanceof Double doubleVal && doubleVal.isNaN()) {

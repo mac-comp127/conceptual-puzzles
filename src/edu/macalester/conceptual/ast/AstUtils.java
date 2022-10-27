@@ -23,7 +23,6 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.github.javaparser.ast.expr.BinaryExpr.Operator.*;

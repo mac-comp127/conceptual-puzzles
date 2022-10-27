@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import edu.macalester.conceptual.context.PuzzleContext;
-import edu.macalester.conceptual.util.Nonsense;
-import edu.macalester.conceptual.util.Randomness;
 
 /**
  * A collection of variable declarations. Useful for constructing code context for examples, and

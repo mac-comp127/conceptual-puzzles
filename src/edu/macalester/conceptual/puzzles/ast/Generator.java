@@ -9,6 +9,9 @@ import edu.macalester.conceptual.util.VariablePool;
 import static edu.macalester.conceptual.util.Randomness.*;
 
 public class Generator {
+    /**
+     * Generates an expression consisting of nothing but arithmetic operations.
+     */
     public static String generateArithmeticExpression(
         PuzzleContext ctx,
         VariablePool vars,
@@ -24,6 +27,10 @@ public class Generator {
                     () -> String.valueOf(ctx.getRandom().nextInt(10)))));
     }
 
+    /**
+     * Generates an expression consisting of arithmetic operations compared with equality /
+     * inequality operators, which are then joined with boolean operators.
+     */
     public static String generateArithmeticComparisonsExpression(
         PuzzleContext ctx,
         VariablePool vars,
@@ -42,6 +49,9 @@ public class Generator {
                                 ctx.getRandom().nextInt(1, maxArithmeticLeaves + 1)))))));
     }
 
+    /**
+     * Generates a chain of additions involving ints and strings.
+     */
     public static String generateStringAdditionExpression(PuzzleContext ctx, int numLeaves) {
         var stringsAndInts = generateList(numLeaves, (n, m) -> String.valueOf(n));
         for (int n = 0; n < numLeaves / 4; n++) {
@@ -54,6 +64,10 @@ public class Generator {
         return joinExprsWithOperators(ctx, "+", stringsAndInts);
     }
 
+    /**
+     * Joins the given expressions with random selections from the given operators, sometimes
+     * grouping a random subsequence in parentheses.
+     */
     public static String joinExprsWithOperators(
         PuzzleContext ctx,
         String operatorChoicesStr,
@@ -72,6 +86,7 @@ public class Generator {
             openParen = closeParen = -1;
         }
 
+        // Stick it all together!
         var result = new StringBuilder();
         for (int n = 0; n < exprs.size(); n++) {
             if (!result.isEmpty()) {
