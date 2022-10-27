@@ -8,39 +8,88 @@ import edu.macalester.conceptual.puzzles.ast.AstDrawingPuzzle;
 import edu.macalester.conceptual.puzzles.booleans.BooleansAndConditionalsPuzzle;
 import edu.macalester.conceptual.puzzles.loops.LoopTranslationPuzzle;
 
+/**
+ * A single conceptual puzzle type. Note that one instance of this class is a puzzle <i>type</i>,
+ * not a <i>single puzzle</i>, i.e. “AST Drawing” is one <code>Puzzle</code> object, which can
+ * generate many distinct AST Drawing puzzles given different <code>PuzzleContext</code> objects
+ * containing different random seeds.
+ * <p>
+ * The <code>ALL</code> constant in this class serves as the central repository of available puzzle
+ * types. To make a new puzzle type available, add it to that list.
+ */
 public interface Puzzle {
-
-    byte id();
-
-    String name();
-
-    String description();
-
-    default byte goalDifficulty() {
-        return minDifficulty();
-    }
-
-    default byte minDifficulty() {
-        return 0;
-    }
-
-    default byte maxDifficulty() {
-        return 0;
-    }
-
-    void generate(PuzzleContext ctx);
-
+    /**
+     * All available puzzle types. Anything listed here will show up as an option in the CLI.
+     */
     List<Puzzle> ALL = List.of(
         new AstDrawingPuzzle(),
         new BooleansAndConditionalsPuzzle(),
         new LoopTranslationPuzzle()
     );
 
-    public static Puzzle findByID(byte id) {
+    /**
+     * A unique positive ID for this type of puzzle. Used in generating and decoding puzzle codes.
+     */
+    byte id();
+
+    /**
+     * The user-visible short name for this puzzle, e.g. “ast” or “bool”.
+     */
+    String name();
+
+    /**
+     * A user-visible one-phrase description of this puzzle. Used by the CLI’s <code>list</code>
+     * command.
+     */
+    String description();
+
+    /**
+     * The difficultly level necessary to receive credit for this puzzle. This is the default
+     * difficulty if the user does not specify the <code>--difficulty</code> option.
+     * <p>
+     * Default implementation: returns <code>minDifficulty()</code>.
+     */
+    default byte goalDifficulty() {
+        return minDifficulty();
+    }
+
+    /**
+     * The minimum difficulty level for puzzles of this type.
+     * <p>
+     * Default implementation: 0
+     */
+    default byte minDifficulty() {
+        return 0;
+    }
+
+    /**
+     * The maximum difficulty level for puzzles of this type.
+     * <p>
+     * Default implementation: 0
+     */
+    default byte maxDifficulty() {
+        return 0;
+    }
+
+    /**
+     * Generates a puzzle for the given context, which contains the already-seeded random number
+     * generator, the difficulty level, and the output pipe.
+     */
+    void generate(PuzzleContext ctx);
+
+    /**
+     * Finds the unique <code>Puzzle</code> whose <code>id()</code> matches <code>id</code>, or
+     * null if no such puzzle exists. Raises an error if there are duplicate puzzle IDs.
+     */
+    static Puzzle findByID(byte id) {
         return find(id, Puzzle::id, "id");
     }
 
-    public static Puzzle findByName(String name) {
+    /**
+     * Finds the unique <code>Puzzle</code> whose <code>name()</code> matches <code>name</code>, or
+     * null if no such puzzle exists. Raises an error if there are duplicate puzzle names.
+     */
+    static Puzzle findByName(String name) {
         return find(name, Puzzle::name, "name");
     }
 

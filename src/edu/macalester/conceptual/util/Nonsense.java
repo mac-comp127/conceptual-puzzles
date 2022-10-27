@@ -14,11 +14,14 @@ import java.util.Set;
 
 import edu.macalester.conceptual.ast.AstUtils;
 import edu.macalester.conceptual.context.PuzzleContext;
-import edu.macalester.conceptual.context.WeightedChoices;
 
 import static com.github.javaparser.utils.Utils.capitalize;
 import static edu.macalester.conceptual.util.Randomness.*;
 
+/**
+ * Utilities for generating nonsense word Java identifiers. Note that methods here come in varieties
+ * that return both Strings and JavaParser AST nodes.
+ */
 public class Nonsense {
     private static final WeightedChoices<String>
         ONSETS = WeightedChoices.fromResource("syllable-parts/onsets"),

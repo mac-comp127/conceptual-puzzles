@@ -6,11 +6,19 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.zip.CRC32;
 
+/**
+ * Handles encoding and decoding of the puzzle codes the CLI provides to the user.
+ *
+ * @param seed The random number generator seed for the puzzle to use
+ */
 record PuzzleCode(
     byte puzzleID,
     byte difficulty,
     long seed
 ) {
+    /**
+     * Decodes the given puzzle code.
+     */
     public static PuzzleCode parse(String puzzleCode) throws InvalidPuzzleCodeException {
         var cleanedPuzzleCode = puzzleCode.replaceAll("-", "");
         // No need to handle L → l; BigInteger is case-insensitive
@@ -28,6 +36,9 @@ record PuzzleCode(
         }
     }
 
+    /**
+     * Encodes this puzzle code as a user-presentable string.
+     */
     public String toString() {
         return packAndAddChecksum()
             .toString(36)

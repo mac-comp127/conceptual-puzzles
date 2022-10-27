@@ -29,31 +29,58 @@ import java.util.stream.Stream;
 import static com.github.javaparser.ast.expr.BinaryExpr.Operator.*;
 import static com.github.javaparser.ast.expr.UnaryExpr.Operator.*;
 
+/**
+ * Assorted utilities for creating and working with JavaParser ASTs.
+ */
 public enum AstUtils {
     ; // no cases; static methods only
 
+    //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // AST Creation
+    //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+    /**
+     * Creates an IntegerLiteralExpr for the given int value.
+     */
     public static IntegerLiteralExpr intLiteral(int i) {
         return new IntegerLiteralExpr(String.valueOf(i));
     }
 
+    /**
+     * Creates a reference to the object type with the given name, suitable for use in
+     * a declaration, type cast expression, etc.
+     */
     public static ClassOrInterfaceType classNamed(String name) {
         return new ClassOrInterfaceType(null, name);
     }
 
+    /**
+     * Wraps a VariableDeclarator (e.g. <code>int x = 3</code>) inside a statement.
+     */
     public static ExpressionStmt variableDeclarationStmt(VariableDeclarator variable) {
         return new ExpressionStmt(
             new VariableDeclarationExpr(variable));
     }
 
+    /**
+     * Convenience for creating a NodeList.
+     */
     @SafeVarargs
     public static <NodeType extends Node> NodeList<NodeType> nodes(NodeType... nodes) {
         return new NodeList<>(nodes);
     }
 
+    /**
+     * Convenience for creating a block statement (i.e. many statements inside curly braces).
+     */
     public static BlockStmt blockOf(Statement... statements) {
         return new BlockStmt(nodes(statements));
     }
 
+    /**
+     * Returns the given expressions joined by the given operator to form a left-branching tree,
+     * e.g. <code>joinedWithOperator(+, 1, 2, 3, 4)</code> → <code>((1 + 2) + 3) + 4</code>
+     */
     public static Expression joinedWithOperator(BinaryExpr.Operator operator, Expression... exprs) {
         return joinedWithOperator(operator, Arrays.stream(exprs));
     }
@@ -64,6 +91,14 @@ public enum AstUtils {
             .orElseThrow();
     }
 
+    //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // AST Analysis
+    //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+    /**
+     * Finds all the descendants of <code>node</code> whose class is <code>type</code> (or a subtype),
+     * in DFS preorder. Example: <code>allDescendantsOfType(UnaryExpr.class, someMethodDecl)</code>
+     */
     public static <NodeType extends Node> List<NodeType> allDescendantsOfType(Class<NodeType> type, Node node) {
         var results = new ArrayList<NodeType>();
         addDescendantsOfType(type, node, results);
@@ -145,6 +180,9 @@ public enum AstUtils {
         }
     }
 
+    /**
+     * Returns the logical negation of the given boolean expression.
+     */
     public static Expression negated(Expression node) {
         if (node instanceof UnaryExpr expr) {
             if (expr.getOperator() == LOGICAL_COMPLEMENT) {

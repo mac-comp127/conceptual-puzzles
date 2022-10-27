@@ -11,8 +11,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import edu.macalester.conceptual.util.CodeFormatting;
+
 import static edu.macalester.conceptual.util.CodeFormatting.*;
 
+/**
+ * Provides console output facilities for the puzzle generator. Puzzle use <b>structured output,</b>
+ * meaning that all output methods describe the <i>role</i> of the output — heading, paragraph,
+ * code block — and there is no directly accessible <code>println()</code> method.
+ * <p>
+ * Several output methods in this class support <b>textual formatting</b> with the following
+ * features:
+ * <ul>
+ *   <li>Words wrap to the console size.</li>
+ *   <li>Single line breaks in the input are ignored, which means that you can use a Java multiline
+ *       string in your code with code-appropriate line breaks, and the PuzzlePrinter will reflow
+ *       your text to fit the console.</li>
+ *   <li>Text enclosed in `backticks` is visually styled as code. This is appropriate for English
+ *       text mentioning variable names, short expressions, etc. For whole chunks of code, however,
+ *       you should use {@link #codeBlock(String)}.</li>
+ * </ul>
+ */
 public class PuzzlePrinter implements Closeable {
     private final boolean colorCode = false;  // print code in color? (doesn't handle white BG well)
     private final PrintWriter out;
@@ -41,6 +60,22 @@ public class PuzzlePrinter implements Closeable {
         print(ansiCode('J', 0));
     }
 
+    public void close() {
+        out.print(ansiCode('m', 0));  // restore normal colors
+        out.println();     // clear any dangling indents
+        out.flush();       // flush, don’t close; that could close System.out!!
+    }
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // Public Output API
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+    /**
+     * Prints a horizontal divider line to visually separate items.
+     *
+     * @param primary Determines whether the line is solid / prominent (true) or thin /
+     *                light / dashed (false).
+     */
     public void dividerLine(boolean primary) {
         nowrap(() -> {
             println((primary ? "─" : "┄").repeat(outputWidth));
@@ -48,7 +83,12 @@ public class PuzzlePrinter implements Closeable {
         });
     }
 
-    public void heading(String s, boolean primary) {
+    /**
+     * Prints the given text in a visually prominent way.
+     *
+     * @param primary Determines whether the heading is more (true) or less (false) prominent.
+     */
+    public void heading(String text, boolean primary) {
         if (primary) {
             hue += 0.382;
             hue %= 1;
@@ -56,7 +96,7 @@ public class PuzzlePrinter implements Closeable {
 
         var lines = new ArrayList<String>();
         String sideMargin = "   ";
-        String center = sideMargin + s.toUpperCase() + sideMargin;
+        String center = sideMargin + text.toUpperCase() + sideMargin;
         String outerSpacing = " ".repeat(center.length());
         lines.add(outerSpacing);
         lines.add(center);
@@ -81,12 +121,38 @@ public class PuzzlePrinter implements Closeable {
         });
     }
 
-    public void paragraph(String s, Object... formatArguments) {
-        printFormattedText(MessageFormat.format(s, formatArguments));
+    /**
+     * Emits a paragraph of text, with word wrapping and appropriate inter-paragraph spacing.
+     * This method uses <b>textual formatting</b>; see the docs at the top of this class for
+     * formatting options.
+     * <p>
+     * Unlike the other textual methods, this method’s format string and its arguments use
+     * {@link MessageFormat}. For example:
+     * <p>
+     * <code>paragraph("{0} before {1}", "dessert", "dinner")</code>
+     * <p>
+     * This means that you <b>must escape any single quotes and curly braces</b> that appear in the
+     * paragraph:
+     * <p>
+     * <code>paragraph("This isn''t a square brace: '{'")</code>
+     * <p>
+     * For apostrophes, it is better to use the curved Unicode apostrophe character than to use a
+     * single quote:
+     * <p>
+     * <code>paragraph("This doesn’t require escaping")</code>
+     */
+    public void paragraph(String formatString, Object... formatArguments) {
+        printFormattedText(MessageFormat.format(formatString, formatArguments));
         println();
     }
 
-
+    /**
+     * Formats the given arguments in a list, each one with its own bullet, with smart word wrapping
+     * and appropriate inter-paragraph spacing.
+     * <p>
+     * This method uses <b>textual formatting</b>; see the docs at the top of this class for
+     * formatting options.
+     */
     public void bulletList(String... items) {
         for (String item : items) {
             nowrap(() -> print("  - "));
@@ -95,6 +161,13 @@ public class PuzzlePrinter implements Closeable {
         println();
     }
 
+    /**
+     * Prints the given text in an indented block, with smart word wrapping and appropriate
+     * inter-paragraph spacing.
+     * <p>
+     * This method uses <b>textual formatting</b>; see the docs at the top of this class for
+     * formatting options.
+     */
     public void blockquote(String s) {
         indented("  │ ", () -> printFormattedText(s));
         println();
@@ -115,10 +188,19 @@ public class PuzzlePrinter implements Closeable {
             .replaceAll("(?<!\\n)\\s*\\n\\s*(?!\\n)", " "));  // remove single \n (but preserve \n\n)
     }
 
+    /**
+     * Prints the given JavaParser AST as an indented and well-formatted block of code, adding
+     * parentheses as necessary to preserve expression tree structures within the AST.
+     */
     public void codeBlock(Node astNode) {
         codeBlock(prettify(astNode));
     }
 
+    /**
+     * Prints the given string as an indented block of code, <b>as is</b>, neither prettified nor
+     * with text formatting. To indent and format code properly, call one of the
+     * <code>prettify*</code> methods in {@link CodeFormatting} first.
+     */
     public void codeBlock(String javaCode) {
         String codeStyle, endCodeStyle;
         if (colorCode) {
@@ -138,11 +220,11 @@ public class PuzzlePrinter implements Closeable {
         println();
     }
 
-    public void indented(Runnable block) {
+    private void indented(Runnable block) {
         indented("    ", block);
     }
 
-    public void indented(String newIndent, Runnable block) {
+    private void indented(String newIndent, Runnable block) {
         String prevIndent = indent;
         try {
             indent += newIndent;
@@ -152,16 +234,15 @@ public class PuzzlePrinter implements Closeable {
         }
     }
 
-    private void nowrap(Runnable block) {
-        var wasEnabled = wordWrapEnabled;
-        try {
-            wordWrapEnabled = false;
-            block.run();
-        } finally {
-            wordWrapEnabled = wasEnabled;
-        }
-    }
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // Silencing
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
+    /**
+     * Suppresses further output until balanced by a call to {@link #unsilence()}. Calls to
+     * silence/unsilence are nestable.
+     *
+     */
     public void silence() {
         silenceLevel--;
     }
@@ -173,6 +254,10 @@ public class PuzzlePrinter implements Closeable {
     public boolean isSilenced() {
         return silenceLevel < 0;
     }
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // Raw Output / Word Wrapping
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
     private void println() {
         println("");
@@ -220,16 +305,30 @@ public class PuzzlePrinter implements Closeable {
         }
     }
 
+    private void newline() {
+        out.println();
+        curColumn = 0;
+    }
+
     private int visibleWidth(String word) {
         return word
             .replaceAll("\u001b\\[[0-9;]*[a-z]", "")
             .length();
     }
 
-    private void newline() {
-        out.println();
-        curColumn = 0;
+    private void nowrap(Runnable block) {
+        var wasEnabled = wordWrapEnabled;
+        try {
+            wordWrapEnabled = false;
+            block.run();
+        } finally {
+            wordWrapEnabled = wasEnabled;
+        }
     }
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // Colors & Styling
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
     float themeHue() {
         return hue;
@@ -288,15 +387,9 @@ public class PuzzlePrinter implements Closeable {
     private static String ansiCode(char terminator, int... params) {
         return "\u001b["
             + Arrays.stream(params)
-            .mapToObj(String::valueOf)
-            .collect(Collectors.joining(";"))
+                .mapToObj(String::valueOf)
+                .collect(Collectors.joining(";"))
             + terminator;
-    }
-
-    public void close() {
-        out.print(ansiCode('m', 0));  // restore normal colors
-        out.println();     // clear any dangling indents
-        out.flush();       // do not close; this may close System.out!!
     }
 
     public static void main(String[] args) {

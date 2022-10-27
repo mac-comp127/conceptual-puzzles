@@ -7,7 +7,16 @@ import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.InvalidPuzzleCodeException;
 import edu.macalester.conceptual.context.PuzzleContext;
 
+/**
+ * The main entry point for the puzzle command line interface. Typically invoked from the
+ * <code>bin/puzzle</code> script, which in turn triggers the <code>run-cli</code> Gradle task.
+ */
 public class CommandLine {
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // Parsing Commands
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
     public static void main(String[] args) throws InvalidPuzzleCodeException {
         var options = new PuzzleOptions(args);
 
@@ -44,6 +53,22 @@ public class CommandLine {
             System.exit(0);  // so integration tests don't hang waiting for CanvasWindows to close
         }
     }
+
+    private static void requireCommandArgs(int expectedArgCount, PuzzleOptions options) {
+        int actualArgCount = options.commandAndArgs().size() - 1;
+        if (actualArgCount != expectedArgCount) {
+            options.usageError(
+                "Expected " + expectedArgCount
+                    + " argument" + (expectedArgCount == 1 ? "" : "s")
+                    + " for '" + options.commandAndArgs().get(0)
+                    + "' command, but got " + actualArgCount + ": "
+                    + options.commandAndArgs().subList(1, options.commandAndArgs().size()));
+        }
+    }
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // Generating and Solving Puzzles
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
     private static void generate(PuzzleOptions options) {
         requireCommandArgs(1, options);
@@ -133,6 +158,21 @@ public class CommandLine {
         ctx.setPartsToShow(options.partsToShow());
     }
 
+    private static void emitPuzzle(Puzzle puzzle, PuzzleContext ctx, PuzzleOptions options) {
+        ctx.emitPuzzle(() -> {
+            for (int repeat = options.repeat(); repeat > 0; repeat--) {
+                puzzle.generate(ctx);
+                if (repeat > 1) {
+                    ctx.resetSectionCounter();
+                }
+            }
+        });
+    }
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // CLI Help
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
     private static void printHelp(PuzzleOptions options, boolean forceFullHelp) {
         PrintWriter out = new PrintWriter(System.err, true);
         printCommands(out);
@@ -145,21 +185,13 @@ public class CommandLine {
         }
     }
 
-    public static String executableName() {
+    /**
+     * The wrapper script can optionally provide a path to the <code>puzzle</code> script for usage
+     * examples.
+     */
+    private static String executableName() {
         // wrapper script passes the name + path with which it was invoked
         return System.getenv().getOrDefault("puzzle_command", "puzzle");
-    }
-
-    private static void requireCommandArgs(int expectedArgCount, PuzzleOptions options) {
-        int actualArgCount = options.commandAndArgs().size() - 1;
-        if (actualArgCount != expectedArgCount) {
-            options.usageError(
-                "Expected " + expectedArgCount
-                    + " argument" + (expectedArgCount == 1 ? "" : "s")
-                    + " for '" + options.commandAndArgs().get(0)
-                    + "' command, but got " + actualArgCount + ": "
-                    + options.commandAndArgs().subList(1, options.commandAndArgs().size()));
-        }
     }
 
     private static void listPuzzles(PuzzleOptions options) {
@@ -182,17 +214,6 @@ public class CommandLine {
         System.out.println();
         System.out.println("To generate a puzzle:");
         System.out.println("  " + executableName() + " gen <puzzletype>");
-    }
-
-    private static void emitPuzzle(Puzzle puzzle, PuzzleContext ctx, PuzzleOptions options) {
-        ctx.emitPuzzle(() -> {
-            for (int repeat = options.repeat(); repeat > 0; repeat--) {
-                puzzle.generate(ctx);
-                if (repeat > 1) {
-                    ctx.resetSectionCounter();
-                }
-            }
-        });
     }
 
     public static void printCommands(PrintWriter out) {

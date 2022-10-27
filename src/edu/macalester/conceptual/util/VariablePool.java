@@ -1,4 +1,4 @@
-package edu.macalester.conceptual.puzzles.ast;
+package edu.macalester.conceptual.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,10 @@ import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.util.Nonsense;
 import edu.macalester.conceptual.util.Randomness;
 
+/**
+ * A collection of variable declarations. Useful for constructing code context for examples, and
+ * for using {@link Evaluator}.
+ */
 public class VariablePool {
     private final List<Variable> vars = new ArrayList<>();
 

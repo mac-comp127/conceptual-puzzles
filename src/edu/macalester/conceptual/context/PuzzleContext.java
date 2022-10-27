@@ -5,10 +5,24 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 
+/**
+ * Provides a Puzzle with the information it needs to: (1) generate a random puzzle in a
+ * reproducible way, (2) created structured, nicely formatted output, and (3) respond to options
+ * such as solution visibility and difficulty.
+ * <p>
+ * A PuzzleContext holds a random number generator, available via {@link #getRandom()}. Puzzle
+ * should use that and <i>only</i> that as their source of randomness. Doing so ensures that the
+ * same puzzle code produces the same puzzle.
+ * <p>
+ * Puzzles should use {@link #output()} to handle all textual puzzle output — no
+ * <code>System.out.println()</code>! — but may open <code>CanvasWindow</code>s to display graphics.
+ * (We might in the future consider moving that to a <code>showGraphics(gobj)</code> method in
+ * <code>PuzzleOutput</code>.)
+ */
 public final class PuzzleContext {
     private static final SecureRandom seedGenerator = new SecureRandom();
 
-    private PuzzleCode code;
+    private final PuzzleCode code;
     private final Random rand;
 
     private State state = State.SETUP;
@@ -20,10 +34,16 @@ public final class PuzzleContext {
     private PuzzlePrinter printer;
     private Set<Integer> partsToShow;
 
+    /**
+     * Creates a new, randomly seeded puzzle context for generating a new puzzle.
+     */
     public static PuzzleContext generate(byte puzzleID, byte difficulty) {
         return new PuzzleContext(new PuzzleCode(puzzleID, difficulty, seedGenerator.nextLong()));
     }
 
+    /**
+     * Recreates a previously created puzzle context from a puzzle code.
+     */
     public static PuzzleContext fromPuzzleCode(String puzzleCode) throws InvalidPuzzleCodeException {
         return new PuzzleContext(PuzzleCode.parse(puzzleCode));
     }
@@ -49,7 +69,7 @@ public final class PuzzleContext {
     // Lifecycle
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-    enum State {
+    private enum State {
         SETUP,
         WORKING,
         CLOSED
@@ -63,15 +83,9 @@ public final class PuzzleContext {
         }
     }
 
-    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-    // Problem / solution separation
-    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-    public void enableSolution() {
-        requireState(State.SETUP, "change solution visibility");
-        solutionsVisible = true;
-    }
-
+    /**
+     * Individual {@link edu.macalester.conceptual.Puzzle}s do not call this method.
+     */
     public void emitPuzzle(Runnable puzzleGenerator) {
         requireState(State.SETUP, "start emitting puzzle");
         if (printer == null) {
@@ -94,18 +108,23 @@ public final class PuzzleContext {
         }
     }
 
-    public void setOutput(PuzzlePrinter printer) {
-        Objects.requireNonNull(printer, "printer cannot be null");
-        requireState(State.SETUP, "change output");
-        this.printer = printer;
-    }
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // Output and Structure
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
     public PuzzlePrinter output() {
         requireState(State.WORKING, "produce output");
         return printer;
     }
 
+    public void setOutput(PuzzlePrinter printer) {
+        Objects.requireNonNull(printer, "printer cannot be null");
+        requireState(State.SETUP, "change output");
+        this.printer = printer;
+    }
+
     public void setPartsToShow(Set<Integer> partsToShow) {
+        requireState(State.SETUP, "change parts to show");
         this.partsToShow = partsToShow;
     }
 
@@ -133,6 +152,7 @@ public final class PuzzleContext {
     }
 
     public String currentSectionTitle() {
+        requireState(State.WORKING, "get section title");
         return "Part " + curPartNum;
     }
 
@@ -145,6 +165,15 @@ public final class PuzzleContext {
         curPartNum = 0;
         output().dividerLine(true);
         output().dividerLine(true);
+    }
+
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // Problem / solution separation
+    // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+    public void enableSolution() {
+        requireState(State.SETUP, "change solution visibility");
+        solutionsVisible = true;
     }
 
     public void solution(Runnable action) {
@@ -187,8 +216,9 @@ public final class PuzzleContext {
         requireState(State.WORKING, "generate random numbers");
         if (insideSolution) {
             // Using the RNG inside any of the conditionally executed solution sections would make
-            // subsequently generated random numbers differ depending on whether the solution
-            // is visible.
+            // subsequently generated random numbers differ depending on whether the solution is
+            // visible. We want to ensure subsequent puzzle parts are identical regardless of
+            // whether solutions are visible.
             throw new IllegalStateException("cannot ask for randomness while inside solution section");
         }
         return rand;

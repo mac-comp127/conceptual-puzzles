@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.util.Randomness;
+import edu.macalester.conceptual.util.VariablePool;
 
 import static edu.macalester.conceptual.util.Randomness.*;
 

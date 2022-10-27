@@ -12,6 +12,9 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+/**
+ * Command-line flags for CommandLine.
+ */
 class PuzzleOptions {
     private final Options options = new Options();
     private final Option help, parts, repeat, difficulty, includeSolutions;

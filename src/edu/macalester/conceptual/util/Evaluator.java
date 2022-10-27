@@ -5,10 +5,11 @@ import org.joor.Reflect;
 import java.io.PrintStream;
 import java.util.function.Supplier;
 
-import edu.macalester.conceptual.puzzles.ast.VariablePool;
-
+/**
+ * A utility to dynamically compile and evaluate a Java expression.
+ */
 public class Evaluator {
-    public static <T> T evaluate(Class<T> type, VariablePool vars, String javaExpression) {
+    public static <T> T evaluate(Class<T> resultType, VariablePool vars, String javaExpression) {
         var javaSource = String.format(
             """
             public class ExpressionWrapper implements java.util.function.Supplier<%1$s> {
@@ -18,7 +19,7 @@ public class Evaluator {
                 }
             }
             """,
-            type.getName(),
+            resultType.getName(),
             vars.allDeclarations(),
             javaExpression);
 
