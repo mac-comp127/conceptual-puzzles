@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
  *
  * The main function parses and dumps Java source files given as command-line args.
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class AstPrinter {
 
     private final int tabSize;
@@ -79,19 +80,16 @@ public class AstPrinter {
             return;
         }
 
-        Set<Node> visited = new HashSet<>();
         Set<Node> toVisit = new HashSet<>(node.getChildNodes());
 
         forEachNodeAttribute(node, (childLabel, value) -> {
             if (value instanceof Node child) {
-                visited.add(child);
                 dump(childLabel, child, indentation + tabSize, toVisit.contains(child));
             }
 
             if (value instanceof NodeList list) {
                 printIndented(indentation + tabSize, childLabel + ": NodeList (" + list.size() + ")");
                 for (Node child : (Collection<Node>) list) {
-                    visited.add(child);
                     dump(null, child, indentation + tabSize * 2, toVisit.contains(child));
                 }
             }
