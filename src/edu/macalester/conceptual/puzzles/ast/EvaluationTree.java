@@ -2,6 +2,7 @@ package edu.macalester.conceptual.puzzles.ast;
 
 import com.github.javaparser.ast.DataKey;
 import com.github.javaparser.ast.expr.BinaryExpr;
+import com.github.javaparser.ast.expr.EnclosedExpr;
 import com.github.javaparser.ast.expr.Expression;
 
 import java.util.List;
@@ -20,6 +21,12 @@ public record EvaluationTree(
     VariablePool vars
 ) {
     private static final DataKey<Object> EVALUATION_RESULT = new DataKey<>() { };
+    private static final Object SHORT_CIRCUITED_RESULT = new Object() {
+        @Override
+        public String toString() {
+            return "(never evaluated)";
+        }
+    };
 
     public List<Expression> subexprs() {
         return allDescendantsOfType(Expression.class, expr());
@@ -49,20 +56,28 @@ public record EvaluationTree(
     }
 
     public void showShortCircuiting() {
-        for (var expr : allDescendantsOfType(BinaryExpr.class, expr())) {
-            if (!expr.getLeft().containsData(EVALUATION_RESULT)) {
+        for (var subexpr : allDescendantsOfType(BinaryExpr.class, expr())) {
+            if (!subexpr.getLeft().containsData(EVALUATION_RESULT)) {
                 continue;
             }
-            var leftValue = expr.getLeft().getData(EVALUATION_RESULT);
+            var leftValue = subexpr.getLeft().getData(EVALUATION_RESULT);
 
             if (
-                expr.getOperator() == AND && leftValue.equals("false")
-                || expr.getOperator() == OR && leftValue.equals("true")
+                subexpr.getOperator() == AND && Boolean.FALSE.equals(leftValue)
+                || subexpr.getOperator() == OR && Boolean.TRUE.equals(leftValue)
             ) {
-                for (var rightDescendant : allDescendantsOfType(Expression.class, expr.getRight())) {
+                // parens not shown in tree, so label child “never evaluated”
+                var rhs = subexpr.getRight();
+                while (rhs instanceof EnclosedExpr rhsInParens) {
+                    rhs = rhsInParens.getInner();
+                }
+
+                // unlabel all descendants
+                for (var rightDescendant : allDescendantsOfType(Expression.class, rhs)) {
                     rightDescendant.removeData(EVALUATION_RESULT);
                 }
-                expr.getRight().setData(EVALUATION_RESULT, "never evaluated");
+
+                rhs.setData(EVALUATION_RESULT, SHORT_CIRCUITED_RESULT);
             }
         }
     }

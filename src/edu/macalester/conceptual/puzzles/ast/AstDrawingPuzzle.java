@@ -110,10 +110,11 @@ public class AstDrawingPuzzle implements Puzzle {
             ctx.currentSectionHue());
 
         double margin = 24;
-        var screensize = Toolkit.getDefaultToolkit().getScreenSize();
-        double scale = Math.min(1,
-            Math.min((screensize.getWidth() - 50 - margin * 2) / ast.getWidth(),
-                (screensize.getHeight() - 50 - margin * 2) / ast.getHeight()));
+        var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double scale = Math.min(
+            1, Math.min(
+                (screenSize.getWidth() - 50 - margin * 2) / ast.getWidth(),
+                (screenSize.getHeight() - 50 - margin * 2) / ast.getHeight()));
         var window = new CanvasWindow(
             ctx.currentSectionTitle(),
             (int) Math.ceil(ast.getWidth() * scale + margin * 2),
