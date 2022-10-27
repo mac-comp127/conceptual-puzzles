@@ -38,15 +38,34 @@ public class Generator {
         int maxArithmeticLeaves
     ) {
         return joinExprsWithOperators(ctx,
-            "&& ||",
-            generateList(numBoolLeaves, () ->
-                chooseWithProb(ctx, 0.3,
-                    () -> vars.generateBool(ctx),
-                    () -> joinExprsWithOperators(ctx,
-                        "== != < <= > >=",
-                        generateList(2, () ->
-                            generateArithmeticExpression(ctx, vars,
-                                ctx.getRandom().nextInt(1, maxArithmeticLeaves + 1)))))));
+            "&& ||" + (
+                ctx.getDifficulty() >= AstDrawingPuzzle.DIFFICULTY_FOR_EQUALITY_OPERATORS_ON_BOOLS
+                    ? " == !="
+                    : ""),
+            maybeAddNegations(ctx,
+                generateList(numBoolLeaves, () ->
+                    chooseWithProb(ctx, 0.3,
+                        () -> vars.generateBool(ctx),
+                        () -> joinExprsWithOperators(ctx,
+                            "== != < <= > >=",
+                            generateList(2, () ->
+                                generateArithmeticExpression(ctx, vars,
+                                    ctx.getRandom().nextInt(1, maxArithmeticLeaves + 1))))))));
+    }
+
+    private static List<String> maybeAddNegations(PuzzleContext ctx, List<String> booleanExprs) {
+        if (ctx.getDifficulty() >= AstDrawingPuzzle.DIFFICULTY_FOR_NEGATIONS) {
+            int negationCount = ctx.getRandom().nextInt(booleanExprs.size() / 2);
+            for (int n = 0; n < negationCount; n++) {
+                int index = ctx.getRandom().nextInt(booleanExprs.size());
+                var expr = booleanExprs.get(index);
+                if (expr.matches(".*[^a-zA-Z0-9!()].*")) {
+                    expr = "(" + expr + ")";
+                }
+                booleanExprs.set(index, "!" + expr);
+            }
+        }
+        return booleanExprs;
     }
 
     /**

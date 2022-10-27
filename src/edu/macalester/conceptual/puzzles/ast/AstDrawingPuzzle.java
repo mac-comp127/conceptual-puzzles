@@ -17,6 +17,10 @@ import static edu.macalester.conceptual.puzzles.ast.Generator.generateStringAddi
 import static edu.macalester.conceptual.util.CodeFormatting.*;
 
 public class AstDrawingPuzzle implements Puzzle {
+    static final int
+        DIFFICULTY_FOR_NEGATIONS = 3,
+        DIFFICULTY_FOR_EQUALITY_OPERATORS_ON_BOOLS = 4;
+
     @Override
     public byte id() {
         return 2;
