@@ -27,6 +27,7 @@ dependencies {
     implementation group: 'org.jooq', name: 'joor', version: '0.9.+'
     implementation group: 'com.github.mac-comp127', name: 'kilt-graphics', version: '1.6'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.9.+'
+    testImplementation group: 'io.github.java-diff-utils', name: 'java-diff-utils', version: '4.12'
 }
 
 test {

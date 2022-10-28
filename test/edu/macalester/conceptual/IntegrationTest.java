@@ -1,5 +1,8 @@
 package edu.macalester.conceptual;
 
+import com.github.difflib.DiffUtils;
+import com.github.difflib.patch.Chunk;
+
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
@@ -16,13 +19,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import edu.macalester.conceptual.context.InvalidPuzzleCodeException;
 import edu.macalester.conceptual.context.PuzzleContext;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.util.stream.Collectors.joining;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class IntegrationTest {
@@ -83,6 +85,7 @@ public class IntegrationTest {
                 builder.environment().put("PUZZLE_EXIT_IMMEDIATELY", "1");
                 builder.environment().put("IGNORE_CONSOLE_WIDTH", "1");
                 builder.environment().put("COLORTERM", "");
+                builder.environment().put("_JAVA_OPTIONS", "-Dfile.encoding=UTF-8");
 
                 var process = builder.start();
 
@@ -119,36 +122,70 @@ public class IntegrationTest {
                 // Despite the UTF-8 workaround above, Java 18 on Windows still clobbers the encoding of UTF-8 process
                 // output. As a workaround, if we notice the divider lines are getting transformed into ??????????????,
                 // we just turn all non-ASCII chars on this platform in question marks.
-                if (isWindows() && actualOutput.contains("?????????")) {
+                if (isWindows() && actualOutput.stream().anyMatch(line -> line.contains("?????????"))) {
+                    System.out.println("Windows encoding woes; ignoring special chars");
                     actualOutput = stripNonASCII(actualOutput);
                     expectedOutput = stripNonASCII(expectedOutput);
                 }
 
-                assertEquals(
-                    expectedOutput,
-                    actualOutput,
-                    MessageFormat.format(
-                        """
-                        Mismatched integration test output
-                        Expected output file: {0}
-                        Actual output file: {1}
-                        """,
-                        fullPath(expectedOutputFile),
-                        fullPath(actualOutputFile)));
+                if (!expectedOutput.equals(actualOutput)) {
+                    fail(
+                        MessageFormat.format(
+                            """
+                            Mismatched integration test output
+                            Expected output file: {0}
+                            Actual output file: {1}
+                            
+                            Diff (printing max 10 changes, 10 lines each):
+                            {2}
+                            """,
+                            fullPath(expectedOutputFile),
+                            fullPath(actualOutputFile),
+                            formattedDiff(expectedOutput, actualOutput)));
+                }
             });
     }
 
-    private static String readPuzzleLog(Path file) throws IOException {
+    private static List<String> readPuzzleLog(Path file) throws IOException {
         try (var lines = Files.lines(file, UTF_8)) {
             return lines
                 .map(line -> line.replaceAll("bin[/\\\\]puzzle", "puzzle"))
-                .filter(line -> !line.contains("GL pipe is running in software mode")) // CI prints this
-                .collect(Collectors.joining(System.lineSeparator()));
+                .filter(line -> !line.matches(".*(GL pipe|_JAVA_OPTIONS).*"))  // CI prints GL warnings
+                .toList();
         }
     }
 
-    private String stripNonASCII(String str) {
-        return str.replaceAll("([^ -~]|\\?)+", "?");
+    private static String formattedDiff(List<String> left, List<String> right) {
+        return DiffUtils.diff(left, right)
+            .getDeltas().stream()
+            .limit(10)
+            .map(delta -> MessageFormat.format(
+                """
+                {0} → {1}:
+                {2}
+                –––
+                {3}
+                 
+                """,
+                delta.getSource().getPosition() + 1,
+                delta.getTarget().getPosition() + 1,
+                formatDiffChunk("< ", delta.getSource()),
+                formatDiffChunk("> ", delta.getTarget())))
+            .collect(joining());
+    }
+
+    private static String formatDiffChunk(String prefix, Chunk<String> chunk) {
+        return chunk
+            .getLines().stream()
+            .limit(10)
+            .map(line -> prefix + line)
+            .collect(joining(System.lineSeparator()));
+    }
+
+    private List<String> stripNonASCII(List<String> lines) {
+        return lines.stream()
+            .map(line -> line.replaceAll("([^ -~]|\\?)+", "?"))
+            .toList();
     }
 
     private static boolean isWindows() {
