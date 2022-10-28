@@ -101,33 +101,14 @@ public class AstDrawingPuzzle implements Puzzle {
         ctx.output().codeBlock(code.expr());
 
         ctx.solution(() -> {
-            ctx.output().paragraph("<< drawing in canvas window >>");
-
-            showDrawingInWindow(ctx, code);
+            ctx.output().showGraphics(
+                ctx.currentSectionTitle() + " Solution",
+                AstDrawing.of(
+                    code.expr(),
+                    ctx.currentSectionHue()));  // coordinate graphics with section heading color in console
 
             ctx.solutionChecklist(solutionChecklist);
         });
-    }
-
-    private static void showDrawingInWindow(PuzzleContext ctx, EvaluationTree code) {
-        var ast = AstDrawing.of(
-            code.expr(),
-            ctx.currentSectionHue());  // coordinate graphics with section heading color in console
-
-        double margin = 24;
-        var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        double scale = Math.min(
-            1, Math.min(
-                (screenSize.getWidth() - 50 - margin * 2) / ast.getWidth(),
-                (screenSize.getHeight() - 50 - margin * 2) / ast.getHeight()));
-        var window = new CanvasWindow(
-            ctx.currentSectionTitle(),
-            (int) Math.ceil(ast.getWidth() * scale + margin * 2),
-            (int) Math.ceil(ast.getHeight() * scale + margin * 2));
-        window.add(ast, margin, margin);
-        ast.setScale(scale);
-        ast.setAnchor(0, 0);
-        window.draw();
     }
 
     /**

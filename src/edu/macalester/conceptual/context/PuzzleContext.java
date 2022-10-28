@@ -14,10 +14,7 @@ import java.util.Set;
  * should use that and <i>only</i> that as their source of randomness. Doing so ensures that the
  * same puzzle code produces the same puzzle.
  * <p>
- * Puzzles should use {@link #output()} to handle all textual puzzle output — no
- * <code>System.out.println()</code>! — but may open <code>CanvasWindow</code>s to display graphics.
- * (We might in the future consider moving that to a <code>showGraphics(gobj)</code> method in
- * <code>PuzzleOutput</code>.)
+ * Puzzles should use {@link #output()} to handle all puzzle output — no <code>System.out</code>!
  */
 public final class PuzzleContext {
     private static final SecureRandom seedGenerator = new SecureRandom();

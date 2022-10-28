@@ -3,6 +3,7 @@ package edu.macalester.conceptual.context;
 import com.github.javaparser.ast.Node;
 
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.io.Closeable;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -12,6 +13,8 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import edu.macalester.conceptual.util.CodeFormatting;
+import edu.macalester.graphics.CanvasWindow;
+import edu.macalester.graphics.GraphicsObject;
 
 import static edu.macalester.conceptual.util.CodeFormatting.*;
 
@@ -232,6 +235,29 @@ public class PuzzlePrinter implements Closeable {
         } finally {
             indent = prevIndent;
         }
+    }
+
+    /**
+     * Displays the graphics
+     */
+    public void showGraphics(String title, GraphicsObject graphics) {
+        paragraph(ansiCode('m', 3) + "<< See window titled “" + title + "” >>" + ansiCode('m', 23));
+        out.flush();
+
+        double margin = 24;
+        var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        double scale = Math.min(
+            1, Math.min(
+                (screenSize.getWidth() - 50 - margin * 2) / graphics.getWidth(),
+                (screenSize.getHeight() - 50 - margin * 2) / graphics.getHeight()));
+        var window = new CanvasWindow(
+            title,
+            (int) Math.ceil(graphics.getWidth() * scale + margin * 2),
+            (int) Math.ceil(graphics.getHeight() * scale + margin * 2));
+        window.add(graphics, margin, margin);
+        graphics.setScale(scale);
+        graphics.setAnchor(0, 0);
+        window.draw();
     }
 
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
