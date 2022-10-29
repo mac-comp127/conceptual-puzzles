@@ -42,7 +42,13 @@ public class VariablesPuzzle implements Puzzle {
         var twiddling = generateList(4, (i, j) ->
             mainVar + (i % 2) + "." + twiddleMethodName + "(" + (int) Math.pow(10, i) + ")");
         int n = ctx.getRandom().nextInt(2), m = 1 - n;
-        insertAtRandomPosition(ctx, twiddling, mainVar + n + "=" + mainVar + m);
+        insertAtRandomPosition(ctx,
+            twiddling,
+            1, -2,
+            mainVar + n + "="
+                + (ctx.getRandom().nextFloat() < 0.75
+                    ? mainVar + m
+                    : "new " + className + "()"));
 
         var members = shuffledListOf(ctx,
             "private static int " + staticVarName + " = 0;",

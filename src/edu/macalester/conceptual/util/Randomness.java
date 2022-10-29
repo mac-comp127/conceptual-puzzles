@@ -94,7 +94,31 @@ public enum Randomness {
         List<Elem> mutableList,
         Elem elem
     ) {
-        mutableList.add(ctx.getRandom().nextInt(mutableList.size() + 1), elem);
+        insertAtRandomPosition(ctx, mutableList, 0, -1, elem);
+    }
+
+    /**
+     * Inserts <code>elem</code> at a random position in <code>mutableList</code> within the given
+     * range (inclusive).
+     * <p>
+     * The <code>minIndex</code> and <code>maxIndex</code> can be negative; if they are, they count
+     * backwards from the end of the list such that -1 refers to appending the element (i.e.
+     * <code>-1</code> is equivalent to <code>mutableList.size()</code>).
+     */
+    public static <Elem> void insertAtRandomPosition(
+        PuzzleContext ctx,
+        List<Elem> mutableList,
+        int minIndex,
+        int maxIndex,
+        Elem elem
+    ) {
+        if (minIndex < 0) {
+            minIndex += mutableList.size() + 1;
+        }
+        if (maxIndex < 0) {
+            maxIndex += mutableList.size() + 1;
+        }
+        mutableList.add(ctx.getRandom().nextInt(maxIndex - minIndex + 1) + minIndex, elem);
     }
 
     /**
