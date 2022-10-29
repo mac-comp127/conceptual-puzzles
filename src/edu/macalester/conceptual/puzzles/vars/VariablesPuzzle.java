@@ -24,7 +24,7 @@ public class VariablesPuzzle implements Puzzle {
 
     @Override
     public String description() {
-        return "Variable scope and lifecycle";
+        return "Variable scope and lifetime";
     }
 
     @Override
@@ -82,9 +82,9 @@ public class VariablesPuzzle implements Puzzle {
             "What does the main method print?",
             "Which of the three variables "
                 + threeVars.stream().map(s -> "`" + s + "`").toList()
-                + " are in scope at [a]?",
-            "Which are in scope at [b]?",
-            "Which are in scope at [c]?");
+                + " are in scope at *[a]*?",
+            "Which are in scope at *[b]*?",
+            "Which are in scope at *[c]*?");
 
         ctx.solution(() -> {
             ctx.output().numberedList(
@@ -95,20 +95,20 @@ public class VariablesPuzzle implements Puzzle {
                 },
                 () -> ctx.output().paragraph(
                     "`{0}` and `{1}` are in scope at [a]."
-                        + " (`{2}` is out of scope because it is not declared yet.)",
+                        + " _(`{2}` is out of scope because it is not declared yet.)_",
                     staticVarName, instanceVarName, localVarName),
                 () -> ctx.output().paragraph(
                     "All three are in scope at [b]."),
                 () -> ctx.output().paragraph(
-                    "Only `{0}` is in scope at [c]. (`{1}` is an instance variable, but `main` is a"
-                        + " static method. `{2}` is local to the `{3}` function.)",
+                    "Only `{0}` is in scope at [c]. _(`{1}` is an instance variable, but `main` is a"
+                        + " static method. `{2}` is local to the `{3}` function.)_",
                     staticVarName, instanceVarName, localVarName, twiddleMethodName));
             ctx.output().paragraph(
                 """
                 (In the solutions above, the explanatory text in parentheses is just to help you
                 understand the solution as you study. You do *not* need to write out all of that
-                text when you submit your solutions for puzzle of this type. For example, it would
-                be fine to write just “`{0}`, `{1}`” for your solution to question 1 above.)
+                text when you submit your solutions for puzzle of this type! For example, it would
+                be fine to submit just “`{0}`, `{1}`” for your solution to question 1 above.)
                 """,
                 staticVarName,
                 instanceVarName);

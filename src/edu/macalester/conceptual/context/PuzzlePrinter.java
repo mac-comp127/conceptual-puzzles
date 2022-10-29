@@ -29,12 +29,15 @@ import static edu.macalester.conceptual.util.CodeFormatting.*;
  * features:
  * <ul>
  *   <li>Words wrap to the console size.</li>
- *   <li>Single line breaks in the input are ignored, which means that you can use a Java multiline
+ *   <li>Line breaks in the text are ignored, which means that you can use a Java multiline
  *       string in your code with code-appropriate line breaks, and the PuzzlePrinter will reflow
- *       your text to fit the console.</li>
- *   <li>Text enclosed in `backticks` is visually styled as code. This is appropriate for English
+ *       your text to fit the console. To output blank lines, use multiple paragraph() calls
+ *       (or other adjoining lists, code blocks, etc).</li>
+ *   <li>Text enclosed in backticks is visually styled as `code`. This is appropriate for English
  *       text mentioning variable names, short expressions, etc. For whole chunks of code, however,
  *       you should use {@link #codeBlock(String)}.</li>
+ *   <li>Asterisks make text *bold*.</li>
+ *   <li>Underlines make text _italic_.</li>
  * </ul>
  */
 public class PuzzlePrinter implements Closeable {
@@ -166,13 +169,28 @@ public class PuzzlePrinter implements Closeable {
         println();
     }
 
+    /**
+     * Formats the given arguments in a compact list (no blank lines between items), with each item
+     * numbered starting from 1, and with word wrapping and appropriate inter-paragraph spacing.
+     * <p>
+     * This method uses <b>textual formatting</b>; see the docs at the top of this class for
+     * formatting options.
+     */
     public void numberedList(String... items) {
         numberedList(
             Arrays.stream(items)
                 .map(t -> (Runnable) () -> printFormattedText(t))
                 .toList());
+        println();  // need a blank line here because nested items won’t emit them
     }
 
+    /**
+     * Formats the given arguments in a widely spaced numbered list, with each item able to
+     * accommodate multiple paragraphs, code blocks, nested lists, etc.
+     * <p>
+     * This method uses <b>textual formatting</b>; see the docs at the top of this class for
+     * formatting options.
+     */
     public void numberedList(Runnable... items) {
         numberedList(Arrays.asList(items));
     }
@@ -210,8 +228,20 @@ public class PuzzlePrinter implements Closeable {
         }
 
         println(s.strip()
-            .replaceAll("`([^`]+)`", codeStyle + "$1" + endCodeStyle)  // style `code` snippets
-            .replaceAll("(?<!\\n)\\s*\\n\\s*(?!\\n)", " "));  // remove single \n (but preserve \n\n)
+            .replaceAll("\\s+", " ")  // strip internal line breaks; callers should use paragraph()
+            .replaceAll(inlineDelimited("`"),   codeStyle + "$1" + endCodeStyle)             // `code`
+            .replaceAll(inlineDelimited("\\*"), ansiCode('m', 1) + "$1" + ansiCode('m', 22)) // *bold*
+            .replaceAll(inlineDelimited("_"),   ansiCode('m', 3) + "$1" + ansiCode('m', 23)) // _italics_
+        );
+    }
+
+    private static String inlineDelimited(String delimiter) {
+        return
+            delimiter     // the delimiter
+            + "(?!\\s)"   // not follow by a space,
+            + "(.+?)"     // then the shortest section of matching text
+            + "(?<!\\s)"  // not ending with a space
+            + delimiter;  // and terminated with the delimiter
     }
 
     /**
@@ -323,7 +353,7 @@ public class PuzzlePrinter implements Closeable {
             return;
         }
 
-        str = str.replace("\r\n", "\n"); // normalize line breaks on Windows
+        str = str.replace("\r\n", "\n"); // normalize Windows CRLF line breaks
         for (String part : str.split("(?=\n)|(?<=\n)")) { // lines + terminators as separate matches
             if (part.equals("\n")) {
                 newline();
