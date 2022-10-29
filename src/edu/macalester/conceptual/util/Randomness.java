@@ -1,6 +1,8 @@
 package edu.macalester.conceptual.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -125,6 +127,12 @@ public enum Randomness {
         for (int n = 0; n < count; n++) {
             result.add(generator.apply(n, count - 1 - n));
         }
+        return result;
+    }
+
+    public static <T> List<T> shuffledListOf(PuzzleContext ctx, T... elems) {
+        var result = new ArrayList<>(Arrays.asList(elems));
+        Collections.shuffle(result, ctx.getRandom());
         return result;
     }
 }

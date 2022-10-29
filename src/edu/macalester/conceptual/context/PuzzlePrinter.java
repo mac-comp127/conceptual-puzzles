@@ -10,6 +10,8 @@ import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import edu.macalester.conceptual.util.CodeFormatting;
@@ -162,6 +164,27 @@ public class PuzzlePrinter implements Closeable {
             indented("    ", () -> printFormattedText(item));
         }
         println();
+    }
+
+    public void numberedList(String... items) {
+        numberedList(
+            Arrays.stream(items)
+                .map(t -> (Runnable) () -> printFormattedText(t))
+                .toList());
+    }
+
+    public void numberedList(Runnable... items) {
+        numberedList(Arrays.asList(items));
+    }
+
+    public void numberedList(List<Runnable> items) {
+        int n = 0;
+        for (Runnable item : items) {
+            var itemMarker = String.format("%2d. ", ++n);
+            nowrap(() -> print(itemMarker));
+            indented("    ", item);
+        }
+        // no blank line here; nested items will have already generated it
     }
 
     /**
