@@ -114,7 +114,8 @@ public class VariablesPuzzle implements Puzzle {
                 (In the solutions above, the explanatory text in parentheses is just to help you
                 understand the solution as you study. You do *not* need to write out all of that
                 text when you submit your solutions for puzzle of this type! For example, it would
-                be fine to submit just “`{0}`, `{1}`” for your solution to question 1 above.)
+                be fine to submit just “`{0}`, `{1}`” for your solution to question 2 above.
+                You do need to provide the full output for question 1, however!)
                 """,
                 staticVarName,
                 instanceVarName);
