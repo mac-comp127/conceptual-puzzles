@@ -1,5 +1,6 @@
 package edu.macalester.conceptual.context;
 
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Objects;
 import java.util.Random;
@@ -83,12 +84,13 @@ public final class PuzzleContext {
     /**
      * Individual {@link edu.macalester.conceptual.Puzzle}s do not call this method.
      */
-    public void emitPuzzle(Runnable puzzleGenerator) {
+    public void emitPuzzle(Runnable puzzleGenerator) throws IOException {
         requireState(State.SETUP, "start emitting puzzle");
         if (printer == null) {
-            printer = new PuzzlePrinter();
+            printer = new ConsolePuzzlePrinter();
         }
-        try {
+        PuzzlePrinter printer = this.printer;
+        try (printer) {
             state = State.WORKING;
             output().setThemeHue(getRandom().nextFloat());
             output().dividerLine(true);
@@ -99,8 +101,7 @@ public final class PuzzleContext {
             System.out.println("Puzzle code caused exception: " + getPuzzleCode());
             throw e;
         } finally {
-            printer.close();
-            printer = null;
+            this.printer = null;
             state = State.CLOSED;
         }
     }

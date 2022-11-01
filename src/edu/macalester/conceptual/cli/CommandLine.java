@@ -1,5 +1,6 @@
 package edu.macalester.conceptual.cli;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
 
@@ -17,7 +18,7 @@ public class CommandLine {
     // Parsing Commands
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-    public static void main(String[] args) throws InvalidPuzzleCodeException {
+    public static void main(String[] args) {
         var options = new PuzzleOptions(args);
 
         if (options.help() || options.commandAndArgs().isEmpty()) {
@@ -42,7 +43,7 @@ public class CommandLine {
                 }
                 default -> options.usageError("Unknown command: " + command);
             }
-        } catch(RuntimeException e) {
+        } catch(Exception e) {
             e.printStackTrace();
             System.err.println();
             System.err.println("Command line args: " + String.join(" ", args));
@@ -70,7 +71,7 @@ public class CommandLine {
     // Generating and Solving Puzzles
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-    private static void generate(PuzzleOptions options) {
+    private static void generate(PuzzleOptions options) throws IOException {
         requireCommandArgs(1, options);
         var puzzleName = options.commandAndArgs().get(1);
         var puzzle = Puzzle.findByName(puzzleName);
@@ -95,7 +96,7 @@ public class CommandLine {
         System.out.println("  " + executableName() + " solve " + ctx.getPuzzleCode());
     }
 
-    private static void solve(PuzzleOptions options) throws InvalidPuzzleCodeException {
+    private static void solve(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
         requireCommandArgs(1, options);
         var ctx = PuzzleContext.fromPuzzleCode(options.commandAndArgs().get(1));
         var puzzle = Puzzle.findByID(ctx.getPuzzleID());
@@ -158,7 +159,7 @@ public class CommandLine {
         ctx.setPartsToShow(options.partsToShow());
     }
 
-    private static void emitPuzzle(Puzzle puzzle, PuzzleContext ctx, PuzzleOptions options) {
+    private static void emitPuzzle(Puzzle puzzle, PuzzleContext ctx, PuzzleOptions options) throws IOException {
         ctx.emitPuzzle(() -> {
             for (int repeat = options.repeat(); repeat > 0; repeat--) {
                 puzzle.generate(ctx);

@@ -2,14 +2,12 @@ package edu.macalester.conceptual.puzzles.ast;
 
 import com.github.javaparser.StaticJavaParser;
 
-import java.awt.Toolkit;
 import java.util.function.Function;
 
 import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.util.Evaluator;
 import edu.macalester.conceptual.util.VariablePool;
-import edu.macalester.graphics.CanvasWindow;
 
 import static edu.macalester.conceptual.puzzles.ast.Generator.generateArithmeticComparisonsExpression;
 import static edu.macalester.conceptual.puzzles.ast.Generator.generateArithmeticExpression;
