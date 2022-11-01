@@ -4,14 +4,13 @@ import com.github.javaparser.ast.Node;
 
 import java.io.Closeable;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import edu.macalester.conceptual.util.CodeFormatting;
 import edu.macalester.graphics.GraphicsObject;
+
+import static edu.macalester.conceptual.util.CodeFormatting.*;
 
 /**
  * Provides output facilities for puzzle generators. Puzzles use <b>structured output,</b>
@@ -114,7 +113,9 @@ public interface PuzzlePrinter extends Closeable {
      * Prints the given JavaParser AST as an indented and well-formatted block of code, adding
      * parentheses as necessary to preserve expression tree structures within the AST.
      */
-    void codeBlock(Node astNode);
+    default void codeBlock(Node astNode) {
+        codeBlock(prettify(astNode));
+    }
 
     /**
      * Prints the given string as an indented block of code, <b>as is</b>, neither prettified nor

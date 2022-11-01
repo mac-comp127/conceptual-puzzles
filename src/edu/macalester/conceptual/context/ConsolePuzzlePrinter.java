@@ -1,7 +1,5 @@
 package edu.macalester.conceptual.context;
 
-import com.github.javaparser.ast.Node;
-
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.io.PrintWriter;
@@ -15,14 +13,12 @@ import java.util.stream.Collectors;
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.GraphicsObject;
 
-import static edu.macalester.conceptual.util.CodeFormatting.*;
 
 /**
  * Provides console output facilities for puzzles. Output uses ANSI escape codes for color and
  * text styling, and applies word wrapping.
  */
 public class ConsolePuzzlePrinter implements PuzzlePrinter {
-    private final boolean colorCode = false;  // print code in color? (doesn't handle white BG well)
     private final PrintWriter out;
 
     private int curColumn = 0, outputWidth;
@@ -32,6 +28,11 @@ public class ConsolePuzzlePrinter implements PuzzlePrinter {
     private float hue;
 
     private int silenceLevel;
+
+    private final TextFormatter textFormatter = new TextFormatter(
+        /* code */    new TextFormatter.Style(ansiCode('m', 4), ansiCode('m', 24)),
+        /* bold */    new TextFormatter.Style(ansiCode('m', 1), ansiCode('m', 22)),
+        /* italics */ new TextFormatter.Style(ansiCode('m', 3), ansiCode('m', 23)));
 
     public ConsolePuzzlePrinter() {
         this(new PrintWriter(System.out, true, StandardCharsets.UTF_8));
@@ -70,11 +71,6 @@ public class ConsolePuzzlePrinter implements PuzzlePrinter {
 
     @Override
     public void heading(String text, boolean primary) {
-        if (primary) {
-            hue += 0.382;
-            hue %= 1;
-        }
-
         var lines = new ArrayList<String>();
         String sideMargin = "   ";
         String center = sideMargin + text.toUpperCase() + sideMargin;
@@ -144,52 +140,14 @@ public class ConsolePuzzlePrinter implements PuzzlePrinter {
     }
 
     private void printFormattedText(String s) {
-        String codeStyle, endCodeStyle;
-        if (colorCode) {
-            codeStyle = textColorCode(Color.getHSBColor(hue, 0.8f, 1), true);
-            endCodeStyle = plainTextColorCode();
-        } else {
-            codeStyle = ansiCode('m', 4);  // underline
-            endCodeStyle = ansiCode('m', 24);
-        }
-
-        println(s.strip()
-            .replaceAll("\\s+", " ")  // strip internal line breaks; callers should use paragraph()
-            .replaceAll(inlineDelimited("`"),   codeStyle + "$1" + endCodeStyle)             // `code`
-            .replaceAll(inlineDelimited("\\*"), ansiCode('m', 1) + "$1" + ansiCode('m', 22)) // *bold*
-            .replaceAll(inlineDelimited("_"),   ansiCode('m', 3) + "$1" + ansiCode('m', 23)) // _italics_
-        );
-    }
-
-    private static String inlineDelimited(String delimiter) {
-        return
-            delimiter     // the delimiter
-            + "(?!\\s)"   // not follow by a space,
-            + "(.+?)"     // then the shortest section of matching text
-            + "(?<!\\s)"  // not ending with a space
-            + delimiter;  // and terminated with the delimiter
-    }
-
-    @Override
-    public void codeBlock(Node astNode) {
-        codeBlock(prettify(astNode));
+        println(textFormatter.format(s));
     }
 
     @Override
     public void codeBlock(String javaCode) {
-        String codeStyle, endCodeStyle;
-        if (colorCode) {
-            codeStyle = textColorCode(Color.getHSBColor(hue, 0.5f, 1), true);
-            endCodeStyle = plainTextColorCode();
-        } else {
-            endCodeStyle = codeStyle = "";
-        }
-
         nowrap(() -> {
             indented(() -> {
-                print(codeStyle);
-                print(javaCode.strip());
-                println(endCodeStyle);
+                println(javaCode.strip());
             });
         });
         println();

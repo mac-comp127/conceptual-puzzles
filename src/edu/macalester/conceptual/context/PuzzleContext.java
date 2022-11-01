@@ -1,6 +1,7 @@
 package edu.macalester.conceptual.context;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.SecureRandom;
 import java.util.Objects;
 import java.util.Random;
@@ -133,6 +134,8 @@ public final class PuzzleContext {
         if (curPartNum > 1) {
             output().dividerLine(false);
         }
+
+        output().setThemeHue((output().themeHue() + 0.382f) % 1);
 
         boolean hidden = partsToShow != null && !partsToShow.contains(curPartNum);
         if (hidden) {
