@@ -23,6 +23,8 @@ public final class PuzzleContext {
     private final PuzzleCode code;
     private final Random rand;
 
+    private String puzzleTitle;
+
     private State state = State.SETUP;
     private boolean solutionsVisible;
     private boolean insideSolution;
@@ -63,6 +65,10 @@ public final class PuzzleContext {
         return code.difficulty();
     }
 
+    public void setPuzzleTitle(String puzzleTitle) {
+        this.puzzleTitle = puzzleTitle;
+    }
+
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     // Lifecycle
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -93,6 +99,9 @@ public final class PuzzleContext {
         try (printer) {
             state = State.WORKING;
             output().setThemeHue(getRandom().nextFloat());
+            if (puzzleTitle != null) {
+                output().title(puzzleTitle);
+            }
             output().dividerLine(true);
             puzzleGenerator.run();
             output().dividerLine(true);

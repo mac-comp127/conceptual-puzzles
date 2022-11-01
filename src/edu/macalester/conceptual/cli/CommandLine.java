@@ -90,6 +90,7 @@ public class CommandLine {
                 ? options.difficulty()
                 : puzzle.goalDifficulty());
         applyOptionsToContext(options, ctx, puzzle);
+        ctx.setPuzzleTitle(puzzle.description());
         emitPuzzle(puzzle, ctx, options);
 
         System.out.println();
@@ -111,6 +112,7 @@ public class CommandLine {
 
         applyOptionsToContext(options, ctx, puzzle);
         ctx.enableSolution();
+        ctx.setPuzzleTitle(puzzle.description() + ": Solution");
         emitPuzzle(puzzle, ctx, options);
 
         if (ctx.getDifficulty() != puzzle.goalDifficulty()) {

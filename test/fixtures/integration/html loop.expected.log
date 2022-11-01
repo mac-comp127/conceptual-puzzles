@@ -52,16 +52,17 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
     </style>
 </head>
 <body>
+<h1 style='color: #3356ff'>While loops and for loops: Solution</h1>
 
 <hr class='primary'>
 
-<h1 style='color: #ff4b33'>Part 1</h1>
+<h2 style='color: #ff4b33'>Part 1</h2>
 <p>Translate the following for loop into a while loop:</p>
 <pre>for (double ba = hul; ba <= emlos; ba--) {
     wirhe(ba);
     celKise();
 }</pre>
-<h2 style='color: #ff4b33'>Solution</h2>
+<h3 style='color: #ff4b33'>Solution</h3>
 <pre>double ba = hul;
 while (ba <= emlos) {
     wirhe(ba);
@@ -71,11 +72,11 @@ while (ba <= emlos) {
 
 <hr class='secondary'>
 
-<h1 style='color: #33ff87'>Part 2</h1>
+<h2 style='color: #33ff87'>Part 2</h2>
 <p>Translate the following natural language description of a loop into a for loop:</p>
 <blockquote>Declare a variable named `oc` of type `int`, initialized to `60`.
 Then, until `oc` is greater than `rast`, increment `oc`.</blockquote>
-<h2 style='color: #33ff87'>Solution</h2>
+<h3 style='color: #33ff87'>Solution</h3>
 <pre>for (int oc = 60; oc <= rast; oc++) {
     ...
 }</pre>
@@ -85,7 +86,7 @@ Then, until `oc` is greater than `rast`, increment `oc`.</blockquote>
 
 <hr class='secondary'>
 
-<h1 style='color: #c233ff'>Part 3</h1>
+<h2 style='color: #c233ff'>Part 3</h2>
 <p>Translate the following loop into a for-each loop:</p>
 <pre>List<Lauspracks> lens;
 ...</pre>
@@ -94,7 +95,7 @@ Then, until `oc` is greater than `rast`, increment `oc`.</blockquote>
     lens.get(n).biss(-3, -1);
     iomas();
 }</pre>
-<h2 style='color: #c233ff'>Solution</h2>
+<h3 style='color: #c233ff'>Solution</h3>
 <pre>for (Lauspracks len : lens) {
     femo(2, len, daeo);
     len.biss(-3, -1);

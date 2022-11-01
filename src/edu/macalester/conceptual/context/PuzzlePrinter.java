@@ -33,6 +33,11 @@ import static edu.macalester.conceptual.util.CodeFormatting.*;
  */
 public interface PuzzlePrinter extends Closeable {
     /**
+     * Optionally prints the title of the whole puzzle. This is a noop for some PuzzlePrinters.
+     */
+    void title(String title);
+
+    /**
      * Prints a horizontal divider line to visually separate items.
      *
      * @param primary Determines whether the line is solid / prominent (true) or thin /

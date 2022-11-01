@@ -37,18 +37,27 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
     }
 
     @Override
-    public void dividerLine(boolean primary) {
-        out.println();
-        out.println("<hr class='" + (primary ? "primary" : "secondary" ) + "'>");
-        out.println();
+    public void title(String title) {
+        colorHeading("h1", title);
     }
 
     @Override
     public void heading(String text, boolean primary) {
+        colorHeading(primary ? "h2" : "h3", text);
+    }
+
+    private void colorHeading(String tag, String text) {
         wrapInTag(
-            primary ? "h1" : "h2",
+            tag,
             "style='color: " + htmlColor(Color.getHSBColor(hue, 0.8f, 1f)) + "'",
             () -> out.write(text));
+    }
+
+    @Override
+    public void dividerLine(boolean primary) {
+        out.println();
+        out.println("<hr class='" + (primary ? "primary" : "secondary" ) + "'>");
+        out.println();
     }
 
     @Override

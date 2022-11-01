@@ -61,6 +61,12 @@ public class ConsolePuzzlePrinter implements PuzzlePrinter {
     // Public Output API
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
+
+    @Override
+    public void title(String title) {
+        // no title needed on console; Puzzle type is right there already
+    }
+
     @Override
     public void dividerLine(boolean primary) {
         nowrap(() -> {
