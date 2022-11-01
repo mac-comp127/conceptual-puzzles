@@ -16,7 +16,7 @@ import edu.macalester.graphics.GraphicsObject;
 
 /**
  * Provides console output facilities for puzzles. Output uses ANSI escape codes for color and
- * text styling, and applies word wrapping.
+ * text styling, and applies word wrapping. See also {@link HtmlPuzzlePrinter}.
  */
 public class ConsolePuzzlePrinter implements PuzzlePrinter {
     private final PrintWriter out;

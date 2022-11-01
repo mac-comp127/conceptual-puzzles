@@ -1,5 +1,6 @@
 package edu.macalester.conceptual.cli;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
@@ -145,7 +146,11 @@ public class CommandLine {
         }
     }
 
-    private static void applyOptionsToContext(PuzzleOptions options, PuzzleContext ctx, Puzzle puzzle) {
+    private static void applyOptionsToContext(
+        PuzzleOptions options,
+        PuzzleContext ctx,
+        Puzzle puzzle
+    ) throws IOException {
         if (options.includeSolutions()) {
             ctx.enableSolution();
         }
@@ -160,8 +165,23 @@ public class CommandLine {
 
         ctx.setPartsToShow(options.partsToShow());
 
-        if (options.html()) {
+        if ("-".equals(options.html())) {
             ctx.setOutput(new HtmlPuzzlePrinter());
+        } else if (options.html() != null) {
+            ctx.setOutput(new HtmlPuzzlePrinter(new FileOutputStream(options.html())));
+        }
+
+        if (options.saveCode() != null) {
+            try (
+                var out = new PrintWriter(
+                    new FileOutputStream(options.saveCode()), false, StandardCharsets.UTF_8)
+            ) {
+                out.println("Puzzle type: " + puzzle.name());
+                out.println("Puzzle code: " + ctx.getPuzzleCode());
+                out.println();
+                out.println("Options: " + String.join(" ", options.rawArgs()));
+                System.out.println("Saved puzzle code and metadata to " + options.saveCode());
+            }
         }
     }
 

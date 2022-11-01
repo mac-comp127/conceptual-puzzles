@@ -1,0 +1,110 @@
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Conceptual Mastery Puzzle</title>
+    <style type="text/css">
+        body {
+            background: #222;
+            color: #bbb;
+            font-size: 14pt;
+            font-family: Palatino, Georgia, serif;
+            max-width: 42em;
+            margin: 1em auto;
+        }
+        h1, h2, h3 {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans;
+            font-weight: bold;
+        }
+        pre, code {
+            font-size: 90%;
+            font-family: Menlo, Consolas, monospace;
+        }
+        pre, code, blockquote {
+            color: #eee;
+        }
+        code {
+            background: #444;
+            padding: 0 0.5ex;
+            margin: 0 0.125ex;
+            border: 0.5px solid #777;
+            border-radius: 0.25ex;
+        }
+        p {
+            padding: 0;
+            margin: 1em 0;
+        }
+        pre, blockquote {
+            margin: 1em 1em 1em 2em;
+        }
+        hr {
+            border: none;
+        }
+        hr.primary {
+            border-top: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        hr.secondary {
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+<hr class='primary'>
+
+<p>Given the following code:</p>
+<pre>public class Paptfel {
+
+    public void dohac(int is) {
+        // [a]
+        int fi = 0;
+        fi += is;
+        fic += is;
+        te += is;
+        System.out.println("fi=" + fi + "  fic=" + fic + "  te=" + te);
+        // [b]
+    }
+
+    private static int fic = 0;
+
+    private int te = 0;
+
+    public static void main(String[] args) {
+        Paptfel p0 = new Paptfel();
+        Paptfel p1 = new Paptfel();
+        p0.dohac(1);
+        p1.dohac(10);
+        p1 = new Paptfel();
+        p0.dohac(100);
+        p1.dohac(1000);
+        // [c]
+    }
+}</pre>
+<ol><li>What does the main method print?</li>
+<li>Which of the three variables [<code>fi</code>, <code>fic</code>, <code>te</code>] are in scope at <b>[a]</b>?</li>
+<li>Which are in scope at <b>[b]</b>?</li>
+<li>Which are in scope at <b>[c]</b>?</li>
+</ol>
+<h2 style='color: #33e6ff'>Solution</h2>
+<ol><li><p>The output is:</p>
+<pre>fi=1  fic=1  te=1
+fi=10  fic=11  te=10
+fi=100  fic=111  te=101
+fi=1000  fic=1111  te=1000</pre>
+</li>
+<li><p><code>fic</code> and <code>te</code> are in scope at [a]. <i>(<code>fi</code> is out of scope because it is not declared yet.)</i></p>
+</li>
+<li><p>All three are in scope at [b].</p>
+</li>
+<li><p>Only <code>fic</code> is in scope at [c]. <i>(<code>te</code> is an instance variable, but <code>main</code> is a static method. <code>fi</code> is local to the <code>dohac</code> function.)</i></p>
+</li>
+</ol>
+<p>(In the solutions above, the explanatory text in parentheses is just to help you understand the solution as you study. You do <b>not</b> need to write out all of that text when you submit your solutions for puzzle of this type! For example, it would be fine to submit just “<code>fic</code>, <code>te</code>” for your solution to question 2 above. You do need to provide the full output for question 1, however!)</p>
+
+<hr class='primary'>
+
+</body>
+</html>

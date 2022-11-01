@@ -1,8 +1,7 @@
 package edu.macalester.conceptual.context;
 
-import com.github.javaparser.ast.Node;
-
 import java.awt.Color;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
@@ -10,6 +9,9 @@ import java.util.List;
 
 import edu.macalester.graphics.GraphicsObject;
 
+/**
+ * Handles HTML puzzle output. See also {@link ConsolePuzzlePrinter}.
+ */
 public class HtmlPuzzlePrinter implements PuzzlePrinter {
 
     private final PrintWriter out;
@@ -22,7 +24,11 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
         /* italics */ new TextFormatter.Style("<i>", "</i>"));
 
     public HtmlPuzzlePrinter() {
-        this(new PrintWriter(System.out, false, StandardCharsets.UTF_8));
+        this(System.out);
+    }
+
+    public HtmlPuzzlePrinter(OutputStream out) {
+        this(new PrintWriter(out, false, StandardCharsets.UTF_8));
     }
 
     public HtmlPuzzlePrinter(PrintWriter out) {

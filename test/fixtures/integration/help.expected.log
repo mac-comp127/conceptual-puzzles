@@ -9,9 +9,11 @@ Commands:
 Options:
   -d,--difficulty <num>   Change puzzle difficulty from default
      --help               Display this message
+     --html <file>        Format output as HTML (`-` for stdout)
   -p,--parts <i,j,...>    Show only parts with given numbers
   -r,--repeat <num>       Generate <num> different puzzles
   -s,--include-solutions  Show solutions immediately when generating puzzle
+     --save-code <file>   Save puzzle code + metadata in file
 
 Usage examples:
   bin/puzzle gen loops

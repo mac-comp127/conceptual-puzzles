@@ -1,7 +1,5 @@
 package edu.macalester.conceptual.context;
 
-import java.awt.Color;
-
 /**
  * Parses the mini-markdown-style delimiters within a paragraph for `code`, *bold*, and _italics_.
  */

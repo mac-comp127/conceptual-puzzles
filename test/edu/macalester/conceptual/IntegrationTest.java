@@ -41,6 +41,8 @@ public class IntegrationTest {
         var tests = new ArrayList<DynamicTest>();
         tests.add(createIntegrationTest("no args"));
         tests.add(createIntegrationTest("help", "--help"));
+        tests.add(createIntegrationTest("html vars", "solve", "gem8-9kcc-zm63-yo71", "--html", "-"));
+        tests.add(createIntegrationTest("html loop", "solve", "ofoh-sb98-k7qz-f2", "--html", "-"));
 
         var puzzlesNotCovered = new HashSet<>(Puzzle.ALL);
         for (var code : PUZZLE_CODES) {
