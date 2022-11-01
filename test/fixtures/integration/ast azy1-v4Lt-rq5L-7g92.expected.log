@@ -1,3 +1,6 @@
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
 [0J────────────────────────────────────────────────────────────────────────────────
 
 For each of the Java expressions below:
@@ -387,12 +390,11 @@ Given the following variables:
 
     double ossgead = 1.0;
     double jerttre = 2.0;
-    int bong = 8;
-    int eng = 4;
+    int cieng = 8;
 
 ...draw the AST and evaluation tree for the following expression:
 
-    4 <= ossgead && jerttre != bong || eng > 4
+    4 <= ossgead && jerttre > cieng && 5 > 0
 
 [1m[38;5;105m[48;5;17m              [0m
 [1m[38;5;105m[48;5;17m   SOLUTION   [0m
@@ -415,7 +417,7 @@ Things to double-check in your solution:
 
 Draw the AST and evaluation tree for the following expression:
 
-    0 + "1" + 2 + 3 + 4
+    (0 + 1 + 2 + 3) + "4"
 
 [1m[38;5;216m[48;5;52m              [0m
 [1m[38;5;216m[48;5;52m   SOLUTION   [0m
@@ -446,11 +448,13 @@ expression.
 
 Given the following variables:
 
-    double moc = 4.0;
+    double mordche = 1.0;
+    int vapton = 6;
+    int a = 7;
 
 ...draw the AST and evaluation tree for the following expression:
 
-    8 - 3 % 7 * moc
+    3 * (mordche * vapton % a)
 
 [1m[38;5;122m[48;5;22m              [0m
 [1m[38;5;122m[48;5;22m   SOLUTION   [0m
@@ -471,11 +475,13 @@ Things to double-check in your solution:
 
 Given the following variables:
 
-    double uangant = 3.0;
+    double puemusp = 1.0;
+    double cansioc = 1.0;
+    double irt = 4.0;
 
 ...draw the AST and evaluation tree for the following expression:
 
-    (8 < 8 || 4 < 4 || 0 < uangant)
+    9 >= puemusp && 4 < cansioc && 8 <= irt
 
 [1m[38;5;213m[48;5;53m              [0m
 [1m[38;5;213m[48;5;53m   SOLUTION   [0m
@@ -498,7 +504,7 @@ Things to double-check in your solution:
 
 Draw the AST and evaluation tree for the following expression:
 
-    0 + 1 + "2" + 3 + 4
+    0 + 1 + 2 + 3 + "4"
 
 [1m[38;5;228m[48;5;58m              [0m
 [1m[38;5;228m[48;5;58m   SOLUTION   [0m
