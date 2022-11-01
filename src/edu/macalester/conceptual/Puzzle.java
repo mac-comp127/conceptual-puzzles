@@ -7,6 +7,7 @@ import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.puzzles.ast.AstDrawingPuzzle;
 import edu.macalester.conceptual.puzzles.booleans.BooleansAndConditionalsPuzzle;
 import edu.macalester.conceptual.puzzles.loops.LoopTranslationPuzzle;
+import edu.macalester.conceptual.puzzles.vars.VariablesPuzzle;
 
 /**
  * A single conceptual puzzle type. Note that one instance of this class is a puzzle <i>type</i>,
@@ -24,7 +25,8 @@ public interface Puzzle {
     List<Puzzle> ALL = List.of(
         new AstDrawingPuzzle(),
         new BooleansAndConditionalsPuzzle(),
-        new LoopTranslationPuzzle()
+        new LoopTranslationPuzzle(),
+        new VariablesPuzzle()
     );
 
     /**

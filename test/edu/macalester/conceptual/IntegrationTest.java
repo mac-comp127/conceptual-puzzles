@@ -29,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class IntegrationTest {
     private static final List<String> PUZZLE_CODES = List.of(
+        "gewc-fit8-6tgL-hatp",  // vars
         "7yg5-04ba-rfo9-hi",    // loop
         "azy1-v4Lt-rq5L-7g92",  // ast
         "5i42-dtog-jq0h-93cn",  // bool

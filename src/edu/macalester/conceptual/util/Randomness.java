@@ -1,6 +1,8 @@
 package edu.macalester.conceptual.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -92,7 +94,31 @@ public enum Randomness {
         List<Elem> mutableList,
         Elem elem
     ) {
-        mutableList.add(ctx.getRandom().nextInt(mutableList.size() + 1), elem);
+        insertAtRandomPosition(ctx, mutableList, 0, -1, elem);
+    }
+
+    /**
+     * Inserts <code>elem</code> at a random position in <code>mutableList</code> within the given
+     * range (inclusive).
+     * <p>
+     * The <code>minIndex</code> and <code>maxIndex</code> can be negative; if they are, they count
+     * backwards from the end of the list such that -1 refers to appending the element (i.e.
+     * <code>-1</code> is equivalent to <code>mutableList.size()</code>).
+     */
+    public static <Elem> void insertAtRandomPosition(
+        PuzzleContext ctx,
+        List<Elem> mutableList,
+        int minIndex,
+        int maxIndex,
+        Elem elem
+    ) {
+        if (minIndex < 0) {
+            minIndex += mutableList.size() + 1;
+        }
+        if (maxIndex < 0) {
+            maxIndex += mutableList.size() + 1;
+        }
+        mutableList.add(ctx.getRandom().nextInt(maxIndex - minIndex + 1) + minIndex, elem);
     }
 
     /**
@@ -125,6 +151,12 @@ public enum Randomness {
         for (int n = 0; n < count; n++) {
             result.add(generator.apply(n, count - 1 - n));
         }
+        return result;
+    }
+
+    public static <T> List<T> shuffledListOf(PuzzleContext ctx, T... elems) {
+        var result = new ArrayList<>(Arrays.asList(elems));
+        Collections.shuffle(result, ctx.getRandom());
         return result;
     }
 }
