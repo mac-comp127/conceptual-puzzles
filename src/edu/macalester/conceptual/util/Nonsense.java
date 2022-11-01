@@ -9,9 +9,6 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 import com.google.common.collect.Lists;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import edu.macalester.conceptual.context.PuzzleContext;
 
 import static com.github.javaparser.utils.Utils.capitalize;
@@ -27,19 +24,7 @@ public class Nonsense {
         NUCLEI = WeightedChoices.fromResource("syllable-parts/nuclei"),
         CODAS = WeightedChoices.fromResource("syllable-parts/codas");
 
-    private static final Set<String> PROHIBITED_WORDS = Set.of(
-        "abstract", "assert", "boolean", "break", "byte", "case", "catch", "char", "class", "const",
-        "continue", "default", "double", "do", "else", "enum", "extends", "false", "final",
-        "finally", "float", "for", "goto", "if", "implements", "import", "instanceof", "int",
-        "interface", "long", "native", "new", "null", "package", "private", "protected", "public",
-        "return", "short", "static", "strictfp", "super", "switch", "synchronized", "this", "throw",
-        "throws", "transient", "true", "try", "void", "volatile", "while"
-    );
-
-    private static final Set<String> excludedWords = new HashSet<>(5000);
-    static {
-        excludedWords.addAll(PROHIBITED_WORDS);
-    }
+    private static final ExcludedWords excludedWords = new ExcludedWords();
 
     public static VariableDeclarator variable(PuzzleContext ctx) {
         return variable(ctx, type(ctx));
