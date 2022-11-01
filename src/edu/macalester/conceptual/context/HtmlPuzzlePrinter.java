@@ -4,6 +4,7 @@ import com.github.javaparser.ast.Node;
 
 import java.awt.Color;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -19,6 +20,10 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
         /* code */    new TextFormatter.Style("<code>", "</code>"),
         /* bold */    new TextFormatter.Style("<b>", "</b>"),
         /* italics */ new TextFormatter.Style("<i>", "</i>"));
+
+    public HtmlPuzzlePrinter() {
+        this(new PrintWriter(System.out, false, StandardCharsets.UTF_8));
+    }
 
     public HtmlPuzzlePrinter(PrintWriter out) {
         this.out = out;
@@ -141,7 +146,6 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
     public void close() {
         out.write(DOC_SUFFIX);
         out.flush();
-        out.close();
     }
 
     private static final String

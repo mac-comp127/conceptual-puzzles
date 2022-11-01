@@ -2,9 +2,11 @@ package edu.macalester.conceptual.cli;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 
 import edu.macalester.conceptual.Puzzle;
+import edu.macalester.conceptual.context.HtmlPuzzlePrinter;
 import edu.macalester.conceptual.context.InvalidPuzzleCodeException;
 import edu.macalester.conceptual.context.PuzzleContext;
 
@@ -157,6 +159,10 @@ public class CommandLine {
         }
 
         ctx.setPartsToShow(options.partsToShow());
+
+        if (options.html()) {
+            ctx.setOutput(new HtmlPuzzlePrinter());
+        }
     }
 
     private static void emitPuzzle(Puzzle puzzle, PuzzleContext ctx, PuzzleOptions options) throws IOException {

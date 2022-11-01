@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  */
 class PuzzleOptions {
     private final Options options = new Options();
-    private final Option help, parts, repeat, difficulty, includeSolutions;
+    private final Option help, parts, repeat, difficulty, includeSolutions, html;
     private final org.apache.commons.cli.CommandLine cmd;
 
     PuzzleOptions(String[] args) {
@@ -25,6 +25,7 @@ class PuzzleOptions {
         repeat = addOption("r", "repeat", "num", "Generate <num> different puzzles");
         difficulty = addOption("d", "difficulty", "num", "Change puzzle difficulty from default");
         includeSolutions = addOption("s", "include-solutions", "Show solutions immediately when generating puzzle");
+        html = addOption(null, "html", "Format output as HTML");
         help = addOption(null, "help", "Display this message");
         options.addOption(parts);
 
@@ -56,6 +57,10 @@ class PuzzleOptions {
 
     public boolean includeSolutions() {
         return cmd.hasOption(includeSolutions);
+    }
+
+    public boolean html() {
+        return cmd.hasOption(html);
     }
 
     public Set<Integer> partsToShow() {
