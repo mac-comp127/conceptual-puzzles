@@ -7,13 +7,16 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
     <meta charset="utf-8">
     <title>Conceptual Mastery Puzzle</title>
     <style type="text/css">
-        body {
+        html {
             background: #222;
             color: #bbb;
-            font-size: 14pt;
+            font-size: 13pt;
             font-family: Palatino, Georgia, serif;
+            padding: 1em;
+        }
+        body {
             max-width: 42em;
-            margin: 1em auto;
+            margin: 0 auto;
         }
         h1, h2, h3 {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans;
@@ -25,6 +28,7 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
         }
         pre, code, blockquote {
             color: #eee;
+            overflow-x: scroll;
         }
         code {
             background: #444;
@@ -36,6 +40,9 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
         p {
             padding: 0;
             margin: 1em 0;
+        }
+        b {
+            color: #eee;
         }
         pre, blockquote {
             margin: 1em 1em 1em 2em;
@@ -52,7 +59,7 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
     </style>
 </head>
 <body>
-<h1 style='color: #33e6ff'>Variable scope and lifetime: Solution</h1>
+<h1 style='color: #4de9ff'>Variable scope and lifetime: Solution</h1>
 
 <hr class='primary'>
 
@@ -89,7 +96,7 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
 <li>Which are in scope at <b>[b]</b>?</li>
 <li>Which are in scope at <b>[c]</b>?</li>
 </ol>
-<h3 style='color: #33e6ff'>Solution</h3>
+<h3 style='color: #4de9ff'>Solution</h3>
 <ol><li><p>The output is:</p>
 <pre>fi=1  fic=1  te=1
 fi=10  fic=11  te=10

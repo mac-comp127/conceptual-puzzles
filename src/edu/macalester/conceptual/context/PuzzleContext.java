@@ -24,6 +24,7 @@ public final class PuzzleContext {
     private final Random rand;
 
     private String puzzleTitle;
+    private Runnable instructions = () -> {};
 
     private State state = State.SETUP;
     private boolean solutionsVisible;
@@ -69,6 +70,14 @@ public final class PuzzleContext {
         this.puzzleTitle = puzzleTitle;
     }
 
+    public void addInstructions(Runnable newInstructions) {
+        final var oldInstructions = instructions;
+        this.instructions = () -> {
+            oldInstructions.run();
+            newInstructions.run();
+        };
+    }
+
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     // Lifecycle
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -102,6 +111,7 @@ public final class PuzzleContext {
             if (puzzleTitle != null) {
                 output().title(puzzleTitle);
             }
+            instructions.run();
             output().dividerLine(true);
             puzzleGenerator.run();
             output().dividerLine(true);

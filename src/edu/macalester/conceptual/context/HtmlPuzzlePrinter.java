@@ -52,7 +52,7 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
     private void colorHeading(String tag, String text) {
         wrapInTag(
             tag,
-            "style='color: " + htmlColor(Color.getHSBColor(hue, 0.8f, 1f)) + "'",
+            "style='color: " + htmlColor(Color.getHSBColor(hue, 0.7f, 1f)) + "'",
             () -> out.write(
                 processText(text)));
     }
@@ -198,13 +198,16 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
                 <meta charset="utf-8">
                 <title>Conceptual Mastery Puzzle</title>
                 <style type="text/css">
-                    body {
+                    html {
                         background: #222;
                         color: #bbb;
-                        font-size: 14pt;
+                        font-size: 13pt;
                         font-family: Palatino, Georgia, serif;
+                        padding: 1em;
+                    }
+                    body {
                         max-width: 42em;
-                        margin: 1em auto;
+                        margin: 0 auto;
                     }
                     h1, h2, h3 {
                         font-family: 'Helvetica Neue', Helvetica, Arial, sans;
@@ -216,6 +219,7 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
                     }
                     pre, code, blockquote {
                         color: #eee;
+                        overflow-x: scroll;
                     }
                     code {
                         background: #444;
@@ -227,6 +231,9 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
                     p {
                         padding: 0;
                         margin: 1em 0;
+                    }
+                    b {
+                        color: #eee;
                     }
                     pre, blockquote {
                         margin: 1em 1em 1em 2em;

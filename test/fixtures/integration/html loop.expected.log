@@ -7,13 +7,16 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
     <meta charset="utf-8">
     <title>Conceptual Mastery Puzzle</title>
     <style type="text/css">
-        body {
+        html {
             background: #222;
             color: #bbb;
-            font-size: 14pt;
+            font-size: 13pt;
             font-family: Palatino, Georgia, serif;
+            padding: 1em;
+        }
+        body {
             max-width: 42em;
-            margin: 1em auto;
+            margin: 0 auto;
         }
         h1, h2, h3 {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans;
@@ -25,6 +28,7 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
         }
         pre, code, blockquote {
             color: #eee;
+            overflow-x: scroll;
         }
         code {
             background: #444;
@@ -36,6 +40,9 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
         p {
             padding: 0;
             margin: 1em 0;
+        }
+        b {
+            color: #eee;
         }
         pre, blockquote {
             margin: 1em 1em 1em 2em;
@@ -52,17 +59,17 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
     </style>
 </head>
 <body>
-<h1 style='color: #3356ff'>While loops and for loops: Solution</h1>
+<h1 style='color: #4d6bff'>While loops and for loops: Solution</h1>
 
 <hr class='primary'>
 
-<h2 style='color: #ff4b33'>Part 1</h2>
+<h2 style='color: #ff624d'>Part 1</h2>
 <p>Translate the following for loop into a while loop:</p>
 <pre>for (double ba = hul; ba &lt;= emlos; ba--) {
     wirhe(ba);
     celKise();
 }</pre>
-<h3 style='color: #ff4b33'>Solution</h3>
+<h3 style='color: #ff624d'>Solution</h3>
 <pre>double ba = hul;
 while (ba &lt;= emlos) {
     wirhe(ba);
@@ -72,10 +79,10 @@ while (ba &lt;= emlos) {
 
 <hr class='secondary'>
 
-<h2 style='color: #33ff87'>Part 2</h2>
+<h2 style='color: #4dff96'>Part 2</h2>
 <p>Translate the following natural language description of a loop into a for loop:</p>
 <blockquote>Declare a variable named <code>oc</code> of type <code>int</code>, initialized to <code>60</code>. Then, until <code>oc</code> is greater than <code>rast</code>, increment <code>oc</code>.</blockquote>
-<h3 style='color: #33ff87'>Solution</h3>
+<h3 style='color: #4dff96'>Solution</h3>
 <pre>for (int oc = 60; oc &lt;= rast; oc++) {
     ...
 }</pre>
@@ -85,7 +92,7 @@ while (ba &lt;= emlos) {
 
 <hr class='secondary'>
 
-<h2 style='color: #c233ff'>Part 3</h2>
+<h2 style='color: #ca4dff'>Part 3</h2>
 <p>Translate the following loop into a for-each loop:</p>
 <pre>List&lt;Lauspracks&gt; lens;
 ...</pre>
@@ -94,7 +101,7 @@ while (ba &lt;= emlos) {
     lens.get(n).biss(-3, -1);
     iomas();
 }</pre>
-<h3 style='color: #c233ff'>Solution</h3>
+<h3 style='color: #ca4dff'>Solution</h3>
 <pre>for (Lauspracks len : lens) {
     femo(2, len, daeo);
     len.biss(-3, -1);

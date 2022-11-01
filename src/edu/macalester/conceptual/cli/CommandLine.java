@@ -1,9 +1,12 @@
 package edu.macalester.conceptual.cli;
 
+import com.google.common.io.Files;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.text.MessageFormat;
 
 import edu.macalester.conceptual.Puzzle;
@@ -182,7 +185,17 @@ public class CommandLine {
                 out.println("Puzzle code: " + ctx.getPuzzleCode());
                 out.println();
                 out.println("Options: " + String.join(" ", options.rawArgs()));
-                System.out.println("Saved puzzle code and metadata to " + options.saveCode());
+                System.out.println("Saving puzzle code and metadata to " + options.saveCode());
+
+                ctx.addInstructions(() -> {
+                    ctx.output().paragraph("Submit your solution on paper.");
+                    ctx.output().paragraph("Be sure to *write the following information* on your submission:");
+                    ctx.output().bulletList(
+                        "Your name",
+                        "Today’s date",
+                        "“Puzzle *" + Files.getNameWithoutExtension(options.saveCode())
+                            + "*” ← _Very important! We can't grade your submission without this!_");
+                });
             }
         }
     }
