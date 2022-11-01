@@ -58,13 +58,13 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
 
 <h2 style='color: #ff4b33'>Part 1</h2>
 <p>Translate the following for loop into a while loop:</p>
-<pre>for (double ba = hul; ba <= emlos; ba--) {
+<pre>for (double ba = hul; ba &lt;= emlos; ba--) {
     wirhe(ba);
     celKise();
 }</pre>
 <h3 style='color: #ff4b33'>Solution</h3>
 <pre>double ba = hul;
-while (ba <= emlos) {
+while (ba &lt;= emlos) {
     wirhe(ba);
     celKise();
     ba--;
@@ -74,23 +74,22 @@ while (ba <= emlos) {
 
 <h2 style='color: #33ff87'>Part 2</h2>
 <p>Translate the following natural language description of a loop into a for loop:</p>
-<blockquote>Declare a variable named `oc` of type `int`, initialized to `60`.
-Then, until `oc` is greater than `rast`, increment `oc`.</blockquote>
+<blockquote>Declare a variable named <code>oc</code> of type <code>int</code>, initialized to <code>60</code>. Then, until <code>oc</code> is greater than <code>rast</code>, increment <code>oc</code>.</blockquote>
 <h3 style='color: #33ff87'>Solution</h3>
-<pre>for (int oc = 60; oc <= rast; oc++) {
+<pre>for (int oc = 60; oc &lt;= rast; oc++) {
     ...
 }</pre>
 <p>Something to double-check in your solution:</p>
-<ul><li>Did you use the correct operator in the loop’s end condition (<code>oc <= rast</code>)?</li>
+<ul><li>Did you use the correct operator in the loop&#8217;s end condition (<code>oc &lt;= rast</code>)?</li>
 </ul>
 
 <hr class='secondary'>
 
 <h2 style='color: #c233ff'>Part 3</h2>
 <p>Translate the following loop into a for-each loop:</p>
-<pre>List<Lauspracks> lens;
+<pre>List&lt;Lauspracks&gt; lens;
 ...</pre>
-<pre>for (int n = 0; n < lens.size(); n++) {
+<pre>for (int n = 0; n &lt; lens.size(); n++) {
     femo(2, lens.get(n), daeo);
     lens.get(n).biss(-3, -1);
     iomas();

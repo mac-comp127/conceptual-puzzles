@@ -1,11 +1,14 @@
 package edu.macalester.conceptual.context;
 
+import com.google.common.html.HtmlEscapers;
+
 import java.awt.Color;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import edu.macalester.graphics.GraphicsObject;
 
@@ -50,7 +53,8 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
         wrapInTag(
             tag,
             "style='color: " + htmlColor(Color.getHSBColor(hue, 0.8f, 1f)) + "'",
-            () -> out.write(text));
+            () -> out.write(
+                processText(text)));
     }
 
     @Override
@@ -64,7 +68,7 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
     public void paragraph(String formatString, Object... formatArguments) {
         wrapInTag("p",
             () -> out.write(
-                textFormatter.format(
+                processText(
                     MessageFormat.format(formatString, formatArguments))));
     }
 
@@ -73,7 +77,7 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
         wrapInTag("ul", () -> {
             for (var item : items) {
                 wrapInTag("li", () -> out.write(
-                    textFormatter.format(item)));
+                    processText(item)));
             }
         });
     }
@@ -83,7 +87,7 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
         wrapInTag("ol", () -> {
             for (var item : items) {
                 wrapInTag("li", () -> out.write(
-                    textFormatter.format(item)));
+                    processText(item)));
             }
         });
     }
@@ -100,12 +104,15 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
     @Override
     public void blockquote(String text) {
         wrapInTag("blockquote",
-            () -> out.write(text));
+            () -> out.write(
+                processText(text)));
     }
 
     @Override
     public void codeBlock(String javaCode) {
-        wrapInTag("pre", () -> out.write(javaCode.trim()));
+        wrapInTag("pre",
+            () -> out.write(
+                processCode(javaCode)));
     }
 
     @Override
@@ -155,6 +162,25 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
 
     private String htmlColor(Color color) {
         return String.format("#%06x", color.getRGB() & 0xFFFFFF);
+    }
+
+    private String processText(String text) {
+        return textFormatter.format(
+            htmlEscape(text));
+    }
+
+    private String processCode(String code) {
+        return HtmlEscapers.htmlEscaper().escape(
+            code.trim());
+    }
+
+    private String htmlEscape(String text) {
+        return
+            Pattern.compile("[^\0-~]")
+                .matcher(
+                    HtmlEscapers.htmlEscaper().escape(text))  // only handles ASCII chars: < & etc
+                .replaceAll(match ->
+                    "&#" + Character.codePointAt(match.group(), 0) + ";");  // handle non-ASCII
     }
 
     @Override
