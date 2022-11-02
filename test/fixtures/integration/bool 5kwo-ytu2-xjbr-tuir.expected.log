@@ -13,14 +13,17 @@ it’s hard to figure out what the [4melse[24m refers to!
 
     if (frehum() != 8 || druck() || (!ru || seiGroci() || coem() < 8) && bise() < 5) {
         ...
-        // Lots of code here
+        ...
+        // Pretend there is lots of code here
+        ...
         ...
     } else {
         conra();
     }
 
-Improve readability by refactoring this conditional so that what is now the else
-clause comes first, and the first clause comes second.
+Improve readability by refactoring this conditional so that its [1mtwo clauses are
+swapped[22m: what is now the second clause (the [4melse[24m clause) comes first, and the
+first clause comes second.
 
 [1m[38;5;123m[48;5;23m              [0m
 [1m[38;5;123m[48;5;23m   SOLUTION   [0m
@@ -30,9 +33,20 @@ clause comes first, and the first clause comes second.
         conra();
     } else {
         ...
-        // Lots of code here
+        ...
+        // Pretend there is lots of code here
+        ...
         ...
     }
+
+Things to double-check in your solution:
+
+  - Do not just negate the condition by wrapping it all in a [1mnot[22m operator like
+    this: [4m!(...)[24m Instead, make sure you negate the condition by changing each
+    part of it.
+  - You do not actually have to write out the words [4mPretend there is lots of
+    code here[24m when you write out your solution! Just draw three dots; that’s
+    enough.
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
@@ -169,14 +183,17 @@ it’s hard to figure out what the [4melse[24m refers to!
 
     if (!ener && (!(!(cas && gricas()) || pui != sasDehoc()) || !o && vutlan())) {
         ...
-        // Lots of code here
+        ...
+        // Pretend there is lots of code here
+        ...
         ...
     } else {
         onis();
     }
 
-Improve readability by refactoring this conditional so that what is now the else
-clause comes first, and the first clause comes second.
+Improve readability by refactoring this conditional so that its [1mtwo clauses are
+swapped[22m: what is now the second clause (the [4melse[24m clause) comes first, and the
+first clause comes second.
 
 [1m[38;5;111m[48;5;17m              [0m
 [1m[38;5;111m[48;5;17m   SOLUTION   [0m
@@ -186,9 +203,20 @@ clause comes first, and the first clause comes second.
         onis();
     } else {
         ...
-        // Lots of code here
+        ...
+        // Pretend there is lots of code here
+        ...
         ...
     }
+
+Things to double-check in your solution:
+
+  - Do not just negate the condition by wrapping it all in a [1mnot[22m operator like
+    this: [4m!(...)[24m Instead, make sure you negate the condition by changing each
+    part of it.
+  - You do not actually have to write out the words [4mPretend there is lots of
+    code here[24m when you write out your solution! Just draw three dots; that’s
+    enough.
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
@@ -321,14 +349,17 @@ it’s hard to figure out what the [4melse[24m refers to!
 
     if (iinAuboi() && !(lo == 1) && (mokmos() == 0 || stal()) && (swaod() || !ed)) {
         ...
-        // Lots of code here
+        ...
+        // Pretend there is lots of code here
+        ...
         ...
     } else {
         preva();
     }
 
-Improve readability by refactoring this conditional so that what is now the else
-clause comes first, and the first clause comes second.
+Improve readability by refactoring this conditional so that its [1mtwo clauses are
+swapped[22m: what is now the second clause (the [4melse[24m clause) comes first, and the
+first clause comes second.
 
 [1m[38;5;177m[48;5;17m              [0m
 [1m[38;5;177m[48;5;17m   SOLUTION   [0m
@@ -338,9 +369,20 @@ clause comes first, and the first clause comes second.
         preva();
     } else {
         ...
-        // Lots of code here
+        ...
+        // Pretend there is lots of code here
+        ...
         ...
     }
+
+Things to double-check in your solution:
+
+  - Do not just negate the condition by wrapping it all in a [1mnot[22m operator like
+    this: [4m!(...)[24m Instead, make sure you negate the condition by changing each
+    part of it.
+  - You do not actually have to write out the words [4mPretend there is lots of
+    code here[24m when you write out your solution! Just draw three dots; that’s
+    enough.
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
@@ -482,14 +524,17 @@ it’s hard to figure out what the [4melse[24m refers to!
 
     if (o && issces() && droo() || hac && cen <= esmEnghal() && !noo) {
         ...
-        // Lots of code here
+        ...
+        // Pretend there is lots of code here
+        ...
         ...
     } else {
         thruwn();
     }
 
-Improve readability by refactoring this conditional so that what is now the else
-clause comes first, and the first clause comes second.
+Improve readability by refactoring this conditional so that its [1mtwo clauses are
+swapped[22m: what is now the second clause (the [4melse[24m clause) comes first, and the
+first clause comes second.
 
 [1m[38;5;212m[48;5;52m              [0m
 [1m[38;5;212m[48;5;52m   SOLUTION   [0m
@@ -499,9 +544,20 @@ clause comes first, and the first clause comes second.
         thruwn();
     } else {
         ...
-        // Lots of code here
+        ...
+        // Pretend there is lots of code here
+        ...
         ...
     }
+
+Things to double-check in your solution:
+
+  - Do not just negate the condition by wrapping it all in a [1mnot[22m operator like
+    this: [4m!(...)[24m Instead, make sure you negate the condition by changing each
+    part of it.
+  - You do not actually have to write out the words [4mPretend there is lots of
+    code here[24m when you write out your solution! Just draw three dots; that’s
+    enough.
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
@@ -651,14 +707,17 @@ it’s hard to figure out what the [4melse[24m refers to!
 
     if (!(alwu == 2 && fesVije()) && (!poupra() || !daspas() || pru || ei == a)) {
         ...
-        // Lots of code here
+        ...
+        // Pretend there is lots of code here
+        ...
         ...
     } else {
         housa();
     }
 
-Improve readability by refactoring this conditional so that what is now the else
-clause comes first, and the first clause comes second.
+Improve readability by refactoring this conditional so that its [1mtwo clauses are
+swapped[22m: what is now the second clause (the [4melse[24m clause) comes first, and the
+first clause comes second.
 
 [1m[38;5;216m[48;5;52m              [0m
 [1m[38;5;216m[48;5;52m   SOLUTION   [0m
@@ -668,9 +727,20 @@ clause comes first, and the first clause comes second.
         housa();
     } else {
         ...
-        // Lots of code here
+        ...
+        // Pretend there is lots of code here
+        ...
         ...
     }
+
+Things to double-check in your solution:
+
+  - Do not just negate the condition by wrapping it all in a [1mnot[22m operator like
+    this: [4m!(...)[24m Instead, make sure you negate the condition by changing each
+    part of it.
+  - You do not actually have to write out the words [4mPretend there is lots of
+    code here[24m when you write out your solution! Just draw three dots; that’s
+    enough.
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
@@ -807,14 +877,17 @@ it’s hard to figure out what the [4melse[24m refers to!
 
     if (!ian && (criThos() || phiol() || !(e != 4)) && rasm != 6 || flinid()) {
         ...
-        // Lots of code here
+        ...
+        // Pretend there is lots of code here
+        ...
         ...
     } else {
         ocnur();
     }
 
-Improve readability by refactoring this conditional so that what is now the else
-clause comes first, and the first clause comes second.
+Improve readability by refactoring this conditional so that its [1mtwo clauses are
+swapped[22m: what is now the second clause (the [4melse[24m clause) comes first, and the
+first clause comes second.
 
 [1m[38;5;228m[48;5;58m              [0m
 [1m[38;5;228m[48;5;58m   SOLUTION   [0m
@@ -824,9 +897,20 @@ clause comes first, and the first clause comes second.
         ocnur();
     } else {
         ...
-        // Lots of code here
+        ...
+        // Pretend there is lots of code here
+        ...
         ...
     }
+
+Things to double-check in your solution:
+
+  - Do not just negate the condition by wrapping it all in a [1mnot[22m operator like
+    this: [4m!(...)[24m Instead, make sure you negate the condition by changing each
+    part of it.
+  - You do not actually have to write out the words [4mPretend there is lots of
+    code here[24m when you write out your solution! Just draw three dots; that’s
+    enough.
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 

@@ -30,7 +30,7 @@ record TextFormatter(
         String suffix
     ) {
         String wrap(String s) {
-            return prefix + "$1" + suffix;
+            return prefix + s + suffix;
         }
     }
 }

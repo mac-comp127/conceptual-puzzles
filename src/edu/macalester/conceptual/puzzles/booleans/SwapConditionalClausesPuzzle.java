@@ -7,7 +7,7 @@ import edu.macalester.conceptual.util.Nonsense;
 
 import static com.github.javaparser.StaticJavaParser.parseBlock;
 import static edu.macalester.conceptual.puzzles.booleans.Generator.generateBooleanExpr;
-import static edu.macalester.conceptual.util.AstUtils.negated;
+import static edu.macalester.conceptual.util.AstUtils.*;
 import static edu.macalester.conceptual.util.CodeFormatting.*;
 
 class SwapConditionalClausesPuzzle {
@@ -23,7 +23,9 @@ class SwapConditionalClausesPuzzle {
             parseBlock(
                 "{"
                     + ELIDED
-                    + "\n// Lots of code here\n"
+                    + ELIDED
+                    + "\n// Pretend there is lots of code here\n"
+                    + ELIDED
                     + ELIDED
                 + "}"),
             parseBlock(
@@ -31,8 +33,9 @@ class SwapConditionalClausesPuzzle {
         ctx.output().codeBlock(ifStmt);
         ctx.output().paragraph(
             """
-            Improve readability by refactoring this conditional so that what is now the else clause
-            comes first, and the first clause comes second.
+            Improve readability by refactoring this conditional so that its *two clauses are
+            swapped*: what is now the second clause (the `else` clause) comes first, and the first
+            clause comes second.
             """);
         ctx.solution(() -> {
             ctx.output().codeBlock(
@@ -40,6 +43,15 @@ class SwapConditionalClausesPuzzle {
                     negated(ifStmt.getCondition()),
                     ifStmt.getElseStmt().orElseThrow(), // second clause first!
                     ifStmt.getThenStmt()));
+            ctx.solutionChecklist(
+                """
+                Do not just negate the condition by wrapping it all in a *not* operator like this:
+                `!(...)` Instead, make sure you negate the condition by changing each part of it.
+                """,
+                """
+                You do not actually have to write out the words `Pretend there is lots of code here`
+                when you write out your solution! Just draw three dots; that’s enough.
+                """);
         });
     }
 }

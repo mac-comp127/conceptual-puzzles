@@ -36,7 +36,7 @@ public class Evaluator {
                 public class DyanmicCode implements java.util.function.Supplier<String> {
                     private static StringWriter capturedOutput = new StringWriter();
                     public static PrintWriter out = new PrintWriter(capturedOutput);
-                    
+                
                     public String get() {
                         %s;
                         return capturedOutput.toString();

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
-import static edu.macalester.conceptual.util.AstUtils.withParensAsNeeded;
+import static edu.macalester.conceptual.util.AstUtils.*;
 
 /**
  * A variety of helper methods for working with code in string form.

@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 import java.text.MessageFormat;
 
 import edu.macalester.conceptual.Puzzle;

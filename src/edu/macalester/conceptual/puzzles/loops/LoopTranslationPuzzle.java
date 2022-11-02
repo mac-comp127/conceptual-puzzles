@@ -41,7 +41,8 @@ public class LoopTranslationPuzzle implements Puzzle {
             generateTranslationPuzzle(
                 ctx, LoopForm.NATURAL_LANGUAGE, LoopForm.FOR, false,
                 (loop) -> ctx.solutionChecklist(
-                    "Did you use the correct operator in the loop’s end condition"
+                    "Note that the problem says “until,” not “while.”"
+                    + " Did you use the correct operator in the loop’s end condition"
                     + " (`" + loop.getEndCondition() + "`)?"));
         });
 

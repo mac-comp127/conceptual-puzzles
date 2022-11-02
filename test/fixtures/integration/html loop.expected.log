@@ -87,7 +87,7 @@ while (ba &lt;= emlos) {
     ...
 }</pre>
 <p>Something to double-check in your solution:</p>
-<ul><li>Did you use the correct operator in the loop&#8217;s end condition (<code>oc &lt;= rast</code>)?</li>
+<ul><li>Note that the problem says &#8220;until,&#8221; not &#8220;while.&#8221; Did you use the correct operator in the loop&#8217;s end condition (<code>oc &lt;= rast</code>)?</li>
 </ul>
 
 <hr class='secondary'>

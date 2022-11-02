@@ -20,8 +20,7 @@ import edu.macalester.conceptual.util.Nonsense;
 
 import static com.github.javaparser.ast.expr.BinaryExpr.Operator.*;
 import static com.github.javaparser.ast.expr.UnaryExpr.Operator.*;
-import static edu.macalester.conceptual.util.AstUtils.blockOf;
-import static edu.macalester.conceptual.util.AstUtils.joinedWithOperator;
+import static edu.macalester.conceptual.util.AstUtils.*;
 import static edu.macalester.conceptual.util.CodeFormatting.*;
 import static edu.macalester.conceptual.util.Randomness.*;
 

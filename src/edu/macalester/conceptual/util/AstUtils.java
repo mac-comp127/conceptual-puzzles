@@ -104,13 +104,13 @@ public enum AstUtils {
         return results;
     }
 
+    @SuppressWarnings("unchecked")
     private static <NodeType extends Node> void addDescendantsOfType(
         Class<NodeType> type,
         Node node,
         List<NodeType> results
     ) {
         if (type.isInstance(node)) {
-            //noinspection unchecked
             results.add((NodeType) node);
         }
         for (var child : node.getChildNodes()) {
