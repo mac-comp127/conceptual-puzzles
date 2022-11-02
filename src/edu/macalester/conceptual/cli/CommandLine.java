@@ -1,9 +1,16 @@
 package edu.macalester.conceptual.cli;
 
+import com.google.common.io.Files;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.text.MessageFormat;
 
 import edu.macalester.conceptual.Puzzle;
+import edu.macalester.conceptual.context.HtmlPuzzlePrinter;
 import edu.macalester.conceptual.context.InvalidPuzzleCodeException;
 import edu.macalester.conceptual.context.PuzzleContext;
 
@@ -17,7 +24,7 @@ public class CommandLine {
     // Parsing Commands
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-    public static void main(String[] args) throws InvalidPuzzleCodeException {
+    public static void main(String[] args) {
         var options = new PuzzleOptions(args);
 
         if (options.help() || options.commandAndArgs().isEmpty()) {
@@ -42,7 +49,7 @@ public class CommandLine {
                 }
                 default -> options.usageError("Unknown command: " + command);
             }
-        } catch(RuntimeException e) {
+        } catch(Exception e) {
             e.printStackTrace();
             System.err.println();
             System.err.println("Command line args: " + String.join(" ", args));
@@ -70,7 +77,7 @@ public class CommandLine {
     // Generating and Solving Puzzles
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-    private static void generate(PuzzleOptions options) {
+    private static void generate(PuzzleOptions options) throws IOException {
         requireCommandArgs(1, options);
         var puzzleName = options.commandAndArgs().get(1);
         var puzzle = Puzzle.findByName(puzzleName);
@@ -86,6 +93,7 @@ public class CommandLine {
                 ? options.difficulty()
                 : puzzle.goalDifficulty());
         applyOptionsToContext(options, ctx, puzzle);
+        ctx.setPuzzleTitle(puzzle.description());
         emitPuzzle(puzzle, ctx, options);
 
         System.out.println();
@@ -95,7 +103,7 @@ public class CommandLine {
         System.out.println("  " + executableName() + " solve " + ctx.getPuzzleCode());
     }
 
-    private static void solve(PuzzleOptions options) throws InvalidPuzzleCodeException {
+    private static void solve(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
         requireCommandArgs(1, options);
         var ctx = PuzzleContext.fromPuzzleCode(options.commandAndArgs().get(1));
         var puzzle = Puzzle.findByID(ctx.getPuzzleID());
@@ -107,6 +115,7 @@ public class CommandLine {
 
         applyOptionsToContext(options, ctx, puzzle);
         ctx.enableSolution();
+        ctx.setPuzzleTitle(puzzle.description() + ": Solution");
         emitPuzzle(puzzle, ctx, options);
 
         if (ctx.getDifficulty() != puzzle.goalDifficulty()) {
@@ -142,7 +151,11 @@ public class CommandLine {
         }
     }
 
-    private static void applyOptionsToContext(PuzzleOptions options, PuzzleContext ctx, Puzzle puzzle) {
+    private static void applyOptionsToContext(
+        PuzzleOptions options,
+        PuzzleContext ctx,
+        Puzzle puzzle
+    ) throws IOException {
         if (options.includeSolutions()) {
             ctx.enableSolution();
         }
@@ -156,9 +169,38 @@ public class CommandLine {
         }
 
         ctx.setPartsToShow(options.partsToShow());
+
+        if ("-".equals(options.html())) {
+            ctx.setOutput(new HtmlPuzzlePrinter());
+        } else if (options.html() != null) {
+            ctx.setOutput(new HtmlPuzzlePrinter(new FileOutputStream(options.html())));
+        }
+
+        if (options.saveCode() != null) {
+            try (
+                var out = new PrintWriter(
+                    new FileOutputStream(options.saveCode()), false, StandardCharsets.UTF_8)
+            ) {
+                out.println("Puzzle type: " + puzzle.name());
+                out.println("Puzzle code: " + ctx.getPuzzleCode());
+                out.println();
+                out.println("Options: " + String.join(" ", options.rawArgs()));
+                System.out.println("Saving puzzle code and metadata to " + options.saveCode());
+
+                ctx.addInstructions(() -> {
+                    ctx.output().paragraph("Submit your solution on paper.");
+                    ctx.output().paragraph("Be sure to *write the following information* on your submission:");
+                    ctx.output().bulletList(
+                        "Your name",
+                        "Today’s date",
+                        "“Puzzle *" + Files.getNameWithoutExtension(options.saveCode())
+                            + "*” ← _Very important! We can't grade your submission without this!_");
+                });
+            }
+        }
     }
 
-    private static void emitPuzzle(Puzzle puzzle, PuzzleContext ctx, PuzzleOptions options) {
+    private static void emitPuzzle(Puzzle puzzle, PuzzleContext ctx, PuzzleOptions options) throws IOException {
         ctx.emitPuzzle(() -> {
             for (int repeat = options.repeat(); repeat > 0; repeat--) {
                 puzzle.generate(ctx);

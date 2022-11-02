@@ -86,7 +86,7 @@ public enum Generator {
                 () -> chooseWithProb(ctx, numeric ? 0 : 0.3, "!", "") + Nonsense.variableName(ctx)));
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         var ctx = PuzzleContext.generate((byte) 0, (byte) 0);
         ctx.emitPuzzle(() -> {
             for(int n = 1; n <= 10; n++) {

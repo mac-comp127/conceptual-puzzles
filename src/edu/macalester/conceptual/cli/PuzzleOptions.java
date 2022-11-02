@@ -17,14 +17,19 @@ import java.util.stream.Collectors;
  */
 class PuzzleOptions {
     private final Options options = new Options();
-    private final Option help, parts, repeat, difficulty, includeSolutions;
+    private final Option help, parts, repeat, difficulty, includeSolutions, html, saveCode;
     private final org.apache.commons.cli.CommandLine cmd;
+    private final String[] rawArgs;
 
     PuzzleOptions(String[] args) {
+        this.rawArgs = args;
+
         parts = addOption("p", "parts", "i,j,...", "Show only parts with given numbers");
         repeat = addOption("r", "repeat", "num", "Generate <num> different puzzles");
         difficulty = addOption("d", "difficulty", "num", "Change puzzle difficulty from default");
         includeSolutions = addOption("s", "include-solutions", "Show solutions immediately when generating puzzle");
+        html = addOption(null, "html", "file", "Format output as HTML (`-` for stdout)");
+        saveCode = addOption(null, "save-code", "file", "Save puzzle code + metadata in file");
         help = addOption(null, "help", "Display this message");
         options.addOption(parts);
 
@@ -38,6 +43,10 @@ class PuzzleOptions {
 
     public List<String> commandAndArgs() {
         return cmd.getArgList();
+    }
+
+    public String[] rawArgs() {
+        return rawArgs;
     }
 
     public boolean help() {
@@ -56,6 +65,14 @@ class PuzzleOptions {
 
     public boolean includeSolutions() {
         return cmd.hasOption(includeSolutions);
+    }
+
+    public String html() {
+        return cmd.getOptionValue(html);
+    }
+
+    public String saveCode() {
+        return cmd.getOptionValue(saveCode);
     }
 
     public Set<Integer> partsToShow() {

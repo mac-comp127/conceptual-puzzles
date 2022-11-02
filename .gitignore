@@ -1,3 +1,6 @@
+# puzzle attempt data stays on prof machines
+/attempts
+
 *.class
 
 # Mobile Tools for Java (J2ME)

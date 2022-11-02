@@ -1,0 +1,38 @@
+#!/bin/bash
+
+if [ "$#" -ne 2 ]; then
+    echo "usage: $0 <puzzletype> <puzzleid>"
+    exit 1
+fi
+puzzle_type="$1"
+puzzle_id="$2"
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+html_file="attempts/$puzzle_id.html"
+secret_file="attempts/$puzzle_id.secret"
+
+function must_not_exist() {
+    if [ -e "$1" ]; then
+        echo "error: $1 already exists"
+        exit 1
+    fi
+}
+must_not_exist "$html_file"
+must_not_exist "$secret_file"
+
+bin/puzzle gen "$puzzle_type" --html "$html_file" --save-code "$secret_file"
+
+(
+    echo
+    echo "Puzzle generated with commit:"
+    git log -1
+) >> "$secret_file"
+
+echo
+cat "$secret_file"
+
+open "$html_file"     # show in browser
+open -R "$html_file"  # show in Finder

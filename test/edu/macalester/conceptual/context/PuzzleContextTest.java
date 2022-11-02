@@ -3,6 +3,7 @@ package edu.macalester.conceptual.context;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
@@ -18,7 +19,7 @@ class PuzzleContextTest {
     PuzzleContextTest() {
         ctx = PuzzleContext.generate((byte) 0, (byte) 0);
         outputWriter = new StringWriter();
-        ctx.setOutput(new PuzzlePrinter(new PrintWriter(outputWriter)));
+        ctx.setOutput(new ConsolePuzzlePrinter(new PrintWriter(outputWriter)));
     }
 
     @Test
@@ -64,12 +65,12 @@ class PuzzleContextTest {
         );
     }
 
-    private static void verifySeedRoundTrip(PuzzleContext original) throws InvalidPuzzleCodeException {
+    private static void verifySeedRoundTrip(PuzzleContext original) throws InvalidPuzzleCodeException, IOException {
         var recreated = PuzzleContext.fromPuzzleCode(original.getPuzzleCode());
         assertContextsEqual(original, recreated);
     }
 
-    private static void assertContextsEqual(PuzzleContext original, PuzzleContext recreated) {
+    private static void assertContextsEqual(PuzzleContext original, PuzzleContext recreated) throws IOException {
         assertEquals(
             original.getPuzzleCode(),
             recreated.getPuzzleCode(),
@@ -83,17 +84,21 @@ class PuzzleContextTest {
             recreated.getPuzzleID(),
             "puzzle ID mismatch for " + original);
 
-        PuzzlePrinter silent = new PuzzlePrinter(new PrintWriter(new StringWriter()));
+        PuzzlePrinter silent = new ConsolePuzzlePrinter(new PrintWriter(new StringWriter()));
         original.setOutput(silent);
         recreated.setOutput(silent);
 
         original.emitPuzzle(() -> {
-            recreated.emitPuzzle(() -> {
-                assertEquals(
-                    original.getRandom().nextLong(),
-                    recreated.getRandom().nextLong(),
-                    "random output mismatch for " + original);
-            });
+            try {
+                recreated.emitPuzzle(() -> {
+                    assertEquals(
+                        original.getRandom().nextLong(),
+                        recreated.getRandom().nextLong(),
+                        "random output mismatch for " + original);
+                });
+            } catch(IOException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 
@@ -102,7 +107,7 @@ class PuzzleContextTest {
     // -––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
     @Test
-    void solutionBlocksRunIfSolutionsEnabled() {
+    void solutionBlocksRunIfSolutionsEnabled() throws IOException {
         ctx.enableSolution();
         ctx.emitPuzzle(() -> {
             ctx.output().paragraph("problem!");
@@ -116,7 +121,7 @@ class PuzzleContextTest {
     }
 
     @Test
-    void solutionBlocksDoNotRunIfSolutionsDisabled() {
+    void solutionBlocksDoNotRunIfSolutionsDisabled() throws IOException {
         ctx.emitPuzzle(() -> {
             ctx.output().paragraph("problem!");
             ctx.solution(() -> {
@@ -128,7 +133,7 @@ class PuzzleContextTest {
 
 
     @Test
-    void allPartsVisibleIfNoneHidden() {
+    void allPartsVisibleIfNoneHidden() throws IOException {
         var output = emitPuzzleWithThreeSections();
         assertTrue(output.contains("part one"));
         assertTrue(output.contains("part two"));
@@ -136,7 +141,7 @@ class PuzzleContextTest {
     }
 
     @Test
-    void hiddenPartsRunButDoNotProduceOutput() {
+    void hiddenPartsRunButDoNotProduceOutput() throws IOException {
         ctx.setPartsToShow(Set.of(1, 3));
         var output = emitPuzzleWithThreeSections();
         assertTrue(output.contains("part one"));
@@ -144,7 +149,7 @@ class PuzzleContextTest {
         assertTrue(output.contains("part three"));
     }
 
-    private String emitPuzzleWithThreeSections() {
+    private String emitPuzzleWithThreeSections() throws IOException {
         ctx.emitPuzzle(() -> {
             ctx.section(() -> {
                 ctx.output().paragraph("part one");
@@ -164,29 +169,29 @@ class PuzzleContextTest {
     // -––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
     @Test
-    void cannotEmitPuzzleTwice() {
+    void cannotEmitPuzzleTwice() throws IOException {
         ctx.emitPuzzle(() -> {});
         assertIllegalStateTransition(() -> ctx.emitPuzzle(() -> {}));
     }
 
     @Test
-    void canOnlyConfigureOptionsBeforeEmitting() {
-        ctx.setOutput(new PuzzlePrinter());
+    void canOnlyConfigureOptionsBeforeEmitting() throws IOException {
+        ctx.setOutput(new ConsolePuzzlePrinter());
         ctx.setPartsToShow(Set.of(1, 3));
         ctx.enableSolution();
 
         ctx.emitPuzzle(() -> {
-            assertIllegalStateTransition(() -> ctx.setOutput(new PuzzlePrinter()));
+            assertIllegalStateTransition(() -> ctx.setOutput(new ConsolePuzzlePrinter()));
             assertIllegalStateTransition(() -> ctx.setPartsToShow(Set.of(1, 3)));
             assertIllegalStateTransition(() -> ctx.enableSolution());
         });
-        assertIllegalStateTransition(() -> ctx.setOutput(new PuzzlePrinter()));
+        assertIllegalStateTransition(() -> ctx.setOutput(new ConsolePuzzlePrinter()));
         assertIllegalStateTransition(() -> ctx.setPartsToShow(Set.of(1, 3)));
         assertIllegalStateTransition(() -> ctx.enableSolution());
     }
 
     @Test
-    void canOnlyGetOutputWhileEmitting() {
+    void canOnlyGetOutputWhileEmitting() throws IOException {
         assertIllegalStateTransition(() -> ctx.output());
         ctx.emitPuzzle(() -> {
             ctx.output().paragraph("puzzling");
@@ -195,7 +200,7 @@ class PuzzleContextTest {
     }
 
     @Test
-    void canOnlyGetRandomWhileEmitting() {
+    void canOnlyGetRandomWhileEmitting() throws IOException {
         assertIllegalStateTransition(() -> ctx.getRandom());
         ctx.emitPuzzle(() -> {
             ctx.getRandom().nextInt();
@@ -204,7 +209,7 @@ class PuzzleContextTest {
     }
 
     @Test
-    void cannotAccessRandomnessInSolutionSection() {
+    void cannotAccessRandomnessInSolutionSection() throws IOException {
         ctx.emitPuzzle(() -> {
             ctx.getRandom();
             ctx.solution(() -> {
@@ -215,7 +220,7 @@ class PuzzleContextTest {
     }
 
     @Test
-    void canOnlyProvideSolutionWhileEmitting() {
+    void canOnlyProvideSolutionWhileEmitting() throws IOException {
         assertIllegalStateTransition(() -> ctx.solution(() -> {}));
         assertIllegalStateTransition(() -> ctx.solutionChecklist("do all the things"));
         ctx.emitPuzzle(() -> {
@@ -229,7 +234,7 @@ class PuzzleContextTest {
     }
 
     @Test
-    void canOnlyManageSectionsWhileEmitting() {
+    void canOnlyManageSectionsWhileEmitting() throws IOException {
         assertIllegalStateTransition(() -> ctx.section(() -> {}));
         assertIllegalStateTransition(() -> ctx.currentSectionTitle());
         assertIllegalStateTransition(() -> ctx.currentSectionHue());

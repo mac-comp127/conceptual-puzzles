@@ -1,5 +1,6 @@
 package edu.macalester.conceptual.context;
 
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Objects;
 import java.util.Random;
@@ -21,6 +22,9 @@ public final class PuzzleContext {
 
     private final PuzzleCode code;
     private final Random rand;
+
+    private String puzzleTitle;
+    private Runnable instructions = () -> {};
 
     private State state = State.SETUP;
     private boolean solutionsVisible;
@@ -62,6 +66,18 @@ public final class PuzzleContext {
         return code.difficulty();
     }
 
+    public void setPuzzleTitle(String puzzleTitle) {
+        this.puzzleTitle = puzzleTitle;
+    }
+
+    public void addInstructions(Runnable newInstructions) {
+        final var oldInstructions = instructions;
+        this.instructions = () -> {
+            oldInstructions.run();
+            newInstructions.run();
+        };
+    }
+
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     // Lifecycle
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -83,14 +99,19 @@ public final class PuzzleContext {
     /**
      * Individual {@link edu.macalester.conceptual.Puzzle}s do not call this method.
      */
-    public void emitPuzzle(Runnable puzzleGenerator) {
+    public void emitPuzzle(Runnable puzzleGenerator) throws IOException {
         requireState(State.SETUP, "start emitting puzzle");
         if (printer == null) {
-            printer = new PuzzlePrinter();
+            printer = new ConsolePuzzlePrinter();
         }
-        try {
+        PuzzlePrinter printer = this.printer;
+        try (printer) {
             state = State.WORKING;
             output().setThemeHue(getRandom().nextFloat());
+            if (puzzleTitle != null) {
+                output().title(puzzleTitle);
+            }
+            instructions.run();
             output().dividerLine(true);
             puzzleGenerator.run();
             output().dividerLine(true);
@@ -99,8 +120,7 @@ public final class PuzzleContext {
             System.out.println("Puzzle code caused exception: " + getPuzzleCode());
             throw e;
         } finally {
-            printer.close();
-            printer = null;
+            this.printer = null;
             state = State.CLOSED;
         }
     }
@@ -132,6 +152,8 @@ public final class PuzzleContext {
         if (curPartNum > 1) {
             output().dividerLine(false);
         }
+
+        output().setThemeHue((output().themeHue() + 0.382f) % 1);
 
         boolean hidden = partsToShow != null && !partsToShow.contains(curPartNum);
         if (hidden) {
