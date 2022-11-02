@@ -7,7 +7,7 @@ import com.github.javaparser.ast.stmt.ReturnStmt;
 import edu.macalester.conceptual.context.PuzzleContext;
 
 import static com.github.javaparser.ast.expr.BinaryExpr.Operator.*;
-import static edu.macalester.conceptual.util.AstUtils.negated;
+import static edu.macalester.conceptual.util.AstUtils.*;
 import static edu.macalester.conceptual.util.CodeFormatting.*;
 
 public class ReturnBooleanPuzzle {

@@ -14,7 +14,7 @@ import edu.macalester.conceptual.util.Evaluator;
 import edu.macalester.conceptual.util.VariablePool;
 
 import static com.github.javaparser.ast.expr.BinaryExpr.Operator.*;
-import static edu.macalester.conceptual.util.AstUtils.allDescendantsOfType;
+import static edu.macalester.conceptual.util.AstUtils.*;
 
 /**
  * All the data necessary to draw an AST visualization with attached evaluation results.

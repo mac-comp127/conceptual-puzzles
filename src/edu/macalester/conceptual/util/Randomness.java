@@ -154,6 +154,7 @@ public enum Randomness {
         return result;
     }
 
+    @SafeVarargs
     public static <T> List<T> shuffledListOf(PuzzleContext ctx, T... elems) {
         var result = new ArrayList<>(Arrays.asList(elems));
         Collections.shuffle(result, ctx.getRandom());

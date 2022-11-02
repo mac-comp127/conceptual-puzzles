@@ -10,8 +10,7 @@ import edu.macalester.conceptual.util.Nonsense;
 import static com.github.javaparser.StaticJavaParser.parseExpression;
 import static com.github.javaparser.ast.expr.BinaryExpr.Operator.*;
 import static com.github.javaparser.ast.expr.UnaryExpr.Operator.*;
-import static edu.macalester.conceptual.util.AstUtils.negated;
-import static edu.macalester.conceptual.util.AstUtils.withParensAsNeeded;
+import static edu.macalester.conceptual.util.AstUtils.*;
 import static edu.macalester.conceptual.util.Randomness.*;
 
 public enum Generator {

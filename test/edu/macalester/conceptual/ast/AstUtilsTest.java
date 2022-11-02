@@ -19,7 +19,7 @@ import edu.macalester.conceptual.util.AstUtils;
 
 import static com.github.javaparser.StaticJavaParser.parseExpression;
 import static edu.macalester.conceptual.util.AstUtils.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class AstUtilsTest {
     @Test

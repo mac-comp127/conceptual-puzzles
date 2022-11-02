@@ -25,7 +25,7 @@ import edu.macalester.conceptual.context.PuzzleContext;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class IntegrationTest {
     private static final List<String> PUZZLE_CODES = List.of(
