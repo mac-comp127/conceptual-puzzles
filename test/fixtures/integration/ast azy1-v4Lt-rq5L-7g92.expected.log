@@ -22,7 +22,7 @@ Given the following variables:
     double ho = 4.0;
     int urm = 8;
 
-...draw the AST and evaluation tree for the following expression:
+...draw the AST and evaluation results for the following expression:
 
     corpis % in - ho * urm
 
@@ -49,7 +49,7 @@ Given the following variables:
     int up = 9;
     boolean tela = true;
 
-...draw the AST and evaluation tree for the following expression:
+...draw the AST and evaluation results for the following expression:
 
     voawess <= 1 && (up != 3 && tela)
 
@@ -72,7 +72,7 @@ Things to double-check in your solution:
 [1m[38;5;16m[48;5;87m   PART 3   [0m
 [1m[38;5;16m[48;5;87m            [0m
 
-Draw the AST and evaluation tree for the following expression:
+Draw the AST and evaluation results for the following expression:
 
     0 + "1" + 2 + 3 + 4
 
@@ -107,7 +107,7 @@ Given the following variables:
 
     double danla = 3.0;
 
-...draw the AST and evaluation tree for the following expression:
+...draw the AST and evaluation results for the following expression:
 
     0 + 7 / 1 - danla
 
@@ -135,7 +135,7 @@ Given the following variables:
     int zio = 7;
     double o = 3.0;
 
-...draw the AST and evaluation tree for the following expression:
+...draw the AST and evaluation results for the following expression:
 
     (1 >= hun && feeman == zio && o > 7)
 
@@ -158,7 +158,7 @@ Things to double-check in your solution:
 [1m[38;5;16m[48;5;69m   PART 3   [0m
 [1m[38;5;16m[48;5;69m            [0m
 
-Draw the AST and evaluation tree for the following expression:
+Draw the AST and evaluation results for the following expression:
 
     (0 + 1 + "2" + 3) + 4
 
@@ -195,7 +195,7 @@ Given the following variables:
     double pouphtesm = 4.0;
     int ta = 1;
 
-...draw the AST and evaluation tree for the following expression:
+...draw the AST and evaluation results for the following expression:
 
     ir * pouphtesm % ta - 2
 
@@ -222,7 +222,7 @@ Given the following variables:
     double deflol = 5.0;
     double dias = 2.0;
 
-...draw the AST and evaluation tree for the following expression:
+...draw the AST and evaluation results for the following expression:
 
     prel == deflol || dias < 8 && 0 > 0
 
@@ -245,7 +245,7 @@ Things to double-check in your solution:
 [1m[38;5;16m[48;5;171m   PART 3   [0m
 [1m[38;5;16m[48;5;171m            [0m
 
-Draw the AST and evaluation tree for the following expression:
+Draw the AST and evaluation results for the following expression:
 
     0 + 1 + "2" + 3 + 4
 
@@ -280,7 +280,7 @@ Given the following variables:
 
     double tegnpeth = 5.0;
 
-...draw the AST and evaluation tree for the following expression:
+...draw the AST and evaluation results for the following expression:
 
     9 / 3 * 9 - tegnpeth
 
@@ -307,7 +307,7 @@ Given the following variables:
     boolean gamod = false;
     int sti = 4;
 
-...draw the AST and evaluation tree for the following expression:
+...draw the AST and evaluation results for the following expression:
 
     melpid && gamod && sti != 7
 
@@ -330,7 +330,7 @@ Things to double-check in your solution:
 [1m[38;5;16m[48;5;205m   PART 3   [0m
 [1m[38;5;16m[48;5;205m            [0m
 
-Draw the AST and evaluation tree for the following expression:
+Draw the AST and evaluation results for the following expression:
 
     0 + 1 + "2" + 3 + 4
 
@@ -365,7 +365,7 @@ Given the following variables:
 
     double eu = 3.0;
 
-...draw the AST and evaluation tree for the following expression:
+...draw the AST and evaluation results for the following expression:
 
     (5 % 1 * eu) + 7
 
@@ -392,7 +392,7 @@ Given the following variables:
     double jerttre = 2.0;
     int cieng = 8;
 
-...draw the AST and evaluation tree for the following expression:
+...draw the AST and evaluation results for the following expression:
 
     4 <= ossgead && jerttre > cieng && 5 > 0
 
@@ -415,7 +415,7 @@ Things to double-check in your solution:
 [1m[38;5;16m[48;5;209m   PART 3   [0m
 [1m[38;5;16m[48;5;209m            [0m
 
-Draw the AST and evaluation tree for the following expression:
+Draw the AST and evaluation results for the following expression:
 
     (0 + 1 + 2 + 3) + "4"
 
@@ -452,7 +452,7 @@ Given the following variables:
     int vapton = 6;
     int a = 7;
 
-...draw the AST and evaluation tree for the following expression:
+...draw the AST and evaluation results for the following expression:
 
     3 * (mordche * vapton % a)
 
@@ -479,7 +479,7 @@ Given the following variables:
     double cansioc = 1.0;
     double irt = 4.0;
 
-...draw the AST and evaluation tree for the following expression:
+...draw the AST and evaluation results for the following expression:
 
     9 >= puemusp && 4 < cansioc && 8 <= irt
 
@@ -502,7 +502,7 @@ Things to double-check in your solution:
 [1m[38;5;16m[48;5;191m   PART 3   [0m
 [1m[38;5;16m[48;5;191m            [0m
 
-Draw the AST and evaluation tree for the following expression:
+Draw the AST and evaluation results for the following expression:
 
     0 + 1 + 2 + 3 + "4"
 

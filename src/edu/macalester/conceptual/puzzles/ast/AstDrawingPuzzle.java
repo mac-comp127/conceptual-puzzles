@@ -90,11 +90,11 @@ public class AstDrawingPuzzle implements Puzzle {
         var code = generateValidExpr(exprGenerator);
 
         if (code.vars().isEmpty()) {
-            ctx.output().paragraph("Draw the AST and evaluation tree for the following expression:");
+            ctx.output().paragraph("Draw the AST and evaluation results for the following expression:");
         } else {
             ctx.output().paragraph("Given the following variables:");
             ctx.output().codeBlock(prettifyStatements(code.vars().allDeclarations()));
-            ctx.output().paragraph("...draw the AST and evaluation tree for the following expression:");
+            ctx.output().paragraph("...draw the AST and evaluation results for the following expression:");
         }
         ctx.output().codeBlock(code.expr());
 

@@ -46,7 +46,8 @@ Translate the following natural language description of a loop into a for loop:
 
 Something to double-check in your solution:
 
-  - Did you use the correct operator in the loop’s end condition ([4mhol != piess[24m)?
+  - Note that the problem says “until,” not “while.” Did you use the correct
+    operator in the loop’s end condition ([4mhol != piess[24m)?
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
@@ -125,7 +126,8 @@ Translate the following natural language description of a loop into a for loop:
 
 Something to double-check in your solution:
 
-  - Did you use the correct operator in the loop’s end condition ([4mruil > liEnt[24m)?
+  - Note that the problem says “until,” not “while.” Did you use the correct
+    operator in the loop’s end condition ([4mruil > liEnt[24m)?
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
@@ -204,7 +206,8 @@ Translate the following natural language description of a loop into a for loop:
 
 Something to double-check in your solution:
 
-  - Did you use the correct operator in the loop’s end condition ([4mpor >= oaOnt[24m)?
+  - Note that the problem says “until,” not “while.” Did you use the correct
+    operator in the loop’s end condition ([4mpor >= oaOnt[24m)?
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
@@ -285,7 +288,8 @@ Translate the following natural language description of a loop into a for loop:
 
 Something to double-check in your solution:
 
-  - Did you use the correct operator in the loop’s end condition ([4mhui <= elti[24m)?
+  - Note that the problem says “until,” not “while.” Did you use the correct
+    operator in the loop’s end condition ([4mhui <= elti[24m)?
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
@@ -364,7 +368,8 @@ Translate the following natural language description of a loop into a for loop:
 
 Something to double-check in your solution:
 
-  - Did you use the correct operator in the loop’s end condition ([4mbi <= cid[24m)?
+  - Note that the problem says “until,” not “while.” Did you use the correct
+    operator in the loop’s end condition ([4mbi <= cid[24m)?
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
@@ -445,7 +450,8 @@ Translate the following natural language description of a loop into a for loop:
 
 Something to double-check in your solution:
 
-  - Did you use the correct operator in the loop’s end condition ([4mscas > taed[24m)?
+  - Note that the problem says “until,” not “while.” Did you use the correct
+    operator in the loop’s end condition ([4mscas > taed[24m)?
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
