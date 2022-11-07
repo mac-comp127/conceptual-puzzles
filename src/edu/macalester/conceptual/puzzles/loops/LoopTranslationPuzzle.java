@@ -78,15 +78,17 @@ public class LoopTranslationPuzzle implements Puzzle {
         ctx.output().paragraph(
             "Translate the following loop into a for-each loop:");
 
-        var collType = Nonsense.typeName(ctx);
+        var elemType = Nonsense.typeName(ctx);
         var elemVar = Randomness.withMinLength(3, () -> Nonsense.variableName(ctx));
         var collVar = Nonsense.pluralize(elemVar);
         var indexVar = chooseConst(ctx, "n", "i");
-        String lengthExpr, indexedElemExpr;
+        String collectionType, lengthExpr, indexedElemExpr;
         if (ctx.getRandom().nextBoolean()) {
+            collectionType = elemType + "[]";
             lengthExpr = collVar + ".length";
             indexedElemExpr = collVar + "[" + indexVar + "]";
         } else {
+            collectionType = "List<" + elemType + ">";
             lengthExpr = collVar + ".size()";
             indexedElemExpr = collVar + ".get(" + indexVar + ")";
         }
@@ -106,7 +108,7 @@ public class LoopTranslationPuzzle implements Puzzle {
         var body = joinStatements(bodyParts);
 
         ctx.output().codeBlock(prettifyStatements(
-            "List<" + collType + "> " + collVar + ";"
+            collectionType + " " + collVar + ";"
             + ELIDED));
         LoopForm.FOR.print(
             SimpleLoop.makeCounterLoop(indexVar, "0", lengthExpr,
@@ -115,7 +117,7 @@ public class LoopTranslationPuzzle implements Puzzle {
 
         ctx.solution(() -> {
             ctx.output().codeBlock(prettifyStatements(
-                "for(" + collType + " " + elemVar + ":" + collVar + "){"
+                "for(" + elemType + " " + elemVar + ":" + collVar + "){"
                 + body.replaceAll("•", elemVar)
                 + "}"
                 ));
