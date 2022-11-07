@@ -137,7 +137,7 @@ Something to double-check in your solution:
 
 Translate the following loop into a for-each loop:
 
-    List<DulPla> plins;
+    DulPla[] plins;
     ...
 
     for (int i = 0; i < plins.length; i++) {
@@ -299,7 +299,7 @@ Something to double-check in your solution:
 
 Translate the following loop into a for-each loop:
 
-    List<Shappec> hirs;
+    Shappec[] hirs;
     ...
 
     for (int n = 0; n < hirs.length; n++) {
@@ -379,7 +379,7 @@ Something to double-check in your solution:
 
 Translate the following loop into a for-each loop:
 
-    List<Meaelske> loes;
+    Meaelske[] loes;
     ...
 
     for (int i = 0; i < loes.length; i++) {
