@@ -11,6 +11,10 @@ set -e
 
 cd "$(dirname "$0")/.."
 
+if [ ! -e attempts ]; then
+    mkdir attempts
+fi
+
 html_file="attempts/$puzzle_id.html"
 secret_file="attempts/$puzzle_id.secret"
 
