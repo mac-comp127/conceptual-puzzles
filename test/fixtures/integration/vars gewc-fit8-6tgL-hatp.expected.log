@@ -5,36 +5,36 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
 
 Given the following code:
 
-    public class ErkeEnt {
+    public class EntHertaes {
+
+        public void oshe(int bri) {
+            // [a]
+            int fopo = 0;
+            osm += bri;
+            is += bri;
+            fopo += bri;
+            System.out.println("osm=" + osm + "  is=" + is + "  fopo=" + fopo);
+            // [b]
+        }
 
         public static void main(String[] args) {
-            ErkeEnt e0 = new ErkeEnt();
-            ErkeEnt e1 = new ErkeEnt();
+            EntHertaes e0 = new EntHertaes();
+            EntHertaes e1 = new EntHertaes();
             e0.oshe(1);
             e1.oshe(10);
+            e0 = new EntHertaes();
             e0.oshe(100);
-            e1 = e0;
             e1.oshe(1000);
             // [c]
         }
 
-        private int fopo = 0;
-
-        public void oshe(int bri) {
-            // [a]
-            int ed = 0;
-            fopo += bri;
-            ed += bri;
-            is += bri;
-            System.out.println("fopo=" + fopo + "  ed=" + ed + "  is=" + is);
-            // [b]
-        }
+        private int osm = 0;
 
         private static int is = 0;
     }
 
  1. What does the main method print?
- 2. Which of the three variables [[4mfopo[24m, [4med[24m, [4mis[24m] are in scope at [1m[a][22m?
+ 2. Which of the three variables [[4mosm[24m, [4mis[24m, [4mfopo[24m] are in scope at [1m[a][22m?
  3. Which are in scope at [1m[b][22m?
  4. Which are in scope at [1m[c][22m?
 
@@ -44,23 +44,23 @@ Given the following code:
 
  1. The output is:
     
-        fopo=1  ed=1  is=1
-        fopo=10  ed=10  is=11
-        fopo=101  ed=100  is=111
-        fopo=1101  ed=1000  is=1111
+        osm=1  is=1  fopo=1
+        osm=10  is=11  fopo=10
+        osm=100  is=111  fopo=100
+        osm=1010  is=1111  fopo=1000
     
- 2. [4mis[24m and [4mfopo[24m are in scope at [a]. [3m([4med[24m is out of scope because it is not
+ 2. [4mis[24m and [4mosm[24m are in scope at [a]. [3m([4mfopo[24m is out of scope because it is not
     declared yet.)[23m
     
  3. All three are in scope at [b].
     
- 4. Only [4mis[24m is in scope at [c]. [3m([4mfopo[24m is an instance variable, but [4mmain[24m is a
-    static method. [4med[24m is local to the [4moshe[24m function.)[23m
+ 4. Only [4mis[24m is in scope at [c]. [3m([4mosm[24m is an instance variable, but [4mmain[24m is a
+    static method. [4mfopo[24m is local to the [4moshe[24m function.)[23m
     
 (In the solutions above, the explanatory text in parentheses is just to help you
 understand the solution as you study. You do [1mnot[22m need to write out all of that
 text when you submit your solutions for puzzle of this type! For example, it
-would be fine to submit just “[4mis[24m, [4mfopo[24m” for your solution to question 2 above.
+would be fine to submit just “[4mis[24m, [4mosm[24m” for your solution to question 2 above.
 You do need to provide the full output for question 1, however!)
 
 ────────────────────────────────────────────────────────────────────────────────
@@ -69,36 +69,36 @@ You do need to provide the full output for question 1, however!)
 
 Given the following code:
 
-    public class Schan {
+    public class Usmpreth {
 
-        private int eaw = 0;
+        private int esad = 0;
 
-        private static int ia = 0;
-
-        public void iolTrad(int ra) {
+        public void hoaDeoph(int la) {
             // [a]
-            int ecs = 0;
-            ia += ra;
-            ecs += ra;
-            eaw += ra;
-            System.out.println("ia=" + ia + "  ecs=" + ecs + "  eaw=" + eaw);
+            int fi = 0;
+            esad += la;
+            vo += la;
+            fi += la;
+            System.out.println("esad=" + esad + "  vo=" + vo + "  fi=" + fi);
             // [b]
         }
 
         public static void main(String[] args) {
-            Schan s0 = new Schan();
-            Schan s1 = new Schan();
-            s0.iolTrad(1);
-            s1 = s0;
-            s1.iolTrad(10);
-            s0.iolTrad(100);
-            s1.iolTrad(1000);
+            Usmpreth u0 = new Usmpreth();
+            Usmpreth u1 = new Usmpreth();
+            u0.hoaDeoph(1);
+            u1.hoaDeoph(10);
+            u0 = u1;
+            u0.hoaDeoph(100);
+            u1.hoaDeoph(1000);
             // [c]
         }
+
+        private static int vo = 0;
     }
 
  1. What does the main method print?
- 2. Which of the three variables [[4mia[24m, [4mecs[24m, [4meaw[24m] are in scope at [1m[a][22m?
+ 2. Which of the three variables [[4mesad[24m, [4mvo[24m, [4mfi[24m] are in scope at [1m[a][22m?
  3. Which are in scope at [1m[b][22m?
  4. Which are in scope at [1m[c][22m?
 
@@ -108,23 +108,23 @@ Given the following code:
 
  1. The output is:
     
-        ia=1  ecs=1  eaw=1
-        ia=11  ecs=10  eaw=11
-        ia=111  ecs=100  eaw=111
-        ia=1111  ecs=1000  eaw=1111
+        esad=1  vo=1  fi=1
+        esad=10  vo=11  fi=10
+        esad=110  vo=111  fi=100
+        esad=1110  vo=1111  fi=1000
     
- 2. [4mia[24m and [4meaw[24m are in scope at [a]. [3m([4mecs[24m is out of scope because it is not
+ 2. [4mvo[24m and [4mesad[24m are in scope at [a]. [3m([4mfi[24m is out of scope because it is not
     declared yet.)[23m
     
  3. All three are in scope at [b].
     
- 4. Only [4mia[24m is in scope at [c]. [3m([4meaw[24m is an instance variable, but [4mmain[24m is a
-    static method. [4mecs[24m is local to the [4miolTrad[24m function.)[23m
+ 4. Only [4mvo[24m is in scope at [c]. [3m([4mesad[24m is an instance variable, but [4mmain[24m is a
+    static method. [4mfi[24m is local to the [4mhoaDeoph[24m function.)[23m
     
 (In the solutions above, the explanatory text in parentheses is just to help you
 understand the solution as you study. You do [1mnot[22m need to write out all of that
 text when you submit your solutions for puzzle of this type! For example, it
-would be fine to submit just “[4mia[24m, [4meaw[24m” for your solution to question 2 above.
+would be fine to submit just “[4mvo[24m, [4mesad[24m” for your solution to question 2 above.
 You do need to provide the full output for question 1, however!)
 
 ────────────────────────────────────────────────────────────────────────────────
@@ -133,36 +133,36 @@ You do need to provide the full output for question 1, however!)
 
 Given the following code:
 
-    public class IscaChu {
+    public class Risir {
 
-        private int oc = 0;
-
-        public void cetro(int a) {
-            // [a]
-            int lor = 0;
-            oc += a;
-            lor += a;
-            mi += a;
-            System.out.println("oc=" + oc + "  lor=" + lor + "  mi=" + mi);
-            // [b]
-        }
-
-        private static int mi = 0;
+        private static int ad = 0;
 
         public static void main(String[] args) {
-            IscaChu i0 = new IscaChu();
-            IscaChu i1 = new IscaChu();
-            i0.cetro(1);
-            i1.cetro(10);
-            i0 = i1;
-            i0.cetro(100);
-            i1.cetro(1000);
+            Risir r0 = new Risir();
+            Risir r1 = new Risir();
+            r0.sitrol(1);
+            r1.sitrol(10);
+            r0.sitrol(100);
+            r1 = r0;
+            r1.sitrol(1000);
             // [c]
+        }
+
+        private int ot = 0;
+
+        public void sitrol(int oss) {
+            // [a]
+            int jo = 0;
+            jo += oss;
+            ad += oss;
+            ot += oss;
+            System.out.println("jo=" + jo + "  ad=" + ad + "  ot=" + ot);
+            // [b]
         }
     }
 
  1. What does the main method print?
- 2. Which of the three variables [[4moc[24m, [4mlor[24m, [4mmi[24m] are in scope at [1m[a][22m?
+ 2. Which of the three variables [[4mjo[24m, [4mad[24m, [4mot[24m] are in scope at [1m[a][22m?
  3. Which are in scope at [1m[b][22m?
  4. Which are in scope at [1m[c][22m?
 
@@ -172,23 +172,23 @@ Given the following code:
 
  1. The output is:
     
-        oc=1  lor=1  mi=1
-        oc=10  lor=10  mi=11
-        oc=110  lor=100  mi=111
-        oc=1110  lor=1000  mi=1111
+        jo=1  ad=1  ot=1
+        jo=10  ad=11  ot=10
+        jo=100  ad=111  ot=101
+        jo=1000  ad=1111  ot=1101
     
- 2. [4mmi[24m and [4moc[24m are in scope at [a]. [3m([4mlor[24m is out of scope because it is not
+ 2. [4mad[24m and [4mot[24m are in scope at [a]. [3m([4mjo[24m is out of scope because it is not
     declared yet.)[23m
     
  3. All three are in scope at [b].
     
- 4. Only [4mmi[24m is in scope at [c]. [3m([4moc[24m is an instance variable, but [4mmain[24m is a
-    static method. [4mlor[24m is local to the [4mcetro[24m function.)[23m
+ 4. Only [4mad[24m is in scope at [c]. [3m([4mot[24m is an instance variable, but [4mmain[24m is a
+    static method. [4mjo[24m is local to the [4msitrol[24m function.)[23m
     
 (In the solutions above, the explanatory text in parentheses is just to help you
 understand the solution as you study. You do [1mnot[22m need to write out all of that
 text when you submit your solutions for puzzle of this type! For example, it
-would be fine to submit just “[4mmi[24m, [4moc[24m” for your solution to question 2 above. You
+would be fine to submit just “[4mad[24m, [4mot[24m” for your solution to question 2 above. You
 do need to provide the full output for question 1, however!)
 
 ────────────────────────────────────────────────────────────────────────────────
@@ -197,36 +197,100 @@ do need to provide the full output for question 1, however!)
 
 Given the following code:
 
-    public class Monlih {
+    public class Ferbar {
 
-        private static int oson = 0;
+        private int di = 0;
 
         public static void main(String[] args) {
-            Monlih m0 = new Monlih();
-            Monlih m1 = new Monlih();
-            m0.engspe(1);
-            m1.engspe(10);
+            Ferbar f0 = new Ferbar();
+            Ferbar f1 = new Ferbar();
+            f0.graont(1);
+            f0 = f1;
+            f1.graont(10);
+            f0.graont(100);
+            f1.graont(1000);
+            // [c]
+        }
+
+        public void graont(int ceo) {
+            // [a]
+            int spe = 0;
+            spe += ceo;
+            ci += ceo;
+            di += ceo;
+            System.out.println("spe=" + spe + "  ci=" + ci + "  di=" + di);
+            // [b]
+        }
+
+        private static int ci = 0;
+    }
+
+ 1. What does the main method print?
+ 2. Which of the three variables [[4mspe[24m, [4mci[24m, [4mdi[24m] are in scope at [1m[a][22m?
+ 3. Which are in scope at [1m[b][22m?
+ 4. Which are in scope at [1m[c][22m?
+
+[1m[38;5;222m[48;5;52m              [0m
+[1m[38;5;222m[48;5;52m   SOLUTION   [0m
+[1m[38;5;222m[48;5;52m              [0m
+
+ 1. The output is:
+    
+        spe=1  ci=1  di=1
+        spe=10  ci=11  di=10
+        spe=100  ci=111  di=110
+        spe=1000  ci=1111  di=1110
+    
+ 2. [4mci[24m and [4mdi[24m are in scope at [a]. [3m([4mspe[24m is out of scope because it is not
+    declared yet.)[23m
+    
+ 3. All three are in scope at [b].
+    
+ 4. Only [4mci[24m is in scope at [c]. [3m([4mdi[24m is an instance variable, but [4mmain[24m is a
+    static method. [4mspe[24m is local to the [4mgraont[24m function.)[23m
+    
+(In the solutions above, the explanatory text in parentheses is just to help you
+understand the solution as you study. You do [1mnot[22m need to write out all of that
+text when you submit your solutions for puzzle of this type! For example, it
+would be fine to submit just “[4mci[24m, [4mdi[24m” for your solution to question 2 above. You
+do need to provide the full output for question 1, however!)
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Given the following code:
+
+    public class MociSunhasm {
+
+        private int pi = 0;
+
+        public static void main(String[] args) {
+            MociSunhasm m0 = new MociSunhasm();
+            MociSunhasm m1 = new MociSunhasm();
+            m0.aenAidux(1);
+            m1.aenAidux(10);
+            m0.aenAidux(100);
             m0 = m1;
-            m0.engspe(100);
-            m1.engspe(1000);
+            m1.aenAidux(1000);
             // [c]
         }
 
-        public void engspe(int bo) {
+        private static int sqon = 0;
+
+        public void aenAidux(int sorm) {
             // [a]
-            int hasm = 0;
-            oson += bo;
-            hasm += bo;
-            stes += bo;
-            System.out.println("oson=" + oson + "  hasm=" + hasm + "  stes=" + stes);
+            int dou = 0;
+            sqon += sorm;
+            pi += sorm;
+            dou += sorm;
+            System.out.println("sqon=" + sqon + "  pi=" + pi + "  dou=" + dou);
             // [b]
         }
-
-        private int stes = 0;
     }
 
  1. What does the main method print?
- 2. Which of the three variables [[4moson[24m, [4mhasm[24m, [4mstes[24m] are in scope at [1m[a][22m?
+ 2. Which of the three variables [[4msqon[24m, [4mpi[24m, [4mdou[24m] are in scope at [1m[a][22m?
  3. Which are in scope at [1m[b][22m?
  4. Which are in scope at [1m[c][22m?
 
@@ -236,23 +300,23 @@ Given the following code:
 
  1. The output is:
     
-        oson=1  hasm=1  stes=1
-        oson=11  hasm=10  stes=10
-        oson=111  hasm=100  stes=110
-        oson=1111  hasm=1000  stes=1110
+        sqon=1  pi=1  dou=1
+        sqon=11  pi=10  dou=10
+        sqon=111  pi=101  dou=100
+        sqon=1111  pi=1010  dou=1000
     
- 2. [4moson[24m and [4mstes[24m are in scope at [a]. [3m([4mhasm[24m is out of scope because it is not
+ 2. [4msqon[24m and [4mpi[24m are in scope at [a]. [3m([4mdou[24m is out of scope because it is not
     declared yet.)[23m
     
  3. All three are in scope at [b].
     
- 4. Only [4moson[24m is in scope at [c]. [3m([4mstes[24m is an instance variable, but [4mmain[24m is a
-    static method. [4mhasm[24m is local to the [4mengspe[24m function.)[23m
+ 4. Only [4msqon[24m is in scope at [c]. [3m([4mpi[24m is an instance variable, but [4mmain[24m is a
+    static method. [4mdou[24m is local to the [4maenAidux[24m function.)[23m
     
 (In the solutions above, the explanatory text in parentheses is just to help you
 understand the solution as you study. You do [1mnot[22m need to write out all of that
 text when you submit your solutions for puzzle of this type! For example, it
-would be fine to submit just “[4moson[24m, [4mstes[24m” for your solution to question 2 above.
+would be fine to submit just “[4msqon[24m, [4mpi[24m” for your solution to question 2 above.
 You do need to provide the full output for question 1, however!)
 
 ────────────────────────────────────────────────────────────────────────────────
@@ -261,36 +325,36 @@ You do need to provide the full output for question 1, however!)
 
 Given the following code:
 
-    public class SoPrunias {
+    public class UanAec {
 
         public static void main(String[] args) {
-            SoPrunias s0 = new SoPrunias();
-            SoPrunias s1 = new SoPrunias();
-            s0.dasmio(1);
-            s1 = s0;
-            s1.dasmio(10);
-            s0.dasmio(100);
-            s1.dasmio(1000);
+            UanAec u0 = new UanAec();
+            UanAec u1 = new UanAec();
+            u0.pioPlar(1);
+            u1.pioPlar(10);
+            u0.pioPlar(100);
+            u0 = u1;
+            u1.pioPlar(1000);
             // [c]
         }
 
-        public void dasmio(int fli) {
+        public void pioPlar(int af) {
             // [a]
-            int drok = 0;
-            drok += fli;
-            max += fli;
-            ne += fli;
-            System.out.println("drok=" + drok + "  max=" + max + "  ne=" + ne);
+            int chir = 0;
+            a += af;
+            besh += af;
+            chir += af;
+            System.out.println("a=" + a + "  besh=" + besh + "  chir=" + chir);
             // [b]
         }
 
-        private int ne = 0;
+        private static int besh = 0;
 
-        private static int max = 0;
+        private int a = 0;
     }
 
  1. What does the main method print?
- 2. Which of the three variables [[4mdrok[24m, [4mmax[24m, [4mne[24m] are in scope at [1m[a][22m?
+ 2. Which of the three variables [[4ma[24m, [4mbesh[24m, [4mchir[24m] are in scope at [1m[a][22m?
  3. Which are in scope at [1m[b][22m?
  4. Which are in scope at [1m[c][22m?
 
@@ -300,87 +364,23 @@ Given the following code:
 
  1. The output is:
     
-        drok=1  max=1  ne=1
-        drok=10  max=11  ne=11
-        drok=100  max=111  ne=111
-        drok=1000  max=1111  ne=1111
+        a=1  besh=1  chir=1
+        a=10  besh=11  chir=10
+        a=101  besh=111  chir=100
+        a=1010  besh=1111  chir=1000
     
- 2. [4mmax[24m and [4mne[24m are in scope at [a]. [3m([4mdrok[24m is out of scope because it is not
+ 2. [4mbesh[24m and [4ma[24m are in scope at [a]. [3m([4mchir[24m is out of scope because it is not
     declared yet.)[23m
     
  3. All three are in scope at [b].
     
- 4. Only [4mmax[24m is in scope at [c]. [3m([4mne[24m is an instance variable, but [4mmain[24m is a
-    static method. [4mdrok[24m is local to the [4mdasmio[24m function.)[23m
+ 4. Only [4mbesh[24m is in scope at [c]. [3m([4ma[24m is an instance variable, but [4mmain[24m is a
+    static method. [4mchir[24m is local to the [4mpioPlar[24m function.)[23m
     
 (In the solutions above, the explanatory text in parentheses is just to help you
 understand the solution as you study. You do [1mnot[22m need to write out all of that
 text when you submit your solutions for puzzle of this type! For example, it
-would be fine to submit just “[4mmax[24m, [4mne[24m” for your solution to question 2 above.
-You do need to provide the full output for question 1, however!)
-
-────────────────────────────────────────────────────────────────────────────────
-
-────────────────────────────────────────────────────────────────────────────────
-
-Given the following code:
-
-    public class CiRheom {
-
-        public void kant(int est) {
-            // [a]
-            int a = 0;
-            a += est;
-            roct += est;
-            gneg += est;
-            System.out.println("a=" + a + "  roct=" + roct + "  gneg=" + gneg);
-            // [b]
-        }
-
-        public static void main(String[] args) {
-            CiRheom c0 = new CiRheom();
-            CiRheom c1 = new CiRheom();
-            c0.kant(1);
-            c1.kant(10);
-            c0 = new CiRheom();
-            c0.kant(100);
-            c1.kant(1000);
-            // [c]
-        }
-
-        private static int gneg = 0;
-
-        private int roct = 0;
-    }
-
- 1. What does the main method print?
- 2. Which of the three variables [[4ma[24m, [4mroct[24m, [4mgneg[24m] are in scope at [1m[a][22m?
- 3. Which are in scope at [1m[b][22m?
- 4. Which are in scope at [1m[c][22m?
-
-[1m[38;5;222m[48;5;52m              [0m
-[1m[38;5;222m[48;5;52m   SOLUTION   [0m
-[1m[38;5;222m[48;5;52m              [0m
-
- 1. The output is:
-    
-        a=1  roct=1  gneg=1
-        a=10  roct=10  gneg=11
-        a=100  roct=100  gneg=111
-        a=1000  roct=1010  gneg=1111
-    
- 2. [4mgneg[24m and [4mroct[24m are in scope at [a]. [3m([4ma[24m is out of scope because it is not
-    declared yet.)[23m
-    
- 3. All three are in scope at [b].
-    
- 4. Only [4mgneg[24m is in scope at [c]. [3m([4mroct[24m is an instance variable, but [4mmain[24m is a
-    static method. [4ma[24m is local to the [4mkant[24m function.)[23m
-    
-(In the solutions above, the explanatory text in parentheses is just to help you
-understand the solution as you study. You do [1mnot[22m need to write out all of that
-text when you submit your solutions for puzzle of this type! For example, it
-would be fine to submit just “[4mgneg[24m, [4mroct[24m” for your solution to question 2 above.
+would be fine to submit just “[4mbesh[24m, [4ma[24m” for your solution to question 2 above.
 You do need to provide the full output for question 1, however!)
 
 ────────────────────────────────────────────────────────────────────────────────

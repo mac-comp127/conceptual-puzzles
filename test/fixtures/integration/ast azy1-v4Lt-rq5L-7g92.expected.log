@@ -47,11 +47,11 @@ Given the following variables:
 
     double voawess = 4.0;
     int up = 9;
-    boolean tela = true;
+    boolean muthord = true;
 
 ...draw the AST and evaluation results for the following expression:
 
-    voawess <= 1 && (up != 3 && tela)
+    voawess <= 1 && (up != 3 && muthord)
 
 [1m[38;5;222m[48;5;52m              [0m
 [1m[38;5;222m[48;5;52m   SOLUTION   [0m
@@ -74,7 +74,7 @@ Things to double-check in your solution:
 
 Draw the AST and evaluation results for the following expression:
 
-    0 + "1" + 2 + 3 + 4
+    0 + "1" + (2 + 3 + 4)
 
 [1m[38;5;123m[48;5;23m              [0m
 [1m[38;5;123m[48;5;23m   SOLUTION   [0m
@@ -105,11 +105,12 @@ expression.
 
 Given the following variables:
 
-    double danla = 3.0;
+    int idpri = 8;
+    double ascel = 1.0;
 
 ...draw the AST and evaluation results for the following expression:
 
-    0 + 7 / 1 - danla
+    idpri + (6 / ascel / 2)
 
 [1m[38;5;213m[48;5;53m              [0m
 [1m[38;5;213m[48;5;53m   SOLUTION   [0m
@@ -130,14 +131,14 @@ Things to double-check in your solution:
 
 Given the following variables:
 
-    int hun = 3;
-    int feeman = 4;
-    int zio = 7;
-    double o = 3.0;
+    int sioulper = 7;
+    int i = 7;
+    double pouphtesm = 4.0;
+    double edphiss = 1.0;
 
 ...draw the AST and evaluation results for the following expression:
 
-    (1 >= hun && feeman == zio && o > 7)
+    sioulper != 2 && 0 >= i && pouphtesm != edphiss
 
 [1m[38;5;192m[48;5;22m              [0m
 [1m[38;5;192m[48;5;22m   SOLUTION   [0m
@@ -160,7 +161,7 @@ Things to double-check in your solution:
 
 Draw the AST and evaluation results for the following expression:
 
-    (0 + 1 + "2" + 3) + 4
+    0 + 1 + 2 + 3 + "4"
 
 [1m[38;5;111m[48;5;17m              [0m
 [1m[38;5;111m[48;5;17m   SOLUTION   [0m
@@ -191,13 +192,11 @@ expression.
 
 Given the following variables:
 
-    int ir = 3;
-    double pouphtesm = 4.0;
-    int ta = 1;
+    double mepnis = 5.0;
 
 ...draw the AST and evaluation results for the following expression:
 
-    ir * pouphtesm % ta - 2
+    2 * 8 + 0 - mepnis
 
 [1m[38;5;210m[48;5;52m              [0m
 [1m[38;5;210m[48;5;52m   SOLUTION   [0m
@@ -218,13 +217,12 @@ Things to double-check in your solution:
 
 Given the following variables:
 
-    double prel = 5.0;
-    double deflol = 5.0;
-    double dias = 2.0;
+    double pren = 4.0;
+    double eciac = 5.0;
 
 ...draw the AST and evaluation results for the following expression:
 
-    prel == deflol || dias < 8 && 0 > 0
+    3 >= pren || eciac != 2 && 1 != 1
 
 [1m[38;5;121m[48;5;22m              [0m
 [1m[38;5;121m[48;5;22m   SOLUTION   [0m
@@ -247,7 +245,7 @@ Things to double-check in your solution:
 
 Draw the AST and evaluation results for the following expression:
 
-    0 + 1 + "2" + 3 + 4
+    (0 + 1 + "2" + 3) + 4
 
 [1m[38;5;177m[48;5;17m              [0m
 [1m[38;5;177m[48;5;17m   SOLUTION   [0m
@@ -278,11 +276,12 @@ expression.
 
 Given the following variables:
 
-    double tegnpeth = 5.0;
+    int gamod = 4;
+    int sti = 4;
 
 ...draw the AST and evaluation results for the following expression:
 
-    9 / 3 * 9 - tegnpeth
+    0 + (gamod + 6 + sti)
 
 [1m[38;5;228m[48;5;58m              [0m
 [1m[38;5;228m[48;5;58m   SOLUTION   [0m
@@ -303,13 +302,13 @@ Things to double-check in your solution:
 
 Given the following variables:
 
-    boolean melpid = true;
-    boolean gamod = false;
-    int sti = 4;
+    boolean lun = true;
+    double eu = 3.0;
+    double pingjert = 4.0;
 
 ...draw the AST and evaluation results for the following expression:
 
-    melpid && gamod && sti != 7
+    lun && (eu >= 7 && pingjert != 2)
 
 [1m[38;5;123m[48;5;23m              [0m
 [1m[38;5;123m[48;5;23m   SOLUTION   [0m
@@ -332,7 +331,7 @@ Things to double-check in your solution:
 
 Draw the AST and evaluation results for the following expression:
 
-    0 + 1 + "2" + 3 + 4
+    0 + 1 + 2 + 3 + "4"
 
 [1m[38;5;212m[48;5;52m              [0m
 [1m[38;5;212m[48;5;52m   SOLUTION   [0m
@@ -363,11 +362,12 @@ expression.
 
 Given the following variables:
 
-    double eu = 3.0;
+    int fes = 6;
+    double blun = 4.0;
 
 ...draw the AST and evaluation results for the following expression:
 
-    (5 % 1 * eu) + 7
+    5 - 1 * fes / blun
 
 [1m[38;5;156m[48;5;22m              [0m
 [1m[38;5;156m[48;5;22m   SOLUTION   [0m
@@ -388,13 +388,12 @@ Things to double-check in your solution:
 
 Given the following variables:
 
-    double ossgead = 1.0;
-    double jerttre = 2.0;
-    int cieng = 8;
+    int i = 2;
+    boolean ent = true;
 
 ...draw the AST and evaluation results for the following expression:
 
-    4 <= ossgead && jerttre > cieng && 5 > 0
+    (3 > i || ent) && 6 >= 4
 
 [1m[38;5;105m[48;5;17m              [0m
 [1m[38;5;105m[48;5;17m   SOLUTION   [0m
@@ -417,7 +416,7 @@ Things to double-check in your solution:
 
 Draw the AST and evaluation results for the following expression:
 
-    (0 + 1 + 2 + 3) + "4"
+    0 + 1 + 2 + 3 + "4"
 
 [1m[38;5;216m[48;5;52m              [0m
 [1m[38;5;216m[48;5;52m   SOLUTION   [0m
@@ -448,13 +447,11 @@ expression.
 
 Given the following variables:
 
-    double mordche = 1.0;
-    int vapton = 6;
-    int a = 7;
+    double en = 5.0;
 
 ...draw the AST and evaluation results for the following expression:
 
-    3 * (mordche * vapton % a)
+    5 / 7 * en - 0
 
 [1m[38;5;122m[48;5;22m              [0m
 [1m[38;5;122m[48;5;22m   SOLUTION   [0m
@@ -475,13 +472,14 @@ Things to double-check in your solution:
 
 Given the following variables:
 
-    double puemusp = 1.0;
-    double cansioc = 1.0;
-    double irt = 4.0;
+    double raou = 2.0;
+    int atchmic = 7;
+    int pathre = 1;
+    boolean se = true;
 
 ...draw the AST and evaluation results for the following expression:
 
-    9 >= puemusp && 4 < cansioc && 8 <= irt
+    5 > raou || (atchmic <= pathre && se)
 
 [1m[38;5;213m[48;5;53m              [0m
 [1m[38;5;213m[48;5;53m   SOLUTION   [0m
@@ -504,7 +502,7 @@ Things to double-check in your solution:
 
 Draw the AST and evaluation results for the following expression:
 
-    0 + 1 + 2 + 3 + "4"
+    0 + 1 + "2" + 3 + 4
 
 [1m[38;5;228m[48;5;58m              [0m
 [1m[38;5;228m[48;5;58m   SOLUTION   [0m

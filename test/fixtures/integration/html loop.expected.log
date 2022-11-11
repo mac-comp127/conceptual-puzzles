@@ -94,20 +94,22 @@ while (ba &lt;= emlos) {
 
 <h2 style='color: #ca4dff'>Part 3</h2>
 <p>Translate the following loop into a for-each loop:</p>
-<pre>List&lt;Lauspracks&gt; lens;
+<pre>List&lt;Lauspracks&gt; cengs;
 ...</pre>
-<pre>for (int n = 0; n &lt; lens.size(); n++) {
-    femo(2, lens.get(n), daeo);
-    lens.get(n).biss(-3, -1);
-    iomas();
+<pre>for (int n = 0; n &lt; cengs.size(); n++) {
+    moriff(9);
+    cengs.get(n).hass(4);
+    brirt(8);
+    enle(cengs.get(n), sape);
 }</pre>
 <h3 style='color: #ca4dff'>Solution</h3>
-<pre>for (Lauspracks len : lens) {
-    femo(2, len, daeo);
-    len.biss(-3, -1);
-    iomas();
+<pre>for (Lauspracks ceng : cengs) {
+    moriff(9);
+    ceng.hass(4);
+    brirt(8);
+    enle(ceng, sape);
 }</pre>
-<p>It is OK if you gave the variable for the individual collection element (<code>len</code>) a different name, such as <code>elem</code>. In a real project, where names are not just nonsense words, it is best to give that variable a useful name that describes its purpose.</p>
+<p>It is OK if you gave the variable for the individual collection element (<code>ceng</code>) a different name, such as <code>elem</code>. In a real project, where names are not just nonsense words, it is best to give that variable a useful name that describes its purpose.</p>
 
 <hr class='primary'>
 

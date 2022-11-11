@@ -11,14 +11,14 @@ This if statement has a very long first clause, and a very short else clause.
 This makes it hard to read: the tiny else clause is so far from the condition,
 it’s hard to figure out what the [4melse[24m refers to!
 
-    if (frehum() != 8 || druck() || (!ru || seiGroci() || coem() < 8) && bise() < 5) {
+    if ((eia == 3 || dai) && (coem() < 8 || agne() != 8 || !(rapran() && !ru))) {
         ...
         ...
         // Pretend there is lots of code here
         ...
         ...
     } else {
-        conra();
+        pecWongu();
     }
 
 Improve readability by refactoring this conditional so that its [1mtwo clauses are
@@ -29,8 +29,8 @@ first clause comes second.
 [1m[38;5;123m[48;5;23m   SOLUTION   [0m
 [1m[38;5;123m[48;5;23m              [0m
 
-    if (frehum() == 8 && !druck() && (ru && !seiGroci() && coem() >= 8 || bise() >= 5)) {
-        conra();
+    if (eia != 3 && !dai || coem() >= 8 && agne() == 8 && rapran() && !ru) {
+        pecWongu();
     } else {
         ...
         ...
@@ -57,23 +57,32 @@ Things to double-check in your solution:
 Simplify the following conditional chain so that it is a single return
 statement.
 
-    if (pec > mape) {
-        return true;
-    }
-    if (neft) {
-        if (us > recKasos()) {
-            return true;
+    if (piru < 7) {
+        if (tedqam()) {
+            if (mape) {
+                if (wism == 4) {
+                    return true;
+                }
+                if (!spho) {
+                    return true;
+                }
+            }
         }
-    }
-    if (wism == 4) {
-        if (!spho) {
-            return true;
+        if (us > kasos()) {
+            if (wism == 4) {
+                return true;
+            }
+            if (!spho) {
+                return true;
+            }
         }
-        if (piru < 7) {
-            return true;
-        }
-        if (!si) {
-            return true;
+        if (!bli) {
+            if (wism == 4) {
+                return true;
+            }
+            if (!spho) {
+                return true;
+            }
         }
     }
     return false;
@@ -82,7 +91,7 @@ statement.
 [1m[38;5;213m[48;5;53m   SOLUTION   [0m
 [1m[38;5;213m[48;5;53m              [0m
 
-    return pec > mape || neft && us > recKasos() || wism == 4 && (!spho || piru < 7 || !si);
+    return piru < 7 && (tedqam() && mape || us > kasos() || !bli) && (wism == 4 || !spho);
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
@@ -94,30 +103,26 @@ of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the 
 [1m[38;5;213m[48;5;53m   SOLUTION   [0m
 [1m[38;5;213m[48;5;53m              [0m
 
-    if (pec <= mape) {
-        if (!neft) {
-            if (wism != 4) {
+    if (piru >= 7) {
+        return false;
+    }
+    if (!tedqam()) {
+        if (us <= kasos()) {
+            if (bli) {
                 return false;
-            }
-            if (spho) {
-                if (piru >= 7) {
-                    if (si) {
-                        return false;
-                    }
-                }
             }
         }
-        if (us <= recKasos()) {
-            if (wism != 4) {
+    }
+    if (!mape) {
+        if (us <= kasos()) {
+            if (bli) {
                 return false;
             }
-            if (spho) {
-                if (piru >= 7) {
-                    if (si) {
-                        return false;
-                    }
-                }
-            }
+        }
+    }
+    if (wism != 4) {
+        if (spho) {
+            return false;
         }
     }
     return true;
@@ -130,44 +135,45 @@ of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the 
 
 Simplify the following messy chain of conditionals:
 
-    if (!qam) {
-        nidma();
-    } else if (mur == false && qam) {
-        gocLah();
+    if (id == mur) {
+        gocGuposs();
     }
-    if (hir == true && qam && mur != false) {
+    if (ul == false && id != mur) {
         hilPece();
-    }
-    if (me == false && qam && mur != false && hir != true) {
+    } else if (!me && id != mur && ul != false) {
         frica();
-    } else if (fino == true && qam && mur != false && hir != true && me != false) {
-        pessa();
-    } else if (qam && mur != false && hir != true && me != false && fino != true) {
-        proe();
+    } else if (somi == true && id != mur && ul != false && me) {
+        vutlan();
+    }
+    if (cas == true && id != mur && ul != false && me && somi != true) {
+        mecgal();
+    }
+    if (os == false && id != mur && ul != false && me && somi != true && cas != true) {
+        godur();
     }
 
 [1m[38;5;192m[48;5;22m              [0m
 [1m[38;5;192m[48;5;22m   SOLUTION   [0m
 [1m[38;5;192m[48;5;22m              [0m
 
-    if (!qam) {
-        nidma();
-    } else if (!mur) {
-        gocLah();
-    } else if (hir) {
+    if (id == mur) {
+        gocGuposs();
+    } else if (!ul) {
         hilPece();
     } else if (!me) {
         frica();
-    } else if (fino) {
-        pessa();
-    } else {
-        proe();
+    } else if (somi) {
+        vutlan();
+    } else if (cas) {
+        mecgal();
+    } else if (!os) {
+        godur();
     }
 
 Things to double-check in your solution:
 
   - Did you remove / simplify all the [4m== true[24m and [4m== false[24m checks?
-  - This particular conditional chain can end with just an [4melse[24m, no final [4mif[24m.
+  - This particular conditional chain must end with an [4melse if[24m, not just [4melse[24m.
 
 ────────────────────────────────────────────────────────────────────────────────
 
@@ -181,14 +187,14 @@ This if statement has a very long first clause, and a very short else clause.
 This makes it hard to read: the tiny else clause is so far from the condition,
 it’s hard to figure out what the [4melse[24m refers to!
 
-    if (!ener && (!(!(cas && gricas()) || pui != sasDehoc()) || !o && vutlan())) {
+    if ((!sas || !(pocpar() && vean != acsi && ni >= 0 && priu)) && !ce) {
         ...
         ...
         // Pretend there is lots of code here
         ...
         ...
     } else {
-        onis();
+        chisca();
     }
 
 Improve readability by refactoring this conditional so that its [1mtwo clauses are
@@ -199,8 +205,8 @@ first clause comes second.
 [1m[38;5;111m[48;5;17m   SOLUTION   [0m
 [1m[38;5;111m[48;5;17m              [0m
 
-    if (ener || (!(cas && gricas()) || pui != sasDehoc()) && (o || !vutlan())) {
-        onis();
+    if (sas && pocpar() && vean != acsi && ni >= 0 && priu || ce) {
+        chisca();
     } else {
         ...
         ...
@@ -227,23 +233,19 @@ Things to double-check in your solution:
 Simplify the following conditional chain so that it is a single return
 statement.
 
-    if (dran) {
-        return true;
-    }
-    if (eaed) {
-        if (cher) {
-            if (ja) {
-                if (!o) {
-                    if (ro != istup()) {
+    if (ondel()) {
+        if (rasick()) {
+            if (niec >= 9) {
+                if (!el) {
+                    return true;
+                }
+                if (!emin) {
+                    if (draee()) {
                         return true;
                     }
                 }
-            }
-            if (ioe >= 1) {
-                if (!o) {
-                    if (ro != istup()) {
-                        return true;
-                    }
+                if (tism()) {
+                    return true;
                 }
             }
         }
@@ -254,7 +256,7 @@ statement.
 [1m[38;5;210m[48;5;52m   SOLUTION   [0m
 [1m[38;5;210m[48;5;52m              [0m
 
-    return dran || eaed && cher && (ja || ioe >= 1) && !o && ro != istup();
+    return ondel() && rasick() && niec >= 9 && (!el || !emin && draee() || tism());
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
@@ -266,23 +268,25 @@ of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the 
 [1m[38;5;210m[48;5;52m   SOLUTION   [0m
 [1m[38;5;210m[48;5;52m              [0m
 
-    if (!dran) {
-        if (!eaed) {
-            return false;
-        }
-        if (!cher) {
-            return false;
-        }
-        if (!ja) {
-            if (ioe < 1) {
+    if (!ondel()) {
+        return false;
+    }
+    if (!rasick()) {
+        return false;
+    }
+    if (niec < 9) {
+        return false;
+    }
+    if (el) {
+        if (emin) {
+            if (!tism()) {
                 return false;
             }
         }
-        if (o) {
-            return false;
-        }
-        if (ro == istup()) {
-            return false;
+        if (!draee()) {
+            if (!tism()) {
+                return false;
+            }
         }
     }
     return true;
@@ -295,39 +299,39 @@ of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the 
 
 Simplify the following messy chain of conditionals:
 
-    if (thed != e) {
-        hocTrobzo();
-    } else if (tiu == true && thed == e) {
-        vass();
+    if (ciw == true) {
+        duph();
+    } else if (vass == false && ciw != true) {
+        frio();
+    } else if (se && ciw != true && vass != false) {
+        roodci();
     }
-    if (u == false && thed == e && tiu != true) {
-        priTrert();
+    if (eled && ciw != true && vass != false && !se) {
+        niaith();
     }
-    if ((cre == ermi) == true && thed == e && tiu != true && u != false) {
-        seng();
+    if (pe < 1 && ciw != true && vass != false && !se && !eled) {
+        drania();
     }
-    if (poc && thed == e && tiu != true && u != false && (cre == ermi) != true) {
-        cuiRiac();
-    } else if (acko && thed == e && tiu != true && u != false && (cre == ermi) != true && !poc) {
-        esron();
+    if (!em && ciw != true && vass != false && !se && !eled && pe >= 1) {
+        tapeab();
     }
 
 [1m[38;5;121m[48;5;22m              [0m
 [1m[38;5;121m[48;5;22m   SOLUTION   [0m
 [1m[38;5;121m[48;5;22m              [0m
 
-    if (thed != e) {
-        hocTrobzo();
-    } else if (tiu) {
-        vass();
-    } else if (!u) {
-        priTrert();
-    } else if (cre == ermi) {
-        seng();
-    } else if (poc) {
-        cuiRiac();
-    } else if (acko) {
-        esron();
+    if (ciw) {
+        duph();
+    } else if (!vass) {
+        frio();
+    } else if (se) {
+        roodci();
+    } else if (eled) {
+        niaith();
+    } else if (pe < 1) {
+        drania();
+    } else if (!em) {
+        tapeab();
     }
 
 Things to double-check in your solution:
@@ -347,14 +351,14 @@ This if statement has a very long first clause, and a very short else clause.
 This makes it hard to read: the tiny else clause is so far from the condition,
 it’s hard to figure out what the [4melse[24m refers to!
 
-    if (iinAuboi() && !(lo == 1) && (mokmos() == 0 || stal()) && (swaod() || !ed)) {
+    if (mokmos() == 0 && swaod() && (lo == 1 || stal()) && auboi() && !ael) {
         ...
         ...
         // Pretend there is lots of code here
         ...
         ...
     } else {
-        preva();
+        prent();
     }
 
 Improve readability by refactoring this conditional so that its [1mtwo clauses are
@@ -365,8 +369,8 @@ first clause comes second.
 [1m[38;5;177m[48;5;17m   SOLUTION   [0m
 [1m[38;5;177m[48;5;17m              [0m
 
-    if (!iinAuboi() || lo == 1 || mokmos() != 0 && !stal() || !swaod() && ed) {
-        preva();
+    if (mokmos() != 0 || !swaod() || lo != 1 && !stal() || !auboi() || ael) {
+        prent();
     } else {
         ...
         ...
@@ -393,26 +397,35 @@ Things to double-check in your solution:
 Simplify the following conditional chain so that it is a single return
 statement.
 
-    if (hi == deshid()) {
-        if (qeddi()) {
-            if (dol == mo) {
-                if (el) {
-                    return true;
-                }
+    if (!ehi) {
+        if (sperir()) {
+            if (bozEksaen() < 9) {
+                return true;
+            }
+            if (cece > maraic()) {
+                return true;
+            }
+            if (aent > o) {
+                return true;
+            }
+            if (kepii()) {
+                return true;
             }
         }
-        if (iscias()) {
-            if (cird()) {
-                if (el) {
-                    return true;
-                }
+    }
+    if (i) {
+        if (sperir()) {
+            if (bozEksaen() < 9) {
+                return true;
             }
-        }
-        if (beco()) {
-            if (cird()) {
-                if (el) {
-                    return true;
-                }
+            if (cece > maraic()) {
+                return true;
+            }
+            if (aent > o) {
+                return true;
+            }
+            if (kepii()) {
+                return true;
             }
         }
     }
@@ -422,7 +435,7 @@ statement.
 [1m[38;5;228m[48;5;58m   SOLUTION   [0m
 [1m[38;5;228m[48;5;58m              [0m
 
-    return hi == deshid() && (qeddi() && dol == mo || (iscias() || beco()) && cird()) && el;
+    return (!ehi || i) && sperir() && (bozEksaen() < 9 || cece > maraic() || aent > o || kepii());
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
@@ -434,31 +447,22 @@ of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the 
 [1m[38;5;228m[48;5;58m   SOLUTION   [0m
 [1m[38;5;228m[48;5;58m              [0m
 
-    if (hi != deshid()) {
-        return false;
-    }
-    if (!qeddi()) {
-        if (!iscias()) {
-            if (!beco()) {
-                return false;
-            }
-        }
-        if (!cird()) {
+    if (ehi) {
+        if (!i) {
             return false;
         }
     }
-    if (dol != mo) {
-        if (!iscias()) {
-            if (!beco()) {
-                return false;
+    if (!sperir()) {
+        return false;
+    }
+    if (bozEksaen() >= 9) {
+        if (cece <= maraic()) {
+            if (aent <= o) {
+                if (!kepii()) {
+                    return false;
+                }
             }
         }
-        if (!cird()) {
-            return false;
-        }
-    }
-    if (!el) {
-        return false;
     }
     return true;
 
@@ -470,45 +474,45 @@ of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the 
 
 Simplify the following messy chain of conditionals:
 
-    if (phe == mula) {
-        maraic();
+    if (cick <= 9) {
+        seldes();
+    } else if (hudi == true && cick > 9) {
+        genud();
     }
-    if (ou == true && phe != mula) {
-        senia();
-    } else if (i == true && phe != mula && ou != true) {
-        ostria();
-    } else if (oss == true && phe != mula && ou != true && i != true) {
-        cick();
+    if (e && cick > 9 && hudi != true) {
+        fewrer();
+    } else if (no == true && cick > 9 && hudi != true && !e) {
+        ditish();
     }
-    if (de == true && phe != mula && ou != true && i != true && oss != true) {
-        encac();
+    if (!acva && cick > 9 && hudi != true && !e && no != true) {
+        dedoc();
     }
-    if (lus == true && phe != mula && ou != true && i != true && oss != true && de != true) {
-        peast();
+    if (cick > 9 && hudi != true && !e && no != true && acva) {
+        trai();
     }
 
 [1m[38;5;123m[48;5;23m              [0m
 [1m[38;5;123m[48;5;23m   SOLUTION   [0m
 [1m[38;5;123m[48;5;23m              [0m
 
-    if (phe == mula) {
-        maraic();
-    } else if (ou) {
-        senia();
-    } else if (i) {
-        ostria();
-    } else if (oss) {
-        cick();
-    } else if (de) {
-        encac();
-    } else if (lus) {
-        peast();
+    if (cick <= 9) {
+        seldes();
+    } else if (hudi) {
+        genud();
+    } else if (e) {
+        fewrer();
+    } else if (no) {
+        ditish();
+    } else if (!acva) {
+        dedoc();
+    } else {
+        trai();
     }
 
 Things to double-check in your solution:
 
   - Did you remove / simplify all the [4m== true[24m and [4m== false[24m checks?
-  - This particular conditional chain must end with an [4melse if[24m, not just [4melse[24m.
+  - This particular conditional chain can end with just an [4melse[24m, no final [4mif[24m.
 
 ────────────────────────────────────────────────────────────────────────────────
 
@@ -522,14 +526,14 @@ This if statement has a very long first clause, and a very short else clause.
 This makes it hard to read: the tiny else clause is so far from the condition,
 it’s hard to figure out what the [4melse[24m refers to!
 
-    if (o && issces() && droo() || hac && cen <= esmEnghal() && !noo) {
+    if ((pi == 2 || tu || fu) && !(!wred && (la || !un))) {
         ...
         ...
         // Pretend there is lots of code here
         ...
         ...
     } else {
-        thruwn();
+        aront();
     }
 
 Improve readability by refactoring this conditional so that its [1mtwo clauses are
@@ -540,8 +544,8 @@ first clause comes second.
 [1m[38;5;212m[48;5;52m   SOLUTION   [0m
 [1m[38;5;212m[48;5;52m              [0m
 
-    if ((!o || !issces() || !droo()) && (!hac || cen > esmEnghal() || noo)) {
-        thruwn();
+    if (pi != 2 && !tu && !fu || !wred && (la || !un)) {
+        aront();
     } else {
         ...
         ...
@@ -568,43 +572,24 @@ Things to double-check in your solution:
 Simplify the following conditional chain so that it is a single return
 statement.
 
-    if (enki) {
-        if (cudod() > 8) {
-            if (unict()) {
-                return true;
-            }
+    if (genta()) {
+        return true;
+    }
+    if (meir() >= 3) {
+        if (strink()) {
+            return true;
         }
-        if (in) {
-            if (un) {
-                if (unict()) {
-                    return true;
-                }
-            }
-            if (!tu) {
-                if (unict()) {
-                    return true;
-                }
-            }
+        if (su) {
+            return true;
         }
     }
-    if (rint < tras) {
-        if (cudod() > 8) {
-            if (unict()) {
-                return true;
-            }
+    if (!daci) {
+        if (psit() == we) {
+            return true;
         }
-        if (in) {
-            if (un) {
-                if (unict()) {
-                    return true;
-                }
-            }
-            if (!tu) {
-                if (unict()) {
-                    return true;
-                }
-            }
-        }
+    }
+    if (bructo() == 2) {
+        return true;
     }
     return false;
 
@@ -612,7 +597,7 @@ statement.
 [1m[38;5;156m[48;5;22m   SOLUTION   [0m
 [1m[38;5;156m[48;5;22m              [0m
 
-    return (enki || rint < tras) && (cudod() > 8 || in && (un || !tu)) && unict();
+    return genta() || meir() >= 3 && (strink() || su) || !daci && psit() == we || bructo() == 2;
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
@@ -624,23 +609,33 @@ of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the 
 [1m[38;5;156m[48;5;22m   SOLUTION   [0m
 [1m[38;5;156m[48;5;22m              [0m
 
-    if (!enki) {
-        if (rint >= tras) {
-            return false;
-        }
-    }
-    if (cudod() <= 8) {
-        if (!in) {
-            return false;
-        }
-        if (!un) {
-            if (tu) {
-                return false;
+    if (!genta()) {
+        if (meir() < 3) {
+            if (daci) {
+                if (bructo() != 2) {
+                    return false;
+                }
+            }
+            if (psit() != we) {
+                if (bructo() != 2) {
+                    return false;
+                }
             }
         }
-    }
-    if (!unict()) {
-        return false;
+        if (!strink()) {
+            if (!su) {
+                if (daci) {
+                    if (bructo() != 2) {
+                        return false;
+                    }
+                }
+                if (psit() != we) {
+                    if (bructo() != 2) {
+                        return false;
+                    }
+                }
+            }
+        }
     }
     return true;
 
@@ -652,46 +647,44 @@ of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the 
 
 Simplify the following messy chain of conditionals:
 
-    if (pto == 8) {
-        pleVoec();
-    } else if (pu == true && pto != 8) {
-        cibia();
+    if (steo == true) {
+        priSpioin();
+    } else if (phe == 6 && steo != true) {
+        ghec();
+    } else if (lef == false && steo != true && phe != 6) {
+        ishi();
     }
-    if (!kree && pto != 8 && pu != true) {
-        facNodoc();
+    if (pula == true && steo != true && phe != 6 && lef != false) {
+        daspas();
+    } else if (ei == a && steo != true && phe != 6 && lef != false && pula != true) {
+        canba();
     }
-    if (e == true && pto != 8 && pu != true && kree) {
-        thiCia();
-    }
-    if (co != eae && pto != 8 && pu != true && kree && e != true) {
-        ogncou();
-    }
-    if (caf == true && pto != 8 && pu != true && kree && e != true && co == eae) {
-        phao();
+    if (steo != true && phe != 6 && lef != false && pula != true && ei != a) {
+        driHousa();
     }
 
 [1m[38;5;105m[48;5;17m              [0m
 [1m[38;5;105m[48;5;17m   SOLUTION   [0m
 [1m[38;5;105m[48;5;17m              [0m
 
-    if (pto == 8) {
-        pleVoec();
-    } else if (pu) {
-        cibia();
-    } else if (!kree) {
-        facNodoc();
-    } else if (e) {
-        thiCia();
-    } else if (co != eae) {
-        ogncou();
-    } else if (caf) {
-        phao();
+    if (steo) {
+        priSpioin();
+    } else if (phe == 6) {
+        ghec();
+    } else if (!lef) {
+        ishi();
+    } else if (pula) {
+        daspas();
+    } else if (ei == a) {
+        canba();
+    } else {
+        driHousa();
     }
 
 Things to double-check in your solution:
 
   - Did you remove / simplify all the [4m== true[24m and [4m== false[24m checks?
-  - This particular conditional chain must end with an [4melse if[24m, not just [4melse[24m.
+  - This particular conditional chain can end with just an [4melse[24m, no final [4mif[24m.
 
 ────────────────────────────────────────────────────────────────────────────────
 
@@ -705,14 +698,14 @@ This if statement has a very long first clause, and a very short else clause.
 This makes it hard to read: the tiny else clause is so far from the condition,
 it’s hard to figure out what the [4melse[24m refers to!
 
-    if (!(alwu == 2 && fesVije()) && (!poupra() || !daspas() || pru || ei == a)) {
+    if (!(besm && fom && fiabre() > 0) && seang() && (scre() == 8 || merm > 3)) {
         ...
         ...
         // Pretend there is lots of code here
         ...
         ...
     } else {
-        housa();
+        prur();
     }
 
 Improve readability by refactoring this conditional so that its [1mtwo clauses are
@@ -723,8 +716,8 @@ first clause comes second.
 [1m[38;5;216m[48;5;52m   SOLUTION   [0m
 [1m[38;5;216m[48;5;52m              [0m
 
-    if (alwu == 2 && fesVije() || poupra() && daspas() && !pru && ei != a) {
-        housa();
+    if (besm && fom && fiabre() > 0 || !seang() || scre() != 8 && merm <= 3) {
+        prur();
     } else {
         ...
         ...
@@ -751,23 +744,32 @@ Things to double-check in your solution:
 Simplify the following conditional chain so that it is a single return
 statement.
 
-    if (edent()) {
-        if (uer) {
-            return true;
+    if (har) {
+        if (traip() < 7) {
+            if (hocpan()) {
+                if (thol == osfiac()) {
+                    if (hedu) {
+                        return true;
+                    }
+                    if (lal) {
+                        return true;
+                    }
+                }
+            }
         }
-        if (mic != drio()) {
-            return true;
-        }
     }
-    if (dreuis() >= 3) {
-        return true;
-    }
-    if (spo) {
-        return true;
-    }
-    if (an <= 7) {
-        if (hite < osscic()) {
-            return true;
+    if (husils() == 0) {
+        if (traip() < 7) {
+            if (hocpan()) {
+                if (thol == osfiac()) {
+                    if (hedu) {
+                        return true;
+                    }
+                    if (lal) {
+                        return true;
+                    }
+                }
+            }
         }
     }
     return false;
@@ -776,7 +778,7 @@ statement.
 [1m[38;5;122m[48;5;22m   SOLUTION   [0m
 [1m[38;5;122m[48;5;22m              [0m
 
-    return edent() && (uer || mic != drio()) || dreuis() >= 3 || spo || an <= 7 && hite < osscic();
+    return (har || husils() == 0) && traip() < 7 && hocpan() && thol == osfiac() && (hedu || lal);
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
@@ -788,30 +790,23 @@ of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the 
 [1m[38;5;122m[48;5;22m   SOLUTION   [0m
 [1m[38;5;122m[48;5;22m              [0m
 
-    if (!edent()) {
-        if (dreuis() < 3) {
-            if (!spo) {
-                if (an > 7) {
-                    return false;
-                }
-                if (hite >= osscic()) {
-                    return false;
-                }
-            }
+    if (!har) {
+        if (husils() != 0) {
+            return false;
         }
     }
-    if (!uer) {
-        if (mic == drio()) {
-            if (dreuis() < 3) {
-                if (!spo) {
-                    if (an > 7) {
-                        return false;
-                    }
-                    if (hite >= osscic()) {
-                        return false;
-                    }
-                }
-            }
+    if (traip() >= 7) {
+        return false;
+    }
+    if (!hocpan()) {
+        return false;
+    }
+    if (thol != osfiac()) {
+        return false;
+    }
+    if (!hedu) {
+        if (!lal) {
+            return false;
         }
     }
     return true;
@@ -824,38 +819,39 @@ of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the 
 
 Simplify the following messy chain of conditionals:
 
-    if (armi == false) {
-        inea();
-    } else if (hism == true && armi != false) {
-        peng();
+    if (co == false) {
+        ricleo();
     }
-    if (sed < whe && armi != false && hism != true) {
-        rusSasssa();
-    } else if (ece == false && armi != false && hism != true && sed >= whe) {
-        acrass();
+    if (ceid == false && co != false) {
+        hipral();
+    } else if (i == false && co != false && ceid != false) {
+        ifing();
+    } else if (ri == false && co != false && ceid != false && i != false) {
+        fodem();
     }
-    if (cese > 5 && armi != false && hism != true && sed >= whe && ece != false) {
-        ushbor();
-    } else if (ow == true && armi != false && hism != true && sed >= whe && ece != false && cese <= 5) {
-        aipoh();
+    if (fult == true && co != false && ceid != false && i != false && ri != false) {
+        geng();
+    }
+    if (pemo == true && co != false && ceid != false && i != false && ri != false && fult != true) {
+        cuhe();
     }
 
 [1m[38;5;213m[48;5;53m              [0m
 [1m[38;5;213m[48;5;53m   SOLUTION   [0m
 [1m[38;5;213m[48;5;53m              [0m
 
-    if (!armi) {
-        inea();
-    } else if (hism) {
-        peng();
-    } else if (sed < whe) {
-        rusSasssa();
-    } else if (!ece) {
-        acrass();
-    } else if (cese > 5) {
-        ushbor();
-    } else if (ow) {
-        aipoh();
+    if (!co) {
+        ricleo();
+    } else if (!ceid) {
+        hipral();
+    } else if (!i) {
+        ifing();
+    } else if (!ri) {
+        fodem();
+    } else if (fult) {
+        geng();
+    } else if (pemo) {
+        cuhe();
     }
 
 Things to double-check in your solution:
@@ -875,14 +871,14 @@ This if statement has a very long first clause, and a very short else clause.
 This makes it hard to read: the tiny else clause is so far from the condition,
 it’s hard to figure out what the [4melse[24m refers to!
 
-    if (!ian && (criThos() || phiol() || !(e != 4)) && rasm != 6 || flinid()) {
+    if (soid() && tersa() || !(gans >= 9 && (sto <= 3 || auni == te) && suntio())) {
         ...
         ...
         // Pretend there is lots of code here
         ...
         ...
     } else {
-        ocnur();
+        enho();
     }
 
 Improve readability by refactoring this conditional so that its [1mtwo clauses are
@@ -893,8 +889,8 @@ first clause comes second.
 [1m[38;5;228m[48;5;58m   SOLUTION   [0m
 [1m[38;5;228m[48;5;58m              [0m
 
-    if ((ian || !criThos() && !phiol() && e != 4 || rasm == 6) && !flinid()) {
-        ocnur();
+    if ((!soid() || !tersa()) && gans >= 9 && (sto <= 3 || auni == te) && suntio()) {
+        enho();
     } else {
         ...
         ...
@@ -921,26 +917,22 @@ Things to double-check in your solution:
 Simplify the following conditional chain so that it is a single return
 statement.
 
-    if (pesi()) {
-        if (moos()) {
-            return true;
-        }
-    }
-    if (uiss()) {
-        if (haa) {
-            if (e) {
-                return true;
+    if (an) {
+        if (glo > 5) {
+            if (reod()) {
+                if (!oi) {
+                    if (bre) {
+                        return true;
+                    }
+                }
             }
-        }
-    }
-    if (ec != 2) {
-        if (e) {
-            return true;
-        }
-    }
-    if (giod >= 7) {
-        if (e) {
-            return true;
+            if (piphde()) {
+                if (jas) {
+                    if (bre) {
+                        return true;
+                    }
+                }
+            }
         }
     }
     return false;
@@ -949,7 +941,7 @@ statement.
 [1m[38;5;117m[48;5;17m   SOLUTION   [0m
 [1m[38;5;117m[48;5;17m              [0m
 
-    return pesi() && moos() || (uiss() && haa || ec != 2 || giod >= 7) && e;
+    return an && glo > 5 && (reod() && !oi || piphde() && jas) && bre;
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
@@ -961,43 +953,30 @@ of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the 
 [1m[38;5;117m[48;5;17m   SOLUTION   [0m
 [1m[38;5;117m[48;5;17m              [0m
 
-    if (!pesi()) {
-        if (!uiss()) {
-            if (ec == 2) {
-                if (giod < 7) {
-                    return false;
-                }
-            }
+    if (!an) {
+        return false;
+    }
+    if (glo <= 5) {
+        return false;
+    }
+    if (!reod()) {
+        if (!piphde()) {
+            return false;
         }
-        if (!haa) {
-            if (ec == 2) {
-                if (giod < 7) {
-                    return false;
-                }
-            }
-        }
-        if (!e) {
+        if (!jas) {
             return false;
         }
     }
-    if (!moos()) {
-        if (!uiss()) {
-            if (ec == 2) {
-                if (giod < 7) {
-                    return false;
-                }
-            }
-        }
-        if (!haa) {
-            if (ec == 2) {
-                if (giod < 7) {
-                    return false;
-                }
-            }
-        }
-        if (!e) {
+    if (oi) {
+        if (!piphde()) {
             return false;
         }
+        if (!jas) {
+            return false;
+        }
+    }
+    if (!bre) {
+        return false;
     }
     return true;
 
@@ -1009,45 +988,44 @@ of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the 
 
 Simplify the following messy chain of conditionals:
 
-    if (roa >= 7) {
-        bildi();
+    if (!wo) {
+        angtu();
     }
-    if (al == true && roa < 7) {
-        enho();
+    if (a == true && wo) {
+        inaUsta();
+    } else if (asar == 2 && wo && a != true) {
+        hesh();
     }
-    if (glo > 5 == true && roa < 7 && al != true) {
-        jewChepi();
-    } else if ((jas == 5) == true && roa < 7 && al != true && glo > 5 != true) {
-        kecGord();
-    }
-    if (fos == true && roa < 7 && al != true && glo > 5 != true && (jas == 5) != true) {
-        arac();
-    } else if (roa < 7 && al != true && glo > 5 != true && (jas == 5) != true && fos != true) {
-        pisDeouoc();
+    if (ipla == false && wo && a != true && asar != 2) {
+        careck();
+    } else if (sef == true && wo && a != true && asar != 2 && ipla != false) {
+        urtSqat();
+    } else if (osme && wo && a != true && asar != 2 && ipla != false && sef != true) {
+        rosshi();
     }
 
 [1m[38;5;211m[48;5;52m              [0m
 [1m[38;5;211m[48;5;52m   SOLUTION   [0m
 [1m[38;5;211m[48;5;52m              [0m
 
-    if (roa >= 7) {
-        bildi();
-    } else if (al) {
-        enho();
-    } else if (glo > 5) {
-        jewChepi();
-    } else if (jas == 5) {
-        kecGord();
-    } else if (fos) {
-        arac();
-    } else {
-        pisDeouoc();
+    if (!wo) {
+        angtu();
+    } else if (a) {
+        inaUsta();
+    } else if (asar == 2) {
+        hesh();
+    } else if (!ipla) {
+        careck();
+    } else if (sef) {
+        urtSqat();
+    } else if (osme) {
+        rosshi();
     }
 
 Things to double-check in your solution:
 
   - Did you remove / simplify all the [4m== true[24m and [4m== false[24m checks?
-  - This particular conditional chain can end with just an [4melse[24m, no final [4mif[24m.
+  - This particular conditional chain must end with an [4melse if[24m, not just [4melse[24m.
 
 ────────────────────────────────────────────────────────────────────────────────
 
