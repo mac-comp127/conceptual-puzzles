@@ -42,7 +42,7 @@ class ExcludedWords {
     }
 
     /*
-     * Regenerates the serialized prohibited words file from the macOS dict file + all Java keywords.
+     * Regenerates the serialized prohibited words file from an online dict file + all Java keywords.
      */
     public static void main(String[] args) throws IOException {
         var words = allDictWords();
