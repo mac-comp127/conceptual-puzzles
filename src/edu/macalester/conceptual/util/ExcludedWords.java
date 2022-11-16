@@ -1,5 +1,6 @@
 package edu.macalester.conceptual.util;
 
+import com.google.common.collect.Streams;
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
 
@@ -55,20 +56,17 @@ class ExcludedWords {
 
     @SuppressWarnings("resource")
     private static List<String> allDictWords() throws IOException {
-        var dicts = Stream.of(
-            Path.of("res/java-reserved-words.txt").toUri().toURL(),
-            new URL("https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt"));
+        return Streams.concat(
+            streamWords(Path.of("res/java-reserved-words.txt").toUri().toURL()),
+            streamWords(new URL("https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt"))
+                .filter(word -> word.length() >= 3 && word.length() <= 8)
+        ).toList();
+    }
 
-        return dicts.flatMap(url -> {
-            try {
-                System.out.println("Reading words from " + url);
-                return new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8))
-                    .lines()
-                    .filter(word -> word.length() >= 3 && word.length() <= 8);
-            } catch(IOException e) {
-                throw new RuntimeException("Unable to read words from " + url, e);
-            }
-        }).toList();  // Bloom needs a count _before_ the traversal, so just slurp them all into memory
+    private static Stream<String> streamWords(URL url) throws IOException {
+        System.out.println("Reading words from " + url);
+        return new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8))
+            .lines();
     }
 
     public boolean contains(String word) {
