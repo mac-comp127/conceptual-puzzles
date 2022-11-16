@@ -304,11 +304,11 @@ Given the following variables:
 
     boolean lun = true;
     double eu = 3.0;
-    double pingjert = 4.0;
+    double ossgead = 4.0;
 
 ...draw the AST and evaluation results for the following expression:
 
-    lun && (eu >= 7 && pingjert != 2)
+    (lun && eu >= 7 || ossgead >= 8)
 
 [1m[38;5;123m[48;5;23m              [0m
 [1m[38;5;123m[48;5;23m   SOLUTION   [0m
@@ -362,12 +362,12 @@ expression.
 
 Given the following variables:
 
-    int fes = 6;
+    int efes = 1;
     double blun = 4.0;
 
 ...draw the AST and evaluation results for the following expression:
 
-    5 - 1 * fes / blun
+    3 - 5 * efes / blun
 
 [1m[38;5;156m[48;5;22m              [0m
 [1m[38;5;156m[48;5;22m   SOLUTION   [0m
@@ -472,14 +472,13 @@ Things to double-check in your solution:
 
 Given the following variables:
 
-    double raou = 2.0;
-    int atchmic = 7;
-    int pathre = 1;
-    boolean se = true;
+    double whoss = 2.0;
+    int oss = 2;
+    double ernald = 4.0;
 
 ...draw the AST and evaluation results for the following expression:
 
-    5 > raou || (atchmic <= pathre && se)
+    5 == whoss || (3 == 4 && oss == ernald)
 
 [1m[38;5;213m[48;5;53m              [0m
 [1m[38;5;213m[48;5;53m   SOLUTION   [0m
