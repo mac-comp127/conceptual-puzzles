@@ -50,7 +50,7 @@ public class AstDrawing extends GraphicsGroup {
     private static String formatValue(Object value) {
         if (value instanceof String) {
             return "\"" + value + "\"";
-        } else if (value instanceof Double doubleVal) {
+        } else if (value instanceof Double) {
             return value.toString().replaceAll("(\\.\\d\\d)\\d+", "$1…");  // Just 2 decimal placs
         } else {
             return value.toString();
@@ -66,6 +66,7 @@ public class AstDrawing extends GraphicsGroup {
         var label = new GraphicsText(labelText);
         label.setAlignment(TextAlignment.CENTER);
         label.setFont("SF Mono, Menlo, Consolas, monospaced", FontStyle.BOLD, 24);
+        label.setFillColor(Color.WHITE);
 
         // Children
         double childMarginX = 24, childMarginY = 8;
@@ -96,7 +97,7 @@ public class AstDrawing extends GraphicsGroup {
             var annotation = new GraphicsText(annotationText);
             annotation.setAlignment(TextAlignment.LEFT);
             annotation.setFont("Helvetica Neue, Helvetica, Arial, sans", FontStyle.PLAIN, 16);
-            annotation.setFillColor(Color.getHSBColor(hue, 1f, 0.8f));
+            annotation.setFillColor(Color.getHSBColor(hue, 0.6f, 1.0f));
             add(annotation, label.getBoundsInParent().getMaxX() + childMarginX / 3, label.getY());
         }
 

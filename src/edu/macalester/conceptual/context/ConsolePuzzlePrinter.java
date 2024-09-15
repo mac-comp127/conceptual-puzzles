@@ -191,6 +191,7 @@ public class ConsolePuzzlePrinter implements PuzzlePrinter {
         window.add(graphics, margin, margin);
         graphics.setScale(scale);
         graphics.setAnchor(0, 0);
+        window.setBackground(new Color(0x222222));
         window.draw();
     }
 

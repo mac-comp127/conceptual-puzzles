@@ -3,14 +3,22 @@ package edu.macalester.conceptual.context;
 import com.google.common.html.HtmlEscapers;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
+import java.util.Base64;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import javax.imageio.ImageIO;
+
+import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.GraphicsObject;
+import edu.macalester.graphics.Point;
 
 /**
  * Handles HTML puzzle output. See also {@link ConsolePuzzlePrinter}.
@@ -117,7 +125,35 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
 
     @Override
     public void showGraphics(String title, GraphicsObject graphics) {
-        throw new UnsupportedOperationException("HTML output does not support graphics");
+        // Create bitmap
+        int width = (int) Math.ceil(graphics.getBounds().getMaxX());
+        int height = (int) Math.ceil(graphics.getBounds().getMaxY());
+        int scale = 3;
+        BufferedImage image = new BufferedImage(
+            width * scale,
+            height * scale,
+            BufferedImage.TYPE_INT_ARGB);
+
+        // Set up retina scaling & render
+        GraphicsGroup scaledGroup = new GraphicsGroup();
+        scaledGroup.add(graphics);
+        scaledGroup.setScale(scale);
+        scaledGroup.setAnchor(Point.ORIGIN);
+        scaledGroup.renderToBuffer(image);
+        
+        // Encode to PNG
+        ByteArrayOutputStream pngBytes = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(image, "png", pngBytes);
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to encode png", e);
+        }
+
+        // Embed PNG in <img> tag as data URL
+        out.write("<img width='" + width + "' height='" + height + "'");
+        out.write("src='data:image/png;base64,");
+        out.write(Base64.getEncoder().encodeToString(pngBytes.toByteArray()));
+        out.write("'>");
     }
 
     @Override
