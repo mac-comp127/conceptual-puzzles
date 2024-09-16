@@ -126,19 +126,24 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
     @Override
     public void showGraphics(String title, GraphicsObject graphics) {
         // Create bitmap
-        int width = (int) Math.ceil(graphics.getBounds().getMaxX());
-        int height = (int) Math.ceil(graphics.getBounds().getMaxY());
+        int width = (int) Math.ceil(graphics.getWidth());
+        int height = (int) Math.ceil(graphics.getHeight());
         int scale = 3;
         BufferedImage image = new BufferedImage(
             width * scale,
             height * scale,
             BufferedImage.TYPE_INT_ARGB);
 
-        // Set up retina scaling & render
+        // Set up positioning & retina scaling
         GraphicsGroup scaledGroup = new GraphicsGroup();
-        scaledGroup.add(graphics);
+        scaledGroup.add(
+            graphics,
+            -graphics.getBounds().getMinX(),  // Some graphics extend into negative coords
+            -graphics.getBounds().getMinY());
         scaledGroup.setScale(scale);
         scaledGroup.setAnchor(Point.ORIGIN);
+
+        // Render graphic
         scaledGroup.renderToBuffer(image);
         
         // Encode to PNG
