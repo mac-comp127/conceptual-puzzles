@@ -25,8 +25,8 @@ public interface Puzzle {
     List<Puzzle> ALL = List.of(
         new AstDrawingPuzzle(),
         new BooleansAndConditionalsPuzzle(),
-        new LoopTranslationPuzzle(),
-        new VariablesPuzzle()
+        new LoopTranslationPuzzle()
+        // new VariablesPuzzle()
     );
 
     /**
