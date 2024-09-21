@@ -118,8 +118,8 @@ public class Nonsense {
                 builder.append(syllable(ctx));
             }
             result = builder.toString();
-        } while(excludedWords.contains(result));
-        excludedWords.add(result);  // never generate the same word twice
+        } while(excludedWords.contains(result) || ctx.isIdentifierAlreadyUsed(result));
+        ctx.useIdentifier(result);  // never generate the same word twice
         return result;
     }
 

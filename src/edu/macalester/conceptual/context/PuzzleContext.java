@@ -2,6 +2,7 @@ package edu.macalester.conceptual.context;
 
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
@@ -35,6 +36,8 @@ public final class PuzzleContext {
     private PuzzlePrinter printer;
     private Set<Integer> partsToShow;
 
+    private Set<String> identifiersUsed = new HashSet<>();
+
     /**
      * Creates a new, randomly seeded puzzle context for generating a new puzzle.
      */
@@ -52,6 +55,10 @@ public final class PuzzleContext {
     PuzzleContext(PuzzleCode code) {
         this.code = code;
         rand = new Random(code.seed());
+    }
+
+    public PuzzleContext cleanCopy() {
+        return new PuzzleContext(code);
     }
 
     public String getPuzzleCode() {
@@ -241,6 +248,14 @@ public final class PuzzleContext {
             throw new IllegalStateException("cannot ask for randomness while inside solution section");
         }
         return rand;
+    }
+
+    public boolean isIdentifierAlreadyUsed(String ident) {
+        return identifiersUsed.contains(ident);
+    }
+
+    public void useIdentifier(String ident) {
+        identifiersUsed.add(ident);
     }
 
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––

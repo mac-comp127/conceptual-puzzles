@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  */
 class PuzzleOptions {
     private final Options options = new Options();
-    private final Option help, parts, repeat, difficulty, includeSolutions, html, saveCode;
+    private final Option help, parts, repeat, difficulty, includeSolutions, html, solutionHtml, saveCode;
     private final org.apache.commons.cli.CommandLine cmd;
     private final String[] rawArgs;
 
@@ -29,6 +29,7 @@ class PuzzleOptions {
         difficulty = addOption("d", "difficulty", "num", "Change puzzle difficulty from default");
         includeSolutions = addOption("s", "include-solutions", "Show solutions immediately when generating puzzle");
         html = addOption(null, "html", "file", "Format output as HTML (`-` for stdout)");
+        solutionHtml = addOption(null, "solution-html", "file", "Also emit solution as HTML");
         saveCode = addOption(null, "save-code", "file", "Save puzzle code + metadata in file");
         help = addOption(null, "help", "Display this message");
         options.addOption(parts);
@@ -69,6 +70,10 @@ class PuzzleOptions {
 
     public String html() {
         return cmd.getOptionValue(html);
+    }
+
+    public String solutionHtml() {
+        return cmd.getOptionValue(solutionHtml);
     }
 
     public String saveCode() {

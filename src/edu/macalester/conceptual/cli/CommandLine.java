@@ -91,9 +91,15 @@ public class CommandLine {
             options.difficulty() != null
                 ? options.difficulty()
                 : puzzle.goalDifficulty());
-        applyOptionsToContext(options, ctx, puzzle);
-        ctx.setPuzzleTitle(puzzle.description());
+
+        applyOptionsToContext(options, ctx, puzzle, false);
         emitPuzzle(puzzle, ctx, options);
+
+        if (options.solutionHtml() != null) {
+            var solveCtx = ctx.cleanCopy();
+            applyOptionsToContext(options, solveCtx, puzzle, true);
+            emitPuzzle(puzzle, solveCtx, options);
+        }
 
         System.out.println();
         System.out.println("Puzzle code: \u001b[7m " + ctx.getPuzzleCode() + " \u001b[0m");
@@ -112,7 +118,7 @@ public class CommandLine {
             return;
         }
 
-        applyOptionsToContext(options, ctx, puzzle);
+        applyOptionsToContext(options, ctx, puzzle, false);
         ctx.enableSolution();
         ctx.setPuzzleTitle(puzzle.description() + ": Solution");
         emitPuzzle(puzzle, ctx, options);
@@ -153,14 +159,17 @@ public class CommandLine {
     private static void applyOptionsToContext(
         PuzzleOptions options,
         PuzzleContext ctx,
-        Puzzle puzzle
+        Puzzle puzzle,
+        boolean solutionOutput
     ) throws IOException {
-        if (options.includeSolutions()) {
+        ctx.setPuzzleTitle(puzzle.description());
+
+        if (options.includeSolutions() || solutionOutput) {
             ctx.enableSolution();
         }
 
         if (ctx.getDifficulty() < puzzle.minDifficulty() || ctx.getDifficulty() > puzzle.maxDifficulty()) {
-            System.err.println("Illegal difficult level: " + ctx.getDifficulty());
+            System.err.println("Illegal difficulty level: " + ctx.getDifficulty());
             System.err.println("The `" + puzzle.name() + "` puzzle must have a difficulty in the range "
                 + puzzle.minDifficulty() + "..." + puzzle.maxDifficulty() + ".");
             System.err.println("(The difficulty level to get credit is " + puzzle.goalDifficulty() + ".)");
@@ -169,10 +178,14 @@ public class CommandLine {
 
         ctx.setPartsToShow(options.partsToShow());
 
-        if ("-".equals(options.html())) {
+        String htmlOutput =
+            solutionOutput
+                ? options.solutionHtml()
+                : options.html();
+        if ("-".equals(htmlOutput)) {
             ctx.setOutput(new HtmlPuzzlePrinter());
-        } else if (options.html() != null) {
-            ctx.setOutput(new HtmlPuzzlePrinter(new FileOutputStream(options.html())));
+        } else if (htmlOutput != null) {
+            ctx.setOutput(new HtmlPuzzlePrinter(new FileOutputStream(htmlOutput)));
         }
 
         if (options.saveCode() != null) {
