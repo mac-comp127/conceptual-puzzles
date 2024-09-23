@@ -721,27 +721,27 @@ of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the 
 
 Simplify the following messy chain of conditionals:
 
-    if ((u <= 2) == true) {
-        choon();
+    if (cila >= 4) {
+        perlec();
     }
-    if (lec <= heut && (u <= 2) != true) {
-        cemOcpung();
+    if (cila < 4) {
+        crou();
     }
 
 [1m[38;5;111m[48;5;17m              [0m
 [1m[38;5;111m[48;5;17m   SOLUTION   [0m
 [1m[38;5;111m[48;5;17m              [0m
 
-    if (u <= 2) {
-        choon();
-    } else if (lec <= heut) {
-        cemOcpung();
+    if (cila >= 4) {
+        perlec();
+    } else {
+        crou();
     }
 
 Things to double-check in your solution:
 
   - Did you remove / simplify all the [4m== true[24m and [4m== false[24m checks?
-  - This particular conditional chain must end with an [4melse if[24m, not just [4melse[24m.
+  - This particular conditional chain can end with just an [4melse[24m, no final [4mif[24m.
 
 ────────────────────────────────────────────────────────────────────────────────
 

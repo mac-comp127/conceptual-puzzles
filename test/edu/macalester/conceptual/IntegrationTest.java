@@ -138,6 +138,10 @@ public class IntegrationTest {
                             Mismatched integration test output
                             Expected output file: {0}
                             Actual output file: {1}
+
+                            To replace the expected output with the actual output from this run:
+                        
+                            mv {1} {0}
                             
                             Diff (printing max 10 changes, 10 lines each):
                             {2}

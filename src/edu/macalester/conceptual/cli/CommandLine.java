@@ -260,10 +260,12 @@ public class CommandLine {
             .max().orElse(0);
 
         for (var puzzle : Puzzle.ALL) {
-            System.out.printf("  %-" + nameWidth + "s  %s",
-                puzzle.name(),
-                puzzle.description());
-            System.out.println();
+            if (puzzle.isVisible()) {
+                System.out.printf("  %-" + nameWidth + "s  %s",
+                    puzzle.name(),
+                    puzzle.description());
+                System.out.println();
+            }
         }
         System.out.println();
         System.out.println("To generate a puzzle:");

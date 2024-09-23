@@ -28,6 +28,11 @@ public class VariablesPuzzle implements Puzzle {
     }
 
     @Override
+    public boolean isVisible() {
+        return false;
+    }
+
+    @Override
     public void generate(PuzzleContext ctx) {
         var className = Nonsense.typeName(ctx);
         var twiddleMethodName = Nonsense.methodName(ctx);

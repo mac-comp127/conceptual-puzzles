@@ -25,8 +25,8 @@ public interface Puzzle {
     List<Puzzle> ALL = List.of(
         new AstDrawingPuzzle(),
         new BooleansAndConditionalsPuzzle(),
-        new LoopTranslationPuzzle()
-        // new VariablesPuzzle()
+        new LoopTranslationPuzzle(),
+        new VariablesPuzzle()
     );
 
     /**
@@ -44,6 +44,14 @@ public interface Puzzle {
      * command.
      */
     String description();
+
+    /**
+     * Determines whether the puzzle type shows up in the list of available puzzles. It is still
+     * possible to generate hidden puzzles and view their solutions.
+     */
+    default boolean isVisible() {
+        return true;
+    }
 
     /**
      * The difficultly level necessary to receive credit for this puzzle. This is the default
