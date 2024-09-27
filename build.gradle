@@ -3,12 +3,9 @@ plugins {
     id 'eclipse'
 }
 
-var javaVersion = 17
-
 java {
-  toolchain {
-    languageVersion.set(JavaLanguageVersion.of(javaVersion))
-  }
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 repositories {

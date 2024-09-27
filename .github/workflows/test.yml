@@ -25,5 +25,8 @@ jobs:
           java-version: ${{ matrix.java-version }}
           distribution: ${{ matrix.java-distro }}
 
+      - name: List JDKs available to Gradle
+        run: ./gradlew -q javaToolchains
+
       - name: Build and run tests
         run: ./gradlew test -i --console=plain --no-daemon
