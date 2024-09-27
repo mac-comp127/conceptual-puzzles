@@ -29,6 +29,7 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
         pre, code, blockquote {
             color: #eee;
             overflow-x: scroll;
+            scrollbar-width: none;
         }
         code {
             background: #444;
@@ -64,52 +65,59 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
 <hr class='primary'>
 
 <h2 style='color: #ff624d'>Part 1</h2>
-<p>Translate the following for loop into a while loop:</p>
-<pre>for (double ba = hul; ba &lt;= emlos; ba--) {
-    wirhe(ba);
-    celKise();
-}</pre>
+<p>Consider the following code:</p>
+<pre>___A___
+___B___
+for (___C___; ___D___; ___E___) {
+    ___F___
+}
+___G___
+___H___</pre>
+<ol><li><p>the body of the loop executes <b>1</b> time Write out the the order in which the statements will be executed.</p>
+</li>
+<li><p>the body of the loop executes <b>3</b> times Write out the the order in which the statements will be executed.</p>
+</li>
+</ol>
 <h3 style='color: #ff624d'>Solution</h3>
-<pre>double ba = hul;
-while (ba &lt;= emlos) {
-    wirhe(ba);
-    celKise();
-    ba--;
-}</pre>
+<ol><li><pre>A B C D F E D G H</pre>
+</li>
+<li><pre>A B C D F E D F E D F E D G H</pre>
+</li>
+</ol>
 
 <hr class='secondary'>
 
 <h2 style='color: #4dff96'>Part 2</h2>
 <p>Translate the following natural language description of a loop into a for loop:</p>
-<blockquote>Declare a variable named <code>oc</code> of type <code>int</code>, initialized to <code>60</code>. Then, until <code>oc</code> is greater than <code>rast</code>, increment <code>oc</code>.</blockquote>
+<blockquote>Declare a variable named <code>er</code> of type <code>double</code>, initialized to <code>20</code>. Then, until <code>er</code> is less than or equal to <code>asUlo</code>, increment <code>er</code>.</blockquote>
 <h3 style='color: #4dff96'>Solution</h3>
-<pre>for (int oc = 60; oc &lt;= rast; oc++) {
+<pre>for (double er = 20; er &gt; asUlo; er++) {
     ...
 }</pre>
 <p>Something to double-check in your solution:</p>
-<ul><li>Note that the problem says &#8220;until,&#8221; not &#8220;while.&#8221; Did you use the correct operator in the loop&#8217;s end condition (<code>oc &lt;= rast</code>)?</li>
+<ul><li>Note that the problem says &#8220;until,&#8221; not &#8220;while.&#8221; Did you use the correct operator in the loop&#8217;s end condition (<code>er &gt; asUlo</code>)?</li>
 </ul>
 
 <hr class='secondary'>
 
 <h2 style='color: #ca4dff'>Part 3</h2>
 <p>Translate the following loop into a for-each loop:</p>
-<pre>List&lt;Lauspracks&gt; cengs;
+<pre>List&lt;Hiosm&gt; poans;
 ...</pre>
-<pre>for (int n = 0; n &lt; cengs.size(); n++) {
-    moriff(9);
-    cengs.get(n).hass(4);
-    brirt(8);
-    enle(cengs.get(n), sape);
+<pre>for (int n = 0; n &lt; poans.size(); n++) {
+    adfrod(poans.get(n), 4, 1);
+    bicin(sioen);
+    issRecor(poans.get(n));
+    oirPliu(0);
 }</pre>
 <h3 style='color: #ca4dff'>Solution</h3>
-<pre>for (Lauspracks ceng : cengs) {
-    moriff(9);
-    ceng.hass(4);
-    brirt(8);
-    enle(ceng, sape);
+<pre>for (Hiosm poan : poans) {
+    adfrod(poan, 4, 1);
+    bicin(sioen);
+    issRecor(poan);
+    oirPliu(0);
 }</pre>
-<p>It is OK if you gave the variable for the individual collection element (<code>ceng</code>) a different name, such as <code>elem</code>. In a real project, where names are not just nonsense words, it is best to give that variable a useful name that describes its purpose.</p>
+<p>It is OK if you gave the variable for the individual collection element (<code>poan</code>) a different name, such as <code>elem</code>. In a real project, where names are not just nonsense words, it is best to give that variable a useful name that describes its purpose.</p>
 
 <hr class='primary'>
 

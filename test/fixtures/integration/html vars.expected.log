@@ -29,6 +29,7 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
         pre, code, blockquote {
             color: #eee;
             overflow-x: scroll;
+            scrollbar-width: none;
         }
         code {
             background: #444;

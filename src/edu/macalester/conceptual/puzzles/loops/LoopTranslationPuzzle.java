@@ -55,6 +55,10 @@ public class LoopTranslationPuzzle implements Puzzle {
 
             () -> {
                 generateForEachTranslationPuzzle(ctx);
+            },
+
+            () -> {
+                LoopTracingPuzzle.generateRandomType(ctx);
             }
         ));
 

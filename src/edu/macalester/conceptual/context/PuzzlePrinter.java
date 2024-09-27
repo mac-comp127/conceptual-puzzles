@@ -6,6 +6,7 @@ import java.io.Closeable;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import edu.macalester.conceptual.util.CodeFormatting;
 import edu.macalester.graphics.GraphicsObject;
@@ -104,6 +105,10 @@ public interface PuzzlePrinter extends Closeable {
     }
 
     void numberedList(List<Runnable> items);
+
+    default void numberedList(Stream<Runnable> items) {
+        numberedList(items.toList());
+    }
 
     /**
      * Prints the given text in an indented block, with smart word wrapping and appropriate
