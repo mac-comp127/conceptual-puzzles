@@ -6,13 +6,13 @@ import edu.macalester.conceptual.util.Nonsense;
 import static edu.macalester.conceptual.util.CodeFormatting.*;
 import static edu.macalester.conceptual.util.Randomness.*;
 
-class SimpleLoop {
+class GeneralizedLoop {
     private final String varName, varType, initializer;
     private final String endCondition;
     private final String nextStep;
     private String body;
 
-    public static SimpleLoop generateNumericLoop(PuzzleContext ctx) {
+    public static GeneralizedLoop generateNumericLoop(PuzzleContext ctx) {
         String varName = Nonsense.variableName(ctx);
         String varType = chooseConst(ctx, "int", "int", "int", "long", "short", "double");
         String initializer =
@@ -59,19 +59,19 @@ class SimpleLoop {
                     ? joinCode(Nonsense.methodName(ctx), "()")
                     : null);
 
-        return new SimpleLoop(varType, varName, initializer, endCondition, nextStep, body);
+        return new GeneralizedLoop(varType, varName, initializer, endCondition, nextStep, body);
     }
 
-    public static SimpleLoop makeCounterLoop(
+    public static GeneralizedLoop makeCounterLoop(
         String varName,
         String min,
         String max,
         String body
     ) {
-        return new SimpleLoop("int", varName, min, varName + "<" + max, varName + "++", body);
+        return new GeneralizedLoop("int", varName, min, varName + "<" + max, varName + "++", body);
     }
 
-    public SimpleLoop(
+    public GeneralizedLoop(
         String varType,
         String varName,
         String initializer,

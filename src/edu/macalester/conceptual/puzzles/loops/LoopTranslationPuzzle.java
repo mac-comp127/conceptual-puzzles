@@ -56,12 +56,12 @@ public class LoopTranslationPuzzle implements Puzzle {
         LoopForm sourceForm,
         LoopForm targetForm,
         boolean includeBody,
-        Consumer<SimpleLoop> extraSolutionAction
+        Consumer<GeneralizedLoop> extraSolutionAction
     ) {
         ctx.output().paragraph(
             "Translate the following " + sourceForm.description()
             + " into a " + targetForm.description() + ":");
-        var loop = SimpleLoop.generateNumericLoop(ctx);
+        var loop = GeneralizedLoop.generateNumericLoop(ctx);
         if (!includeBody) {
             loop.setBody(CodeFormatting.ELIDED);
         }
@@ -111,7 +111,7 @@ public class LoopTranslationPuzzle implements Puzzle {
             collectionType + " " + collVar + ";"
             + ELIDED));
         LoopForm.FOR.print(
-            SimpleLoop.makeCounterLoop(indexVar, "0", lengthExpr,
+            GeneralizedLoop.makeCounterLoop(indexVar, "0", lengthExpr,
             body.replaceAll("•", indexedElemExpr)),
             ctx.output());
 

@@ -19,7 +19,7 @@ enum LoopForm {
             return "while loop";
         }
 
-        public void print(SimpleLoop loop, PuzzlePrinter output) {
+        public void print(GeneralizedLoop loop, PuzzlePrinter output) {
             output.codeBlock(
                 prettifyStatements(
                     joinCode(
@@ -36,7 +36,7 @@ enum LoopForm {
             return "for loop";
         }
 
-        public void print(SimpleLoop loop, PuzzlePrinter output) {
+        public void print(GeneralizedLoop loop, PuzzlePrinter output) {
             output.codeBlock(
                 prettifyStatements(
                     joinCode(
@@ -55,7 +55,7 @@ enum LoopForm {
             return "natural language description of a loop";
         }
 
-        public void print(SimpleLoop loop, PuzzlePrinter output) {
+        public void print(GeneralizedLoop loop, PuzzlePrinter output) {
             output.blockquote(
                 "Declare a variable named `"
                     + loop.getVarName()
@@ -122,5 +122,5 @@ enum LoopForm {
 
     public abstract String description();
 
-    public abstract void print(SimpleLoop loop, PuzzlePrinter output);
+    public abstract void print(GeneralizedLoop loop, PuzzlePrinter output);
 }
