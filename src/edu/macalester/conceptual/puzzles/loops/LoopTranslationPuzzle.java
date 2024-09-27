@@ -1,6 +1,8 @@
 package edu.macalester.conceptual.puzzles.loops;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Consumer;
 
 import edu.macalester.conceptual.Puzzle;
@@ -13,6 +15,10 @@ import static edu.macalester.conceptual.util.CodeFormatting.*;
 import static edu.macalester.conceptual.util.Randomness.*;
 
 public class LoopTranslationPuzzle implements Puzzle {
+
+    // Randomly choose this many of the available section types
+    private static final int SECTION_COUNT = 3;
+
     @Override
     public byte id() {
         return 0;
@@ -29,26 +35,37 @@ public class LoopTranslationPuzzle implements Puzzle {
     }
 
     public void generate(PuzzleContext ctx) {
-        ctx.section(() -> {
-            boolean direction = ctx.getRandom().nextBoolean();
-            var sourceForm = direction ? LoopForm.FOR : LoopForm.WHILE;
-            var targetForm = direction ? LoopForm.WHILE : LoopForm.FOR;
+        List<Runnable> sections = new ArrayList<>(List.of(
+            () -> {
+                boolean direction = ctx.getRandom().nextBoolean();
+                var sourceForm = direction ? LoopForm.FOR : LoopForm.WHILE;
+                var targetForm = direction ? LoopForm.WHILE : LoopForm.FOR;
 
-            generateTranslationPuzzle(ctx, sourceForm, targetForm, true, null);
-        });
+                generateTranslationPuzzle(ctx, sourceForm, targetForm, true, null);
+            },
 
-        ctx.section(() -> {
+            () -> {
             generateTranslationPuzzle(
                 ctx, LoopForm.NATURAL_LANGUAGE, LoopForm.FOR, false,
                 (loop) -> ctx.solutionChecklist(
                     "Note that the problem says “until,” not “while.”"
                     + " Did you use the correct operator in the loop’s end condition"
                     + " (`" + loop.getEndCondition() + "`)?"));
-        });
+            },
 
-        ctx.section(() -> {
-            generateForEachTranslationPuzzle(ctx);
-        });
+            () -> {
+                generateForEachTranslationPuzzle(ctx);
+            }
+        ));
+
+        Collections.shuffle(sections, ctx.getRandom());
+        while (sections.size() > SECTION_COUNT) {
+            sections.remove(0);
+        }
+
+        for (var section : sections) {
+            ctx.section(section);
+        }
     }
 
     private static void generateTranslationPuzzle(
