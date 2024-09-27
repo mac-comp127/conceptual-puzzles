@@ -261,6 +261,7 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
                     pre, code, blockquote {
                         color: #eee;
                         overflow-x: scroll;
+                        scrollbar-width: none;
                     }
                     code {
                         background: #444;
