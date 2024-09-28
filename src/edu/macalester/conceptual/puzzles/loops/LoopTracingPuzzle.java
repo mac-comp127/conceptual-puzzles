@@ -21,7 +21,7 @@ public enum LoopTracingPuzzle {
         }
         «AFTER_LOOP,3»
         """,
-        "the body of the loop executes *«LOOP_COUNT»* time«LOOP_COUNT_PLURALITY»"
+        "Assume the body of the loop executes *«LOOP_COUNT»* time«LOOP_COUNT_PLURALITY»."
     ),
 
     SIMPLE_WHILE(
@@ -32,7 +32,7 @@ public enum LoopTracingPuzzle {
         }
         «AFTER_LOOP,3»
         """,
-        "the body of the loop executes *«LOOP_COUNT»* time«LOOP_COUNT_PLURALITY»"
+        "Assume the body of the loop executes *«LOOP_COUNT»* time«LOOP_COUNT_PLURALITY»."
     ),
 
     WHILE_BREAK(
@@ -48,7 +48,7 @@ public enum LoopTracingPuzzle {
         }
         «AFTER_LOOP,3»
         """,
-        "the loop breaks on iteration *«LOOP_COUNT_PLUS_ONE»*"
+        "Assume the loop breaks on iteration *«LOOP_COUNT_PLUS_ONE»*."
     ),
 
     WHILE_STOP_WITHOUT_BREAK(
@@ -65,8 +65,8 @@ public enum LoopTracingPuzzle {
         «AFTER_LOOP,3»
         """,
         """
-        the loop ends because the test condition of the loop
-        is false on iteration *«LOOP_COUNT_PLUS_ONE»*
+        Assume the loop ends because the test condition of the loop
+        is false on iteration *«LOOP_COUNT_PLUS_ONE»*.
         """
     );
 
@@ -149,6 +149,10 @@ public enum LoopTracingPuzzle {
         ctx.solution(() -> {
             ctx.output().numberedList(
                 iterCounts.stream().map(iterCount -> () -> {
+                    // For some reason, browsers like to hide the list number if the list item
+                    // contains nothing but an x-scrolling element. This text is a workaround:
+                    ctx.output().paragraph("Order:");
+
                     var solution = new ArrayList<String>();
                     appendPhases(solution, placeholderPhases, LoopPhase.BEFORE_LOOP);
                     for (int iter = 0; iter < iterCount; iter++) {

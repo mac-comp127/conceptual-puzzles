@@ -1,0 +1,526 @@
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+[0J────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;63m            [0m
+[1m[38;5;16m[48;5;63m   PART 1   [0m
+[1m[38;5;16m[48;5;63m            [0m
+
+Consider the following code:
+
+    [100m[97m A [39m[49m
+    [100m[97m B [39m[49m
+    [100m[97m C [39m[49m
+    for ([100m[97m D [39m[49m; [100m[97m E [39m[49m; [100m[97m F [39m[49m) {
+        [100m[97m G [39m[49m
+        [100m[97m H [39m[49m
+    }
+    [100m[97m I [39m[49m
+    [100m[97m J [39m[49m
+
+ 1. Assume the body of the loop executes [1m0[22m times. Write out the the order in
+    which the statements will be executed.
+    
+ 2. Assume the body of the loop executes [1m2[22m times. Write out the the order in
+    which the statements will be executed.
+    
+[1m[38;5;105m[48;5;17m              [0m
+[1m[38;5;105m[48;5;17m   SOLUTION   [0m
+[1m[38;5;105m[48;5;17m              [0m
+
+ 1. Order:
+    
+        A B C D E I J
+    
+ 2. Order:
+    
+        A B C D E G H F E G H F E I J
+    
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;209m            [0m
+[1m[38;5;16m[48;5;209m   PART 2   [0m
+[1m[38;5;16m[48;5;209m            [0m
+
+Translate the following natural language description of a loop into a for loop:
+
+  │ Declare a variable named [4mshaa[24m of type [4mint[24m, initialized to [4mchod[24m. Then, until
+  │ [4mshaa[24m equals [4modi[24m, multiply [4mshaa[24m by [4m3[24m.
+
+[1m[38;5;216m[48;5;52m              [0m
+[1m[38;5;216m[48;5;52m   SOLUTION   [0m
+[1m[38;5;216m[48;5;52m              [0m
+
+    for (int shaa = chod; shaa != odi; shaa *= 3) {
+        ...
+    }
+
+Something to double-check in your solution:
+
+  - Note that the problem says “until,” not “while.” Did you use the correct
+    operator in the loop’s end condition ([4mshaa != odi[24m)?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;86m            [0m
+[1m[38;5;16m[48;5;86m   PART 3   [0m
+[1m[38;5;16m[48;5;86m            [0m
+
+Translate the following loop into a for-each loop:
+
+    MaChriackcur[] piwns;
+    ...
+
+    for (int i = 0; i < piwns.length; i++) {
+        cicSosm(7, piwns[i], 7);
+        pulche();
+        piwns[i].cimMechut(6, 4);
+        neblu();
+    }
+
+[1m[38;5;122m[48;5;22m              [0m
+[1m[38;5;122m[48;5;22m   SOLUTION   [0m
+[1m[38;5;122m[48;5;22m              [0m
+
+    for (MaChriackcur piwn : piwns) {
+        cicSosm(7, piwn, 7);
+        pulche();
+        piwn.cimMechut(6, 4);
+        neblu();
+    }
+
+It is OK if you gave the variable for the individual collection element ([4mpiwn[24m) a
+different name, such as [4melem[24m. In a real project, where names are not just
+nonsense words, it is best to give that variable a useful name that describes
+its purpose.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;207m            [0m
+[1m[38;5;16m[48;5;207m   PART 1   [0m
+[1m[38;5;16m[48;5;207m            [0m
+
+Consider the following code:
+
+    [100m[97m A [39m[49m
+    [100m[97m B [39m[49m
+    while ([100m[97m C [39m[49m) {
+        [100m[97m D [39m[49m
+        [100m[97m E [39m[49m
+    }
+    [100m[97m F [39m[49m
+    [100m[97m G [39m[49m
+
+ 1. Assume the body of the loop executes [1m0[22m times. Write out the the order in
+    which the statements will be executed.
+    
+ 2. Assume the body of the loop executes [1m3[22m times. Write out the the order in
+    which the statements will be executed.
+    
+[1m[38;5;213m[48;5;53m              [0m
+[1m[38;5;213m[48;5;53m   SOLUTION   [0m
+[1m[38;5;213m[48;5;53m              [0m
+
+ 1. Order:
+    
+        A B C F G
+    
+ 2. Order:
+    
+        A B C D E C D E C D E C F G
+    
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;191m            [0m
+[1m[38;5;16m[48;5;191m   PART 2   [0m
+[1m[38;5;16m[48;5;191m            [0m
+
+Translate the following natural language description of a loop into a for loop:
+
+  │ Declare a variable named [4mceng[24m of type [4mint[24m, initialized to [4m2[24m. Then, until
+  │ [4mceng[24m is greater than or equal to [4mraPapso[24m, subtract [4m4[24m from [4mceng[24m.
+
+[1m[38;5;228m[48;5;58m              [0m
+[1m[38;5;228m[48;5;58m   SOLUTION   [0m
+[1m[38;5;228m[48;5;58m              [0m
+
+    for (int ceng = 2; ceng < raPapso; ceng -= 4) {
+        ...
+    }
+
+Something to double-check in your solution:
+
+  - Note that the problem says “until,” not “while.” Did you use the correct
+    operator in the loop’s end condition ([4mceng < raPapso[24m)?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;75m            [0m
+[1m[38;5;16m[48;5;75m   PART 3   [0m
+[1m[38;5;16m[48;5;75m            [0m
+
+Translate the following while loop into a for loop:
+
+    int wa = in;
+    while (wa <= uect) {
+        dorol(wa, 44);
+        wa += 4;
+    }
+
+[1m[38;5;117m[48;5;17m              [0m
+[1m[38;5;117m[48;5;17m   SOLUTION   [0m
+[1m[38;5;117m[48;5;17m              [0m
+
+    for (int wa = in; wa <= uect; wa += 4) {
+        dorol(wa, 44);
+    }
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;204m            [0m
+[1m[38;5;16m[48;5;204m   PART 1   [0m
+[1m[38;5;16m[48;5;204m            [0m
+
+Translate the following for loop into a while loop:
+
+    for (long i = 55; i <= splei; i -= 4) {
+        assxus(i);
+        uimp();
+    }
+
+[1m[38;5;211m[48;5;52m              [0m
+[1m[38;5;211m[48;5;52m   SOLUTION   [0m
+[1m[38;5;211m[48;5;52m              [0m
+
+    long i = 55;
+    while (i <= splei) {
+        assxus(i);
+        uimp();
+        i -= 4;
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;83m            [0m
+[1m[38;5;16m[48;5;83m   PART 2   [0m
+[1m[38;5;16m[48;5;83m            [0m
+
+Translate the following natural language description of a loop into a for loop:
+
+  │ Declare a variable named [4mce[24m of type [4mdouble[24m, initialized to [4mti[24m. Then, until
+  │ [4mce[24m is greater than [4mhur[24m, subtract [4m3[24m from [4mce[24m.
+
+[1m[38;5;120m[48;5;22m              [0m
+[1m[38;5;120m[48;5;22m   SOLUTION   [0m
+[1m[38;5;120m[48;5;22m              [0m
+
+    for (double ce = ti; ce <= hur; ce -= 3) {
+        ...
+    }
+
+Something to double-check in your solution:
+
+  - Note that the problem says “until,” not “while.” Did you use the correct
+    operator in the loop’s end condition ([4mce <= hur[24m)?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;99m            [0m
+[1m[38;5;16m[48;5;99m   PART 3   [0m
+[1m[38;5;16m[48;5;99m            [0m
+
+Consider the following code:
+
+    [100m[97m A [39m[49m
+    for ([100m[97m B [39m[49m; [100m[97m C [39m[49m; [100m[97m D [39m[49m) {
+        [100m[97m E [39m[49m
+        [100m[97m F [39m[49m
+    }
+    [100m[97m G [39m[49m
+    [100m[97m H [39m[49m
+
+ 1. Assume the body of the loop executes [1m0[22m times. Write out the the order in
+    which the statements will be executed.
+    
+ 2. Assume the body of the loop executes [1m2[22m times. Write out the the order in
+    which the statements will be executed.
+    
+[1m[38;5;141m[48;5;17m              [0m
+[1m[38;5;141m[48;5;17m   SOLUTION   [0m
+[1m[38;5;141m[48;5;17m              [0m
+
+ 1. Order:
+    
+        A B C G H
+    
+ 2. Order:
+    
+        A B C E F D C E F D C G H
+    
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;221m            [0m
+[1m[38;5;16m[48;5;221m   PART 1   [0m
+[1m[38;5;16m[48;5;221m            [0m
+
+Translate the following loop into a for-each loop:
+
+    List<Nefor> ebes;
+    ...
+
+    for (int n = 0; n < ebes.size(); n++) {
+        ebes.get(n).gecmir(9);
+        ebes.get(n).pasm(ossbia);
+        sicod();
+    }
+
+[1m[38;5;222m[48;5;52m              [0m
+[1m[38;5;222m[48;5;52m   SOLUTION   [0m
+[1m[38;5;222m[48;5;52m              [0m
+
+    for (Nefor ebe : ebes) {
+        ebe.gecmir(9);
+        ebe.pasm(ossbia);
+        sicod();
+    }
+
+It is OK if you gave the variable for the individual collection element ([4mebe[24m) a
+different name, such as [4melem[24m. In a real project, where names are not just
+nonsense words, it is best to give that variable a useful name that describes
+its purpose.
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;87m            [0m
+[1m[38;5;16m[48;5;87m   PART 2   [0m
+[1m[38;5;16m[48;5;87m            [0m
+
+Translate the following while loop into a for loop:
+
+    int as = xak;
+    while (as < ioi) {
+        secor(as);
+        as--;
+    }
+
+[1m[38;5;123m[48;5;23m              [0m
+[1m[38;5;123m[48;5;23m   SOLUTION   [0m
+[1m[38;5;123m[48;5;23m              [0m
+
+    for (int as = xak; as < ioi; as--) {
+        secor(as);
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;206m            [0m
+[1m[38;5;16m[48;5;206m   PART 3   [0m
+[1m[38;5;16m[48;5;206m            [0m
+
+Translate the following natural language description of a loop into a for loop:
+
+  │ Declare a variable named [4msti[24m of type [4mint[24m, initialized to [4m9[24m. Then, until [4msti[24m
+  │ is less than [4mangro[24m, increment [4msti[24m.
+
+[1m[38;5;213m[48;5;53m              [0m
+[1m[38;5;213m[48;5;53m   SOLUTION   [0m
+[1m[38;5;213m[48;5;53m              [0m
+
+    for (int sti = 9; sti >= angro; sti++) {
+        ...
+    }
+
+Something to double-check in your solution:
+
+  - Note that the problem says “until,” not “while.” Did you use the correct
+    operator in the loop’s end condition ([4msti >= angro[24m)?
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;155m            [0m
+[1m[38;5;16m[48;5;155m   PART 1   [0m
+[1m[38;5;16m[48;5;155m            [0m
+
+Translate the following natural language description of a loop into a for loop:
+
+  │ Declare a variable named [4mlun[24m of type [4mint[24m, initialized to [4m12[24m. Then, until [4mlun[24m
+  │ is less than [4mbeci[24m, increment [4mlun[24m.
+
+[1m[38;5;192m[48;5;22m              [0m
+[1m[38;5;192m[48;5;22m   SOLUTION   [0m
+[1m[38;5;192m[48;5;22m              [0m
+
+    for (int lun = 12; lun >= beci; lun++) {
+        ...
+    }
+
+Something to double-check in your solution:
+
+  - Note that the problem says “until,” not “while.” Did you use the correct
+    operator in the loop’s end condition ([4mlun >= beci[24m)?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;63m            [0m
+[1m[38;5;16m[48;5;63m   PART 2   [0m
+[1m[38;5;16m[48;5;63m            [0m
+
+Translate the following while loop into a for loop:
+
+    double leia = ru;
+    while (leia > ociss) {
+        ecwhi();
+        sqep(leia, 40);
+        leia -= 3;
+    }
+
+[1m[38;5;105m[48;5;17m              [0m
+[1m[38;5;105m[48;5;17m   SOLUTION   [0m
+[1m[38;5;105m[48;5;17m              [0m
+
+    for (double leia = ru; leia > ociss; leia -= 3) {
+        ecwhi();
+        sqep(leia, 40);
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;203m            [0m
+[1m[38;5;16m[48;5;203m   PART 3   [0m
+[1m[38;5;16m[48;5;203m            [0m
+
+Consider the following code:
+
+    [100m[97m A [39m[49m
+    [100m[97m B [39m[49m
+    while ([100m[97m C [39m[49m) {
+        [100m[97m D [39m[49m
+        if ([100m[97m E [39m[49m) {
+            [100m[97m F [39m[49m
+            break;
+        }
+        [100m[97m G [39m[49m
+    }
+    [100m[97m H [39m[49m
+    [100m[97m I [39m[49m
+
+ 1. Assume the loop breaks on iteration [1m1[22m. Write out the the order in which the
+    statements will be executed.
+    
+ 2. Assume the loop breaks on iteration [1m3[22m. Write out the the order in which the
+    statements will be executed.
+    
+[1m[38;5;210m[48;5;52m              [0m
+[1m[38;5;210m[48;5;52m   SOLUTION   [0m
+[1m[38;5;210m[48;5;52m              [0m
+
+ 1. Order:
+    
+        A B C D E F H I
+    
+ 2. Order:
+    
+        A B C D E G C D E G C D E F H I
+    
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;85m            [0m
+[1m[38;5;16m[48;5;85m   PART 1   [0m
+[1m[38;5;16m[48;5;85m            [0m
+
+Translate the following loop into a for-each loop:
+
+    Dessmol[] iosms;
+    ...
+
+    for (int n = 0; n < iosms.length; n++) {
+        iosms[n].celer(9, 3);
+        untDedism(iosms[n], hiata, 6);
+        asmPeoac(hiui);
+    }
+
+[1m[38;5;121m[48;5;22m              [0m
+[1m[38;5;121m[48;5;22m   SOLUTION   [0m
+[1m[38;5;121m[48;5;22m              [0m
+
+    for (Dessmol iosm : iosms) {
+        iosm.celer(9, 3);
+        untDedism(iosm, hiata, 6);
+        asmPeoac(hiui);
+    }
+
+It is OK if you gave the variable for the individual collection element ([4miosm[24m) a
+different name, such as [4melem[24m. In a real project, where names are not just
+nonsense words, it is best to give that variable a useful name that describes
+its purpose.
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;171m            [0m
+[1m[38;5;16m[48;5;171m   PART 2   [0m
+[1m[38;5;16m[48;5;171m            [0m
+
+Translate the following for loop into a while loop:
+
+    for (int sces = cus; sces <= nois; sces--) {
+        roond(sces);
+        ceul();
+    }
+
+[1m[38;5;177m[48;5;53m              [0m
+[1m[38;5;177m[48;5;53m   SOLUTION   [0m
+[1m[38;5;177m[48;5;53m              [0m
+
+    int sces = cus;
+    while (sces <= nois) {
+        roond(sces);
+        ceul();
+        sces--;
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;227m            [0m
+[1m[38;5;16m[48;5;227m   PART 3   [0m
+[1m[38;5;16m[48;5;227m            [0m
+
+Translate the following natural language description of a loop into a for loop:
+
+  │ Declare a variable named [4mda[24m of type [4mint[24m, initialized to [4mna[24m. Then, until [4mda[24m
+  │ is greater than [4meeUr[24m, decrement [4mda[24m.
+
+[1m[38;5;228m[48;5;58m              [0m
+[1m[38;5;228m[48;5;58m   SOLUTION   [0m
+[1m[38;5;228m[48;5;58m              [0m
+
+    for (int da = na; da <= eeUr; da--) {
+        ...
+    }
+
+Something to double-check in your solution:
+
+  - Note that the problem says “until,” not “while.” Did you use the correct
+    operator in the loop’s end condition ([4mda <= eeUr[24m)?
+
+────────────────────────────────────────────────────────────────────────────────
+
+[0m
+Want to practice more basics first? Try a simpler puzzle:
+
+  bin/puzzle gen loop --difficulty 2
+
+Want a bigger challenge? Try a harder difficulty level:
+
+  bin/puzzle gen loop --difficulty 4
+

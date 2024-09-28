@@ -9,87 +9,113 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
 
 Consider the following code:
 
-    ___A___
-    while (___B___) {
-        ___C___
-        if (___D___) {
-            ___E___
-            break;
-        }
-        ___F___
+    [100m[97m A [39m[49m
+    [100m[97m B [39m[49m
+    [100m[97m C [39m[49m
+    while ([100m[97m D [39m[49m) {
+        [100m[97m E [39m[49m
+        [100m[97m F [39m[49m
     }
-    ___G___
-    ___H___
-    ___I___
+    [100m[97m G [39m[49m
 
- 1. the loop ends because the test condition of the loop is false on iteration [1m1[22m
-    Write out the the order in which the statements will be executed.
+ 1. Assume the body of the loop executes [1m0[22m times. Write out the the order in
+    which the statements will be executed.
     
- 2. the loop ends because the test condition of the loop is false on iteration [1m3[22m
-    Write out the the order in which the statements will be executed.
+ 2. Assume the body of the loop executes [1m2[22m times. Write out the the order in
+    which the statements will be executed.
     
 [1m[38;5;123m[48;5;23m              [0m
 [1m[38;5;123m[48;5;23m   SOLUTION   [0m
 [1m[38;5;123m[48;5;23m              [0m
 
- 1. A B G H I
+ 1. Order:
     
- 2. A B C D F B C D F B G H I
+        A B C D G
     
-┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+ 2. Order:
+    
+        A B C D E F D E F D G
+    
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
 
 [1m[38;5;16m[48;5;207m            [0m
-[1m[38;5;16m[48;5;207m   PART 2   [0m
+[1m[38;5;16m[48;5;207m   PART 1   [0m
 [1m[38;5;16m[48;5;207m            [0m
 
-Translate the following loop into a for-each loop:
+Consider the following code:
 
-    List<FalRongprael> popas;
-    ...
-
-    for (int n = 0; n < popas.size(); n++) {
-        nuid(popas.get(n));
-        oulPomewn(popas.get(n));
+    [100m[97m A [39m[49m
+    [100m[97m B [39m[49m
+    while ([100m[97m C [39m[49m) {
+        [100m[97m D [39m[49m
+        [100m[97m E [39m[49m
+        if ([100m[97m F [39m[49m) {
+            [100m[97m G [39m[49m
+            [100m[97m H [39m[49m
+            break;
+        }
+        [100m[97m I [39m[49m
     }
+    [100m[97m J [39m[49m
+    [100m[97m K [39m[49m
+    [100m[97m L [39m[49m
 
+ 1. Assume the loop breaks on iteration [1m2[22m. Write out the the order in which the
+    statements will be executed.
+    
+ 2. Assume the loop breaks on iteration [1m4[22m. Write out the the order in which the
+    statements will be executed.
+    
 [1m[38;5;213m[48;5;53m              [0m
 [1m[38;5;213m[48;5;53m   SOLUTION   [0m
 [1m[38;5;213m[48;5;53m              [0m
 
-    for (FalRongprael popa : popas) {
-        nuid(popa);
-        oulPomewn(popa);
+ 1. Order:
+    
+        A B C D E F I C D E F G H J K L
+    
+ 2. Order:
+    
+        A B C D E F I C D E F I C D E F I C D E F G H J K L
+    
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;191m            [0m
+[1m[38;5;16m[48;5;191m   PART 1   [0m
+[1m[38;5;16m[48;5;191m            [0m
+
+Consider the following code:
+
+    [100m[97m A [39m[49m
+    [100m[97m B [39m[49m
+    [100m[97m C [39m[49m
+    for ([100m[97m D [39m[49m; [100m[97m E [39m[49m; [100m[97m F [39m[49m) {
+        [100m[97m G [39m[49m
     }
+    [100m[97m H [39m[49m
 
-It is OK if you gave the variable for the individual collection element ([4mpopa[24m) a
-different name, such as [4melem[24m. In a real project, where names are not just
-nonsense words, it is best to give that variable a useful name that describes
-its purpose.
-
-┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
-
-[1m[38;5;16m[48;5;191m            [0m
-[1m[38;5;16m[48;5;191m   PART 3   [0m
-[1m[38;5;16m[48;5;191m            [0m
-
-Translate the following natural language description of a loop into a for loop:
-
-  │ Declare a variable named [4mgop[24m of type [4mdouble[24m, initialized to [4mio[24m. Then, until
-  │ [4mgop[24m is less than [4mmirba[24m, decrement [4mgop[24m.
-
+ 1. Assume the body of the loop executes [1m0[22m times. Write out the the order in
+    which the statements will be executed.
+    
+ 2. Assume the body of the loop executes [1m3[22m times. Write out the the order in
+    which the statements will be executed.
+    
 [1m[38;5;192m[48;5;22m              [0m
 [1m[38;5;192m[48;5;22m   SOLUTION   [0m
 [1m[38;5;192m[48;5;22m              [0m
 
-    for (double gop = io; gop >= mirba; gop--) {
-        ...
-    }
-
-Something to double-check in your solution:
-
-  - Note that the problem says “until,” not “while.” Did you use the correct
-    operator in the loop’s end condition ([4mgop >= mirba[24m)?
-
+ 1. Order:
+    
+        A B C D E H
+    
+ 2. Order:
+    
+        A B C D E G F E G F E G F E H
+    
 ────────────────────────────────────────────────────────────────────────────────
 
 ────────────────────────────────────────────────────────────────────────────────
@@ -98,425 +124,115 @@ Something to double-check in your solution:
 [1m[38;5;16m[48;5;69m   PART 1   [0m
 [1m[38;5;16m[48;5;69m            [0m
 
-Translate the following for loop into a while loop:
+Consider the following code:
 
-    for (int ul = 55; ul < psen; ul += 3) {
-        imfle(ul, 45);
-        sossta();
+    [100m[97m A [39m[49m
+    [100m[97m B [39m[49m
+    [100m[97m C [39m[49m
+    while ([100m[97m D [39m[49m) {
+        [100m[97m E [39m[49m
     }
+    [100m[97m F [39m[49m
+    [100m[97m G [39m[49m
+    [100m[97m H [39m[49m
 
+ 1. Assume the body of the loop executes [1m0[22m times. Write out the the order in
+    which the statements will be executed.
+    
+ 2. Assume the body of the loop executes [1m2[22m times. Write out the the order in
+    which the statements will be executed.
+    
 [1m[38;5;111m[48;5;17m              [0m
 [1m[38;5;111m[48;5;17m   SOLUTION   [0m
 [1m[38;5;111m[48;5;17m              [0m
 
-    int ul = 55;
-    while (ul < psen) {
-        imfle(ul, 45);
-        sossta();
-        ul += 3;
-    }
+ 1. Order:
+    
+        A B C D F G H
+    
+ 2. Order:
+    
+        A B C D E D E D F G H
+    
+────────────────────────────────────────────────────────────────────────────────
 
-┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+────────────────────────────────────────────────────────────────────────────────
 
 [1m[38;5;16m[48;5;203m            [0m
-[1m[38;5;16m[48;5;203m   PART 2   [0m
+[1m[38;5;16m[48;5;203m   PART 1   [0m
 [1m[38;5;16m[48;5;203m            [0m
 
-Translate the following loop into a for-each loop:
+Consider the following code:
 
-    HoHos[] humis;
-    ...
-
-    for (int i = 0; i < humis.length; i++) {
-        dawioc(humis[i], 3, grirac);
-        alcu(humis[i]);
-        finge();
+    [100m[97m A [39m[49m
+    [100m[97m B [39m[49m
+    while ([100m[97m C [39m[49m) {
+        [100m[97m D [39m[49m
+        if ([100m[97m E [39m[49m) {
+            [100m[97m F [39m[49m
+            break;
+        }
+        [100m[97m G [39m[49m
     }
+    [100m[97m H [39m[49m
 
+ 1. Assume the loop ends because the test condition of the loop is false on
+    iteration [1m1[22m. Write out the the order in which the statements will be
+    executed.
+    
+ 2. Assume the loop ends because the test condition of the loop is false on
+    iteration [1m4[22m. Write out the the order in which the statements will be
+    executed.
+    
 [1m[38;5;210m[48;5;52m              [0m
 [1m[38;5;210m[48;5;52m   SOLUTION   [0m
 [1m[38;5;210m[48;5;52m              [0m
 
-    for (HoHos humi : humis) {
-        dawioc(humi, 3, grirac);
-        alcu(humi);
-        finge();
+ 1. Order:
+    
+        A B C H
+    
+ 2. Order:
+    
+        A B C D E G C D E G C D E G C H
+    
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+[1m[38;5;16m[48;5;84m            [0m
+[1m[38;5;16m[48;5;84m   PART 1   [0m
+[1m[38;5;16m[48;5;84m            [0m
+
+Consider the following code:
+
+    [100m[97m A [39m[49m
+    [100m[97m B [39m[49m
+    [100m[97m C [39m[49m
+    while ([100m[97m D [39m[49m) {
+        [100m[97m E [39m[49m
+        [100m[97m F [39m[49m
     }
+    [100m[97m G [39m[49m
+    [100m[97m H [39m[49m
 
-It is OK if you gave the variable for the individual collection element ([4mhumi[24m) a
-different name, such as [4melem[24m. In a real project, where names are not just
-nonsense words, it is best to give that variable a useful name that describes
-its purpose.
-
-┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
-
-[1m[38;5;16m[48;5;84m            [0m
-[1m[38;5;16m[48;5;84m   PART 3   [0m
-[1m[38;5;16m[48;5;84m            [0m
-
-Translate the following natural language description of a loop into a for loop:
-
-  │ Declare a variable named [4mi[24m of type [4mint[24m, initialized to [4m71[24m. Then, until [4mi[24m is
-  │ greater than or equal to [4mrass[24m, decrement [4mi[24m.
-
+ 1. Assume the body of the loop executes [1m0[22m times. Write out the the order in
+    which the statements will be executed.
+    
+ 2. Assume the body of the loop executes [1m2[22m times. Write out the the order in
+    which the statements will be executed.
+    
 [1m[38;5;121m[48;5;22m              [0m
 [1m[38;5;121m[48;5;22m   SOLUTION   [0m
 [1m[38;5;121m[48;5;22m              [0m
 
-    for (int i = 71; i < rass; i--) {
-        ...
-    }
-
-Something to double-check in your solution:
-
-  - Note that the problem says “until,” not “while.” Did you use the correct
-    operator in the loop’s end condition ([4mi < rass[24m)?
-
-────────────────────────────────────────────────────────────────────────────────
-
-────────────────────────────────────────────────────────────────────────────────
-
-[1m[38;5;16m[48;5;135m            [0m
-[1m[38;5;16m[48;5;135m   PART 1   [0m
-[1m[38;5;16m[48;5;135m            [0m
-
-Translate the following loop into a for-each loop:
-
-    ClunPri[] wres;
-    ...
-
-    for (int n = 0; n < wres.length; n++) {
-        toodpo(wres[n], -3, anod);
-        rador();
-        wres[n].edoa(-3, pesrad);
-    }
-
-[1m[38;5;177m[48;5;17m              [0m
-[1m[38;5;177m[48;5;17m   SOLUTION   [0m
-[1m[38;5;177m[48;5;17m              [0m
-
-    for (ClunPri wre : wres) {
-        toodpo(wre, -3, anod);
-        rador();
-        wre.edoa(-3, pesrad);
-    }
-
-It is OK if you gave the variable for the individual collection element ([4mwre[24m) a
-different name, such as [4melem[24m. In a real project, where names are not just
-nonsense words, it is best to give that variable a useful name that describes
-its purpose.
-
-┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
-
-[1m[38;5;16m[48;5;227m            [0m
-[1m[38;5;16m[48;5;227m   PART 2   [0m
-[1m[38;5;16m[48;5;227m            [0m
-
-Consider the following code:
-
-    ___A___
-    while (___B___) {
-        ___C___
-        ___D___
-        if (___E___) {
-            ___F___
-            break;
-        }
-        ___G___
-    }
-    ___H___
-    ___I___
-    ___J___
-
- 1. the loop breaks on iteration [1m2[22m Write out the the order in which the
-    statements will be executed.
+ 1. Order:
     
- 2. the loop breaks on iteration [1m3[22m Write out the the order in which the
-    statements will be executed.
+        A B C D G H
     
-[1m[38;5;228m[48;5;58m              [0m
-[1m[38;5;228m[48;5;58m   SOLUTION   [0m
-[1m[38;5;228m[48;5;58m              [0m
-
- 1. A B C D E G B C D E F H I J
+ 2. Order:
     
- 2. A B C D E G B C D E G B C D E F H I J
-    
-┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
-
-[1m[38;5;16m[48;5;87m            [0m
-[1m[38;5;16m[48;5;87m   PART 3   [0m
-[1m[38;5;16m[48;5;87m            [0m
-
-Translate the following natural language description of a loop into a for loop:
-
-  │ Declare a variable named [4mspe[24m of type [4mint[24m, initialized to [4m69[24m. Then, until [4mspe[24m
-  │ is greater than or equal to [4msiSwec[24m, increment [4mspe[24m.
-
-[1m[38;5;123m[48;5;23m              [0m
-[1m[38;5;123m[48;5;23m   SOLUTION   [0m
-[1m[38;5;123m[48;5;23m              [0m
-
-    for (int spe = 69; spe < siSwec; spe++) {
-        ...
-    }
-
-Something to double-check in your solution:
-
-  - Note that the problem says “until,” not “while.” Did you use the correct
-    operator in the loop’s end condition ([4mspe < siSwec[24m)?
-
-────────────────────────────────────────────────────────────────────────────────
-
-────────────────────────────────────────────────────────────────────────────────
-
-[1m[38;5;16m[48;5;205m            [0m
-[1m[38;5;16m[48;5;205m   PART 1   [0m
-[1m[38;5;16m[48;5;205m            [0m
-
-Translate the following natural language description of a loop into a for loop:
-
-  │ Declare a variable named [4mfe[24m of type [4mshort[24m, initialized to [4m71[24m. Then, until [4mfe[24m
-  │ is less than [4mceng[24m, decrement [4mfe[24m.
-
-[1m[38;5;212m[48;5;52m              [0m
-[1m[38;5;212m[48;5;52m   SOLUTION   [0m
-[1m[38;5;212m[48;5;52m              [0m
-
-    for (short fe = 71; fe >= ceng; fe--) {
-        ...
-    }
-
-Something to double-check in your solution:
-
-  - Note that the problem says “until,” not “while.” Did you use the correct
-    operator in the loop’s end condition ([4mfe >= ceng[24m)?
-
-┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
-
-[1m[38;5;16m[48;5;119m            [0m
-[1m[38;5;16m[48;5;119m   PART 2   [0m
-[1m[38;5;16m[48;5;119m            [0m
-
-Translate the following while loop into a for loop:
-
-    double de = is;
-    while (de != eim) {
-        setru();
-        prava(de, 10);
-        de *= 3;
-    }
-
-[1m[38;5;156m[48;5;22m              [0m
-[1m[38;5;156m[48;5;22m   SOLUTION   [0m
-[1m[38;5;156m[48;5;22m              [0m
-
-    for (double de = is; de != eim; de *= 3) {
-        setru();
-        prava(de, 10);
-    }
-
-┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
-
-[1m[38;5;16m[48;5;63m            [0m
-[1m[38;5;16m[48;5;63m   PART 3   [0m
-[1m[38;5;16m[48;5;63m            [0m
-
-Consider the following code:
-
-    ___A___
-    ___B___
-    while (___C___) {
-        ___D___
-        if (___E___) {
-            ___F___
-            ___G___
-            break;
-        }
-        ___H___
-        ___I___
-    }
-    ___J___
-
- 1. the loop breaks on iteration [1m1[22m Write out the the order in which the
-    statements will be executed.
-    
- 2. the loop breaks on iteration [1m3[22m Write out the the order in which the
-    statements will be executed.
-    
-[1m[38;5;105m[48;5;17m              [0m
-[1m[38;5;105m[48;5;17m   SOLUTION   [0m
-[1m[38;5;105m[48;5;17m              [0m
-
- 1. A B C D E F G J
-    
- 2. A B C D E H I C D E H I C D E F G J
-    
-────────────────────────────────────────────────────────────────────────────────
-
-────────────────────────────────────────────────────────────────────────────────
-
-[1m[38;5;16m[48;5;209m            [0m
-[1m[38;5;16m[48;5;209m   PART 1   [0m
-[1m[38;5;16m[48;5;209m            [0m
-
-Translate the following while loop into a for loop:
-
-    long cron = pe;
-    while (cron <= stica) {
-        mucas(cron);
-        cron--;
-    }
-
-[1m[38;5;216m[48;5;52m              [0m
-[1m[38;5;216m[48;5;52m   SOLUTION   [0m
-[1m[38;5;216m[48;5;52m              [0m
-
-    for (long cron = pe; cron <= stica; cron--) {
-        mucas(cron);
-    }
-
-┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
-
-[1m[38;5;16m[48;5;86m            [0m
-[1m[38;5;16m[48;5;86m   PART 2   [0m
-[1m[38;5;16m[48;5;86m            [0m
-
-Consider the following code:
-
-    ___A___
-    ___B___
-    while (___C___) {
-        ___D___
-        if (___E___) {
-            ___F___
-            break;
-        }
-        ___G___
-        ___H___
-    }
-    ___I___
-    ___J___
-
- 1. the loop ends because the test condition of the loop is false on iteration [1m1[22m
-    Write out the the order in which the statements will be executed.
-    
- 2. the loop ends because the test condition of the loop is false on iteration [1m4[22m
-    Write out the the order in which the statements will be executed.
-    
-[1m[38;5;122m[48;5;22m              [0m
-[1m[38;5;122m[48;5;22m   SOLUTION   [0m
-[1m[38;5;122m[48;5;22m              [0m
-
- 1. A B C I J
-    
- 2. A B C D E G H C D E G H C D E G H C I J
-    
-┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
-
-[1m[38;5;16m[48;5;207m            [0m
-[1m[38;5;16m[48;5;207m   PART 3   [0m
-[1m[38;5;16m[48;5;207m            [0m
-
-Translate the following natural language description of a loop into a for loop:
-
-  │ Declare a variable named [4mvi[24m of type [4mdouble[24m, initialized to [4m61[24m. Then, until
-  │ [4mvi[24m equals [4mwewir[24m, multiply [4mvi[24m by [4m4[24m.
-
-[1m[38;5;213m[48;5;53m              [0m
-[1m[38;5;213m[48;5;53m   SOLUTION   [0m
-[1m[38;5;213m[48;5;53m              [0m
-
-    for (double vi = 61; vi != wewir; vi *= 4) {
-        ...
-    }
-
-Something to double-check in your solution:
-
-  - Note that the problem says “until,” not “while.” Did you use the correct
-    operator in the loop’s end condition ([4mvi != wewir[24m)?
-
-────────────────────────────────────────────────────────────────────────────────
-
-────────────────────────────────────────────────────────────────────────────────
-
-[1m[38;5;16m[48;5;227m            [0m
-[1m[38;5;16m[48;5;227m   PART 1   [0m
-[1m[38;5;16m[48;5;227m            [0m
-
-Translate the following for loop into a while loop:
-
-    for (int se = 32; se <= prir; se--) {
-        treRenirm();
-        asmi(se);
-    }
-
-[1m[38;5;228m[48;5;58m              [0m
-[1m[38;5;228m[48;5;58m   SOLUTION   [0m
-[1m[38;5;228m[48;5;58m              [0m
-
-    int se = 32;
-    while (se <= prir) {
-        treRenirm();
-        asmi(se);
-        se--;
-    }
-
-┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
-
-[1m[38;5;16m[48;5;75m            [0m
-[1m[38;5;16m[48;5;75m   PART 2   [0m
-[1m[38;5;16m[48;5;75m            [0m
-
-Translate the following natural language description of a loop into a for loop:
-
-  │ Declare a variable named [4mece[24m of type [4mshort[24m, initialized to [4mar[24m. Then, until
-  │ [4mece[24m is less than [4mluIlmid[24m, decrement [4mece[24m.
-
-[1m[38;5;117m[48;5;17m              [0m
-[1m[38;5;117m[48;5;17m   SOLUTION   [0m
-[1m[38;5;117m[48;5;17m              [0m
-
-    for (short ece = ar; ece >= luIlmid; ece--) {
-        ...
-    }
-
-Something to double-check in your solution:
-
-  - Note that the problem says “until,” not “while.” Did you use the correct
-    operator in the loop’s end condition ([4mece >= luIlmid[24m)?
-
-┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
-
-[1m[38;5;16m[48;5;204m            [0m
-[1m[38;5;16m[48;5;204m   PART 3   [0m
-[1m[38;5;16m[48;5;204m            [0m
-
-Consider the following code:
-
-    ___A___
-    ___B___
-    ___C___
-    while (___D___) {
-        ___E___
-        ___F___
-    }
-    ___G___
-    ___H___
-
- 1. the body of the loop executes [1m1[22m time Write out the the order in which the
-    statements will be executed.
-    
- 2. the body of the loop executes [1m2[22m times Write out the the order in which the
-    statements will be executed.
-    
-[1m[38;5;211m[48;5;52m              [0m
-[1m[38;5;211m[48;5;52m   SOLUTION   [0m
-[1m[38;5;211m[48;5;52m              [0m
-
- 1. A B C D E F D G H
-    
- 2. A B C D E F D E F D G H
+        A B C D E F D E F D G H
     
 ────────────────────────────────────────────────────────────────────────────────
 

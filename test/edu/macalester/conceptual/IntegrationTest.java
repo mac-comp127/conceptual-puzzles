@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class IntegrationTest {
     private static final List<String> PUZZLE_CODES = List.of(
         "gewc-fit8-6tgL-hatp",  // vars
-        "7yg5-04ba-rfo9-hi",    // loop
+        "2mgg-4Ldu-2mq7-Ld3",   // loop
         "azy1-v4Lt-rq5L-7g92",  // ast
         "5i42-dtog-jq0h-93cn",  // bool
         "5kwo-ytu2-xjbr-tuir"   // bool, difficulty = 5
@@ -42,7 +42,7 @@ public class IntegrationTest {
         tests.add(createIntegrationTest("no args"));
         tests.add(createIntegrationTest("help", "--help"));
         tests.add(createIntegrationTest("html vars", "solve", "gem8-9kcc-zm63-yo71", "--html", "-"));
-        tests.add(createIntegrationTest("html loop", "solve", "ofoh-sb98-k7qz-f2", "--html", "-"));
+        tests.add(createIntegrationTest("html loop", "solve", "37jv-6084-d1bb-ev4", "--html", "-"));
 
         var puzzlesNotCovered = new HashSet<>(Puzzle.ALL);
         for (var code : PUZZLE_CODES) {

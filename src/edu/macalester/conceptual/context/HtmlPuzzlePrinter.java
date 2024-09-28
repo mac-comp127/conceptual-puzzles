@@ -30,9 +30,10 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
     private float hue;
 
     private final TextFormatter textFormatter = new TextFormatter(
-        /* code */    new TextFormatter.Style("<code>", "</code>"),
-        /* bold */    new TextFormatter.Style("<b>", "</b>"),
-        /* italics */ new TextFormatter.Style("<i>", "</i>"));
+        /* code */        new TextFormatter.Style("<code>", "</code>"),
+        /* bold */        new TextFormatter.Style("<b>", "</b>"),
+        /* italics */     new TextFormatter.Style("<i>", "</i>"),
+        /* placeholder */ new TextFormatter.Style("<span class='placeholder'>", "</span>"));
 
     public HtmlPuzzlePrinter() {
         this(System.out);
@@ -211,8 +212,9 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
     }
 
     private String processCode(String code) {
-        return HtmlEscapers.htmlEscaper().escape(
-            code.trim());
+        return textFormatter.formatCodePlaceholders(
+            HtmlEscapers.htmlEscaper().escape(
+                code.trim()));
     }
 
     private String htmlEscape(String text) {
@@ -269,6 +271,14 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
                         margin: 0 0.125ex;
                         border: 0.5px solid #777;
                         border-radius: 0.25ex;
+                    }
+                    .placeholder {
+                        display: inline-block;
+                        padding: 0 2ex;
+                        margin: 1px 0;
+                        border-radius: 1ex;
+                        background: #999;
+                        color: #000;
                     }
                     p {
                         padding: 0;

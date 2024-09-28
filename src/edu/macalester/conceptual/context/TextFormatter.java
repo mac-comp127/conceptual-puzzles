@@ -1,28 +1,53 @@
 package edu.macalester.conceptual.context;
 
+import java.util.regex.Pattern;
+
 /**
  * Parses the mini-markdown-style delimiters within a paragraph for `code`, *bold*, and _italics_.
  */
 record TextFormatter(
     Style code,
     Style bold,
-    Style italics
+    Style italics,
+    Style placeholder
 ) {
-    public String format(String text) {
-        return text.strip()
-            .replaceAll("\\s+", " ")  // strip internal line breaks; callers should use paragraph()
-            .replaceAll(inlineDelimited("`"),    code.wrap("$1"))  // `code`
-            .replaceAll(inlineDelimited("\\*"),  bold.wrap("$1"))  // *bold*
-            .replaceAll(inlineDelimited("_"), italics.wrap("$1")); // _italics_
-    }
+    private static final Pattern
+        CODE_DELIM        = inlineDelimited("`"),  
+        BOLD_DELIM        = inlineDelimited("\\*"),
+        ITALICS_DELIM     = inlineDelimited("_"),
+        PLACEHOLDER_DELIM = inlineDelimited("___");
 
-    private static String inlineDelimited(String delimiter) {
-        return
+    private static Pattern inlineDelimited(String delimiter) {
+        return Pattern.compile(
             delimiter     // the delimiter
             + "(?!\\s)"   // not follow by a space,
             + "(.+?)"     // then the shortest section of matching text
             + "(?<!\\s)"  // not ending with a space
-            + delimiter;  // and terminated with the delimiter
+            + delimiter   // and terminated with the delimiter
+        );
+    }
+
+    public String format(String text) {
+        // strip internal line breaks; callers should use paragraph()
+        text = text.strip().replaceAll("\\s+", " ");
+
+        text = CODE_DELIM.matcher(text).replaceAll((match) ->
+            code.wrap(
+                formatCodePlaceholders(
+                    match.group(1))));
+
+        text = BOLD_DELIM .matcher(text).replaceAll((match) ->
+            bold.wrap(match.group(1)));
+
+        text = ITALICS_DELIM.matcher(text).replaceAll((match) ->
+            italics.wrap(match.group(1)));
+
+        return text;
+    }
+
+    public String formatCodePlaceholders(String code) {
+        return PLACEHOLDER_DELIM.matcher(code).replaceAll((match) ->
+            placeholder.wrap(match.group(1)));
     }
 
     public record Style(

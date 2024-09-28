@@ -38,6 +38,14 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
             border: 0.5px solid #777;
             border-radius: 0.25ex;
         }
+        .placeholder {
+            display: inline-block;
+            padding: 0 2ex;
+            margin: 1px 0;
+            border-radius: 1ex;
+            background: #999;
+            color: #000;
+        }
         p {
             padding: 0;
             margin: 1em 0;

@@ -30,9 +30,12 @@ public class ConsolePuzzlePrinter implements PuzzlePrinter {
     private int silenceLevel;
 
     private final TextFormatter textFormatter = new TextFormatter(
-        /* code */    new TextFormatter.Style(ansiCode('m', 4), ansiCode('m', 24)),
-        /* bold */    new TextFormatter.Style(ansiCode('m', 1), ansiCode('m', 22)),
-        /* italics */ new TextFormatter.Style(ansiCode('m', 3), ansiCode('m', 23)));
+        /* code */        new TextFormatter.Style(ansiCode('m', 4), ansiCode('m', 24)),
+        /* bold */        new TextFormatter.Style(ansiCode('m', 1), ansiCode('m', 22)),
+        /* italics */     new TextFormatter.Style(ansiCode('m', 3), ansiCode('m', 23)),
+        /* placeholder */ new TextFormatter.Style(
+            ansiCode('m', 100) + ansiCode('m', 97) + " ",
+            " " + ansiCode('m', 39) + ansiCode('m', 49)));
 
     public ConsolePuzzlePrinter() {
         this(new PrintWriter(System.out, true, StandardCharsets.UTF_8));
@@ -153,7 +156,9 @@ public class ConsolePuzzlePrinter implements PuzzlePrinter {
     public void codeBlock(String javaCode) {
         nowrap(() -> {
             indented(() -> {
-                println(javaCode.strip());
+                println(
+                    textFormatter.formatCodePlaceholders(
+                        javaCode.strip()));
             });
         });
         println();

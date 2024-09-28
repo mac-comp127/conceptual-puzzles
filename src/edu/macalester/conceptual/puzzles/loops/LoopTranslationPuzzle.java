@@ -1,78 +1,40 @@
 package edu.macalester.conceptual.puzzles.loops;
 
+import static edu.macalester.conceptual.util.CodeFormatting.ELIDED;
+import static edu.macalester.conceptual.util.CodeFormatting.joinStatements;
+import static edu.macalester.conceptual.util.CodeFormatting.prettifyStatements;
+import static edu.macalester.conceptual.util.Randomness.choose;
+import static edu.macalester.conceptual.util.Randomness.chooseConst;
+import static edu.macalester.conceptual.util.Randomness.insertAtRandomPosition;
+
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.function.Consumer;
 
-import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.util.CodeFormatting;
 import edu.macalester.conceptual.util.Nonsense;
 import edu.macalester.conceptual.util.Randomness;
 
-import static edu.macalester.conceptual.util.CodeFormatting.*;
-import static edu.macalester.conceptual.util.Randomness.*;
+public class LoopTranslationPuzzle {
 
-public class LoopTranslationPuzzle implements Puzzle {
-
-    // Randomly choose this many of the available section types
-    private static final int SECTION_COUNT = 3;
-
-    @Override
-    public byte id() {
-        return 0;
+    public static void generateNaturalLanguage(PuzzleContext ctx) {
+        generate(
+            ctx, LoopForm.NATURAL_LANGUAGE, LoopForm.FOR, false,
+            (loop) -> ctx.solutionChecklist(
+                "Note that the problem says “until,” not “while.”"
+                + " Did you use the correct operator in the loop’s end condition"
+                + " (`" + loop.getEndCondition() + "`)?"));
     }
 
-    @Override
-    public String name() {
-        return "loop";
+    public static void generateForAndWhile(PuzzleContext ctx) {
+        boolean direction = ctx.getRandom().nextBoolean();
+        var sourceForm = direction ? LoopForm.FOR : LoopForm.WHILE;
+        var targetForm = direction ? LoopForm.WHILE : LoopForm.FOR;
+
+        generate(ctx, sourceForm, targetForm, true, null);
     }
 
-    @Override
-    public String description() {
-        return "While loops and for loops";
-    }
-
-    public void generate(PuzzleContext ctx) {
-        List<Runnable> sections = new ArrayList<>(List.of(
-            () -> {
-                boolean direction = ctx.getRandom().nextBoolean();
-                var sourceForm = direction ? LoopForm.FOR : LoopForm.WHILE;
-                var targetForm = direction ? LoopForm.WHILE : LoopForm.FOR;
-
-                generateTranslationPuzzle(ctx, sourceForm, targetForm, true, null);
-            },
-
-            () -> {
-            generateTranslationPuzzle(
-                ctx, LoopForm.NATURAL_LANGUAGE, LoopForm.FOR, false,
-                (loop) -> ctx.solutionChecklist(
-                    "Note that the problem says “until,” not “while.”"
-                    + " Did you use the correct operator in the loop’s end condition"
-                    + " (`" + loop.getEndCondition() + "`)?"));
-            },
-
-            () -> {
-                generateForEachTranslationPuzzle(ctx);
-            },
-
-            () -> {
-                LoopTracingPuzzle.generateRandomType(ctx);
-            }
-        ));
-
-        Collections.shuffle(sections, ctx.getRandom());
-        while (sections.size() > SECTION_COUNT) {
-            sections.remove(0);
-        }
-
-        for (var section : sections) {
-            ctx.section(section);
-        }
-    }
-
-    private static void generateTranslationPuzzle(
+    private static void generate(
         PuzzleContext ctx,
         LoopForm sourceForm,
         LoopForm targetForm,
@@ -95,7 +57,7 @@ public class LoopTranslationPuzzle implements Puzzle {
         });
     }
 
-    private void generateForEachTranslationPuzzle(PuzzleContext ctx) {
+    public static void generateForEach(PuzzleContext ctx) {
         ctx.output().paragraph(
             "Translate the following loop into a for-each loop:");
 
@@ -152,5 +114,4 @@ public class LoopTranslationPuzzle implements Puzzle {
                 elemVar);
         });
     }
-
 }

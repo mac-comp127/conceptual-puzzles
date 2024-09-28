@@ -6,7 +6,7 @@ import java.util.function.Function;
 import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.puzzles.ast.AstDrawingPuzzle;
 import edu.macalester.conceptual.puzzles.booleans.BooleansAndConditionalsPuzzle;
-import edu.macalester.conceptual.puzzles.loops.LoopTranslationPuzzle;
+import edu.macalester.conceptual.puzzles.loops.LoopPuzzle;
 import edu.macalester.conceptual.puzzles.vars.VariablesPuzzle;
 
 /**
@@ -25,7 +25,7 @@ public interface Puzzle {
     List<Puzzle> ALL = List.of(
         new AstDrawingPuzzle(),
         new BooleansAndConditionalsPuzzle(),
-        new LoopTranslationPuzzle(),
+        new LoopPuzzle(),
         new VariablesPuzzle()
     );
 
