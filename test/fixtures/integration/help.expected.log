@@ -15,6 +15,7 @@ Options:
   -s,--include-solutions     Show solutions immediately when generating puzzle
      --save-code <file>      Save puzzle code + metadata in file
      --solution-html <file>  Also emit solution as HTML
+  -v,--version               Show puzzle generator version
 
 Usage examples:
   bin/puzzle gen loops
