@@ -245,7 +245,7 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
                         background: #222;
                         color: #bbb;
                         font-size: 13pt;
-                        font-family: Palatino, Georgia, serif;
+                        font-family: Charter, Georgia, serif;
                         padding: 1em;
                     }
                     body {
