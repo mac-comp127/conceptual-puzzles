@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.Base64;
 import java.util.List;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
@@ -28,6 +29,8 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
     private final PrintWriter out;
     private int silenceLevel;
     private float hue;
+    private boolean copyPasteObfuscation;
+    private Random obfuscationRand = new Random(0);
 
     private final TextFormatter textFormatter = new TextFormatter(
         /* code */        new TextFormatter.Style("<code>", "</code>"),
@@ -46,6 +49,15 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
     public HtmlPuzzlePrinter(PrintWriter out) {
         this.out = out;
         out.write(DOC_PREFIX);
+    }
+
+    /**
+     * Inserts text fragments throughout code blocks that aren’t visible in the browser, but show up
+     * when copying text out of the browser. The hope is to discourage students from casually
+     * bending the rules about not using the computer for help.
+     */
+    public void enableCopyPasteObfuscation() {
+        copyPasteObfuscation = true;
     }
 
     @Override
@@ -213,8 +225,9 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
 
     private String processCode(String code) {
         return textFormatter.formatCodePlaceholders(
-            HtmlEscapers.htmlEscaper().escape(
-                code.trim()));
+            insertCopyPasteObfuscation(
+                htmlEscape(
+                    code.trim())));
     }
 
     private String htmlEscape(String text) {
@@ -224,6 +237,28 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
                     HtmlEscapers.htmlEscaper().escape(text))  // only handles ASCII chars: < & etc
                 .replaceAll(match ->
                     "&#" + Character.codePointAt(match.group(), 0) + ";");  // handle non-ASCII
+    }
+
+    private String insertCopyPasteObfuscation(String html) {
+        // This pattern prevents obfuscation text from being placed inside:
+        //  -  ___placeholders__
+        //  -  &entities;
+        //  -  &#hexentities;
+        //  -  indentation
+
+        return Pattern.compile("(?<!(___|&#?)\\w*)(?! |\\w*(___))").matcher(html).replaceAll(blank -> {
+            if (copyPasteObfuscation && obfuscationRand.nextInt(4) == 0) {
+                String obfuscationText =
+                    (obfuscationRand.nextInt(10) == 0)
+                        ? " Remember: using the computer to help is strictly prohibited"
+                            + " for official attempts! The answer has to come from your own head. "
+                        : ("" + (char) (' ' + obfuscationRand.nextInt('~' - ' ' + 1)))
+                            .replace("$", "\\$");
+                return "<div class='hidden-warning' aria-hidden='true'>" + obfuscationText + "</div>";
+            } else {
+                return "";
+            }
+        });
     }
 
     @Override
@@ -298,6 +333,13 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
                     }
                     hr.secondary {
                         border-top: 1px solid rgba(255, 255, 255, 0.4);
+                    }
+                    .hidden-warning {
+                        display: inline-block;
+                        margin: -1ex -1px;
+                        width: 2px;
+                        overflow: hidden;
+                        color: transparent;
                     }
                 </style>
             </head>

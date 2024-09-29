@@ -124,8 +124,7 @@ public class CommandLine {
             return;
         }
 
-        applyOptionsToContext(options, ctx, puzzle, false);
-        ctx.enableSolution();
+        applyOptionsToContext(options, ctx, puzzle, true);
         ctx.setPuzzleTitle(puzzle.description() + ": Solution");
         emitPuzzle(puzzle, ctx, options);
 
@@ -185,13 +184,18 @@ public class CommandLine {
         ctx.setPartsToShow(options.partsToShow());
 
         String htmlOutput =
-            solutionOutput
+            solutionOutput && options.solutionHtml() != null
                 ? options.solutionHtml()
                 : options.html();
-        if ("-".equals(htmlOutput)) {
-            ctx.setOutput(new HtmlPuzzlePrinter());
-        } else if (htmlOutput != null) {
-            ctx.setOutput(new HtmlPuzzlePrinter(new FileOutputStream(htmlOutput)));
+        if (htmlOutput != null) {
+            var htmlPrinter =
+                "-".equals(htmlOutput)
+                    ? new HtmlPuzzlePrinter()
+                    : new HtmlPuzzlePrinter(new FileOutputStream(htmlOutput));
+            if (!ctx.isSolutionEnabled()) {
+                htmlPrinter.enableCopyPasteObfuscation();
+            }
+            ctx.setOutput(htmlPrinter);
         }
 
         if (options.saveCode() != null) {

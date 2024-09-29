@@ -202,6 +202,10 @@ public final class PuzzleContext {
         solutionsVisible = true;
     }
 
+    public boolean isSolutionEnabled() {
+        return solutionsVisible;
+    }
+
     public void solution(Runnable action) {
         requireState(State.WORKING, "produce solution");
         if (insideSolution) {

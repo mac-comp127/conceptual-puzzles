@@ -65,6 +65,13 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
         hr.secondary {
             border-top: 1px solid rgba(255, 255, 255, 0.4);
         }
+        .hidden-warning {
+            display: inline-block;
+            margin: -1ex -1px;
+            width: 2px;
+            overflow: hidden;
+            color: transparent;
+        }
     </style>
 </head>
 <body>
