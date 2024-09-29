@@ -1,12 +1,13 @@
 package edu.macalester.conceptual.cli;
 
-import com.google.common.io.Files;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
+import java.util.Properties;
+
+import com.google.common.io.Files;
 
 import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.HtmlPuzzlePrinter;
@@ -25,6 +26,11 @@ public class CommandLine {
 
     public static void main(String[] args) {
         var options = new PuzzleOptions(args);
+
+        if (options.version()) {
+            printVersion();
+            return;
+        }
 
         if (options.help() || options.commandAndArgs().isEmpty()) {
             printHelp(options, false);
@@ -237,6 +243,22 @@ public class CommandLine {
             out.println("To see all options:");
             out.println("  " + executableName() + " --help");
         }
+    }
+
+    private static void printVersion() {
+        var properties = new Properties();
+        try (var stream = CommandLine.class.getResourceAsStream("/git.properties")) {
+            properties.load(stream);
+        } catch(IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("puzzle generator version:");
+        System.out.print("  commit: " + properties.get("git.commit.id.abbrev"));
+        if (properties.get("git.dirty").equals("true")) {
+            System.out.print(" + uncommitted changes");
+        }
+        System.out.println();
+        System.out.println("    date: " + properties.get("git.commit.time"));
     }
 
     /**

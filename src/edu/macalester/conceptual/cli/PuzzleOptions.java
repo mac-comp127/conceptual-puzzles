@@ -1,23 +1,23 @@
 package edu.macalester.conceptual.cli;
 
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+
 /**
  * Command-line flags for CommandLine.
  */
 class PuzzleOptions {
     private final Options options = new Options();
-    private final Option help, parts, repeat, difficulty, includeSolutions, html, solutionHtml, saveCode;
+    private final Option help, version, parts, repeat, difficulty, includeSolutions, html, solutionHtml, saveCode;
     private final org.apache.commons.cli.CommandLine cmd;
     private final String[] rawArgs;
 
@@ -32,6 +32,7 @@ class PuzzleOptions {
         solutionHtml = addOption(null, "solution-html", "file", "Also emit solution as HTML");
         saveCode = addOption(null, "save-code", "file", "Save puzzle code + metadata in file");
         help = addOption(null, "help", "Display this message");
+        version = addOption("v", "version", "Show puzzle generator version");
         options.addOption(parts);
 
         try {
@@ -52,6 +53,10 @@ class PuzzleOptions {
 
     public boolean help() {
         return cmd.hasOption(help);
+    }
+
+    public boolean version() {
+        return cmd.hasOption(version);
     }
 
     public int repeat() {

@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'eclipse'
+    id 'com.gorylenko.gradle-git-properties' version "2.+"
 }
 
 java {
@@ -48,6 +49,10 @@ test {
 sourceSets.main.java.srcDirs = ['src']
 sourceSets.main.resources.srcDirs = ['res']
 sourceSets.test.java.srcDirs = ['test']
+
+gitProperties {
+    dateFormat = "yyyy-MM-dd HH:mm:ss z"
+}
 
 // Nonsense workaround to keep VS Code Java from putting all of its class files
 // in bin/ (where the CLI lives) instead of build/ (where they belong, and where
