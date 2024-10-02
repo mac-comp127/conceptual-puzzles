@@ -36,7 +36,7 @@ public final class PuzzleContext {
     private PuzzlePrinter printer;
     private Set<Integer> partsToShow;
 
-    private Set<String> identifiersUsed = new HashSet<>();
+    private final Set<String> identifiersUsed = new HashSet<>();
 
     /**
      * Creates a new, randomly seeded puzzle context for generating a new puzzle.

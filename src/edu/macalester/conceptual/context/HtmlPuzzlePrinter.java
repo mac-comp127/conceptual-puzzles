@@ -30,7 +30,7 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
     private int silenceLevel;
     private float hue;
     private boolean copyPasteObfuscation;
-    private Random obfuscationRand = new Random(0);
+    private final Random obfuscationRand = new Random(0);
 
     private final TextFormatter textFormatter = new TextFormatter(
         /* code */        new TextFormatter.Style("<code>", "</code>"),

@@ -54,7 +54,6 @@ class ExcludedWords {
         System.out.println("New prohibited words file created");
     }
 
-    @SuppressWarnings("resource")
     private static List<String> allDictWords() throws IOException {
         return Streams.concat(
             streamWords(Path.of("res/java-reserved-words.txt").toUri().toURL()),

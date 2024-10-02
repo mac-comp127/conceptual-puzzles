@@ -76,7 +76,7 @@ public enum LoopTracingPuzzle {
         EACH_ITER_EXCEPT_LAST,
         AFTER_EACH_ITER,
         AFTER_LOOP,
-        NEVER;
+        NEVER
     }
 
     private static final Pattern PLACEHOLDER_PATTERN =
@@ -129,7 +129,7 @@ public enum LoopTracingPuzzle {
             chooseWithProb(ctx, 0.7, 2, 3)
         );
 
-        // Give iter count and direcitons
+        // Give iter count and directions
 
         ctx.output().numberedList(
             iterCounts.stream().map(iterCount -> () -> {
