@@ -291,7 +291,7 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
                         font-family: 'Helvetica Neue', Helvetica, Arial, sans;
                         font-weight: bold;
                     }
-                    pre, code {
+                    pre, code, .placeholder {
                         font-size: 90%;
                         font-family: Menlo, Consolas, monospace;
                     }

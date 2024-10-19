@@ -15,15 +15,21 @@ record TextFormatter(
         CODE_DELIM        = inlineDelimited("`"),  
         BOLD_DELIM        = inlineDelimited("\\*"),
         ITALICS_DELIM     = inlineDelimited("_"),
-        PLACEHOLDER_DELIM = inlineDelimited("___");
+        PLACEHOLDER_DELIM = inlineDelimited("___", "(?:/\\*)?", "(?:\\*/)?");
 
     private static Pattern inlineDelimited(String delimiter) {
+        return inlineDelimited(delimiter, "", "");
+    }
+
+    private static Pattern inlineDelimited(String delimiter, String prefix, String suffix) {
         return Pattern.compile(
-            delimiter     // the delimiter
+            prefix        // The prefix-only delimiter (usually blank) and
+            + delimiter   // the delimiter
             + "(?!\\s)"   // not follow by a space,
             + "(.+?)"     // then the shortest section of matching text
             + "(?<!\\s)"  // not ending with a space
             + delimiter   // and terminated with the delimiter
+            + suffix      // and the suffix (also usually blank)
         );
     }
 
@@ -31,10 +37,10 @@ record TextFormatter(
         // strip internal line breaks; callers should use paragraph()
         text = text.strip().replaceAll("\\s+", " ");
 
+        text = formatCodePlaceholders(text);
+
         text = CODE_DELIM.matcher(text).replaceAll((match) ->
-            code.wrap(
-                formatCodePlaceholders(
-                    match.group(1))));
+            code.wrap(match.group(1)));
 
         text = BOLD_DELIM .matcher(text).replaceAll((match) ->
             bold.wrap(match.group(1)));

@@ -66,7 +66,7 @@ public class VariablesPuzzle implements Puzzle {
             "private static int " + staticVarName + " = 0;",
             "private int " + instanceVarName + " = 0;",
             "public void " + twiddleMethodName + "(int " + parameterName + ") {"
-                + "\n// [a]\n"
+                + "\n/*___A___*/\n"
                 + "int " + localVarName + " = 0;"
                 // Increment static, instance, and local var, in random order
                 + threeVars.stream()
@@ -79,13 +79,13 @@ public class VariablesPuzzle implements Puzzle {
                         .collect(joining("+"))
                         .replace("+\"", "+\"  ")
                 + ");"
-                + "\n// [b]\n"
+                + "\n/*___B___*/\n"
             + "}",
             "public static void main(String[] args) {"
                 + className + " " + mainVar + "0 = new " + className + "();"
                 + className + " " + mainVar + "1 = new " + className + "();"
                 + joinStatements(twiddling)
-                + "\n// [c]\n"
+                + "\n/*___C___*/\n"
             + "}");
         Collections.shuffle(members, ctx.getRandom());
 
@@ -100,9 +100,9 @@ public class VariablesPuzzle implements Puzzle {
             "What does the main method print?",
             "Which of the three variables "
                 + threeVars.stream().map(s -> "`" + s + "`").toList()
-                + " are in scope at *[a]*?",
-            "Which are in scope at *[b]*?",
-            "Which are in scope at *[c]*?");
+                + " are in scope at ___A___?",
+            "Which are in scope at ___B___?",
+            "Which are in scope at ___C___?");
 
         ctx.solution(() -> {
             ctx.output().numberedList(
@@ -112,13 +112,13 @@ public class VariablesPuzzle implements Puzzle {
                         Evaluator.captureOutput(classDecl, className + ".main(null)"));
                 },
                 () -> ctx.output().paragraph(
-                    "`{0}` and `{1}` are in scope at [a]."
+                    "`{0}` and `{1}` are in scope at ___A___."
                         + " _(`{2}` is out of scope because it is not declared yet.)_",
                     staticVarName, instanceVarName, localVarName),
                 () -> ctx.output().paragraph(
-                    "All three are in scope at [b]."),
+                    "All three are in scope at ___B___."),
                 () -> ctx.output().paragraph(
-                    "Only `{0}` is in scope at [c]. _(`{1}` is an instance variable, but `main` is a"
+                    "Only `{0}` is in scope at ___C___. _(`{1}` is an instance variable, but `main` is a"
                         + " static method. `{2}` is local to the `{3}` function.)_",
                     staticVarName, instanceVarName, localVarName, twiddleMethodName));
             ctx.output().paragraph(
