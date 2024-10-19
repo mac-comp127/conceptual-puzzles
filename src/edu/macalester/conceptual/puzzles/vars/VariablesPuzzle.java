@@ -1,6 +1,9 @@
 package edu.macalester.conceptual.puzzles.vars;
 
-import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.PuzzleContext;
@@ -12,6 +15,14 @@ import static edu.macalester.conceptual.util.Randomness.*;
 import static java.util.stream.Collectors.joining;
 
 public class VariablesPuzzle implements Puzzle {
+    // TODO: When we're ready to require Java 21, we can use String templates instead of the
+    //       string substitutions in ScopeTestPoint, and make these variables local to `generate`.
+    private String
+        className, twiddleMethodName,
+        parameterName, staticVarName, instanceVarName,
+        localVarName, mainLocal0Name, mainLocal1Name;
+    int placeholderCounter = 0;
+
     @Override
     public byte id() {
         return 3;
@@ -28,71 +39,120 @@ public class VariablesPuzzle implements Puzzle {
     }
 
     @Override
-    public boolean isVisible() {
-        return false;
-    }
-
-    @Override
     public void generate(PuzzleContext ctx) {
-        var className = Nonsense.typeName(ctx);
-        var twiddleMethodName = Nonsense.methodName(ctx);
-        var parameterName = Nonsense.variableName(ctx);
-        var staticVarName = Nonsense.variableName(ctx);
-        var instanceVarName = Nonsense.variableName(ctx);
-        var localVarName = Nonsense.variableName(ctx);
+        className = Nonsense.typeName(ctx);
+        twiddleMethodName = Nonsense.methodName(ctx);
+        parameterName = Nonsense.variableName(ctx);
+        staticVarName = Nonsense.variableName(ctx);
+        instanceVarName = Nonsense.variableName(ctx);
+        localVarName = Nonsense.variableName(ctx);
 
         var threeVars = shuffledListOf(ctx, staticVarName, instanceVarName, localVarName);
 
-        var mainVar = className.substring(0, 1).toLowerCase();
+        // Generate `twiddling`, the sequence of method calls and assignments that mess with the two
+        // objects we will create in the main method
+
+        var mainLocalVar = className.substring(0, 1).toLowerCase();
+        mainLocal0Name = mainLocalVar + "0";
+        mainLocal1Name = mainLocalVar + "1";
         var twiddling = generateList(4, (i, j) ->
-            mainVar + (i % 2) + "." + twiddleMethodName + "(" + (int) Math.pow(10, i) + ")");
+            mainLocalVar + (i % 2) + "." + twiddleMethodName + "(" + (int) Math.pow(10, i) + ")");
         int n = ctx.getRandom().nextInt(2), m = 1 - n;
         insertAtRandomPosition(ctx,
             twiddling,
             1, -2,
-            mainVar + n + "="
+            mainLocalVar + n + "="
                 + (ctx.getRandom().nextFloat() < 0.75
-                    ? mainVar + m
+                    ? mainLocalVar + m
                     : "new " + className + "()"));
         insertAtRandomPosition(ctx,
             twiddling,
             1, -2,
-            mainVar + m + "="
+            mainLocalVar + m + "="
                 + (ctx.getRandom().nextFloat() < 0.25
-                    ? mainVar + n
+                    ? mainLocalVar + n
                     : "new " + className + "()"));
 
-        var members = shuffledListOf(ctx,
-            "private static int " + staticVarName + " = 0;",
-            "private int " + instanceVarName + " = 0;",
-            "public void " + twiddleMethodName + "(int " + parameterName + ") {"
-                + "\n/*___A___*/\n"
-                + "int " + localVarName + " = 0;"
-                // Increment static, instance, and local var, in random order
-                + threeVars.stream()
-                    .map(v -> v + "+=" + parameterName + ";")
-                    .collect(joining())
-                // Print all three in same order we incremented
-                + "System.out.println("
+        // Generate the test points we’ll use for the scope questions, and randomly select a subset
+        // of them to enable.
+
+        ScopeTestPoint
+            instanceMethodStart = new ScopeTestPoint(
+                List.of(staticVarName, instanceVarName),
+                """
+                `{localVarName}` is out of scope because it is not declared yet.
+                `{mainLocal0Name}` and `{mainLocal1Name}` out of scope because they are local to the
+                `main` method.
+                """
+            ),
+
+            instanceMethodEnd = new ScopeTestPoint(
+                List.of(staticVarName, instanceVarName, localVarName),
+                """
+                `{mainLocal0Name}` and `{mainLocal1Name}` out of scope because they are local to the
+                `main` method.
+                """
+            ),
+
+            mainMethodEnd = new ScopeTestPoint(
+                List.of(staticVarName, mainLocal0Name, mainLocal1Name),
+                """
+                `{instanceVarName}` is out of scope because it is an _instance_ variable, but `main`
+                is a _static_ method.
+                `{localVarName}` is out of scope because it is local to `{twiddleMethodName}`.
+                """
+            );
+
+        // Generate the class members (variables and methods) in random order.
+
+        List<Supplier<String>> memberGenerators =
+            shuffledListOf(ctx,
+                () -> "private static int " + staticVarName + " = 0;",
+                () -> "private int " + instanceVarName + " = 0;",
+                () -> "public void " + twiddleMethodName + "(int " + parameterName + ") {"
+                    + instanceMethodStart.makePlaceholder()
+                    + "int " + localVarName + " = 0;"
+                    // Increment static, instance, and local var, in random order
                     + threeVars.stream()
-                        .map(v -> "\"" + v + "=\"+" + v)
-                        .collect(joining("+"))
-                        .replace("+\"", "+\"  ")
-                + ");"
-                + "\n/*___B___*/\n"
-            + "}",
-            "public static void main(String[] args) {"
-                + className + " " + mainVar + "0 = new " + className + "();"
-                + className + " " + mainVar + "1 = new " + className + "();"
-                + joinStatements(twiddling)
-                + "\n/*___C___*/\n"
-            + "}");
-        Collections.shuffle(members, ctx.getRandom());
+                        .map(v -> v + "+=" + parameterName + ";")
+                        .collect(joining())
+                    // Print all three in same order we incremented
+                    + "System.out.println("
+                        + threeVars.stream()
+                            .map(v -> "\"" + v + "=\"+" + v)
+                            .collect(joining("+"))
+                            .replace("+\"", "+\"  ")
+                    + ");"
+                    + instanceMethodEnd.makePlaceholder()
+                    + "}",
+                () -> "public static void main(String[] args) {"
+                    + className + " " + mainLocalVar + "0 = new " + className + "();"
+                    + className + " " + mainLocalVar + "1 = new " + className + "();"
+                    + joinStatements(twiddling)
+                    + mainMethodEnd.makePlaceholder()
+                    + "}"
+            );
+
+        // We shuffle first and _then_ generate so that the placeholder names end up in display
+        // order, forcing students to actually read the code instead of memorizing the answer order.
+        var members = memberGenerators.stream().map(Supplier::get).toList();
+
+        // Now that we've determined the display order of the placeholders, we can determine our
+        // the order of questions to ask:
+        var enabledScopeTestPoints =
+            Stream.of(instanceMethodStart, instanceMethodEnd, mainMethodEnd)
+                .filter(ScopeTestPoint::isEnabled)
+                .sorted(Comparator.comparing(ScopeTestPoint::makePlaceholder))
+                .toList();
+
+        // Put it all together into a full class declaration!
 
         var classDecl = prettifyTypeDecl(
             "public class " + className + "{"
                 + joinCode(members)
             + "}");
+
+        // Instructions
 
         ctx.output().paragraph("Given the following code:");
         ctx.output().codeBlock(classDecl);
@@ -106,31 +166,104 @@ public class VariablesPuzzle implements Puzzle {
 
         ctx.solution(() -> {
             ctx.output().numberedList(
-                () -> {
-                    ctx.output().paragraph("The output is:");
-                    ctx.output().codeBlock(
-                        Evaluator.captureOutput(classDecl, className + ".main(null)"));
-                },
-                () -> ctx.output().paragraph(
-                    "`{0}` and `{1}` are in scope at ___A___."
-                        + " _(`{2}` is out of scope because it is not declared yet.)_",
-                    staticVarName, instanceVarName, localVarName),
-                () -> ctx.output().paragraph(
-                    "All three are in scope at ___B___."),
-                () -> ctx.output().paragraph(
-                    "Only `{0}` is in scope at ___C___. _(`{1}` is an instance variable, but `main` is a"
-                        + " static method. `{2}` is local to the `{3}` function.)_",
-                    staticVarName, instanceVarName, localVarName, twiddleMethodName));
+                Stream.concat(
+                    Stream.of((Runnable)
+                        () -> {
+                            ctx.output().paragraph("The output is:");
+                            ctx.output().codeBlock(
+                                Evaluator.captureOutput(classDecl, className + ".main(null)"));
+                        }
+                    ),
+                    enabledScopeTestPoints.stream().map(scopeTest ->
+                        () -> {
+                            ctx.output().paragraph(
+                                "In scope at " + scopeTest.makePlaceholder() + ": "
+                                    + scopeTest.getAnswer().stream()
+                                        .map(v -> "`" + v + "`")
+                                        .collect(joining(", "))
+                            );
+                        }
+                    )
+                ).toList());
+            ctx.output().dividerLine(false);
             ctx.output().paragraph(
-                """
-                (In the solutions above, the explanatory text in parentheses is just to help you
-                understand the solution as you study. You do *not* need to write out all of that
-                text when you submit your solutions for puzzle of this type! For example, it would
-                be fine to submit just “`{0}`, `{1}`” for your solution to question 2 above.
-                You do need to provide the full output for question 1, however!)
-                """,
-                staticVarName,
-                instanceVarName);
+                "Explanation (which you do _not_ need to write out in your submitted solution):");
+            ctx.output().numberedList(
+                Stream.concat(
+                    Stream.of((Runnable)
+                        () -> {
+                            ctx.output().paragraph(formatVarNames(
+                                """
+                                `{staticVarName}` is a static variable,
+                                `{instanceVarName}` is an instance variable, and
+                                `{localVarName}` is a local variable.
+                                """
+                            ));
+                        }
+                    ),
+                    enabledScopeTestPoints.stream().map(scopeTest ->
+                        () -> {
+                            ctx.output().paragraph(
+                                "At " + scopeTest.makePlaceholder() + ", "
+                                    + formatVarNames(scopeTest.getExplanation())
+                            );
+                        }
+                    )
+                ).toList());
         });
+    }
+
+    // TODO: Remove in Java 21 (see note above)
+    private String formatVarNames(String str) {
+        return str
+            .replace("{className}",         className)
+            .replace("{twiddleMethodName}", twiddleMethodName)
+            .replace("{parameterName}",     parameterName)
+            .replace("{staticVarName}",     staticVarName)
+            .replace("{instanceVarName}",   instanceVarName)
+            .replace("{localVarName}",      localVarName)
+            .replace("{mainLocal0Name}",    mainLocal0Name)
+            .replace("{mainLocal1Name}",    mainLocal1Name);
+    }
+
+    private class ScopeTestPoint {
+        private final List<String> answer;
+        private final String explanation;
+        private boolean enabled = true;
+        private String placeholder;
+
+        public ScopeTestPoint(List<String> answer, String explanation) {
+            this.answer = answer;
+            this.explanation = explanation;
+        }
+
+        public void enable() {
+            enabled = true;
+        }
+
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        public List<String> getAnswer() {
+            return answer;
+        }
+
+        public String getExplanation() {
+            return explanation;
+        }
+
+        public String makePlaceholder() {
+            if (!enabled) {
+                return "";
+            }
+
+            if (placeholder == null) {
+                placeholder = "\n/*___" + (char) ('A' + placeholderCounter) + "___*/\n";
+                placeholderCounter++;
+            }
+
+            return placeholder;
+        }
     }
 }
