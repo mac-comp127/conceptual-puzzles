@@ -7,382 +7,439 @@ Given the following code:
 
     public class EntHertaes {
 
+        private int osm = 0;
+
         public void oshe(int bri) {
-            // [a]
+            [100m[97m A [39m[49m
             int fopo = 0;
             osm += bri;
             is += bri;
             fopo += bri;
             System.out.println("osm=" + osm + "  is=" + is + "  fopo=" + fopo);
-            // [b]
         }
+
+        private static int is = 0;
 
         public static void main(String[] args) {
             EntHertaes e0 = new EntHertaes();
+            [100m[97m B [39m[49m
             EntHertaes e1 = new EntHertaes();
+            [100m[97m C [39m[49m
             e0.oshe(1);
             e1.oshe(10);
+            e1 = new EntHertaes();
             e0 = new EntHertaes();
             e0.oshe(100);
             e1.oshe(1000);
-            // [c]
         }
-
-        private int osm = 0;
-
-        private static int is = 0;
     }
 
  1. What does the main method print?
- 2. Which of the three variables [[4mosm[24m, [4mis[24m, [4mfopo[24m] are in scope at [1m[a][22m?
- 3. Which are in scope at [1m[b][22m?
- 4. Which are in scope at [1m[c][22m?
+ 2. Which of the variables [[4mosm[24m, [4mis[24m, [4mfopo[24m] are in scope at [100m[97m A [39m[49m ?
+ 3. Which are in scope at [100m[97m B [39m[49m ?
+ 4. Which are in scope at [100m[97m C [39m[49m ?
 
 [1m[38;5;222m[48;5;52m              [0m
 [1m[38;5;222m[48;5;52m   SOLUTION   [0m
 [1m[38;5;222m[48;5;52m              [0m
 
- 1. The output is:
+ 1. Output:
     
         osm=1  is=1  fopo=1
         osm=10  is=11  fopo=10
         osm=100  is=111  fopo=100
-        osm=1010  is=1111  fopo=1000
+        osm=1000  is=1111  fopo=1000
     
- 2. [4mis[24m and [4mosm[24m are in scope at [a]. [3m([4mfopo[24m is out of scope because it is not
-    declared yet.)[23m
+ 2. In scope at [100m[97m A [39m[49m : [4mis[24m, [4mosm[24m
     
- 3. All three are in scope at [b].
+ 3. In scope at [100m[97m B [39m[49m : [4mis[24m, [4me0[24m
     
- 4. Only [4mis[24m is in scope at [c]. [3m([4mosm[24m is an instance variable, but [4mmain[24m is a
-    static method. [4mfopo[24m is local to the [4moshe[24m function.)[23m
+ 4. In scope at [100m[97m C [39m[49m : [4mis[24m, [4me0[24m, [4me1[24m
     
-(In the solutions above, the explanatory text in parentheses is just to help you
-understand the solution as you study. You do [1mnot[22m need to write out all of that
-text when you submit your solutions for puzzle of this type! For example, it
-would be fine to submit just “[4mis[24m, [4mosm[24m” for your solution to question 2 above.
-You do need to provide the full output for question 1, however!)
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
+Explanation (which you do [3mnot[23m need to write out in your submitted solution):
+
+ 1. [4mis[24m is a static variable, [4mosm[24m is an instance variable, and [4mfopo[24m is a local
+    variable.
+    
+ 2. At [100m[97m A [39m[49m , [4mfopo[24m is out of scope because it is not declared yet. [4me0[24m and [4me1[24m out
+    of scope because they are local to the [4mmain[24m method.
+    
+ 3. At [100m[97m B [39m[49m , [4me1[24m is out of scope because it is not declared yet. [4mosm[24m is out of
+    scope because it is an [3minstance[23m variable, but [4mmain[24m is a [3mstatic[23m method. [4mfopo[24m
+    is out of scope because it is local to [4moshe[24m.
+    
+ 4. At [100m[97m C [39m[49m , [4mosm[24m is out of scope because it is an [3minstance[23m variable, but [4mmain[24m is
+    a [3mstatic[23m method. [4mfopo[24m is out of scope because it is local to [4moshe[24m.
+    
 ────────────────────────────────────────────────────────────────────────────────
 
 ────────────────────────────────────────────────────────────────────────────────
 
 Given the following code:
 
-    public class Usmpreth {
+    public class DuinMusmrosm {
 
-        private int esad = 0;
+        private static int se = 0;
 
-        public void hoaDeoph(int la) {
-            // [a]
-            int fi = 0;
-            esad += la;
-            vo += la;
-            fi += la;
-            System.out.println("esad=" + esad + "  vo=" + vo + "  fi=" + fi);
-            // [b]
-        }
+        private int ner = 0;
 
         public static void main(String[] args) {
-            Usmpreth u0 = new Usmpreth();
-            Usmpreth u1 = new Usmpreth();
-            u0.hoaDeoph(1);
-            u1.hoaDeoph(10);
-            u0 = u1;
-            u0.hoaDeoph(100);
-            u1.hoaDeoph(1000);
-            // [c]
+            [100m[97m D [39m[49m
+            DuinMusmrosm d0 = new DuinMusmrosm();
+            DuinMusmrosm d1 = new DuinMusmrosm();
+            [100m[97m E [39m[49m
+            d0.cona(1);
+            d0 = new DuinMusmrosm();
+            d1.cona(10);
+            d0.cona(100);
+            d1 = new DuinMusmrosm();
+            d1.cona(1000);
         }
 
-        private static int vo = 0;
+        public void cona(int u) {
+            int shoc = 0;
+            [100m[97m F [39m[49m
+            shoc += u;
+            se += u;
+            ner += u;
+            System.out.println("shoc=" + shoc + "  se=" + se + "  ner=" + ner);
+        }
     }
 
  1. What does the main method print?
- 2. Which of the three variables [[4mesad[24m, [4mvo[24m, [4mfi[24m] are in scope at [1m[a][22m?
- 3. Which are in scope at [1m[b][22m?
- 4. Which are in scope at [1m[c][22m?
+ 2. Which of the variables [[4mshoc[24m, [4mse[24m, [4mner[24m] are in scope at [100m[97m D [39m[49m ?
+ 3. Which are in scope at [100m[97m E [39m[49m ?
+ 4. Which are in scope at [100m[97m F [39m[49m ?
 
 [1m[38;5;222m[48;5;52m              [0m
 [1m[38;5;222m[48;5;52m   SOLUTION   [0m
 [1m[38;5;222m[48;5;52m              [0m
 
- 1. The output is:
+ 1. Output:
     
-        esad=1  vo=1  fi=1
-        esad=10  vo=11  fi=10
-        esad=110  vo=111  fi=100
-        esad=1110  vo=1111  fi=1000
+        shoc=1  se=1  ner=1
+        shoc=10  se=11  ner=10
+        shoc=100  se=111  ner=100
+        shoc=1000  se=1111  ner=1000
     
- 2. [4mvo[24m and [4mesad[24m are in scope at [a]. [3m([4mfi[24m is out of scope because it is not
-    declared yet.)[23m
+ 2. In scope at [100m[97m D [39m[49m : [4mse[24m
     
- 3. All three are in scope at [b].
+ 3. In scope at [100m[97m E [39m[49m : [4mse[24m, [4md0[24m, [4md1[24m
     
- 4. Only [4mvo[24m is in scope at [c]. [3m([4mesad[24m is an instance variable, but [4mmain[24m is a
-    static method. [4mfi[24m is local to the [4mhoaDeoph[24m function.)[23m
+ 4. In scope at [100m[97m F [39m[49m : [4mse[24m, [4mner[24m, [4mshoc[24m
     
-(In the solutions above, the explanatory text in parentheses is just to help you
-understand the solution as you study. You do [1mnot[22m need to write out all of that
-text when you submit your solutions for puzzle of this type! For example, it
-would be fine to submit just “[4mvo[24m, [4mesad[24m” for your solution to question 2 above.
-You do need to provide the full output for question 1, however!)
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
+Explanation (which you do [3mnot[23m need to write out in your submitted solution):
+
+ 1. [4mse[24m is a static variable, [4mner[24m is an instance variable, and [4mshoc[24m is a local
+    variable.
+    
+ 2. At [100m[97m D [39m[49m , [4md0[24m and [4md1[24m are out of scope because they are not declared yet. [4mner[24m
+    is out of scope because it is an [3minstance[23m variable, but [4mmain[24m is a [3mstatic[23m
+    method. [4mshoc[24m is out of scope because it is local to [4mcona[24m.
+    
+ 3. At [100m[97m E [39m[49m , [4mner[24m is out of scope because it is an [3minstance[23m variable, but [4mmain[24m is
+    a [3mstatic[23m method. [4mshoc[24m is out of scope because it is local to [4mcona[24m.
+    
+ 4. At [100m[97m F [39m[49m , [4md0[24m and [4md1[24m out of scope because they are local to the [4mmain[24m method.
+    
 ────────────────────────────────────────────────────────────────────────────────
 
 ────────────────────────────────────────────────────────────────────────────────
 
 Given the following code:
 
-    public class Risir {
+    public class PaaIdhac {
 
-        private int ad = 0;
+        private static int ge = 0;
 
-        public void sitrol(int ge) {
-            // [a]
-            int ot = 0;
-            ad += ge;
-            ot += ge;
-            oss += ge;
-            System.out.println("ad=" + ad + "  ot=" + ot + "  oss=" + oss);
-            // [b]
+        public void sirar(int cew) {
+            int ad = 0;
+            ad += cew;
+            ge += cew;
+            oss += cew;
+            System.out.println("ad=" + ad + "  ge=" + ge + "  oss=" + oss);
+            [100m[97m G [39m[49m
         }
 
-        private static int oss = 0;
+        private int oss = 0;
 
         public static void main(String[] args) {
-            Risir r0 = new Risir();
-            Risir r1 = new Risir();
-            r0.sitrol(1);
-            r1.sitrol(10);
-            r0 = new Risir();
-            r0.sitrol(100);
-            r1.sitrol(1000);
-            // [c]
+            [100m[97m H [39m[49m
+            PaaIdhac p0 = new PaaIdhac();
+            PaaIdhac p1 = new PaaIdhac();
+            p0.sirar(1);
+            p1.sirar(10);
+            p0.sirar(100);
+            p1 = p0;
+            p0 = new PaaIdhac();
+            p1.sirar(1000);
+            [100m[97m I [39m[49m
         }
     }
 
  1. What does the main method print?
- 2. Which of the three variables [[4mad[24m, [4mot[24m, [4moss[24m] are in scope at [1m[a][22m?
- 3. Which are in scope at [1m[b][22m?
- 4. Which are in scope at [1m[c][22m?
+ 2. Which of the variables [[4mad[24m, [4mge[24m, [4moss[24m] are in scope at [100m[97m G [39m[49m ?
+ 3. Which are in scope at [100m[97m H [39m[49m ?
+ 4. Which are in scope at [100m[97m I [39m[49m ?
 
 [1m[38;5;222m[48;5;52m              [0m
 [1m[38;5;222m[48;5;52m   SOLUTION   [0m
 [1m[38;5;222m[48;5;52m              [0m
 
- 1. The output is:
+ 1. Output:
     
-        ad=1  ot=1  oss=1
-        ad=10  ot=10  oss=11
-        ad=100  ot=100  oss=111
-        ad=1010  ot=1000  oss=1111
+        ad=1  ge=1  oss=1
+        ad=10  ge=11  oss=10
+        ad=100  ge=111  oss=101
+        ad=1000  ge=1111  oss=1101
     
- 2. [4moss[24m and [4mad[24m are in scope at [a]. [3m([4mot[24m is out of scope because it is not
-    declared yet.)[23m
+ 2. In scope at [100m[97m G [39m[49m : [4mge[24m, [4moss[24m, [4mad[24m
     
- 3. All three are in scope at [b].
+ 3. In scope at [100m[97m H [39m[49m : [4mge[24m
     
- 4. Only [4moss[24m is in scope at [c]. [3m([4mad[24m is an instance variable, but [4mmain[24m is a
-    static method. [4mot[24m is local to the [4msitrol[24m function.)[23m
+ 4. In scope at [100m[97m I [39m[49m : [4mge[24m, [4mp0[24m, [4mp1[24m
     
-(In the solutions above, the explanatory text in parentheses is just to help you
-understand the solution as you study. You do [1mnot[22m need to write out all of that
-text when you submit your solutions for puzzle of this type! For example, it
-would be fine to submit just “[4moss[24m, [4mad[24m” for your solution to question 2 above.
-You do need to provide the full output for question 1, however!)
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
+Explanation (which you do [3mnot[23m need to write out in your submitted solution):
+
+ 1. [4mge[24m is a static variable, [4moss[24m is an instance variable, and [4mad[24m is a local
+    variable.
+    
+ 2. At [100m[97m G [39m[49m , [4mp0[24m and [4mp1[24m out of scope because they are local to the [4mmain[24m method.
+    
+ 3. At [100m[97m H [39m[49m , [4mp0[24m and [4mp1[24m are out of scope because they are not declared yet. [4moss[24m
+    is out of scope because it is an [3minstance[23m variable, but [4mmain[24m is a [3mstatic[23m
+    method. [4mad[24m is out of scope because it is local to [4msirar[24m.
+    
+ 4. At [100m[97m I [39m[49m , [4moss[24m is out of scope because it is an [3minstance[23m variable, but [4mmain[24m is
+    a [3mstatic[23m method. [4mad[24m is out of scope because it is local to [4msirar[24m.
+    
 ────────────────────────────────────────────────────────────────────────────────
 
 ────────────────────────────────────────────────────────────────────────────────
 
 Given the following code:
 
-    public class VenEc {
+    public class XengSerde {
 
-        public void hirpsi(int o) {
-            // [a]
-            int sioc = 0;
-            sioc += o;
-            gict += o;
-            drid += o;
-            System.out.println("sioc=" + sioc + "  gict=" + gict + "  drid=" + drid);
-            // [b]
-        }
-
-        private int gict = 0;
-
-        private static int drid = 0;
+        private static int o = 0;
 
         public static void main(String[] args) {
-            VenEc v0 = new VenEc();
-            VenEc v1 = new VenEc();
-            v0.hirpsi(1);
-            v1.hirpsi(10);
-            v0 = v1;
-            v0.hirpsi(100);
-            v1.hirpsi(1000);
-            // [c]
+            [100m[97m J [39m[49m
+            XengSerde x0 = new XengSerde();
+            XengSerde x1 = new XengSerde();
+            [100m[97m K [39m[49m
+            x0.gelec(1);
+            x1.gelec(10);
+            x0 = x1;
+            x0.gelec(100);
+            x1 = new XengSerde();
+            x1.gelec(1000);
+        }
+
+        private int drid = 0;
+
+        public void gelec(int jo) {
+            [100m[97m L [39m[49m
+            int gict = 0;
+            o += jo;
+            gict += jo;
+            drid += jo;
+            System.out.println("o=" + o + "  gict=" + gict + "  drid=" + drid);
         }
     }
 
  1. What does the main method print?
- 2. Which of the three variables [[4msioc[24m, [4mgict[24m, [4mdrid[24m] are in scope at [1m[a][22m?
- 3. Which are in scope at [1m[b][22m?
- 4. Which are in scope at [1m[c][22m?
+ 2. Which of the variables [[4mo[24m, [4mgict[24m, [4mdrid[24m] are in scope at [100m[97m J [39m[49m ?
+ 3. Which are in scope at [100m[97m K [39m[49m ?
+ 4. Which are in scope at [100m[97m L [39m[49m ?
 
 [1m[38;5;222m[48;5;52m              [0m
 [1m[38;5;222m[48;5;52m   SOLUTION   [0m
 [1m[38;5;222m[48;5;52m              [0m
 
- 1. The output is:
+ 1. Output:
     
-        sioc=1  gict=1  drid=1
-        sioc=10  gict=10  drid=11
-        sioc=100  gict=110  drid=111
-        sioc=1000  gict=1110  drid=1111
+        o=1  gict=1  drid=1
+        o=11  gict=10  drid=10
+        o=111  gict=100  drid=110
+        o=1111  gict=1000  drid=1000
     
- 2. [4mdrid[24m and [4mgict[24m are in scope at [a]. [3m([4msioc[24m is out of scope because it is not
-    declared yet.)[23m
+ 2. In scope at [100m[97m J [39m[49m : [4mo[24m
     
- 3. All three are in scope at [b].
+ 3. In scope at [100m[97m K [39m[49m : [4mo[24m, [4mx0[24m, [4mx1[24m
     
- 4. Only [4mdrid[24m is in scope at [c]. [3m([4mgict[24m is an instance variable, but [4mmain[24m is a
-    static method. [4msioc[24m is local to the [4mhirpsi[24m function.)[23m
+ 4. In scope at [100m[97m L [39m[49m : [4mo[24m, [4mdrid[24m
     
-(In the solutions above, the explanatory text in parentheses is just to help you
-understand the solution as you study. You do [1mnot[22m need to write out all of that
-text when you submit your solutions for puzzle of this type! For example, it
-would be fine to submit just “[4mdrid[24m, [4mgict[24m” for your solution to question 2 above.
-You do need to provide the full output for question 1, however!)
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
+Explanation (which you do [3mnot[23m need to write out in your submitted solution):
+
+ 1. [4mo[24m is a static variable, [4mdrid[24m is an instance variable, and [4mgict[24m is a local
+    variable.
+    
+ 2. At [100m[97m J [39m[49m , [4mx0[24m and [4mx1[24m are out of scope because they are not declared yet. [4mdrid[24m
+    is out of scope because it is an [3minstance[23m variable, but [4mmain[24m is a [3mstatic[23m
+    method. [4mgict[24m is out of scope because it is local to [4mgelec[24m.
+    
+ 3. At [100m[97m K [39m[49m , [4mdrid[24m is out of scope because it is an [3minstance[23m variable, but [4mmain[24m
+    is a [3mstatic[23m method. [4mgict[24m is out of scope because it is local to [4mgelec[24m.
+    
+ 4. At [100m[97m L [39m[49m , [4mgict[24m is out of scope because it is not declared yet. [4mx0[24m and [4mx1[24m out
+    of scope because they are local to the [4mmain[24m method.
+    
 ────────────────────────────────────────────────────────────────────────────────
 
 ────────────────────────────────────────────────────────────────────────────────
 
 Given the following code:
 
-    public class Eppac {
-
-        public void spras(int psew) {
-            // [a]
-            int we = 0;
-            od += psew;
-            we += psew;
-            ihip += psew;
-            System.out.println("od=" + od + "  we=" + we + "  ihip=" + ihip);
-            // [b]
-        }
-
-        private int od = 0;
+    public class Skecle {
 
         public static void main(String[] args) {
-            Eppac e0 = new Eppac();
-            Eppac e1 = new Eppac();
-            e0.spras(1);
-            e1.spras(10);
-            e1 = new Eppac();
-            e0.spras(100);
-            e1.spras(1000);
-            // [c]
+            Skecle s0 = new Skecle();
+            [100m[97m M [39m[49m
+            Skecle s1 = new Skecle();
+            s0.iasDasmio(1);
+            s1 = s0;
+            s1.iasDasmio(10);
+            s0 = new Skecle();
+            s0.iasDasmio(100);
+            s1.iasDasmio(1000);
+            [100m[97m N [39m[49m
         }
 
-        private static int ihip = 0;
+        private static int ne = 0;
+
+        private int drok = 0;
+
+        public void iasDasmio(int fli) {
+            int i = 0;
+            [100m[97m O [39m[49m
+            ne += fli;
+            i += fli;
+            drok += fli;
+            System.out.println("ne=" + ne + "  i=" + i + "  drok=" + drok);
+        }
     }
 
  1. What does the main method print?
- 2. Which of the three variables [[4mod[24m, [4mwe[24m, [4mihip[24m] are in scope at [1m[a][22m?
- 3. Which are in scope at [1m[b][22m?
- 4. Which are in scope at [1m[c][22m?
+ 2. Which of the variables [[4mne[24m, [4mi[24m, [4mdrok[24m] are in scope at [100m[97m M [39m[49m ?
+ 3. Which are in scope at [100m[97m N [39m[49m ?
+ 4. Which are in scope at [100m[97m O [39m[49m ?
 
 [1m[38;5;222m[48;5;52m              [0m
 [1m[38;5;222m[48;5;52m   SOLUTION   [0m
 [1m[38;5;222m[48;5;52m              [0m
 
- 1. The output is:
+ 1. Output:
     
-        od=1  we=1  ihip=1
-        od=10  we=10  ihip=11
-        od=101  we=100  ihip=111
-        od=1000  we=1000  ihip=1111
+        ne=1  i=1  drok=1
+        ne=11  i=10  drok=11
+        ne=111  i=100  drok=100
+        ne=1111  i=1000  drok=1011
     
- 2. [4mihip[24m and [4mod[24m are in scope at [a]. [3m([4mwe[24m is out of scope because it is not
-    declared yet.)[23m
+ 2. In scope at [100m[97m M [39m[49m : [4mne[24m, [4ms0[24m
     
- 3. All three are in scope at [b].
+ 3. In scope at [100m[97m N [39m[49m : [4mne[24m, [4ms0[24m, [4ms1[24m
     
- 4. Only [4mihip[24m is in scope at [c]. [3m([4mod[24m is an instance variable, but [4mmain[24m is a
-    static method. [4mwe[24m is local to the [4mspras[24m function.)[23m
+ 4. In scope at [100m[97m O [39m[49m : [4mne[24m, [4mdrok[24m, [4mi[24m
     
-(In the solutions above, the explanatory text in parentheses is just to help you
-understand the solution as you study. You do [1mnot[22m need to write out all of that
-text when you submit your solutions for puzzle of this type! For example, it
-would be fine to submit just “[4mihip[24m, [4mod[24m” for your solution to question 2 above.
-You do need to provide the full output for question 1, however!)
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
+Explanation (which you do [3mnot[23m need to write out in your submitted solution):
+
+ 1. [4mne[24m is a static variable, [4mdrok[24m is an instance variable, and [4mi[24m is a local
+    variable.
+    
+ 2. At [100m[97m M [39m[49m , [4ms1[24m is out of scope because it is not declared yet. [4mdrok[24m is out of
+    scope because it is an [3minstance[23m variable, but [4mmain[24m is a [3mstatic[23m method. [4mi[24m is
+    out of scope because it is local to [4miasDasmio[24m.
+    
+ 3. At [100m[97m N [39m[49m , [4mdrok[24m is out of scope because it is an [3minstance[23m variable, but [4mmain[24m
+    is a [3mstatic[23m method. [4mi[24m is out of scope because it is local to [4miasDasmio[24m.
+    
+ 4. At [100m[97m O [39m[49m , [4ms0[24m and [4ms1[24m out of scope because they are local to the [4mmain[24m method.
+    
 ────────────────────────────────────────────────────────────────────────────────
 
 ────────────────────────────────────────────────────────────────────────────────
 
 Given the following code:
 
-    public class Thift {
+    public class Opresh {
 
-        private int ie = 0;
-
-        private static int ior = 0;
+        private static int aec = 0;
 
         public static void main(String[] args) {
-            Thift t0 = new Thift();
-            Thift t1 = new Thift();
-            t0.kumroc(1);
-            t0 = new Thift();
-            t1.kumroc(10);
-            t0.kumroc(100);
-            t1.kumroc(1000);
-            // [c]
+            [100m[97m P [39m[49m
+            Opresh o0 = new Opresh();
+            Opresh o1 = new Opresh();
+            [100m[97m Q [39m[49m
+            o0.degres(1);
+            o0 = new Opresh();
+            o1 = o0;
+            o1.degres(10);
+            o0.degres(100);
+            o1.degres(1000);
         }
 
-        public void kumroc(int dou) {
-            // [a]
-            int af = 0;
-            ior += dou;
-            af += dou;
-            ie += dou;
-            System.out.println("ior=" + ior + "  af=" + af + "  ie=" + ie);
-            // [b]
+        private int gi = 0;
+
+        public void degres(int fril) {
+            [100m[97m R [39m[49m
+            int pio = 0;
+            aec += fril;
+            gi += fril;
+            pio += fril;
+            System.out.println("aec=" + aec + "  gi=" + gi + "  pio=" + pio);
         }
     }
 
  1. What does the main method print?
- 2. Which of the three variables [[4mior[24m, [4maf[24m, [4mie[24m] are in scope at [1m[a][22m?
- 3. Which are in scope at [1m[b][22m?
- 4. Which are in scope at [1m[c][22m?
+ 2. Which of the variables [[4maec[24m, [4mgi[24m, [4mpio[24m] are in scope at [100m[97m P [39m[49m ?
+ 3. Which are in scope at [100m[97m Q [39m[49m ?
+ 4. Which are in scope at [100m[97m R [39m[49m ?
 
 [1m[38;5;222m[48;5;52m              [0m
 [1m[38;5;222m[48;5;52m   SOLUTION   [0m
 [1m[38;5;222m[48;5;52m              [0m
 
- 1. The output is:
+ 1. Output:
     
-        ior=1  af=1  ie=1
-        ior=11  af=10  ie=10
-        ior=111  af=100  ie=100
-        ior=1111  af=1000  ie=1010
+        aec=1  gi=1  pio=1
+        aec=11  gi=10  pio=10
+        aec=111  gi=110  pio=100
+        aec=1111  gi=1110  pio=1000
     
- 2. [4mior[24m and [4mie[24m are in scope at [a]. [3m([4maf[24m is out of scope because it is not
-    declared yet.)[23m
+ 2. In scope at [100m[97m P [39m[49m : [4maec[24m
     
- 3. All three are in scope at [b].
+ 3. In scope at [100m[97m Q [39m[49m : [4maec[24m, [4mo0[24m, [4mo1[24m
     
- 4. Only [4mior[24m is in scope at [c]. [3m([4mie[24m is an instance variable, but [4mmain[24m is a
-    static method. [4maf[24m is local to the [4mkumroc[24m function.)[23m
+ 4. In scope at [100m[97m R [39m[49m : [4maec[24m, [4mgi[24m
     
-(In the solutions above, the explanatory text in parentheses is just to help you
-understand the solution as you study. You do [1mnot[22m need to write out all of that
-text when you submit your solutions for puzzle of this type! For example, it
-would be fine to submit just “[4mior[24m, [4mie[24m” for your solution to question 2 above.
-You do need to provide the full output for question 1, however!)
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
+Explanation (which you do [3mnot[23m need to write out in your submitted solution):
+
+ 1. [4maec[24m is a static variable, [4mgi[24m is an instance variable, and [4mpio[24m is a local
+    variable.
+    
+ 2. At [100m[97m P [39m[49m , [4mo0[24m and [4mo1[24m are out of scope because they are not declared yet. [4mgi[24m is
+    out of scope because it is an [3minstance[23m variable, but [4mmain[24m is a [3mstatic[23m
+    method. [4mpio[24m is out of scope because it is local to [4mdegres[24m.
+    
+ 3. At [100m[97m Q [39m[49m , [4mgi[24m is out of scope because it is an [3minstance[23m variable, but [4mmain[24m is
+    a [3mstatic[23m method. [4mpio[24m is out of scope because it is local to [4mdegres[24m.
+    
+ 4. At [100m[97m R [39m[49m , [4mpio[24m is out of scope because it is not declared yet. [4mo0[24m and [4mo1[24m out
+    of scope because they are local to the [4mmain[24m method.
+    
 ────────────────────────────────────────────────────────────────────────────────
 
 [0m

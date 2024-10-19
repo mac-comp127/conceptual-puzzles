@@ -73,35 +73,77 @@ public class VariablesPuzzle implements Puzzle {
                     ? mainLocalVar + n
                     : "new " + className + "()"));
 
-        // Generate the test points we’ll use for the scope questions, and randomly select a subset
-        // of them to enable.
+        // Test points we’ll use for the scope questions
 
-        ScopeTestPoint
-            instanceMethodStart = new ScopeTestPoint(
-                List.of(staticVarName, instanceVarName),
-                """
-                `{localVarName}` is out of scope because it is not declared yet.
-                `{mainLocal0Name}` and `{mainLocal1Name}` out of scope because they are local to the
-                `main` method.
-                """
-            ),
+        var instanceMethodStart = new ScopeTestPoint(
+            List.of(staticVarName, instanceVarName),
+            """
+            `{localVarName}` is out of scope because it is not declared yet.
+            `{mainLocal0Name}` and `{mainLocal1Name}` out of scope because they are local to the
+            `main` method.
+            """
+        );
+        var instanceMethodMiddle = new ScopeTestPoint(
+            List.of(staticVarName, instanceVarName, localVarName),
+            """
+            `{mainLocal0Name}` and `{mainLocal1Name}` out of scope because they are local to the
+            `main` method.
+            """
+        );
+        var instanceMethodEnd = new ScopeTestPoint(
+            List.of(staticVarName, instanceVarName, localVarName),
+            """
+            `{mainLocal0Name}` and `{mainLocal1Name}` out of scope because they are local to the
+            `main` method.
+            """
+        );
+        var mainMethodStart = new ScopeTestPoint(
+            List.of(staticVarName),
+            """
+            `{mainLocal0Name}` and `{mainLocal1Name}` are out of scope because they are not
+            declared yet.
+            `{instanceVarName}` is out of scope because it is an _instance_ variable, but `main`
+            is a _static_ method.
+            `{localVarName}` is out of scope because it is local to `{twiddleMethodName}`.
+            """
+        );
+        var mainMethodAfter0 = new ScopeTestPoint(
+            List.of(staticVarName, mainLocal0Name),
+            """
+            `{mainLocal1Name}` is out of scope because it is not declared yet.
+            `{instanceVarName}` is out of scope because it is an _instance_ variable, but `main`
+            is a _static_ method.
+            `{localVarName}` is out of scope because it is local to `{twiddleMethodName}`.
+            """
+        );
+        var mainMethodMiddle = new ScopeTestPoint(
+            List.of(staticVarName, mainLocal0Name, mainLocal1Name),
+            """
+            `{instanceVarName}` is out of scope because it is an _instance_ variable, but `main`
+            is a _static_ method.
+            `{localVarName}` is out of scope because it is local to `{twiddleMethodName}`.
+            """
+        );
+        var mainMethodEnd = new ScopeTestPoint(
+            List.of(staticVarName, mainLocal0Name, mainLocal1Name),
+            """
+            `{instanceVarName}` is out of scope because it is an _instance_ variable, but `main`
+            is a _static_ method.
+            `{localVarName}` is out of scope because it is local to `{twiddleMethodName}`.
+            """
+        );
 
-            instanceMethodEnd = new ScopeTestPoint(
-                List.of(staticVarName, instanceVarName, localVarName),
-                """
-                `{mainLocal0Name}` and `{mainLocal1Name}` out of scope because they are local to the
-                `main` method.
-                """
-            ),
+        // Randomly eliminate some of the test points
 
-            mainMethodEnd = new ScopeTestPoint(
-                List.of(staticVarName, mainLocal0Name, mainLocal1Name),
-                """
-                `{instanceVarName}` is out of scope because it is an _instance_ variable, but `main`
-                is a _static_ method.
-                `{localVarName}` is out of scope because it is local to `{twiddleMethodName}`.
-                """
-            );
+        choose(ctx, () -> mainMethodStart, () -> mainMethodAfter0).disable();
+
+        choose(ctx, () -> mainMethodMiddle, () -> mainMethodEnd).disable();
+
+        instanceMethodStart.disable();
+        instanceMethodMiddle.disable();
+        instanceMethodEnd.disable();
+        choose(ctx, () -> instanceMethodStart, () -> instanceMethodMiddle, () -> instanceMethodEnd)
+            .enable();
 
         // Generate the class members (variables and methods) in random order.
 
@@ -113,6 +155,7 @@ public class VariablesPuzzle implements Puzzle {
                     + instanceMethodStart.makePlaceholder()
                     + "int " + localVarName + " = 0;"
                     // Increment static, instance, and local var, in random order
+                    + instanceMethodMiddle.makePlaceholder()
                     + threeVars.stream()
                         .map(v -> v + "+=" + parameterName + ";")
                         .collect(joining())
@@ -126,8 +169,11 @@ public class VariablesPuzzle implements Puzzle {
                     + instanceMethodEnd.makePlaceholder()
                     + "}",
                 () -> "public static void main(String[] args) {"
+                    + mainMethodStart.makePlaceholder()
                     + className + " " + mainLocalVar + "0 = new " + className + "();"
+                    + mainMethodAfter0.makePlaceholder()
                     + className + " " + mainLocalVar + "1 = new " + className + "();"
+                    + mainMethodMiddle.makePlaceholder()
                     + joinStatements(twiddling)
                     + mainMethodEnd.makePlaceholder()
                     + "}"
@@ -137,10 +183,13 @@ public class VariablesPuzzle implements Puzzle {
         // order, forcing students to actually read the code instead of memorizing the answer order.
         var members = memberGenerators.stream().map(Supplier::get).toList();
 
-        // Now that we've determined the display order of the placeholders, we can determine our
-        // the order of questions to ask:
+        // Now that we've determined the display order of the placeholders,
+        // we can determine the order of questions to ask:
         var enabledScopeTestPoints =
-            Stream.of(instanceMethodStart, instanceMethodEnd, mainMethodEnd)
+            Stream.of(
+                instanceMethodStart, instanceMethodMiddle, instanceMethodEnd, mainMethodStart,
+                mainMethodAfter0, mainMethodMiddle, mainMethodEnd
+            )
                 .filter(ScopeTestPoint::isEnabled)
                 .sorted(Comparator.comparing(ScopeTestPoint::makePlaceholder))
                 .toList();
@@ -157,19 +206,26 @@ public class VariablesPuzzle implements Puzzle {
         ctx.output().paragraph("Given the following code:");
         ctx.output().codeBlock(classDecl);
         ctx.output().numberedList(
-            "What does the main method print?",
-            "Which of the three variables "
-                + threeVars.stream().map(s -> "`" + s + "`").toList()
-                + " are in scope at ___A___?",
-            "Which are in scope at ___B___?",
-            "Which are in scope at ___C___?");
+            Stream.concat(
+                Stream.of(
+                    "What does the main method print?",
+                    "Which of the variables "
+                        + threeVars.stream().map(s -> "`" + s + "`").toList()
+                        + " are in scope at " + enabledScopeTestPoints.get(0).makePlaceholder()
+                        + "?"
+                ),
+                enabledScopeTestPoints.stream().skip(1).map(scopeTest ->
+                    "Which are in scope at " + scopeTest.makePlaceholder() + "?"
+                )
+            ).toArray(String[]::new)
+        );
 
         ctx.solution(() -> {
             ctx.output().numberedList(
                 Stream.concat(
                     Stream.of((Runnable)
                         () -> {
-                            ctx.output().paragraph("The output is:");
+                            ctx.output().paragraph("Output:");
                             ctx.output().codeBlock(
                                 Evaluator.captureOutput(classDecl, className + ".main(null)"));
                         }
@@ -239,6 +295,10 @@ public class VariablesPuzzle implements Puzzle {
 
         public void enable() {
             enabled = true;
+        }
+
+        public void disable() {
+            enabled = false;
         }
 
         public boolean isEnabled() {
