@@ -5,14 +5,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.puzzles.closures.ClosureExecutor.Event;
 import edu.macalester.conceptual.util.CodeFormatting;
 import edu.macalester.conceptual.util.Evaluator;
 import edu.macalester.conceptual.util.PlaceholderGenerator;
 
-import static edu.macalester.conceptual.util.Randomness.choose;
 import static edu.macalester.conceptual.util.Randomness.chooseConst;
 import static edu.macalester.conceptual.util.Randomness.insertAtRandomPosition;
 
@@ -29,7 +27,8 @@ public class ClosureTracingPuzzle {
     public void generate() {
         generateClosureCalls(3 + ctx.getDifficulty() / 2, ctx.getDifficulty());
 
-        while (events.size() < 3) {
+        // Make sure there are multiple events, even if it was all just twice()
+        while (events.size() < 3 + ctx.getDifficulty() * 2) {
             insertAtRandomPosition(ctx, events, chooseConst(ctx, Event.values()));
         }
 
@@ -83,7 +82,7 @@ public class ClosureTracingPuzzle {
                 ctx.output().paragraph(
                     """
                     Although it is not necessary for getting credit for the conceptual mastery
-                    puzzles, it is a good idea to study this puzzle at least once at the next
+                    puzzles, it is a good idea to study a few examples of this puzzle at the next
                     highest difficulty level. That level introduces a new twist: event handlers
                     adding other event handlers. Understanding what happens you do that will help
                     you avoid common mistakes on the later homeworks and the course project.
@@ -96,29 +95,18 @@ public class ClosureTracingPuzzle {
     void generateClosureCalls(int count, int depth) {
         closureCode.append(newPlaceholder());
         closureCode.append(";\n");
-        for(int n = 0; n < count; n++) {
-            choose(ctx,
-                () -> choose(ctx,
-                    () -> {
-                        closureCode.append("onClick(() -> ");
-                        generateClosureBody(count, depth);
-                        closureCode.append(");\n");
-                        queueAFew(Event.CLICK);
-                    },
-                    () -> {
-                        closureCode.append("onKeyPress(() -> ");
-                        generateClosureBody(count, depth);
-                        closureCode.append(");\n");
-                        queueAFew(Event.KEY);
-                    }
-                ),
+
+        // To get the best mix of puzzle, we want to build up a mix of afterDelay and the other
+        // calls, favoring afterDelay at default difficulty, and also ensuring that we get at least
+        // _some_ of both delay and non-delay in every puzzle.
+
+        List<Runnable> possibilities = new ArrayList<>();
+        int delayCounter = 0;
+        while (possibilities.size() < count * 2 / 3) {
+            delayCounter += 1 + ctx.getRandom().nextInt(2);
+            final int delay = delayCounter;
+            possibilities.add(
                 () -> {
-                    closureCode.append("twice(() -> ");
-                    generateClosureBody(count, depth);
-                    closureCode.append(");\n");
-                },
-                () -> {
-                    int delay = ctx.getRandom().nextInt(1, 4);
                     closureCode.append("afterDelay(")
                         .append(delay)
                         .append(", () -> ");
@@ -131,13 +119,41 @@ public class ClosureTracingPuzzle {
                     }
                 }
             );
+        }
+        while (possibilities.size() < count * 4 / 3) {
+            possibilities.add(
+                chooseConst(ctx,
+                    () -> {
+                        closureCode.append("onClick(() -> ");
+                        generateClosureBody(count, depth);
+                        closureCode.append(");\n");
+                        queueAFew(Event.CLICK);
+                    },
+                    () -> {
+                        closureCode.append("onKeyPress(() -> ");
+                        generateClosureBody(count, depth);
+                        closureCode.append(");\n");
+                        queueAFew(Event.KEY);
+                    },
+                    () -> {
+                        closureCode.append("twice(() -> ");
+                        generateClosureBody(count, depth);
+                        closureCode.append(");\n");
+                    }
+                )
+            );
+        }
+
+        Collections.shuffle(possibilities, ctx.getRandom());
+        for (var action : possibilities.subList(0, count)) {
+            action.run();
             closureCode.append(newPlaceholder());
             closureCode.append(";\n");
         }
     }
 
     private void generateClosureBody(int siblingCount, int depth) {
-        if (depth <= 0 || ctx.getRandom().nextFloat() < 0.4) {
+        if (depth <= 0 || ctx.getRandom().nextFloat() < 0.2) {
             closureCode.append(newPlaceholder());
         } else {
             closureCode.append("{\n");
