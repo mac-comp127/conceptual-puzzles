@@ -113,9 +113,9 @@ while (<span class='placeholder'>C</span>) {
 }
 <span class='placeholder'>I</span>
 <span class='placeholder'>J</span></pre>
-<ol><li><p>Assume the loop breaks on iteration <b>1</b>. Write out the the order in which the statements will be executed.</p>
+<ol><li><p>Assume the loop breaks on iteration <b>1</b>. Write out the the order in which the statements will execute.</p>
 </li>
-<li><p>Assume the loop breaks on iteration <b>4</b>. Write out the the order in which the statements will be executed.</p>
+<li><p>Assume the loop breaks on iteration <b>4</b>. Write out the the order in which the statements will execute.</p>
 </li>
 </ol>
 <h3 style='color: #4df2ff'>Solution</h3>

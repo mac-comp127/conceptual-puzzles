@@ -47,6 +47,13 @@ public enum Randomness {
     }
 
     /**
+     * Randomly runs one of the given closures, with equal probability.
+     */
+    public static void choose(PuzzleContext ctx, Runnable... choices) {
+        chooseConst(ctx, choices).run();
+    }
+
+    /**
      * Chooses between one of two choices, with unequal probability. For choices with greater than
      * zero construction cost, use the lazy-evaluating {@link #chooseWithProb(PuzzleContext, double, Supplier, Supplier)}
      * variant instead.

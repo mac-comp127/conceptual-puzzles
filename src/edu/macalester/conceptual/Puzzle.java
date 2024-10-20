@@ -6,6 +6,7 @@ import java.util.function.Function;
 import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.puzzles.ast.AstDrawingPuzzle;
 import edu.macalester.conceptual.puzzles.booleans.BooleansAndConditionalsPuzzle;
+import edu.macalester.conceptual.puzzles.closures.ClosureTracingPuzzle;
 import edu.macalester.conceptual.puzzles.loops.LoopPuzzle;
 import edu.macalester.conceptual.puzzles.vars.VariablesPuzzle;
 
@@ -26,7 +27,8 @@ public interface Puzzle {
         new AstDrawingPuzzle(),
         new BooleansAndConditionalsPuzzle(),
         new LoopPuzzle(),
-        new VariablesPuzzle()
+        new VariablesPuzzle(),
+        new ClosureTracingPuzzle()
     );
 
     /**

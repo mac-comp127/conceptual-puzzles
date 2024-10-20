@@ -1,9 +1,9 @@
 package edu.macalester.conceptual.util;
 
-import org.joor.Reflect;
-
 import java.io.PrintStream;
 import java.util.function.Supplier;
+
+import org.joor.Reflect;
 
 /**
  * A utility to dynamically compile and evaluate a Java expression.
@@ -27,11 +27,16 @@ public class Evaluator {
     }
 
     public static String captureOutput(String classDecls, String entryPoint) {
+        return captureOutput("", classDecls, entryPoint);
+    }
+
+    public static String captureOutput(String imports, String classDecls, String entryPoint) {
         var javaSource =
             String.format(
                 """
                 import java.io.PrintWriter;
                 import java.io.StringWriter;
+                %s
 
                 public class DynamicCode implements java.util.function.Supplier<String> {
                     private static StringWriter capturedOutput = new StringWriter();
@@ -42,11 +47,13 @@ public class Evaluator {
                         return capturedOutput.toString();
                     }
                 }
+                
+                %s
                 """,
-                entryPoint)
-            + classDecls
-                .replaceAll("public\\s+(class|interface|enum|record)", "$1")
-                .replace("System.out", "DynamicCode.out");
+                imports,
+                entryPoint,
+                classDecls.replaceAll("public\\s+(class|interface|enum|record)", "$1")
+            ).replace("System.out", "DynamicCode.out");
 
         return run(javaSource);
     }

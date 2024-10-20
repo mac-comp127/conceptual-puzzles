@@ -138,7 +138,7 @@ public enum LoopTracingPuzzle {
                         .replaceAll("«LOOP_COUNT»", String.valueOf(iterCount))
                         .replaceAll("«LOOP_COUNT_PLUS_ONE»", String.valueOf(iterCount + 1))
                         .replaceAll("«LOOP_COUNT_PLURALITY»", iterCount == 1 ? "" : "s")
-                    + " Write out the the order in which the statements will be executed.";
+                    + " Write out the the order in which the statements will execute.";
 
                 ctx.output().paragraph("{0}", directions);
             })

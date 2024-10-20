@@ -34,8 +34,8 @@ public class ConsolePuzzlePrinter implements PuzzlePrinter {
         /* bold */        new TextFormatter.Style(ansiCode('m', 1), ansiCode('m', 22)),
         /* italics */     new TextFormatter.Style(ansiCode('m', 3), ansiCode('m', 23)),
         /* placeholder */ new TextFormatter.Style(
-            ansiCode('m', 100) + ansiCode('m', 97) + " ",
-            " " + ansiCode('m', 39) + ansiCode('m', 49)));
+            ansiCode('m', 100) + ansiCode('m', 97) + "  ",
+            "  " + ansiCode('m', 39) + ansiCode('m', 49)));
 
     public ConsolePuzzlePrinter() {
         this(new PrintWriter(System.out, true, StandardCharsets.UTF_8));

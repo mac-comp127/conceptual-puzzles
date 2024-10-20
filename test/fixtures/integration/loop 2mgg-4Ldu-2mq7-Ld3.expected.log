@@ -9,21 +9,21 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
 
 Consider the following code:
 
-    [100m[97m A [39m[49m
-    [100m[97m B [39m[49m
-    [100m[97m C [39m[49m
-    for ([100m[97m D [39m[49m; [100m[97m E [39m[49m; [100m[97m F [39m[49m) {
-        [100m[97m G [39m[49m
-        [100m[97m H [39m[49m
+    [100m[97m  A  [39m[49m
+    [100m[97m  B  [39m[49m
+    [100m[97m  C  [39m[49m
+    for ([100m[97m  D  [39m[49m; [100m[97m  E  [39m[49m; [100m[97m  F  [39m[49m) {
+        [100m[97m  G  [39m[49m
+        [100m[97m  H  [39m[49m
     }
-    [100m[97m I [39m[49m
-    [100m[97m J [39m[49m
+    [100m[97m  I  [39m[49m
+    [100m[97m  J  [39m[49m
 
  1. Assume the body of the loop executes [1m0[22m times. Write out the the order in
-    which the statements will be executed.
+    which the statements will execute.
     
  2. Assume the body of the loop executes [1m2[22m times. Write out the the order in
-    which the statements will be executed.
+    which the statements will execute.
     
 [1m[38;5;105m[48;5;17m              [0m
 [1m[38;5;105m[48;5;17m   SOLUTION   [0m
@@ -105,20 +105,20 @@ its purpose.
 
 Consider the following code:
 
-    [100m[97m A [39m[49m
-    [100m[97m B [39m[49m
-    while ([100m[97m C [39m[49m) {
-        [100m[97m D [39m[49m
-        [100m[97m E [39m[49m
+    [100m[97m  A  [39m[49m
+    [100m[97m  B  [39m[49m
+    while ([100m[97m  C  [39m[49m) {
+        [100m[97m  D  [39m[49m
+        [100m[97m  E  [39m[49m
     }
-    [100m[97m F [39m[49m
-    [100m[97m G [39m[49m
+    [100m[97m  F  [39m[49m
+    [100m[97m  G  [39m[49m
 
  1. Assume the body of the loop executes [1m0[22m times. Write out the the order in
-    which the statements will be executed.
+    which the statements will execute.
     
  2. Assume the body of the loop executes [1m3[22m times. Write out the the order in
-    which the statements will be executed.
+    which the statements will execute.
     
 [1m[38;5;213m[48;5;53m              [0m
 [1m[38;5;213m[48;5;53m   SOLUTION   [0m
@@ -236,19 +236,19 @@ Something to double-check in your solution:
 
 Consider the following code:
 
-    [100m[97m A [39m[49m
-    for ([100m[97m B [39m[49m; [100m[97m C [39m[49m; [100m[97m D [39m[49m) {
-        [100m[97m E [39m[49m
-        [100m[97m F [39m[49m
+    [100m[97m  A  [39m[49m
+    for ([100m[97m  B  [39m[49m; [100m[97m  C  [39m[49m; [100m[97m  D  [39m[49m) {
+        [100m[97m  E  [39m[49m
+        [100m[97m  F  [39m[49m
     }
-    [100m[97m G [39m[49m
-    [100m[97m H [39m[49m
+    [100m[97m  G  [39m[49m
+    [100m[97m  H  [39m[49m
 
  1. Assume the body of the loop executes [1m0[22m times. Write out the the order in
-    which the statements will be executed.
+    which the statements will execute.
     
  2. Assume the body of the loop executes [1m2[22m times. Write out the the order in
-    which the statements will be executed.
+    which the statements will execute.
     
 [1m[38;5;141m[48;5;17m              [0m
 [1m[38;5;141m[48;5;17m   SOLUTION   [0m
@@ -400,24 +400,24 @@ Translate the following while loop into a for loop:
 
 Consider the following code:
 
-    [100m[97m A [39m[49m
-    [100m[97m B [39m[49m
-    while ([100m[97m C [39m[49m) {
-        [100m[97m D [39m[49m
-        if ([100m[97m E [39m[49m) {
-            [100m[97m F [39m[49m
+    [100m[97m  A  [39m[49m
+    [100m[97m  B  [39m[49m
+    while ([100m[97m  C  [39m[49m) {
+        [100m[97m  D  [39m[49m
+        if ([100m[97m  E  [39m[49m) {
+            [100m[97m  F  [39m[49m
             break;
         }
-        [100m[97m G [39m[49m
+        [100m[97m  G  [39m[49m
     }
-    [100m[97m H [39m[49m
-    [100m[97m I [39m[49m
+    [100m[97m  H  [39m[49m
+    [100m[97m  I  [39m[49m
 
  1. Assume the loop breaks on iteration [1m1[22m. Write out the the order in which the
-    statements will be executed.
+    statements will execute.
     
  2. Assume the loop breaks on iteration [1m3[22m. Write out the the order in which the
-    statements will be executed.
+    statements will execute.
     
 [1m[38;5;210m[48;5;52m              [0m
 [1m[38;5;210m[48;5;52m   SOLUTION   [0m
