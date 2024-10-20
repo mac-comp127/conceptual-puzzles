@@ -7,8 +7,10 @@ import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
+/**
+ * Methods called from the closure puzzle code.
+ */
 public class ClosureExecutor {
     public enum Event { TICK, CLICK, KEY };
 
@@ -25,6 +27,7 @@ public class ClosureExecutor {
 
     public void generateEvents(PrintWriter out, Collection<Event> eventQueue) {
         for (var event : eventQueue) {
+            out.println();
             out.println(event);
             generateEvent(event);
         }
@@ -44,7 +47,7 @@ public class ClosureExecutor {
     }
 
     public void onKeyPress(Runnable action) {
-        onEvent(Event.KEY, () -> action.run());
+        onEvent(Event.KEY, action);
     }
 
     public void afterDelay(int ticks, Runnable action) {
