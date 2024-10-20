@@ -91,7 +91,7 @@ public class ClosureTracingPuzzle implements Puzzle {
     private class Builder {
         private final StringBuilder closureCode = new StringBuilder();
         private final List<Event> events = new ArrayList<>();
-        private PlaceholderGenerator placeholders = new PlaceholderGenerator();
+        private final PlaceholderGenerator placeholders = new PlaceholderGenerator();
 
         void generateClosureCalls(
             PuzzleContext ctx,
@@ -102,18 +102,20 @@ public class ClosureTracingPuzzle implements Puzzle {
             closureCode.append(";\n");
             for(int n = 0; n < count; n++) {
                 choose(ctx,
-                    () -> {
-                        closureCode.append("onClick(() -> ");
-                        generateClosureBody(ctx, count, depth);
-                        closureCode.append(");\n");
-                        queueAFew(ctx, events, Event.CLICK);
-                    },
-                    () -> {
-                        closureCode.append("onKeyPress(() -> ");
-                        generateClosureBody(ctx, count, depth);
-                        closureCode.append(");\n");
-                        queueAFew(ctx, events, Event.KEY);
-                    },
+                    () -> choose(ctx,
+                        () -> {
+                            closureCode.append("onClick(() -> ");
+                            generateClosureBody(ctx, count, depth);
+                            closureCode.append(");\n");
+                            queueAFew(ctx, Event.CLICK);
+                        },
+                        () -> {
+                            closureCode.append("onKeyPress(() -> ");
+                            generateClosureBody(ctx, count, depth);
+                            closureCode.append(");\n");
+                            queueAFew(ctx, Event.KEY);
+                        }
+                    ),
                     () -> {
                         int delay = ctx.getRandom().nextInt(1, 4);
                         closureCode.append("afterDelay(")
@@ -134,7 +136,7 @@ public class ClosureTracingPuzzle implements Puzzle {
         }
 
         private void generateClosureBody(PuzzleContext ctx, int siblingCount, int depth) {
-            if (depth <= 0 || ctx.getRandom().nextFloat() < 0.6) {
+            if (depth <= 0 || ctx.getRandom().nextFloat() < 0.4) {
                 closureCode.append(newPlaceholder());
             } else {
                 closureCode.append("{\n");
@@ -164,18 +166,19 @@ public class ClosureTracingPuzzle implements Puzzle {
             placeholders.next();
             return "System.out.println(\"" + placeholders.current() + "\")";
         }
-    }
 
-    private void queueAFew(PuzzleContext ctx, List<Event> events, Event event) {
-        int eventCount = 0;
-        if (events.size() < 2) {
-            eventCount++;
-        }
-        if (events.size() < 4 && ctx.getRandom().nextFloat() < 0.3) {
-            eventCount++;
-        }
-        for(int n = 0; n < eventCount; n++) {
-            insertAtRandomPosition(ctx, events, event);
+        private void queueAFew(PuzzleContext ctx, Event event) {
+            int numToGenerate = 0;
+            int userEventCount = events.size() - Collections.frequency(events, Event.TICK);
+            if (userEventCount < 2 + ctx.getDifficulty()) {
+                numToGenerate++;
+            }
+            if (userEventCount < 3 + ctx.getDifficulty() && ctx.getRandom().nextFloat() < 0.3) {
+                numToGenerate++;
+            }
+            for(int n = 0; n < numToGenerate; n++) {
+                insertAtRandomPosition(ctx, events, event);
+            }
         }
     }
 
