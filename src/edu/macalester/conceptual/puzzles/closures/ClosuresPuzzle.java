@@ -63,5 +63,9 @@ public class ClosuresPuzzle implements Puzzle {
         ctx.section(() -> {
             new ClosureTracingPuzzle(ctx).generate();
         });
+
+        ctx.section(() -> {
+            new ClosureStatePuzzle().generate(ctx);
+        });
     }
 }
