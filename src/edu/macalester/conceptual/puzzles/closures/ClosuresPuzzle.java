@@ -11,7 +11,7 @@ public class ClosuresPuzzle implements Puzzle {
 
     @Override
     public String name() {
-        return "closures";
+        return "clos";
     }
 
     @Override
