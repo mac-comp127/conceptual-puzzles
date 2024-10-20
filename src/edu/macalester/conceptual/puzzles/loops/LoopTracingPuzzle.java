@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 import edu.macalester.conceptual.context.PuzzleContext;
+import edu.macalester.conceptual.util.PlaceholderGenerator;
 
 public enum LoopTracingPuzzle {
     C_STYLE_FOR(
@@ -99,7 +100,7 @@ public enum LoopTracingPuzzle {
 
         // Generate code, assign placeholders
 
-        int placeholderCount = 0;
+        PlaceholderGenerator placeholders = new PlaceholderGenerator();
         Map<String,LoopPhase> placeholderPhases = new LinkedHashMap<>();
         var code = new StringBuilder();
         var matcher = PLACEHOLDER_PATTERN.matcher(template);
@@ -109,14 +110,13 @@ public enum LoopTracingPuzzle {
             int reps = ctx.getRandom().nextInt(maxReps) + 1;
             matcher.appendReplacement(code, "");
             for (int n = 0; n < reps; n++) {
-                String placeholder = String.valueOf((char) ('A' + placeholderCount));
-                placeholderCount++;
-                placeholderPhases.put(placeholder, LoopPhase.valueOf(matcher.group("phase")));
+                placeholders.next();
+                placeholderPhases.put(placeholders.currentName(), LoopPhase.valueOf(matcher.group("phase")));
                 if (n > 0) {
                     code.append("\n");
                 }
                 code.append(matcher.group("indent"));
-                code.append("___" + placeholder + "___");
+                code.append(placeholders.current());
             }
         }
         matcher.appendTail(code);

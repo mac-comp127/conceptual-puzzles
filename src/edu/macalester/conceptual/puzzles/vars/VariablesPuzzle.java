@@ -9,6 +9,7 @@ import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.util.Evaluator;
 import edu.macalester.conceptual.util.Nonsense;
+import edu.macalester.conceptual.util.PlaceholderGenerator;
 
 import static edu.macalester.conceptual.util.CodeFormatting.*;
 import static edu.macalester.conceptual.util.Randomness.*;
@@ -21,7 +22,7 @@ public class VariablesPuzzle implements Puzzle {
         className, twiddleMethodName,
         parameterName, staticVarName, instanceVarName,
         localVarName, mainLocal0Name, mainLocal1Name;
-    int placeholderCounter = 0;
+    private PlaceholderGenerator placeholders = new PlaceholderGenerator();
 
     @Override
     public byte id() {
@@ -319,8 +320,8 @@ public class VariablesPuzzle implements Puzzle {
             }
 
             if (placeholder == null) {
-                placeholder = "\n/*___" + (char) ('A' + placeholderCounter) + "___*/\n";
-                placeholderCounter++;
+                placeholders.next();
+                placeholder = "\n/*" + placeholders.current() + "*/\n";
             }
 
             return placeholder;

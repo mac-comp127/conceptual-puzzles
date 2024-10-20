@@ -10,6 +10,7 @@ import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.puzzles.closures.ClosureExecutor.Event;
 import edu.macalester.conceptual.util.CodeFormatting;
 import edu.macalester.conceptual.util.Evaluator;
+import edu.macalester.conceptual.util.PlaceholderGenerator;
 
 import static edu.macalester.conceptual.util.Randomness.choose;
 import static edu.macalester.conceptual.util.Randomness.insertAtRandomPosition;
@@ -90,7 +91,7 @@ public class ClosureTracingPuzzle implements Puzzle {
     private class Builder {
         private final StringBuilder closureCode = new StringBuilder();
         private final List<Event> events = new ArrayList<>();
-        private char nextPlaceholder = 'A';
+        private PlaceholderGenerator placeholders = new PlaceholderGenerator();
 
         void generateClosureCalls(
             PuzzleContext ctx,
@@ -160,7 +161,8 @@ public class ClosureTracingPuzzle implements Puzzle {
         }
 
         private String newPlaceholder() {
-            return "System.out.println(\"___" + (nextPlaceholder++) + "___\")";
+            placeholders.next();
+            return "System.out.println(\"" + placeholders.current() + "\")";
         }
     }
 
