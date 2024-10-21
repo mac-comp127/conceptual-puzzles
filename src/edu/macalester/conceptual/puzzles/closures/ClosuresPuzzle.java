@@ -34,12 +34,9 @@ public class ClosuresPuzzle implements Puzzle {
         ctx.output().paragraph(
             """
             Suppose we are in an environment where `CLICK`, `TICK`, and `KEY` events can occur, and
-            suppose we have the following functions available:
+            we have the following functions available:
             """
         );
-
-        ctx.output().paragraph("`twice(closure)`");
-        ctx.output().blockquote("Immediately executes `closure` two times.");
 
         ctx.output().paragraph("`onClick(closure)`");
         ctx.output().blockquote("Executes `closure` after every subsequent `CLICK` event.");
@@ -51,6 +48,9 @@ public class ClosuresPuzzle implements Puzzle {
         ctx.output().blockquote(
             "Executes `closure` once after exactly `tickCount` `TICK` events have occurred."
         );
+
+        ctx.output().paragraph("`twice(closure)`");
+        ctx.output().blockquote("Immediately executes `closure` two times.");
 
         ctx.output().paragraph(
             """

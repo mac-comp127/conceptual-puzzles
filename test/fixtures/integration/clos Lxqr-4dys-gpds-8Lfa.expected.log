@@ -4,11 +4,7 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
 [0J────────────────────────────────────────────────────────────────────────────────
 
 Suppose we are in an environment where [4mCLICK[24m, [4mTICK[24m, and [4mKEY[24m events can occur,
-and suppose we have the following functions available:
-
-[4mtwice(closure)[24m
-
-  │ Immediately executes [4mclosure[24m two times.
+and we have the following functions available:
 
 [4monClick(closure)[24m
 
@@ -21,6 +17,10 @@ and suppose we have the following functions available:
 [4mafterDelay(tickCount, closure)[24m
 
   │ Executes [4mclosure[24m once after exactly [4mtickCount[24m [4mTICK[24m events have occurred.
+
+[4mtwice(closure)[24m
+
+  │ Immediately executes [4mclosure[24m two times.
 
 Multiple closures can be registered to handle the same event. If this happens,
 they execute in the order they were registered.
@@ -204,11 +204,7 @@ Given a call to [4mrun()[24m followed by two [4mCLICK[24m events, what would
 ────────────────────────────────────────────────────────────────────────────────
 
 Suppose we are in an environment where [4mCLICK[24m, [4mTICK[24m, and [4mKEY[24m events can occur,
-and suppose we have the following functions available:
-
-[4mtwice(closure)[24m
-
-  │ Immediately executes [4mclosure[24m two times.
+and we have the following functions available:
 
 [4monClick(closure)[24m
 
@@ -221,6 +217,10 @@ and suppose we have the following functions available:
 [4mafterDelay(tickCount, closure)[24m
 
   │ Executes [4mclosure[24m once after exactly [4mtickCount[24m [4mTICK[24m events have occurred.
+
+[4mtwice(closure)[24m
+
+  │ Immediately executes [4mclosure[24m two times.
 
 Multiple closures can be registered to handle the same event. If this happens,
 they execute in the order they were registered.
@@ -468,11 +468,7 @@ Given a call to [4mrun()[24m followed by two [4mCLICK[24m events, what would
 ────────────────────────────────────────────────────────────────────────────────
 
 Suppose we are in an environment where [4mCLICK[24m, [4mTICK[24m, and [4mKEY[24m events can occur,
-and suppose we have the following functions available:
-
-[4mtwice(closure)[24m
-
-  │ Immediately executes [4mclosure[24m two times.
+and we have the following functions available:
 
 [4monClick(closure)[24m
 
@@ -485,6 +481,10 @@ and suppose we have the following functions available:
 [4mafterDelay(tickCount, closure)[24m
 
   │ Executes [4mclosure[24m once after exactly [4mtickCount[24m [4mTICK[24m events have occurred.
+
+[4mtwice(closure)[24m
+
+  │ Immediately executes [4mclosure[24m two times.
 
 Multiple closures can be registered to handle the same event. If this happens,
 they execute in the order they were registered.
@@ -781,11 +781,7 @@ Given a call to [4mrun()[24m followed by two [4mCLICK[24m events, what would
 ────────────────────────────────────────────────────────────────────────────────
 
 Suppose we are in an environment where [4mCLICK[24m, [4mTICK[24m, and [4mKEY[24m events can occur,
-and suppose we have the following functions available:
-
-[4mtwice(closure)[24m
-
-  │ Immediately executes [4mclosure[24m two times.
+and we have the following functions available:
 
 [4monClick(closure)[24m
 
@@ -798,6 +794,10 @@ and suppose we have the following functions available:
 [4mafterDelay(tickCount, closure)[24m
 
   │ Executes [4mclosure[24m once after exactly [4mtickCount[24m [4mTICK[24m events have occurred.
+
+[4mtwice(closure)[24m
+
+  │ Immediately executes [4mclosure[24m two times.
 
 Multiple closures can be registered to handle the same event. If this happens,
 they execute in the order they were registered.
@@ -1077,11 +1077,7 @@ Given a call to [4mrun()[24m followed by two [4mCLICK[24m events, what would
 ────────────────────────────────────────────────────────────────────────────────
 
 Suppose we are in an environment where [4mCLICK[24m, [4mTICK[24m, and [4mKEY[24m events can occur,
-and suppose we have the following functions available:
-
-[4mtwice(closure)[24m
-
-  │ Immediately executes [4mclosure[24m two times.
+and we have the following functions available:
 
 [4monClick(closure)[24m
 
@@ -1094,6 +1090,10 @@ and suppose we have the following functions available:
 [4mafterDelay(tickCount, closure)[24m
 
   │ Executes [4mclosure[24m once after exactly [4mtickCount[24m [4mTICK[24m events have occurred.
+
+[4mtwice(closure)[24m
+
+  │ Immediately executes [4mclosure[24m two times.
 
 Multiple closures can be registered to handle the same event. If this happens,
 they execute in the order they were registered.
@@ -1277,11 +1277,7 @@ Given a call to [4mrun()[24m followed by two [4mCLICK[24m events, what would
 ────────────────────────────────────────────────────────────────────────────────
 
 Suppose we are in an environment where [4mCLICK[24m, [4mTICK[24m, and [4mKEY[24m events can occur,
-and suppose we have the following functions available:
-
-[4mtwice(closure)[24m
-
-  │ Immediately executes [4mclosure[24m two times.
+and we have the following functions available:
 
 [4monClick(closure)[24m
 
@@ -1294,6 +1290,10 @@ and suppose we have the following functions available:
 [4mafterDelay(tickCount, closure)[24m
 
   │ Executes [4mclosure[24m once after exactly [4mtickCount[24m [4mTICK[24m events have occurred.
+
+[4mtwice(closure)[24m
+
+  │ Immediately executes [4mclosure[24m two times.
 
 Multiple closures can be registered to handle the same event. If this happens,
 they execute in the order they were registered.
