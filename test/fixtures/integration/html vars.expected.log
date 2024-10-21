@@ -109,7 +109,7 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
     private static int fic = 0;
 }</pre>
 <ol><li>What does the main method print?</li>
-<li>Which of the variables [<code>fi</code>, <code>fic</code>, <code>te</code>] are in scope at <span class='placeholder'>A</span> ?</li>
+<li>Which of the variables [<code>fi</code>, <code>fic</code>, <code>te</code>, <code>p0</code>, <code>p1</code>] are in scope at <span class='placeholder'>A</span> ?</li>
 <li>Which are in scope at <span class='placeholder'>B</span> ?</li>
 <li>Which are in scope at <span class='placeholder'>C</span> ?</li>
 </ol>

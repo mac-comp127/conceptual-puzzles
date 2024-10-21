@@ -1,5 +1,6 @@
 package edu.macalester.conceptual.puzzles.vars;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Supplier;
@@ -73,6 +74,10 @@ public class VariablesPuzzle implements Puzzle {
                 + (ctx.getRandom().nextFloat() < 0.25
                     ? mainLocalVar + n
                     : "new " + className + "()"));
+
+        var questionVars = new ArrayList<>(threeVars);
+        questionVars.add(mainLocal0Name);
+        questionVars.add(mainLocal1Name);
 
         // Test points we’ll use for the scope questions
 
@@ -211,7 +216,7 @@ public class VariablesPuzzle implements Puzzle {
                 Stream.of(
                     "What does the main method print?",
                     "Which of the variables "
-                        + threeVars.stream().map(s -> "`" + s + "`").toList()
+                        + questionVars.stream().map(s -> "`" + s + "`").toList()
                         + " are in scope at " + enabledScopeTestPoints.get(0).makePlaceholder()
                         + "?"
                 ),

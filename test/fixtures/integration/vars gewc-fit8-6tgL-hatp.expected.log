@@ -35,7 +35,7 @@ Given the following code:
     }
 
  1. What does the main method print?
- 2. Which of the variables [[4mosm[24m, [4mis[24m, [4mfopo[24m] are in scope at [100m[97m  A  [39m[49m ?
+ 2. Which of the variables [[4mosm[24m, [4mis[24m, [4mfopo[24m, [4me0[24m, [4me1[24m] are in scope at [100m[97m  A  [39m[49m ?
  3. Which are in scope at [100m[97m  B  [39m[49m ?
  4. Which are in scope at [100m[97m  C  [39m[49m ?
 
@@ -109,7 +109,7 @@ Given the following code:
     }
 
  1. What does the main method print?
- 2. Which of the variables [[4mshoc[24m, [4mse[24m, [4mner[24m] are in scope at [100m[97m  D  [39m[49m ?
+ 2. Which of the variables [[4mshoc[24m, [4mse[24m, [4mner[24m, [4md0[24m, [4md1[24m] are in scope at [100m[97m  D  [39m[49m ?
  3. Which are in scope at [100m[97m  E  [39m[49m ?
  4. Which are in scope at [100m[97m  F  [39m[49m ?
 
@@ -182,7 +182,7 @@ Given the following code:
     }
 
  1. What does the main method print?
- 2. Which of the variables [[4mad[24m, [4mge[24m, [4moss[24m] are in scope at [100m[97m  G  [39m[49m ?
+ 2. Which of the variables [[4mad[24m, [4mge[24m, [4moss[24m, [4mp0[24m, [4mp1[24m] are in scope at [100m[97m  G  [39m[49m ?
  3. Which are in scope at [100m[97m  H  [39m[49m ?
  4. Which are in scope at [100m[97m  I  [39m[49m ?
 
@@ -255,7 +255,7 @@ Given the following code:
     }
 
  1. What does the main method print?
- 2. Which of the variables [[4mo[24m, [4mgict[24m, [4mdrid[24m] are in scope at [100m[97m  J  [39m[49m ?
+ 2. Which of the variables [[4mo[24m, [4mgict[24m, [4mdrid[24m, [4mx0[24m, [4mx1[24m] are in scope at [100m[97m  J  [39m[49m ?
  3. Which are in scope at [100m[97m  K  [39m[49m ?
  4. Which are in scope at [100m[97m  L  [39m[49m ?
 
@@ -329,7 +329,7 @@ Given the following code:
     }
 
  1. What does the main method print?
- 2. Which of the variables [[4mne[24m, [4mi[24m, [4mdrok[24m] are in scope at [100m[97m  M  [39m[49m ?
+ 2. Which of the variables [[4mne[24m, [4mi[24m, [4mdrok[24m, [4ms0[24m, [4ms1[24m] are in scope at [100m[97m  M  [39m[49m ?
  3. Which are in scope at [100m[97m  N  [39m[49m ?
  4. Which are in scope at [100m[97m  O  [39m[49m ?
 
@@ -402,7 +402,7 @@ Given the following code:
     }
 
  1. What does the main method print?
- 2. Which of the variables [[4maec[24m, [4mgi[24m, [4mpio[24m] are in scope at [100m[97m  P  [39m[49m ?
+ 2. Which of the variables [[4maec[24m, [4mgi[24m, [4mpio[24m, [4mo0[24m, [4mo1[24m] are in scope at [100m[97m  P  [39m[49m ?
  3. Which are in scope at [100m[97m  Q  [39m[49m ?
  4. Which are in scope at [100m[97m  R  [39m[49m ?
 
