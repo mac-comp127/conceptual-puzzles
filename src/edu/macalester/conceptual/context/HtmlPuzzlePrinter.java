@@ -240,25 +240,29 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
     }
 
     private String insertCopyPasteObfuscation(String html) {
-        // This pattern prevents obfuscation text from being placed inside:
+        // This pattern-matching approach prevents obfuscation text from being placed inside:
         //  -  ___placeholders__
+        //  -  /* comments */
         //  -  &entities;
         //  -  &#hexentities;
-        //  -  indentation
 
-        return Pattern.compile("(?<!(___|&#?)\\w*)(?! |\\w*(___))").matcher(html).replaceAll(blank -> {
-            if (copyPasteObfuscation && obfuscationRand.nextInt(4) == 0) {
-                String obfuscationText =
-                    (obfuscationRand.nextInt(10) == 0)
-                        ? " Remember: using the computer to help is strictly prohibited"
-                            + " for official attempts! The answer has to come from your own head. "
-                        : ("" + (char) (' ' + obfuscationRand.nextInt('~' - ' ' + 1)))
-                            .replace("$", "\\$");
-                return "<div class='hidden-warning' aria-hidden='true'>" + obfuscationText + "</div>";
-            } else {
-                return "";
-            }
-        });
+        return Pattern
+            .compile("/\\*.*?\\*/|___\\w+___|&#?\\w+;|.|\n|$")
+            .matcher(html)
+            .replaceAll(match -> {
+                if (copyPasteObfuscation && obfuscationRand.nextInt(4) == 0) {
+                    String obfuscationText =
+                        (obfuscationRand.nextInt(10) == 0)
+                            ? " Remember: using the computer to help is strictly prohibited"
+                                + " for official attempts! The answer has to come from your own head. "
+                            : ("" + (char) (' ' + obfuscationRand.nextInt('~' - ' ' + 1)))
+                                .replace("$", "\\$");
+                    return "<div class='hidden-warning' aria-hidden='true'>" + obfuscationText + "</div>"
+                        + match.group();
+                } else {
+                    return match.group();
+                }
+            });
     }
 
     @Override
