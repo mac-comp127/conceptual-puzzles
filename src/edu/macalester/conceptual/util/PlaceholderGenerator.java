@@ -14,8 +14,8 @@ public class PlaceholderGenerator {
 
         // Placeholders naming: A B C … X Y Z AA AB AC … AX AY AZ BA BB BC … ZX ZY ZZ AAA AAB …
         String result = "";
-        for (int n = counter + 1; n > 0; n = (n - 1) / 26) {
-            result = (char) ('A' + (n - 1) % 26) + result;  // more efficient than StringBuilder bc typically one letter
+        for (int n = counter; n >= 0; n = n / 26 - 1) {
+            result = (char) ('A' + n % 26) + result;  // more efficient than StringBuilder bc typically one letter
         }
         return result;
     }
