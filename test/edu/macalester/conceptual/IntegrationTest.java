@@ -102,6 +102,9 @@ public class IntegrationTest {
                 ) {
                     String line;
                     while ((line = pipe.readLine()) != null) {
+                        if (line.contains("+[IMK")) {  // macOS UI logging generates spurious diffs
+                            continue;
+                        }
                         fileOutput.println(line);
                     }
                 }
