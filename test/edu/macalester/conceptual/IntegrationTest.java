@@ -45,10 +45,10 @@ public class IntegrationTest {
         tests.add(createIntegrationTest("html vars", "solve", "gem8-9kcc-zm63-yo71", "--html", "-"));
         tests.add(createIntegrationTest("html loop", "solve", "37jv-6084-d1bb-ev4", "--html", "-"));
 
-        var puzzlesNotCovered = new HashSet<>(Puzzle.ALL);
+        var puzzlesNotCovered = new HashSet<>(Puzzle.all().stream().map(Puzzle::name).toList());
         for (var code : PUZZLE_CODES) {
             var puzzle = Puzzle.findByID(PuzzleContext.fromPuzzleCode(code).getPuzzleID());
-            puzzlesNotCovered.remove(puzzle);
+            puzzlesNotCovered.remove(puzzle.name());
             tests.add(createIntegrationTest(puzzle.name() + " " + code, "solve", code, "--repeat=6"));
         }
 
@@ -65,7 +65,7 @@ public class IntegrationTest {
                         Run tests once to acquire actual output, then follow the instructions
                         in the test failure to turn the actual output into the expected output.
                         """,
-                        puzzlesNotCovered.stream().map(Puzzle::name).sorted().toList()));
+                        puzzlesNotCovered.stream().sorted().toList()));
                 }
             }));
 

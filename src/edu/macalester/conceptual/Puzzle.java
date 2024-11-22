@@ -8,6 +8,7 @@ import edu.macalester.conceptual.puzzles.ast.AstDrawingPuzzle;
 import edu.macalester.conceptual.puzzles.booleans.BooleansAndConditionalsPuzzle;
 import edu.macalester.conceptual.puzzles.closures.ClosuresPuzzle;
 import edu.macalester.conceptual.puzzles.loops.LoopPuzzle;
+import edu.macalester.conceptual.puzzles.relationships.RelationshipsPuzzle;
 import edu.macalester.conceptual.puzzles.vars.VariablesPuzzle;
 
 /**
@@ -22,14 +23,18 @@ import edu.macalester.conceptual.puzzles.vars.VariablesPuzzle;
 public interface Puzzle {
     /**
      * All available puzzle types. Anything listed here will show up as an option in the CLI.
+     * We create new puzzles instances from scratch every time this method is caleld to prevent
+     * state pollution when generating multiple puzzles in succession.
      */
-    List<Puzzle> ALL = List.of(
-        new AstDrawingPuzzle(),
-        new BooleansAndConditionalsPuzzle(),
-        new LoopPuzzle(),
-        new VariablesPuzzle(),
-        new ClosuresPuzzle()
-    );
+    static List<Puzzle> all() {
+        return List.of(
+            new AstDrawingPuzzle(),
+            new BooleansAndConditionalsPuzzle(),
+            new LoopPuzzle(),
+            new VariablesPuzzle(),
+            new ClosuresPuzzle()
+        );
+    }
 
     /**
      * A unique positive ID for this type of puzzle. Used in generating and decoding puzzle codes.
@@ -106,7 +111,7 @@ public interface Puzzle {
     }
 
     private static <T> Puzzle find(T target, Function<Puzzle,T> property, String propertyName) {
-        List<Puzzle> results = Puzzle.ALL.stream()
+        List<Puzzle> results = Puzzle.all().stream()
             .filter(puzzle -> property.apply(puzzle).equals(target))
             .toList();
 

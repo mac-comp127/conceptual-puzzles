@@ -280,12 +280,12 @@ public class CommandLine {
         System.out.println("Available puzzle types:");
         System.out.println();
 
-        int nameWidth = Puzzle.ALL.stream()
+        int nameWidth = Puzzle.all().stream()
             .map(Puzzle::name)
             .mapToInt(String::length)
             .max().orElse(0);
 
-        for (var puzzle : Puzzle.ALL) {
+        for (var puzzle : Puzzle.all()) {
             if (puzzle.isVisible()) {
                 System.out.printf("  %-" + nameWidth + "s  %s",
                     puzzle.name(),
