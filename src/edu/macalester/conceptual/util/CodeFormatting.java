@@ -3,6 +3,7 @@ package edu.macalester.conceptual.util;
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.stmt.BlockStmt;
 import com.google.common.collect.Streams;
 
 import java.util.Arrays;
@@ -31,6 +32,13 @@ public enum CodeFormatting {
      * <code>prettifyExpression("foo(" + ELIDED + ")")</code> → <code>foo(...)</code>
      */
     public static final String ELIDED = "/* <<ELIDED>> */";
+
+    /**
+     * Similar to ELIDED, for hiding details of a method implementation in the output.
+     */
+    public static BlockStmt elidedMethodBody() {
+        return StaticJavaParser.parseBlock("{ " + CodeFormatting.ELIDED + " } ");
+    }
 
     /**
      * Joins the given strings with spaces, discarding nulls. Useful for constructing expressions.
@@ -125,6 +133,7 @@ public enum CodeFormatting {
     public static String prettify(Node node) {
         return withParensAsNeeded(node)
             .toString()
-            .replace(ELIDED, "...");
+            .replace(ELIDED, "...")
+            .replaceAll("(public class .* \\{)\\s+\n", "$1\n");
     }
 }

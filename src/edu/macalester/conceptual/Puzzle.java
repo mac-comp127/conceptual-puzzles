@@ -32,6 +32,7 @@ public interface Puzzle {
             new BooleansAndConditionalsPuzzle(),
             new LoopPuzzle(),
             new VariablesPuzzle(),
+            new RelationshipsPuzzle(),
             new ClosuresPuzzle()
         );
     }
