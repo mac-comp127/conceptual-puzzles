@@ -12,9 +12,12 @@ import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.util.AstUtils;
 import edu.macalester.conceptual.util.Nonsense;
 
+/**
+ * Just the info about a class/interface we need for the relationships puzzle.
+ */
 public class Type {
     private final String name;
-    private List<Relationship> relationships = new ArrayList<>();
+    private final List<Relationship> relationships = new ArrayList<>();
 
     public Type(String name) {
         this.name = name;
@@ -32,16 +35,19 @@ public class Type {
         relationships.add(rel);
     }
 
-    public void shuffleMembers(PuzzleContext ctx) {
+    public void shuffleRelationships(PuzzleContext ctx) {
         Collections.shuffle(relationships, ctx.getRandom());
     }
 
-    public ReferenceType referenceAst() {
+    public ReferenceType buildReferenceAst() {
         return AstUtils.classNamed(getName());
     }
 
-    public ClassOrInterfaceDeclaration declarationAst() {
-        var decl = new ClassOrInterfaceDeclaration(AstUtils.nodes(Modifier.publicModifier()), false, getName());
+    public ClassOrInterfaceDeclaration buildDeclarationAst() {
+        var decl = new ClassOrInterfaceDeclaration(
+            AstUtils.nodes(Modifier.publicModifier()),
+            false,  // All classes, no interfaces (at least for now)
+            getName());
         for (var rel : relationships) {
             rel.buildDeclaration(decl);
         }

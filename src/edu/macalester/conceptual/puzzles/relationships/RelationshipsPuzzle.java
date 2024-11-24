@@ -3,17 +3,16 @@ package edu.macalester.conceptual.puzzles.relationships;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.NameExpr;
 
 import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.PuzzleContext;
-import edu.macalester.conceptual.util.AstUtils;
 import edu.macalester.conceptual.util.CodeFormatting;
 import edu.macalester.conceptual.util.Nonsense;
 import edu.macalester.conceptual.util.Randomness;
@@ -27,8 +26,11 @@ public class RelationshipsPuzzle implements Puzzle {
         new Type("byte[]")
     };
 
-    private List<Type> allTypes = new ArrayList<>();  // All the types puzzler will have to diagram
-    private List<Relationship> relationshipChain = new ArrayList<>();  // Types to traverse in code
+    // All the types for the puzzler to diagram in part 1
+    private final List<Type> allTypes = new ArrayList<>();
+
+    // Path for which puzzler will write traversal code in part 2
+    private final List<Relationship> relationshipChain = new ArrayList<>();
     private Type startOfChain, endOfChain;
 
     @Override
@@ -63,12 +65,15 @@ public class RelationshipsPuzzle implements Puzzle {
 
     @Override
     public void generate(PuzzleContext ctx) {
+        // The chain of relationships we’ll ask the puzzler to traverse in part 2
         buildChain(ctx);
 
+        // Additional random relationships so that solution requires actual thought
         addExtraProperties(ctx);
 
         for (var type : allTypes) {
-            type.shuffleMembers(ctx);
+            // So it’s not possible to find the solution by always traversing the first one
+            type.shuffleRelationships(ctx);
         }
 
         var finalProperty = new Relationship.HasA(
@@ -80,7 +85,8 @@ public class RelationshipsPuzzle implements Puzzle {
         Collections.shuffle(allTypes, ctx.getRandom());
         ctx.output().codeBlock(
             allTypes.stream()
-                .map(Type::declarationAst)
+                .sorted(Comparator.comparing(Type::getName))
+                .map(Type::buildDeclarationAst)
                 .map(CodeFormatting::prettify)
                 .collect(Collectors.joining("\n\n"))
         );
@@ -126,9 +132,9 @@ public class RelationshipsPuzzle implements Puzzle {
                 ctx.solution(() -> {
                     var builder = new TraversalChainBuilder(new NameExpr(startVar));
                     for (var rel : relationshipChain) {
-                        rel.buildCode(builder);
+                        rel.buildTraversalCode(builder);
                     }
-                    finalProperty.buildCode(builder);
+                    finalProperty.buildTraversalCode(builder);
                     builder.replaceExpression(expr ->
                         new MethodCallExpr("process", expr));
 
