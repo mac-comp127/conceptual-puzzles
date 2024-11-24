@@ -55,6 +55,13 @@ public enum Randomness {
     }
 
     /**
+     * Randomly selects one of the given list elements, with equal probability.
+     */
+    public static <Choice> Choice choose(PuzzleContext ctx, List<Choice> choices) {
+        return choices.get(ctx.getRandom().nextInt(choices.size()));
+    }
+
+    /**
      * Chooses between one of two choices, with unequal probability. For choices with greater than
      * zero construction cost, use the lazy-evaluating {@link #chooseWithProb(PuzzleContext, double, Supplier, Supplier)}
      * variant instead.

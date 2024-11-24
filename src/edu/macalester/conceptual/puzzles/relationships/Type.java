@@ -31,7 +31,17 @@ public class Type {
         return name;
     }
 
+    public boolean canAdd(Relationship rel) {
+        // As long as we only have classes and no interfaces, Java's single inheritance means we
+        // are only allowed a single is-a relationship
+        return !(rel instanceof Relationship.IsA)
+            || relationships.stream().noneMatch(r -> r instanceof Relationship.IsA);
+    }
+
     public void add(Relationship rel) {
+        if (!canAdd(rel)) {
+            throw new IllegalStateException("Cannot add " + rel + " to " + relationships);
+        }
         relationships.add(rel);
     }
 

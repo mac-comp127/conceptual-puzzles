@@ -33,6 +33,8 @@ public class RelationshipsPuzzle implements Puzzle {
     private final List<Relationship> relationshipChain = new ArrayList<>();
     private Type startOfChain, endOfChain;
 
+    private RelationshipGenerator relGenerator = new RelationshipGenerator();
+
     @Override
     public byte id() {
         return 5;
@@ -69,6 +71,7 @@ public class RelationshipsPuzzle implements Puzzle {
         buildChain(ctx);
 
         // Additional random relationships so that solution requires actual thought
+        addExtraRelatedTypes(ctx);
         addExtraProperties(ctx);
 
         for (var type : allTypes) {
@@ -150,27 +153,26 @@ public class RelationshipsPuzzle implements Puzzle {
         startOfChain = new Type(ctx);
         allTypes.add(startOfChain);
 
-        List<Function<Type, Relationship>> relationshipBuilders = new ArrayList<>();
         endOfChain = startOfChain;
         while (relationshipChain.size() < chainLength) {
-            if (relationshipBuilders.isEmpty()) {
-                relationshipBuilders.addAll(List.of(
-                    type -> new Relationship.HasA(Nonsense.propertyName(ctx), type),
-                    type -> new Relationship.IsA(type),
-                    type -> new Relationship.HasMany(
-                        Nonsense.propertyName(ctx), type, ctx.getRandom().nextBoolean())
-                ));
-                Collections.shuffle(relationshipBuilders, ctx.getRandom());
-            }
-
-            var nextType = new Type(ctx);
-            allTypes.add(nextType);
-
-            var rel = relationshipBuilders.removeLast().apply(nextType);
+            var rel = relGenerator.generate(ctx);
+            allTypes.add(rel.getTargetType());
             relationshipChain.add(rel);
             endOfChain.add(rel);
 
-            endOfChain = nextType;
+            endOfChain = rel.getTargetType();
+        }
+    }
+
+    private void addExtraRelatedTypes(PuzzleContext ctx) {
+        for (int n = ctx.getDifficulty() - 1; n > 0; ) {
+            var sourceType = Randomness.choose(ctx, allTypes);
+            var rel = relGenerator.generate(ctx);
+            if (sourceType.canAdd(rel)) {
+                sourceType.add(rel);
+                allTypes.add(rel.getTargetType());
+                n--;
+            }
         }
     }
 
@@ -190,5 +192,26 @@ public class RelationshipsPuzzle implements Puzzle {
         ctx.enableSolution();
         ctx.emitPuzzle(
             () -> new RelationshipsPuzzle().generate(ctx));
+    }
+
+    /**
+     * Generates an endless sequence of random relationships to new types, cycling through all the
+     * available kinds of relationships in a random order before repeating.
+     */
+    private static class RelationshipGenerator {
+        private final List<Function<Type, Relationship>> generatorQueue = new ArrayList<>();
+
+        Relationship generate(PuzzleContext ctx) {
+            if (generatorQueue.isEmpty()) {
+                generatorQueue.addAll(List.of(
+                    type -> new Relationship.HasA(Nonsense.propertyName(ctx), type),
+                    type -> new Relationship.IsA(type),
+                    type -> new Relationship.HasMany(
+                        Nonsense.propertyName(ctx), type, ctx.getRandom().nextBoolean())
+                ));
+                Collections.shuffle(generatorQueue, ctx.getRandom());
+            }
+            return generatorQueue.removeLast().apply(new Type(ctx));
+        }
     }
 }

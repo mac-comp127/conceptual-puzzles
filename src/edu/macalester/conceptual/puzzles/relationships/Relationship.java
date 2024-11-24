@@ -14,6 +14,8 @@ import edu.macalester.conceptual.util.CodeFormatting;
 import edu.macalester.conceptual.util.Nonsense;
 
 public interface Relationship {
+    Type getTargetType();
+
     void buildDeclaration(ClassOrInterfaceDeclaration decl);
 
     void buildTraversalCode(TraversalChainBuilder builder);
@@ -33,6 +35,11 @@ public interface Relationship {
 
         public IsA(Type supertype) {
             this.supertype = supertype;
+        }
+
+        @Override
+        public Type getTargetType() {
+            return supertype;
         }
 
         @Override
@@ -56,6 +63,11 @@ public interface Relationship {
         public HasA(String propertyName, Type propertyType) {
             this.propertyName = propertyName;
             this.propertyType = propertyType;
+        }
+
+        @Override
+        public Type getTargetType() {
+            return propertyType;
         }
 
         public String getPropertyName() {
@@ -88,13 +100,18 @@ public interface Relationship {
      */
     class HasMany implements Relationship {
         private final String singularElementName;
-        private final Type propertyType;
+        private final Type elementType;
         private final boolean forEach;
 
-        public HasMany(String singularElementName, Type propertyType, boolean forEach) {
+        public HasMany(String singularElementName, Type elementType, boolean forEach) {
             this.singularElementName = singularElementName;
-            this.propertyType = propertyType;
+            this.elementType = elementType;
             this.forEach = forEach;
+        }
+
+        @Override
+        public Type getTargetType() {
+            return elementType;
         }
 
         private String getMethodName() {
@@ -103,7 +120,7 @@ public interface Relationship {
 
         @Override
         public void buildDeclaration(ClassOrInterfaceDeclaration decl) {
-            buildMethod(decl, getMethodName(), "List<" + propertyType.getName() + ">");
+            buildMethod(decl, getMethodName(), "List<" + elementType.getName() + ">");
         }
 
         @Override
@@ -139,7 +156,7 @@ public interface Relationship {
                 new ForEachStmt(
                     // For each...
                     new VariableDeclarationExpr(
-                        propertyType.buildReferenceAst(),
+                        elementType.buildReferenceAst(),
                         loopVarExpr.getNameAsString()),
 
                     // ...in...
