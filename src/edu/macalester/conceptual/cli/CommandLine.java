@@ -102,9 +102,12 @@ public class CommandLine {
         emitPuzzle(puzzle, ctx, options);
 
         if (options.solutionHtml() != null) {
+            // We need a new context and a new instance of the puzzle class, so that we don't get
+            // leftover state from the first pass
             var solveCtx = ctx.cleanCopy();
-            applyOptionsToContext(options, solveCtx, puzzle, true);
-            emitPuzzle(puzzle, solveCtx, options);
+            var puzzleForSolution = Puzzle.findByName(puzzleName);
+            applyOptionsToContext(options, solveCtx, puzzleForSolution, true);
+            emitPuzzle(puzzleForSolution, solveCtx, options);
         }
 
         System.out.println();
