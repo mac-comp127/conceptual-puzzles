@@ -29,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class IntegrationTest {
     private static final List<String> PUZZLE_CODES = List.of(
+        "rjbi-1t8x-u0h0-6cjn",  // rel, difficulty = 9
         "Lxqr-4dys-gpds-8Lfa",  // clos, difficulty = 2
         "gewc-fit8-6tgL-hatp",  // vars
         "2mgg-4Ldu-2mq7-Ld3",   // loop

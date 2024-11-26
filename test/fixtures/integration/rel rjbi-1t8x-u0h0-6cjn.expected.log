@@ -1,0 +1,2705 @@
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+[0J────────────────────────────────────────────────────────────────────────────────
+
+Consider the follow class declarations:
+
+    public class Aosest {
+        public byte[] getRipra() {
+            ...
+        }
+    }
+
+    public class ChruOscang extends ReJiTist {
+        public File getRagre() {
+            ...
+        }
+
+        public File getMism() {
+            ...
+        }
+    }
+
+    public class Cidmo {
+        public List<String> getUtius() {
+            ...
+        }
+    }
+
+    public class Cilasm extends Stringxe {
+        public int getBeTud() {
+            ...
+        }
+    }
+
+    public class Eescir extends IacMenhest {
+        public byte[] getSeiph() {
+            ...
+        }
+    }
+
+    public class Eriosm {
+        public File getOul() {
+            ...
+        }
+    }
+
+    public class FuiEllsist {
+        public SlalHiesmca getScuo() {
+            ...
+        }
+
+        public Eescir getIrOd() {
+            ...
+        }
+    }
+
+    public class Grangcir extends Messrap {
+        public List<String> getAsto() {
+            ...
+        }
+    }
+
+    public class Hounsor {
+        public Grangcir getUsBape() {
+            ...
+        }
+
+        public byte[] getHeIss() {
+            ...
+        }
+    }
+
+    public class IacMenhest {
+        public PaArmu getAnGlal() {
+            ...
+        }
+
+        public int getIdgec() {
+            ...
+        }
+    }
+
+    public class Keass {
+        public byte[] getNes() {
+            ...
+        }
+    }
+
+    public class MeUid extends FuiEllsist {
+        public List<Aosest> getIpaws() {
+            ...
+        }
+    }
+
+    public class Messrap {
+        public byte[] getHiStros() {
+            ...
+        }
+
+        public List<ChruOscang> getEdprus() {
+            ...
+        }
+    }
+
+    public class PaArmu {
+        public Cilasm getSoo() {
+            ...
+        }
+
+        public List<Hounsor> getStrols() {
+            ...
+        }
+
+        public List<Eriosm> getCelfs() {
+            ...
+        }
+    }
+
+    public class ReJiTist {
+        public byte[] getRil() {
+            ...
+        }
+    }
+
+    public class ScicTiss {
+        public List<Cidmo> getJusses() {
+            ...
+        }
+
+        public List<MeUid> getDiImeds() {
+            ...
+        }
+
+        public Keass getThol() {
+            ...
+        }
+    }
+
+    public class SlalHiesmca {
+        public String getUrdso() {
+            ...
+        }
+    }
+
+    public class Stringxe {
+        public List<String> getOoEo() {
+            ...
+        }
+    }
+
+ 1. Draw a diagram showing the class relationships.
+    
+    You [1monly[22m need to diagram the classes listed above. You only need to show the
+    [1mname[22m of each class; do not show their methods or properties.
+    
+    Draw arrows between the classes that have relationships, and label each
+    arrow with one of the following:
+    
+      - [1mhas a[22m
+      - [1mhas many[22m
+      - [1mis a[22m
+    
+    Make sure your arrows point in the correct direction!
+    
+    [1m[38;5;211m[48;5;52m              [0m
+    [1m[38;5;211m[48;5;52m   SOLUTION   [0m
+    [1m[38;5;211m[48;5;52m              [0m
+    
+    [3m<< See window titled “Class Diagram” >>[23m
+    
+ 2. Given the following variable:
+    
+        ScicTiss spho
+    
+    ...and the following method:
+    
+        public void process(File item)
+    
+    ...write code to process the mism of each edpru of the first strol of each
+    diImed of [4mspho[24m.
+    
+    [1m[38;5;211m[48;5;52m              [0m
+    [1m[38;5;211m[48;5;52m   SOLUTION   [0m
+    [1m[38;5;211m[48;5;52m              [0m
+    
+        for (MeUid diImed : spho.getDiImeds()) {
+            for (ChruOscang edpru : diImed.getIrOd().getAnGlal().getStrols().get(0).getUsBape().getEdprus()) {
+                process(edpru.getMism());
+            }
+        }
+    
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Consider the follow class declarations:
+
+    public class AlIlAed {
+        public List<EwaLa> getSiTros() {
+            ...
+        }
+
+        public List<String> getPhuer() {
+            ...
+        }
+    }
+
+    public class Aosest {
+        public List<String> getIdKati() {
+            ...
+        }
+
+        public byte[] getRipra() {
+            ...
+        }
+    }
+
+    public class ChruOscang extends ReJiTist {
+        public File getMism() {
+            ...
+        }
+
+        public File getRagre() {
+            ...
+        }
+    }
+
+    public class Cidmo {
+        public List<String> getPoo() {
+            ...
+        }
+
+        public List<String> getUtius() {
+            ...
+        }
+    }
+
+    public class Cilasm extends Stringxe {
+        public int getBeTud() {
+            ...
+        }
+    }
+
+    public class Eescir extends IacMenhest {
+        public byte[] getSeiph() {
+            ...
+        }
+    }
+
+    public class Eriosm {
+        public File getOul() {
+            ...
+        }
+
+        public File getGaing() {
+            ...
+        }
+    }
+
+    public class EwaLa {
+        public List<String> getStus() {
+            ...
+        }
+    }
+
+    public class Fangcro {
+        public int getBefot() {
+            ...
+        }
+    }
+
+    public class FuiEllsist {
+        public Eescir getIrOd() {
+            ...
+        }
+
+        public SlalHiesmca getScuo() {
+            ...
+        }
+    }
+
+    public class Grangcir extends Messrap {
+        public List<String> getAsto() {
+            ...
+        }
+
+        public AlIlAed getXepre() {
+            ...
+        }
+    }
+
+    public class Hounsor {
+        public Fangcro getDatpi() {
+            ...
+        }
+
+        public byte[] getHeIss() {
+            ...
+        }
+
+        public Grangcir getUsBape() {
+            ...
+        }
+    }
+
+    public class IacMenhest {
+        public PaArmu getAnGlal() {
+            ...
+        }
+
+        public int getIdgec() {
+            ...
+        }
+    }
+
+    public class JissElar {
+        public File getCem() {
+            ...
+        }
+    }
+
+    public class Keass {
+        public List<JissElar> getShisses() {
+            ...
+        }
+
+        public byte[] getNes() {
+            ...
+        }
+    }
+
+    public class MeUid extends FuiEllsist {
+        public List<Aosest> getIpaws() {
+            ...
+        }
+    }
+
+    public class Messrap {
+        public byte[] getHiStros() {
+            ...
+        }
+
+        public List<ChruOscang> getEdprus() {
+            ...
+        }
+    }
+
+    public class PaArmu {
+        public List<Eriosm> getCelfs() {
+            ...
+        }
+
+        public List<Hounsor> getStrols() {
+            ...
+        }
+
+        public Cilasm getSoo() {
+            ...
+        }
+    }
+
+    public class Phengest {
+        public String getLami() {
+            ...
+        }
+    }
+
+    public class Ptengso {
+        public String getBiil() {
+            ...
+        }
+    }
+
+    public class Ranic {
+        public int getIbast() {
+            ...
+        }
+    }
+
+    public class ReJiTist {
+        public byte[] getRil() {
+            ...
+        }
+
+        public List<String> getEniss() {
+            ...
+        }
+    }
+
+    public class ScenUsssim extends Wastgod {
+        public String getCau() {
+            ...
+        }
+
+        public List<String> getWosbi() {
+            ...
+        }
+    }
+
+    public class ScicTiss {
+        public List<Cidmo> getJusses() {
+            ...
+        }
+
+        public Keass getThol() {
+            ...
+        }
+
+        public List<MeUid> getDiImeds() {
+            ...
+        }
+    }
+
+    public class SlalHiesmca extends Ptengso {
+        public Phengest getMalan() {
+            ...
+        }
+
+        public List<Ranic> getHistus() {
+            ...
+        }
+
+        public String getUrdso() {
+            ...
+        }
+    }
+
+    public class Stringxe {
+        public int getOfla() {
+            ...
+        }
+
+        public List<String> getOoEo() {
+            ...
+        }
+    }
+
+    public class Wastgod {
+        public List<String> getRici() {
+            ...
+        }
+    }
+
+ 1. Draw a diagram showing the class relationships.
+    
+    You [1monly[22m need to diagram the classes listed above. You only need to show the
+    [1mname[22m of each class; do not show their methods or properties.
+    
+    Draw arrows between the classes that have relationships, and label each
+    arrow with one of the following:
+    
+      - [1mhas a[22m
+      - [1mhas many[22m
+      - [1mis a[22m
+    
+    Make sure your arrows point in the correct direction!
+    
+    [1m[38;5;211m[48;5;52m              [0m
+    [1m[38;5;211m[48;5;52m   SOLUTION   [0m
+    [1m[38;5;211m[48;5;52m              [0m
+    
+    [3m<< See window titled “Class Diagram” >>[23m
+    
+ 2. Given the following variable:
+    
+        ScenUsssim is
+    
+    ...and the following method:
+    
+        public void process(List<String> item)
+    
+    ...write code to process the wosbi of each edpru of the first strol of each
+    diImed of [4mis[24m.
+    
+    [1m[38;5;211m[48;5;52m              [0m
+    [1m[38;5;211m[48;5;52m   SOLUTION   [0m
+    [1m[38;5;211m[48;5;52m              [0m
+    
+        for (MeUid diImed : is.getDiImeds()) {
+            for (ChruOscang edpru : diImed.getIrOd().getAnGlal().getStrols().get(0).getUsBape().getEdprus()) {
+                process(edpru.getWosbi());
+            }
+        }
+    
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Consider the follow class declarations:
+
+    public class AlIlAed {
+        public List<EwaLa> getSiTros() {
+            ...
+        }
+
+        public List<String> getPhuer() {
+            ...
+        }
+    }
+
+    public class Aosest {
+        public List<String> getIdKati() {
+            ...
+        }
+
+        public byte[] getRipra() {
+            ...
+        }
+    }
+
+    public class ChruOscang extends ReJiTist {
+        public File getMism() {
+            ...
+        }
+
+        public File getRagre() {
+            ...
+        }
+    }
+
+    public class Cidmo {
+        public List<String> getUtius() {
+            ...
+        }
+
+        public List<String> getPoo() {
+            ...
+        }
+    }
+
+    public class Cieac {
+        public int getImsec() {
+            ...
+        }
+    }
+
+    public class Cilasm extends Stringxe {
+        public int getBeTud() {
+            ...
+        }
+    }
+
+    public class Dissnuan {
+        public File getBism() {
+            ...
+        }
+    }
+
+    public class DromNoc {
+        public File getEdhu() {
+            ...
+        }
+    }
+
+    public class Eescir extends IacMenhest {
+        public byte[] getSeiph() {
+            ...
+        }
+    }
+
+    public class Eriosm extends Cieac {
+        public File getOul() {
+            ...
+        }
+
+        public File getGaing() {
+            ...
+        }
+    }
+
+    public class EwaLa {
+        public List<String> getStus() {
+            ...
+        }
+
+        public List<String> getMocis() {
+            ...
+        }
+    }
+
+    public class Fangcro {
+        public int getBefot() {
+            ...
+        }
+
+        public byte[] getTrir() {
+            ...
+        }
+    }
+
+    public class FuiEllsist {
+        public Eescir getIrOd() {
+            ...
+        }
+
+        public SlalHiesmca getScuo() {
+            ...
+        }
+    }
+
+    public class Grangcir extends Messrap {
+        public Dissnuan getAdom() {
+            ...
+        }
+
+        public AlIlAed getXepre() {
+            ...
+        }
+
+        public List<String> getAsto() {
+            ...
+        }
+    }
+
+    public class Hounsor {
+        public byte[] getHeIss() {
+            ...
+        }
+
+        public Grangcir getUsBape() {
+            ...
+        }
+
+        public Fangcro getDatpi() {
+            ...
+        }
+    }
+
+    public class IacMenhest {
+        public PaArmu getAnGlal() {
+            ...
+        }
+
+        public int getIdgec() {
+            ...
+        }
+    }
+
+    public class JissElar {
+        public List<String> getRoQear() {
+            ...
+        }
+
+        public File getCem() {
+            ...
+        }
+    }
+
+    public class Keass {
+        public byte[] getNes() {
+            ...
+        }
+
+        public List<JissElar> getShisses() {
+            ...
+        }
+    }
+
+    public class MeUid extends FuiEllsist {
+        public List<Aosest> getIpaws() {
+            ...
+        }
+    }
+
+    public class Messrap {
+        public byte[] getHiStros() {
+            ...
+        }
+
+        public List<Praisssar> getDodas() {
+            ...
+        }
+
+        public List<ChruOscang> getEdprus() {
+            ...
+        }
+    }
+
+    public class Mucksor {
+        public String getRolip() {
+            ...
+        }
+    }
+
+    public class PaArmu {
+        public List<Hounsor> getStrols() {
+            ...
+        }
+
+        public Cilasm getSoo() {
+            ...
+        }
+
+        public List<Eriosm> getCelfs() {
+            ...
+        }
+    }
+
+    public class Phengest {
+        public int getCeGi() {
+            ...
+        }
+
+        public String getLami() {
+            ...
+        }
+    }
+
+    public class Praisssar {
+        public File getAnelm() {
+            ...
+        }
+    }
+
+    public class Ptengso {
+        public String getBiil() {
+            ...
+        }
+
+        public File getOung() {
+            ...
+        }
+    }
+
+    public class Pulti {
+        public List<String> getBrasp() {
+            ...
+        }
+    }
+
+    public class Ranic {
+        public int getIbast() {
+            ...
+        }
+
+        public Mucksor getTric() {
+            ...
+        }
+    }
+
+    public class ReJiTist {
+        public byte[] getRil() {
+            ...
+        }
+
+        public List<String> getEniss() {
+            ...
+        }
+    }
+
+    public class ScenUsssim extends Wastgod {
+        public String getCau() {
+            ...
+        }
+
+        public List<String> getWosbi() {
+            ...
+        }
+    }
+
+    public class ScicTiss {
+        public List<MeUid> getDiImeds() {
+            ...
+        }
+
+        public Keass getThol() {
+            ...
+        }
+
+        public List<Cidmo> getJusses() {
+            ...
+        }
+    }
+
+    public class SlalHiesmca extends Ptengso {
+        public List<Ranic> getHistus() {
+            ...
+        }
+
+        public Phengest getMalan() {
+            ...
+        }
+
+        public String getUrdso() {
+            ...
+        }
+    }
+
+    public class Stringxe {
+        public int getOfla() {
+            ...
+        }
+
+        public List<Strosmoth> getOdpos() {
+            ...
+        }
+
+        public List<String> getOoEo() {
+            ...
+        }
+    }
+
+    public class Strosmoth extends Pulti {
+        public Waemdess getErOpiat() {
+            ...
+        }
+    }
+
+    public class Vilon extends DromNoc {
+        public File getHeshe() {
+            ...
+        }
+
+        public int getSedin() {
+            ...
+        }
+    }
+
+    public class Waemdess {
+        public List<String> getPrir() {
+            ...
+        }
+    }
+
+    public class Wastgod {
+        public List<String> getRici() {
+            ...
+        }
+
+        public String getPhae() {
+            ...
+        }
+    }
+
+ 1. Draw a diagram showing the class relationships.
+    
+    You [1monly[22m need to diagram the classes listed above. You only need to show the
+    [1mname[22m of each class; do not show their methods or properties.
+    
+    Draw arrows between the classes that have relationships, and label each
+    arrow with one of the following:
+    
+      - [1mhas a[22m
+      - [1mhas many[22m
+      - [1mis a[22m
+    
+    Make sure your arrows point in the correct direction!
+    
+    [1m[38;5;211m[48;5;52m              [0m
+    [1m[38;5;211m[48;5;52m   SOLUTION   [0m
+    [1m[38;5;211m[48;5;52m              [0m
+    
+    [3m<< See window titled “Class Diagram” >>[23m
+    
+ 2. Given the following variable:
+    
+        Vilon aod
+    
+    ...and the following method:
+    
+        public void process(int item)
+    
+    ...write code to process the sedin of each edpru of the first strol of each
+    diImed of [4maod[24m.
+    
+    [1m[38;5;211m[48;5;52m              [0m
+    [1m[38;5;211m[48;5;52m   SOLUTION   [0m
+    [1m[38;5;211m[48;5;52m              [0m
+    
+        for (MeUid diImed : aod.getDiImeds()) {
+            for (ChruOscang edpru : diImed.getIrOd().getAnGlal().getStrols().get(0).getUsBape().getEdprus()) {
+                process(edpru.getSedin());
+            }
+        }
+    
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Consider the follow class declarations:
+
+    public class AlIlAed {
+        public List<String> getPhuer() {
+            ...
+        }
+
+        public List<EwaLa> getSiTros() {
+            ...
+        }
+    }
+
+    public class Aosest {
+        public List<String> getIdKati() {
+            ...
+        }
+
+        public List<Scoroec> getPrors() {
+            ...
+        }
+
+        public byte[] getRipra() {
+            ...
+        }
+    }
+
+    public class CerDoshe {
+        public byte[] getHuPrer() {
+            ...
+        }
+    }
+
+    public class ChruOscang extends ReJiTist {
+        public File getMism() {
+            ...
+        }
+
+        public File getRagre() {
+            ...
+        }
+    }
+
+    public class Cidmo {
+        public List<String> getPoo() {
+            ...
+        }
+
+        public List<String> getUtius() {
+            ...
+        }
+    }
+
+    public class Cieac {
+        public List<String> getAspe() {
+            ...
+        }
+
+        public int getImsec() {
+            ...
+        }
+    }
+
+    public class Cilasm extends Stringxe {
+        public int getBeTud() {
+            ...
+        }
+    }
+
+    public class Dissnuan {
+        public File getBism() {
+            ...
+        }
+
+        public List<Mordon> getDekmas() {
+            ...
+        }
+    }
+
+    public class DromNoc {
+        public List<String> getBiess() {
+            ...
+        }
+
+        public File getEdhu() {
+            ...
+        }
+    }
+
+    public class Eescir extends IacMenhest {
+        public byte[] getSeiph() {
+            ...
+        }
+    }
+
+    public class EqaCo {
+        public int getEsUn() {
+            ...
+        }
+    }
+
+    public class Eriosm extends Cieac {
+        public File getOul() {
+            ...
+        }
+
+        public File getGaing() {
+            ...
+        }
+    }
+
+    public class EwaLa {
+        public List<String> getMocis() {
+            ...
+        }
+
+        public List<String> getStus() {
+            ...
+        }
+    }
+
+    public class Fangcro {
+        public int getBefot() {
+            ...
+        }
+
+        public byte[] getTrir() {
+            ...
+        }
+    }
+
+    public class FresIacuc {
+        public IomSuced getDoesm() {
+            ...
+        }
+
+        public String getLiEd() {
+            ...
+        }
+    }
+
+    public class FuiEllsist {
+        public SlalHiesmca getScuo() {
+            ...
+        }
+
+        public Eescir getIrOd() {
+            ...
+        }
+    }
+
+    public class Grangcir extends Messrap {
+        public List<String> getAsto() {
+            ...
+        }
+
+        public AlIlAed getXepre() {
+            ...
+        }
+
+        public Dissnuan getAdom() {
+            ...
+        }
+    }
+
+    public class Hounsor {
+        public byte[] getHeIss() {
+            ...
+        }
+
+        public Fangcro getDatpi() {
+            ...
+        }
+
+        public Grangcir getUsBape() {
+            ...
+        }
+    }
+
+    public class IacMenhest {
+        public PaArmu getAnGlal() {
+            ...
+        }
+
+        public int getIdgec() {
+            ...
+        }
+    }
+
+    public class Iansi {
+        public List<String> getErger() {
+            ...
+        }
+    }
+
+    public class IomSuced {
+        public String getCipi() {
+            ...
+        }
+    }
+
+    public class JissElar {
+        public List<String> getRoQear() {
+            ...
+        }
+
+        public File getCem() {
+            ...
+        }
+
+        public PauiSphapli getAePeth() {
+            ...
+        }
+    }
+
+    public class Keass {
+        public List<JissElar> getShisses() {
+            ...
+        }
+
+        public byte[] getNes() {
+            ...
+        }
+    }
+
+    public class MeUid extends FuiEllsist {
+        public List<Aosest> getIpaws() {
+            ...
+        }
+    }
+
+    public class Messrap {
+        public byte[] getHiStros() {
+            ...
+        }
+
+        public List<ChruOscang> getEdprus() {
+            ...
+        }
+
+        public List<Praisssar> getDodas() {
+            ...
+        }
+    }
+
+    public class Mordon {
+        public String getDiidi() {
+            ...
+        }
+    }
+
+    public class Mucksor {
+        public String getEcViphe() {
+            ...
+        }
+
+        public String getRolip() {
+            ...
+        }
+    }
+
+    public class PaArmu {
+        public Cilasm getSoo() {
+            ...
+        }
+
+        public List<Hounsor> getStrols() {
+            ...
+        }
+
+        public List<Eriosm> getCelfs() {
+            ...
+        }
+    }
+
+    public class PauiSphapli {
+        public List<String> getHoSprea() {
+            ...
+        }
+    }
+
+    public class Phengest {
+        public int getCeGi() {
+            ...
+        }
+
+        public String getLami() {
+            ...
+        }
+    }
+
+    public class Phesm {
+        public File getVenou() {
+            ...
+        }
+
+        public byte[] getEsti() {
+            ...
+        }
+    }
+
+    public class Praisssar {
+        public File getAnelm() {
+            ...
+        }
+
+        public byte[] getPem() {
+            ...
+        }
+    }
+
+    public class Ptengso {
+        public String getBiil() {
+            ...
+        }
+
+        public File getOung() {
+            ...
+        }
+    }
+
+    public class Pulti {
+        public List<String> getBrasp() {
+            ...
+        }
+
+        public List<String> getOth() {
+            ...
+        }
+    }
+
+    public class Ranic {
+        public Mucksor getTric() {
+            ...
+        }
+
+        public int getIbast() {
+            ...
+        }
+    }
+
+    public class ReJiTist extends CerDoshe {
+        public byte[] getRil() {
+            ...
+        }
+
+        public List<String> getEniss() {
+            ...
+        }
+    }
+
+    public class ScenUsssim extends Wastgod {
+        public List<String> getWosbi() {
+            ...
+        }
+
+        public String getCau() {
+            ...
+        }
+    }
+
+    public class ScicTiss {
+        public List<Iansi> getApis() {
+            ...
+        }
+
+        public List<Cidmo> getJusses() {
+            ...
+        }
+
+        public List<MeUid> getDiImeds() {
+            ...
+        }
+
+        public Keass getThol() {
+            ...
+        }
+    }
+
+    public class Scoroec {
+        public int getSasis() {
+            ...
+        }
+    }
+
+    public class SlalHiesmca extends Ptengso {
+        public List<Ranic> getHistus() {
+            ...
+        }
+
+        public Phengest getMalan() {
+            ...
+        }
+
+        public String getUrdso() {
+            ...
+        }
+    }
+
+    public class Stringxe {
+        public int getOfla() {
+            ...
+        }
+
+        public List<Strosmoth> getOdpos() {
+            ...
+        }
+
+        public List<String> getOoEo() {
+            ...
+        }
+    }
+
+    public class Strosmoth extends Pulti {
+        public Waemdess getErOpiat() {
+            ...
+        }
+    }
+
+    public class Vilon extends DromNoc {
+        public EqaCo getPifin() {
+            ...
+        }
+
+        public int getSedin() {
+            ...
+        }
+
+        public File getHeshe() {
+            ...
+        }
+    }
+
+    public class Waemdess {
+        public List<String> getOriwn() {
+            ...
+        }
+
+        public List<String> getPrir() {
+            ...
+        }
+    }
+
+    public class Wastgod extends FresIacuc {
+        public String getPhae() {
+            ...
+        }
+
+        public List<String> getRici() {
+            ...
+        }
+    }
+
+ 1. Draw a diagram showing the class relationships.
+    
+    You [1monly[22m need to diagram the classes listed above. You only need to show the
+    [1mname[22m of each class; do not show their methods or properties.
+    
+    Draw arrows between the classes that have relationships, and label each
+    arrow with one of the following:
+    
+      - [1mhas a[22m
+      - [1mhas many[22m
+      - [1mis a[22m
+    
+    Make sure your arrows point in the correct direction!
+    
+    [1m[38;5;211m[48;5;52m              [0m
+    [1m[38;5;211m[48;5;52m   SOLUTION   [0m
+    [1m[38;5;211m[48;5;52m              [0m
+    
+    [3m<< See window titled “Class Diagram” >>[23m
+    
+ 2. Given the following variable:
+    
+        Phesm en
+    
+    ...and the following method:
+    
+        public void process(byte[] item)
+    
+    ...write code to process the esti of each edpru of the first strol of each
+    diImed of [4men[24m.
+    
+    [1m[38;5;211m[48;5;52m              [0m
+    [1m[38;5;211m[48;5;52m   SOLUTION   [0m
+    [1m[38;5;211m[48;5;52m              [0m
+    
+        for (MeUid diImed : en.getDiImeds()) {
+            for (ChruOscang edpru : diImed.getIrOd().getAnGlal().getStrols().get(0).getUsBape().getEdprus()) {
+                process(edpru.getEsti());
+            }
+        }
+    
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Consider the follow class declarations:
+
+    public class AlIlAed extends PeCoasmra {
+        public List<EwaLa> getSiTros() {
+            ...
+        }
+
+        public List<String> getPhuer() {
+            ...
+        }
+    }
+
+    public class Aosest {
+        public List<Scoroec> getPrors() {
+            ...
+        }
+
+        public List<String> getIdKati() {
+            ...
+        }
+
+        public byte[] getRipra() {
+            ...
+        }
+    }
+
+    public class BirUsrem {
+        public List<String> getInic() {
+            ...
+        }
+    }
+
+    public class CerDoshe {
+        public byte[] getHuPrer() {
+            ...
+        }
+
+        public String getPri() {
+            ...
+        }
+    }
+
+    public class ChruOscang extends ReJiTist {
+        public File getRagre() {
+            ...
+        }
+
+        public File getMism() {
+            ...
+        }
+    }
+
+    public class Cidmo {
+        public List<String> getPoo() {
+            ...
+        }
+
+        public List<String> getUtius() {
+            ...
+        }
+    }
+
+    public class Cieac {
+        public int getImsec() {
+            ...
+        }
+
+        public List<String> getAspe() {
+            ...
+        }
+    }
+
+    public class Cilasm extends Stringxe {
+        public int getBeTud() {
+            ...
+        }
+    }
+
+    public class Dissnuan {
+        public File getBism() {
+            ...
+        }
+
+        public List<Mordon> getDekmas() {
+            ...
+        }
+    }
+
+    public class DromNoc {
+        public List<String> getBiess() {
+            ...
+        }
+
+        public File getEdhu() {
+            ...
+        }
+    }
+
+    public class Eescir extends IacMenhest {
+        public byte[] getSeiph() {
+            ...
+        }
+    }
+
+    public class EqaCo {
+        public int getEsUn() {
+            ...
+        }
+
+        public int getOcgu() {
+            ...
+        }
+    }
+
+    public class Eriosm extends Cieac {
+        public File getOul() {
+            ...
+        }
+
+        public File getGaing() {
+            ...
+        }
+    }
+
+    public class EwaLa {
+        public List<String> getMocis() {
+            ...
+        }
+
+        public List<String> getStus() {
+            ...
+        }
+    }
+
+    public class Fangcro {
+        public byte[] getTrir() {
+            ...
+        }
+
+        public int getBefot() {
+            ...
+        }
+    }
+
+    public class FoisCentstre {
+        public List<PuIgus> getOares() {
+            ...
+        }
+
+        public int getGoWirda() {
+            ...
+        }
+
+        public File getCles() {
+            ...
+        }
+    }
+
+    public class FresIacuc {
+        public IomSuced getDoesm() {
+            ...
+        }
+
+        public String getLiEd() {
+            ...
+        }
+    }
+
+    public class FuiEllsist {
+        public SlalHiesmca getScuo() {
+            ...
+        }
+
+        public Eescir getIrOd() {
+            ...
+        }
+    }
+
+    public class Grangcir extends Messrap {
+        public Dissnuan getAdom() {
+            ...
+        }
+
+        public List<String> getAsto() {
+            ...
+        }
+
+        public AlIlAed getXepre() {
+            ...
+        }
+    }
+
+    public class Hounsor {
+        public Grangcir getUsBape() {
+            ...
+        }
+
+        public Fangcro getDatpi() {
+            ...
+        }
+
+        public byte[] getHeIss() {
+            ...
+        }
+    }
+
+    public class IacMenhest {
+        public int getIdgec() {
+            ...
+        }
+
+        public PaArmu getAnGlal() {
+            ...
+        }
+    }
+
+    public class Iansi {
+        public File getItril() {
+            ...
+        }
+
+        public List<String> getErger() {
+            ...
+        }
+    }
+
+    public class IomSuced {
+        public String getCipi() {
+            ...
+        }
+
+        public int getBinol() {
+            ...
+        }
+    }
+
+    public class JissElar {
+        public Lisner getEfist() {
+            ...
+        }
+
+        public PauiSphapli getAePeth() {
+            ...
+        }
+
+        public File getCem() {
+            ...
+        }
+
+        public List<String> getRoQear() {
+            ...
+        }
+    }
+
+    public class Keass {
+        public List<JissElar> getShisses() {
+            ...
+        }
+
+        public byte[] getNes() {
+            ...
+        }
+    }
+
+    public class Lisner {
+        public File getRixun() {
+            ...
+        }
+    }
+
+    public class MeUid extends FuiEllsist {
+        public WismDrus getHogis() {
+            ...
+        }
+
+        public List<Aosest> getIpaws() {
+            ...
+        }
+    }
+
+    public class MeheBotpis {
+        public int getAhid() {
+            ...
+        }
+    }
+
+    public class Messrap {
+        public List<ChruOscang> getEdprus() {
+            ...
+        }
+
+        public byte[] getHiStros() {
+            ...
+        }
+
+        public List<Praisssar> getDodas() {
+            ...
+        }
+    }
+
+    public class Mordon {
+        public File getShar() {
+            ...
+        }
+
+        public String getDiidi() {
+            ...
+        }
+    }
+
+    public class Mucksor {
+        public List<BirUsrem> getNeces() {
+            ...
+        }
+
+        public String getEcViphe() {
+            ...
+        }
+
+        public String getRolip() {
+            ...
+        }
+    }
+
+    public class PaArmu {
+        public List<Eriosm> getCelfs() {
+            ...
+        }
+
+        public List<Hounsor> getStrols() {
+            ...
+        }
+
+        public Cilasm getSoo() {
+            ...
+        }
+    }
+
+    public class PauiSphapli {
+        public List<String> getHoSprea() {
+            ...
+        }
+
+        public File getIodjo() {
+            ...
+        }
+    }
+
+    public class PeCoasmra {
+        public File getStous() {
+            ...
+        }
+    }
+
+    public class Peddan {
+        public int getSoae() {
+            ...
+        }
+    }
+
+    public class Phengest {
+        public String getLami() {
+            ...
+        }
+
+        public int getCeGi() {
+            ...
+        }
+    }
+
+    public class Phesm {
+        public byte[] getEsti() {
+            ...
+        }
+
+        public File getVenou() {
+            ...
+        }
+    }
+
+    public class Praisssar {
+        public byte[] getPem() {
+            ...
+        }
+
+        public File getAnelm() {
+            ...
+        }
+    }
+
+    public class Ptengso {
+        public String getBiil() {
+            ...
+        }
+
+        public File getOung() {
+            ...
+        }
+    }
+
+    public class PuIgus {
+        public byte[] getNedsa() {
+            ...
+        }
+    }
+
+    public class Pulti {
+        public List<String> getBrasp() {
+            ...
+        }
+
+        public List<String> getOth() {
+            ...
+        }
+    }
+
+    public class Ranic {
+        public int getIbast() {
+            ...
+        }
+
+        public Mucksor getTric() {
+            ...
+        }
+    }
+
+    public class ReJiTist extends CerDoshe {
+        public List<String> getEniss() {
+            ...
+        }
+
+        public byte[] getRil() {
+            ...
+        }
+    }
+
+    public class ScenUsssim extends Wastgod {
+        public List<MeheBotpis> getEnosses() {
+            ...
+        }
+
+        public String getCau() {
+            ...
+        }
+
+        public List<String> getWosbi() {
+            ...
+        }
+    }
+
+    public class ScicTiss {
+        public Keass getThol() {
+            ...
+        }
+
+        public List<MeUid> getDiImeds() {
+            ...
+        }
+
+        public List<Iansi> getApis() {
+            ...
+        }
+
+        public List<Cidmo> getJusses() {
+            ...
+        }
+    }
+
+    public class Scoroec extends Peddan {
+        public int getSasis() {
+            ...
+        }
+    }
+
+    public class SlalHiesmca extends Ptengso {
+        public Phengest getMalan() {
+            ...
+        }
+
+        public Uipeoust getLel() {
+            ...
+        }
+
+        public List<Ranic> getHistus() {
+            ...
+        }
+
+        public String getUrdso() {
+            ...
+        }
+    }
+
+    public class Stringxe {
+        public List<String> getOoEo() {
+            ...
+        }
+
+        public int getOfla() {
+            ...
+        }
+
+        public List<Strosmoth> getOdpos() {
+            ...
+        }
+    }
+
+    public class Strosmoth extends Pulti {
+        public Waemdess getErOpiat() {
+            ...
+        }
+    }
+
+    public class Uipeoust {
+        public File getDio() {
+            ...
+        }
+    }
+
+    public class Vilon extends DromNoc {
+        public File getHeshe() {
+            ...
+        }
+
+        public EqaCo getPifin() {
+            ...
+        }
+
+        public int getSedin() {
+            ...
+        }
+    }
+
+    public class Waemdess {
+        public List<String> getPrir() {
+            ...
+        }
+
+        public List<String> getOriwn() {
+            ...
+        }
+    }
+
+    public class Wastgod extends FresIacuc {
+        public List<String> getRici() {
+            ...
+        }
+
+        public String getPhae() {
+            ...
+        }
+    }
+
+    public class WismDrus {
+        public List<String> getOrCasm() {
+            ...
+        }
+    }
+
+ 1. Draw a diagram showing the class relationships.
+    
+    You [1monly[22m need to diagram the classes listed above. You only need to show the
+    [1mname[22m of each class; do not show their methods or properties.
+    
+    Draw arrows between the classes that have relationships, and label each
+    arrow with one of the following:
+    
+      - [1mhas a[22m
+      - [1mhas many[22m
+      - [1mis a[22m
+    
+    Make sure your arrows point in the correct direction!
+    
+    [1m[38;5;211m[48;5;52m              [0m
+    [1m[38;5;211m[48;5;52m   SOLUTION   [0m
+    [1m[38;5;211m[48;5;52m              [0m
+    
+    [3m<< See window titled “Class Diagram” >>[23m
+    
+ 2. Given the following variable:
+    
+        FoisCentstre ra
+    
+    ...and the following method:
+    
+        public void process(File item)
+    
+    ...write code to process the cles of each edpru of the first strol of each
+    diImed of [4mra[24m.
+    
+    [1m[38;5;211m[48;5;52m              [0m
+    [1m[38;5;211m[48;5;52m   SOLUTION   [0m
+    [1m[38;5;211m[48;5;52m              [0m
+    
+        for (MeUid diImed : ra.getDiImeds()) {
+            for (ChruOscang edpru : diImed.getIrOd().getAnGlal().getStrols().get(0).getUsBape().getEdprus()) {
+                process(edpru.getCles());
+            }
+        }
+    
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Consider the follow class declarations:
+
+    public class AlIlAed extends PeCoasmra {
+        public List<EwaLa> getSiTros() {
+            ...
+        }
+
+        public List<String> getPhuer() {
+            ...
+        }
+    }
+
+    public class Aosest {
+        public List<Scoroec> getPrors() {
+            ...
+        }
+
+        public List<String> getIdKati() {
+            ...
+        }
+
+        public byte[] getRipra() {
+            ...
+        }
+    }
+
+    public class BirUsrem {
+        public List<String> getInic() {
+            ...
+        }
+
+        public byte[] getLal() {
+            ...
+        }
+    }
+
+    public class Caestzi {
+        public String getVokfe() {
+            ...
+        }
+    }
+
+    public class CerDoshe {
+        public byte[] getHuPrer() {
+            ...
+        }
+
+        public String getPri() {
+            ...
+        }
+    }
+
+    public class ChruOscang extends ReJiTist {
+        public File getRagre() {
+            ...
+        }
+
+        public File getMism() {
+            ...
+        }
+    }
+
+    public class Cidmo {
+        public List<String> getUtius() {
+            ...
+        }
+
+        public List<String> getPoo() {
+            ...
+        }
+    }
+
+    public class Cieac {
+        public int getImsec() {
+            ...
+        }
+
+        public List<String> getAspe() {
+            ...
+        }
+    }
+
+    public class Cilasm extends Stringxe {
+        public int getBeTud() {
+            ...
+        }
+    }
+
+    public class Dissnuan {
+        public File getBism() {
+            ...
+        }
+
+        public List<Mordon> getDekmas() {
+            ...
+        }
+    }
+
+    public class DromNoc {
+        public List<String> getBiess() {
+            ...
+        }
+
+        public File getEdhu() {
+            ...
+        }
+    }
+
+    public class Edgui {
+        public Pricmus getAcror() {
+            ...
+        }
+
+        public List<String> getReci() {
+            ...
+        }
+    }
+
+    public class Eescir extends IacMenhest {
+        public byte[] getSeiph() {
+            ...
+        }
+    }
+
+    public class EqaCo {
+        public int getOcgu() {
+            ...
+        }
+
+        public int getEsUn() {
+            ...
+        }
+    }
+
+    public class Eriosm extends Cieac {
+        public File getOul() {
+            ...
+        }
+
+        public File getGaing() {
+            ...
+        }
+    }
+
+    public class EwaLa {
+        public List<String> getStus() {
+            ...
+        }
+
+        public List<String> getMocis() {
+            ...
+        }
+    }
+
+    public class Fangcro {
+        public int getBefot() {
+            ...
+        }
+
+        public List<Caestzi> getMiBrirs() {
+            ...
+        }
+
+        public byte[] getTrir() {
+            ...
+        }
+    }
+
+    public class FoisCentstre {
+        public File getCles() {
+            ...
+        }
+
+        public List<PuIgus> getOares() {
+            ...
+        }
+
+        public int getGoWirda() {
+            ...
+        }
+    }
+
+    public class FresIacuc {
+        public IomSuced getDoesm() {
+            ...
+        }
+
+        public String getLiEd() {
+            ...
+        }
+    }
+
+    public class FuiEllsist {
+        public SlalHiesmca getScuo() {
+            ...
+        }
+
+        public Eescir getIrOd() {
+            ...
+        }
+    }
+
+    public class Grangcir extends Messrap {
+        public Dissnuan getAdom() {
+            ...
+        }
+
+        public AlIlAed getXepre() {
+            ...
+        }
+
+        public List<String> getAsto() {
+            ...
+        }
+    }
+
+    public class HassUc {
+        public int getTril() {
+            ...
+        }
+    }
+
+    public class Hounsor {
+        public byte[] getHeIss() {
+            ...
+        }
+
+        public Fangcro getDatpi() {
+            ...
+        }
+
+        public Grangcir getUsBape() {
+            ...
+        }
+    }
+
+    public class IacMenhest {
+        public PaArmu getAnGlal() {
+            ...
+        }
+
+        public int getIdgec() {
+            ...
+        }
+    }
+
+    public class Iansi extends Relwun {
+        public File getItril() {
+            ...
+        }
+
+        public List<String> getErger() {
+            ...
+        }
+    }
+
+    public class IomSuced {
+        public String getCipi() {
+            ...
+        }
+
+        public int getBinol() {
+            ...
+        }
+    }
+
+    public class JissElar {
+        public List<String> getRoQear() {
+            ...
+        }
+
+        public PauiSphapli getAePeth() {
+            ...
+        }
+
+        public File getCem() {
+            ...
+        }
+
+        public Lisner getEfist() {
+            ...
+        }
+    }
+
+    public class Keass {
+        public byte[] getNes() {
+            ...
+        }
+
+        public Pugeu getSwe() {
+            ...
+        }
+
+        public List<JissElar> getShisses() {
+            ...
+        }
+    }
+
+    public class Lisner {
+        public String getTrede() {
+            ...
+        }
+
+        public File getRixun() {
+            ...
+        }
+    }
+
+    public class MeUid extends FuiEllsist {
+        public WismDrus getHogis() {
+            ...
+        }
+
+        public List<Aosest> getIpaws() {
+            ...
+        }
+    }
+
+    public class MeheBotpis {
+        public int getAhid() {
+            ...
+        }
+
+        public int getLosal() {
+            ...
+        }
+    }
+
+    public class Mesmswo {
+        public List<String> getSoHism() {
+            ...
+        }
+
+        public List<String> getOtre() {
+            ...
+        }
+    }
+
+    public class Messrap extends Edgui {
+        public byte[] getHiStros() {
+            ...
+        }
+
+        public List<Praisssar> getDodas() {
+            ...
+        }
+
+        public List<ChruOscang> getEdprus() {
+            ...
+        }
+    }
+
+    public class Mordon {
+        public File getShar() {
+            ...
+        }
+
+        public String getDiidi() {
+            ...
+        }
+    }
+
+    public class Mucksor {
+        public List<BirUsrem> getNeces() {
+            ...
+        }
+
+        public String getRolip() {
+            ...
+        }
+
+        public String getEcViphe() {
+            ...
+        }
+    }
+
+    public class PaArmu {
+        public Cilasm getSoo() {
+            ...
+        }
+
+        public List<Eriosm> getCelfs() {
+            ...
+        }
+
+        public List<Hounsor> getStrols() {
+            ...
+        }
+    }
+
+    public class PauiSphapli {
+        public File getIodjo() {
+            ...
+        }
+
+        public List<String> getHoSprea() {
+            ...
+        }
+    }
+
+    public class PeCoasmra {
+        public List<Trurdgo> getThers() {
+            ...
+        }
+
+        public File getStous() {
+            ...
+        }
+    }
+
+    public class Peddan {
+        public byte[] getLulel() {
+            ...
+        }
+
+        public int getSoae() {
+            ...
+        }
+    }
+
+    public class Phengest {
+        public String getLami() {
+            ...
+        }
+
+        public int getCeGi() {
+            ...
+        }
+    }
+
+    public class Phesm extends Rhulhe {
+        public File getVenou() {
+            ...
+        }
+
+        public byte[] getEsti() {
+            ...
+        }
+    }
+
+    public class Praisssar {
+        public byte[] getPem() {
+            ...
+        }
+
+        public File getAnelm() {
+            ...
+        }
+    }
+
+    public class Pricmus {
+        public File getEtAfast() {
+            ...
+        }
+    }
+
+    public class Ptengso {
+        public File getOung() {
+            ...
+        }
+
+        public String getBiil() {
+            ...
+        }
+    }
+
+    public class PuIgus {
+        public byte[] getBeaga() {
+            ...
+        }
+
+        public byte[] getNedsa() {
+            ...
+        }
+    }
+
+    public class Pugeu {
+        public File getCeri() {
+            ...
+        }
+    }
+
+    public class Pulti {
+        public List<String> getOth() {
+            ...
+        }
+
+        public List<String> getBrasp() {
+            ...
+        }
+    }
+
+    public class Ranic {
+        public int getIbast() {
+            ...
+        }
+
+        public Mucksor getTric() {
+            ...
+        }
+    }
+
+    public class ReJiTist extends CerDoshe {
+        public byte[] getRil() {
+            ...
+        }
+
+        public List<String> getEniss() {
+            ...
+        }
+    }
+
+    public class Relwun {
+        public byte[] getArmos() {
+            ...
+        }
+    }
+
+    public class Rhulhe {
+        public File getIhont() {
+            ...
+        }
+    }
+
+    public class ScenUsssim extends Wastgod {
+        public List<MeheBotpis> getEnosses() {
+            ...
+        }
+
+        public List<String> getWosbi() {
+            ...
+        }
+
+        public String getCau() {
+            ...
+        }
+    }
+
+    public class ScicTiss {
+        public List<Cidmo> getJusses() {
+            ...
+        }
+
+        public List<Iansi> getApis() {
+            ...
+        }
+
+        public Keass getThol() {
+            ...
+        }
+
+        public List<MeUid> getDiImeds() {
+            ...
+        }
+    }
+
+    public class Scoroec extends Peddan {
+        public int getSasis() {
+            ...
+        }
+    }
+
+    public class SlalHiesmca extends Ptengso {
+        public Phengest getMalan() {
+            ...
+        }
+
+        public Uipeoust getLel() {
+            ...
+        }
+
+        public String getUrdso() {
+            ...
+        }
+
+        public List<Ranic> getHistus() {
+            ...
+        }
+    }
+
+    public class Stringxe {
+        public List<String> getOoEo() {
+            ...
+        }
+
+        public int getOfla() {
+            ...
+        }
+
+        public List<Strosmoth> getOdpos() {
+            ...
+        }
+    }
+
+    public class Strosmoth extends Pulti {
+        public Waemdess getErOpiat() {
+            ...
+        }
+    }
+
+    public class Trurdgo {
+        public String getFrar() {
+            ...
+        }
+    }
+
+    public class Uipeoust {
+        public File getDio() {
+            ...
+        }
+
+        public int getEfrin() {
+            ...
+        }
+    }
+
+    public class Vilon extends DromNoc {
+        public EqaCo getPifin() {
+            ...
+        }
+
+        public int getSedin() {
+            ...
+        }
+
+        public List<HassUc> getDeds() {
+            ...
+        }
+
+        public File getHeshe() {
+            ...
+        }
+    }
+
+    public class Waemdess {
+        public List<String> getPrir() {
+            ...
+        }
+
+        public List<String> getOriwn() {
+            ...
+        }
+    }
+
+    public class Wastgod extends FresIacuc {
+        public List<String> getRici() {
+            ...
+        }
+
+        public String getPhae() {
+            ...
+        }
+    }
+
+    public class WismDrus {
+        public String getSpen() {
+            ...
+        }
+
+        public List<String> getOrCasm() {
+            ...
+        }
+    }
+
+ 1. Draw a diagram showing the class relationships.
+    
+    You [1monly[22m need to diagram the classes listed above. You only need to show the
+    [1mname[22m of each class; do not show their methods or properties.
+    
+    Draw arrows between the classes that have relationships, and label each
+    arrow with one of the following:
+    
+      - [1mhas a[22m
+      - [1mhas many[22m
+      - [1mis a[22m
+    
+    Make sure your arrows point in the correct direction!
+    
+    [1m[38;5;211m[48;5;52m              [0m
+    [1m[38;5;211m[48;5;52m   SOLUTION   [0m
+    [1m[38;5;211m[48;5;52m              [0m
+    
+    [3m<< See window titled “Class Diagram” >>[23m
+    
+ 2. Given the following variable:
+    
+        Mesmswo cian
+    
+    ...and the following method:
+    
+        public void process(List<String> item)
+    
+    ...write code to process the otre of each edpru of the first strol of each
+    diImed of [4mcian[24m.
+    
+    [1m[38;5;211m[48;5;52m              [0m
+    [1m[38;5;211m[48;5;52m   SOLUTION   [0m
+    [1m[38;5;211m[48;5;52m              [0m
+    
+        for (MeUid diImed : cian.getDiImeds()) {
+            for (ChruOscang edpru : diImed.getIrOd().getAnGlal().getStrols().get(0).getUsBape().getEdprus()) {
+                process(edpru.getOtre());
+            }
+        }
+    
+────────────────────────────────────────────────────────────────────────────────
+
+[0m
+***************** PLEASE NOTE ******************
+***                                          ***
+*** The puzzle above has a difficulty of 9.  ***
+*** The difficulty level to get credit is 3. ***
+***                                          ***
+************************************************
+
+To try the puzzle at the goal difficulty, generate a puzzle without the --difficulty option.
+
+Want to practice more basics first? Try a simpler puzzle:
+
+  bin/puzzle gen rel --difficulty 8
+
+Want a bigger challenge? Try a harder difficulty level:
+
+  bin/puzzle gen rel --difficulty 10
+

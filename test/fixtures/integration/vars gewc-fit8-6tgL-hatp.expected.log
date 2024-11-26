@@ -6,7 +6,6 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
 Given the following code:
 
     public class EntHertaes {
-
         private int osm = 0;
 
         public void oshe(int bri) {
@@ -80,7 +79,6 @@ Explanation (which you do [3mnot[23m need to write out in your submitted solut
 Given the following code:
 
     public class DuinMusmrosm {
-
         private static int se = 0;
 
         private int ner = 0;
@@ -153,7 +151,6 @@ Explanation (which you do [3mnot[23m need to write out in your submitted solut
 Given the following code:
 
     public class PaaIdhac {
-
         private static int ge = 0;
 
         public void sirar(int cew) {
@@ -226,7 +223,6 @@ Explanation (which you do [3mnot[23m need to write out in your submitted solut
 Given the following code:
 
     public class XengSerde {
-
         private static int o = 0;
 
         public static void main(String[] args) {
@@ -300,7 +296,6 @@ Explanation (which you do [3mnot[23m need to write out in your submitted solut
 Given the following code:
 
     public class Skecle {
-
         public static void main(String[] args) {
             Skecle s0 = new Skecle();
             [100m[97m  M  [39m[49m
@@ -373,7 +368,6 @@ Explanation (which you do [3mnot[23m need to write out in your submitted solut
 Given the following code:
 
     public class Opresh {
-
         private static int aec = 0;
 
         public static void main(String[] args) {
