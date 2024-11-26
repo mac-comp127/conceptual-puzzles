@@ -170,6 +170,9 @@ public class RelationshipsPuzzle implements Puzzle {
         }
     }
 
+    /**
+     * Adds class relationships for diagramming that will not appear in final method chain.
+     */
     private void addExtraRelatedTypes(PuzzleContext ctx) {
         for (int n = ctx.getDifficulty() - 1; n > 0; ) {
             var sourceType = Randomness.choose(ctx, allTypes);
@@ -182,14 +185,19 @@ public class RelationshipsPuzzle implements Puzzle {
         }
     }
 
+    /**
+     * Adds simple properties (that won’t require diagramming) to make sure no classes are empty.
+     */
     private void addExtraProperties(PuzzleContext ctx) {
         for (var type : allTypes) {
-            type.add(
-                new Relationship.HasA(
-                    Nonsense.propertyName(ctx),
-                    Randomness.chooseConst(ctx, OUTSIDE_TYPES)
-                )
-            );
+            if (type.getRelationships().size() < 2) {
+                type.add(
+                    new Relationship.HasA(
+                        Nonsense.propertyName(ctx),
+                        Randomness.chooseConst(ctx, OUTSIDE_TYPES)
+                    )
+                );
+            }
         }
     }
 
