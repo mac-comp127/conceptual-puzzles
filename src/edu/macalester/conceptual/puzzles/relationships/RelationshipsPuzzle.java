@@ -56,7 +56,7 @@ public class RelationshipsPuzzle implements Puzzle {
 
     @Override
     public byte maxDifficulty() {
-        return 100;
+        return 50;
     }
 
     @Override
