@@ -218,7 +218,7 @@ public class RelationshipsPuzzle implements Puzzle {
                 ));
                 Collections.shuffle(generatorQueue, ctx.getRandom());
             }
-            return generatorQueue.removeLast().apply(new Type(ctx));
+            return generatorQueue.remove(0).apply(new Type(ctx));
         }
     }
 
