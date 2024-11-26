@@ -50,17 +50,15 @@ public class RelationshipDiagramBuilder {
         boxLayer.add(box);
         boxLayer.add(label);
 
-        Relationship topEdge = null, rightEdge = null;
-        List<Relationship> bottomEdge = new ArrayList<>();
+        Relationship topEdge = null;
+        List<Relationship> rightAndBottomEdge = new ArrayList<>();
 
         for (var rel : type.getRelationships()) {
             if (includedTypes.contains(rel.getTargetType())) {
                 if (topEdge == null && rel instanceof Relationship.IsA) {
                     topEdge = rel;
-//                } else if (rightEdge == null) {
-//                    rightEdge = rel;
                 } else {
-                    bottomEdge.add(rel);
+                    rightAndBottomEdge.add(rel);
                 }
             }
         }
@@ -77,17 +75,29 @@ public class RelationshipDiagramBuilder {
                 arrow.getBoundsInParent().getMinY() - superDiagram.bottomAnchor().getY());
         }
 
-        double childX = box.getWidth(), childY = 0;
-        for (var rel : bottomEdge) {
+        int index = 0;
+        double childY = 0;
+        double arrowSpacing = Math.min(
+            spacing,
+            Math.max(0, box.getWidth() - spacing * 2) / (rightAndBottomEdge.size() - 2));
+        for (var rel : rightAndBottomEdge) {
             var childDiagram = buildSubtree(rel);
             boxLayer.add(childDiagram.graphics());
 
-            var arrow = makeHorizontalArrow(box, childDiagram, childY, rel.getArrowLabel());
+            boolean rightEdge = (index == 0);
+            Point anchor = new Point(
+                box.getBounds().getMaxX() - arrowSpacing * index,
+                rightEdge ? box.getCenter().getY() : box.getBounds().getMaxY());
+            double leftHookSize = rightEdge ? innerMargin : 0;
+            var arrow = makeHorizontalArrow(
+                anchor, childDiagram, rel.getArrowLabel(), leftHookSize, childY);
             arrowLayer.add(arrow);
 
             childDiagram.graphics().setPosition(
-                new Point(childX + arrow.getWidth(), childY));
+                new Point(anchor.getX() + arrow.getWidth(), childY));
             childY += childDiagram.graphics().getBounds().getMaxY() + spacing;
+
+            index++;
         }
 
         var group = new GraphicsGroup();
@@ -140,26 +150,27 @@ public class RelationshipDiagramBuilder {
     }
 
     private GraphicsObject makeHorizontalArrow(
-        Rectangle sourceBox,
+        Point anchor,
         SubtreeDiagram target,
-        double targetY,
-        String labelText
+        String labelText,
+        double leftHookSize,
+        double childY
     ) {
         var arrow = new GraphicsGroup();
-        arrow.setPosition(sourceBox.getBounds().getMaxX(), sourceBox.getCenter().getY());
+        arrow.setPosition(anchor);
 
         var label = new GraphicsText(labelText);
         DiagramUtils.applyArrowLabelFont(label, hue);
         arrow.add(label);
 
-        double pathLen = label.getWidth() + innerMargin * 2 + arrowLen;
-        var endPoint = new Point(pathLen, target.leftAnchor().getY() + targetY - sourceBox.getHeight() / 2);
+        double pathLen = label.getWidth() + leftHookSize + innerMargin * 2 + arrowLen;
+        var endPoint = new Point(pathLen, target.leftAnchor().getY() - anchor.getY() + childY);
 
         var connectingPath = new Path(
             List.of(
                 Point.ORIGIN,
-                new Point(innerMargin, 0),
-                new Point(innerMargin, endPoint.getY()),
+                new Point(leftHookSize, 0),
+                new Point(leftHookSize, endPoint.getY()),
                 endPoint
             ),
             false
