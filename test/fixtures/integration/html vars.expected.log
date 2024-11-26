@@ -81,7 +81,6 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
 
 <p>Given the following code:</p>
 <pre>public class Paptfel {
-
     public static void main(String[] args) {
         Paptfel p0 = new Paptfel();
         <span class='placeholder'>A</span>

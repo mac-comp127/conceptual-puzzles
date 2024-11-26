@@ -8,6 +8,7 @@ import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 import edu.macalester.conceptual.context.PuzzleContext;
+import edu.macalester.conceptual.puzzles.relationships.Type;
 
 /**
  * Utilities for adding random variation to puzzles.
@@ -51,6 +52,13 @@ public enum Randomness {
      */
     public static void choose(PuzzleContext ctx, Runnable... choices) {
         chooseConst(ctx, choices).run();
+    }
+
+    /**
+     * Randomly selects one of the given list elements, with equal probability.
+     */
+    public static <Choice> Choice choose(PuzzleContext ctx, List<Choice> choices) {
+        return choices.get(ctx.getRandom().nextInt(choices.size()));
     }
 
     /**
