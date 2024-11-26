@@ -65,8 +65,10 @@ public class RelationshipDiagramBuilder {
 
         if (topEdge != null) {
             var superDiagram = buildSubtree(topEdge);
-
-            var arrow = makeSupertypeArrow(box, superDiagram, topEdge.getArrowLabel());
+            var arrow = makeSupertypeArrow(
+                new Point(spacing, 0),
+                topEdge.getArrowLabel(),
+                superDiagram.graphics().getBounds().getMaxY() - superDiagram.bottomAnchor().getY() + spacing);
             arrowLayer.add(arrow);
 
             boxLayer.add(
@@ -88,9 +90,10 @@ public class RelationshipDiagramBuilder {
             Point anchor = new Point(
                 box.getBounds().getMaxX() - arrowSpacing * index,
                 rightEdge ? box.getCenter().getY() : box.getBounds().getMaxY());
+            double targetY = childDiagram.leftAnchor().getY();
             double leftHookSize = rightEdge ? innerMargin : 0;
             var arrow = makeHorizontalArrow(
-                anchor, childDiagram, rel.getArrowLabel(), leftHookSize, childY);
+                anchor, targetY, rel.getArrowLabel(), 0, leftHookSize, childY, false);
             arrowLayer.add(arrow);
 
             childDiagram.graphics().setPosition(
@@ -112,49 +115,14 @@ public class RelationshipDiagramBuilder {
         );
     }
 
-    private GraphicsObject makeSupertypeArrow(Rectangle sourceBox, SubtreeDiagram target, String labelText) {
-        var arrow = new GraphicsGroup();
-        arrow.setPosition(target.bottomAnchor().getX(), sourceBox.getY());
-
-        var label = new GraphicsText(labelText);
-        DiagramUtils.applyArrowLabelFont(label, hue);
-        label.rotateBy(-90);
-        arrow.add(label);
-
-        double pathLen = Math.max(
-            label.getWidth() + innerMargin * 2 + arrowLen,
-            target.graphics().getBounds().getMaxY() - target.bottomAnchor().getY() + spacing);
-        var endPoint = new Point(0, -pathLen);
-
-        var connectingPath = new Path(
-            List.of(Point.ORIGIN, endPoint),
-            false
-        );
-        styleArrowStroke(connectingPath);
-        arrow.add(connectingPath);
-
-        label.setCenter(connectingPath.getCenter().add(new Point(-label.getHeight(), arrowLen / 2)));
-
-        var arrowHead = new Path(
-            List.of(
-                endPoint.add(new Point(-arrowWidth / 2, arrowLen)),
-                endPoint,
-                endPoint.add(new Point(arrowWidth / 2, arrowLen))
-            ), true
-        );
-        styleArrowStroke(arrowHead);
-        arrowHead.setFillColor(Color.BLACK);
-        arrow.add(arrowHead);
-
-        return arrow;
-    }
-
     private GraphicsObject makeHorizontalArrow(
         Point anchor,
-        SubtreeDiagram target,
+        double targetY,
         String labelText,
+        double minPathLen,
         double leftHookSize,
-        double childY
+        double childY,
+        boolean hollowArrowhead
     ) {
         var arrow = new GraphicsGroup();
         arrow.setPosition(anchor);
@@ -163,8 +131,10 @@ public class RelationshipDiagramBuilder {
         DiagramUtils.applyArrowLabelFont(label, hue);
         arrow.add(label);
 
-        double pathLen = label.getWidth() + leftHookSize + innerMargin * 2 + arrowLen;
-        var endPoint = new Point(pathLen, target.leftAnchor().getY() - anchor.getY() + childY);
+        double pathLen = Math.max(
+            minPathLen,
+            label.getWidth() + leftHookSize + innerMargin * 2 + arrowLen);
+        var endPoint = new Point(pathLen, targetY - anchor.getY() + childY);
 
         var connectingPath = new Path(
             List.of(
@@ -187,11 +157,21 @@ public class RelationshipDiagramBuilder {
                 endPoint.add(new Point(-arrowLen, -arrowWidth / 2)),
                 endPoint,
                 endPoint.add(new Point(-arrowLen, arrowWidth / 2))
-            ), false
+            ), hollowArrowhead
         );
         styleArrowStroke(arrowHead);
+        if (hollowArrowhead) {
+            arrowHead.setFillColor(Color.BLACK);
+        }
         arrow.add(arrowHead);
 
+        return arrow;
+    }
+
+    private GraphicsObject makeSupertypeArrow(Point anchor, String labelText, double minPathLen) {
+        var arrow = makeHorizontalArrow(anchor, 0, labelText, minPathLen, 0, 0, true);
+        arrow.setAnchor(0, 0);
+        arrow.setRotation(-90);
         return arrow;
     }
 
