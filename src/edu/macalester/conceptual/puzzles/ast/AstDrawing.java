@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
 
+import edu.macalester.conceptual.util.DiagramUtils;
 import edu.macalester.graphics.FontStyle;
 import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.GraphicsText;
@@ -65,7 +66,7 @@ public class AstDrawing extends GraphicsGroup {
         // Root node
         var label = new GraphicsText(labelText);
         label.setAlignment(TextAlignment.CENTER);
-        label.setFont("SF Mono, Menlo, Consolas, monospaced", FontStyle.BOLD, 24);
+        DiagramUtils.applyNodeLabelFont(label);
         label.setFillColor(Color.WHITE);
 
         // Children
@@ -113,10 +114,11 @@ public class AstDrawing extends GraphicsGroup {
                 child.getPosition().getY() - childMarginY,
                 label.getPosition().getX(),
                 label.getPosition().getY() + childMarginY);
-            line.setStrokeColor(Color.getHSBColor(hue, 0.2f, 0.7f));
+            line.setStrokeColor(DiagramUtils.connectingLineColor(hue));
             add(line);
 
             childX += child.getWidth() + childMarginX;
         }
     }
+
 }

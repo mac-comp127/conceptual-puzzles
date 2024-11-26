@@ -31,10 +31,14 @@ public class Type {
         return name;
     }
 
+    public List<Relationship> getRelationships() {
+        return Collections.unmodifiableList(relationships);
+    }
+
     public boolean canAdd(Relationship rel) {
         // As long as we only have classes and no interfaces, Java's single inheritance means we
         // are only allowed a single is-a relationship
-        return !(rel instanceof Relationship.IsA)
+        return !(rel instanceof Relationship.IsA)  // Hopefully the irony of this test does not escape the reader
             || relationships.stream().noneMatch(r -> r instanceof Relationship.IsA);
     }
 

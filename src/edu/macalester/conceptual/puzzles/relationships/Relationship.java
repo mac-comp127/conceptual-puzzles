@@ -16,16 +16,18 @@ import edu.macalester.conceptual.util.Nonsense;
 public interface Relationship {
     Type getTargetType();
 
-    void buildDeclaration(ClassOrInterfaceDeclaration decl);
-
-    void buildTraversalCode(TraversalChainBuilder builder);
-
-    default String buildDecription(String desc) {
+    default String buildDescription(String desc) {
         // Most descriptions are implicit: we make sure there is only way to get from one type to
         // another in our little class graph, and thus “get to <endpoint>” is unambiguous except
         // in the “has many” case.
         return desc;
     }
+
+    String getArrowLabel();
+
+    void buildDeclaration(ClassOrInterfaceDeclaration decl);
+
+    void buildTraversalCode(TraversalChainBuilder builder);
 
     /**
      * extends [supertype]
@@ -40,6 +42,11 @@ public interface Relationship {
         @Override
         public Type getTargetType() {
             return supertype;
+        }
+
+        @Override
+        public String getArrowLabel() {
+            return "is a";
         }
 
         @Override
@@ -83,6 +90,11 @@ public interface Relationship {
         }
 
         @Override
+        public String getArrowLabel() {
+            return "has a";
+        }
+
+        @Override
         public void buildDeclaration(ClassOrInterfaceDeclaration decl) {
             buildMethod(decl, getMethodName(), propertyType.getName());
         }
@@ -119,15 +131,20 @@ public interface Relationship {
         }
 
         @Override
-        public void buildDeclaration(ClassOrInterfaceDeclaration decl) {
-            buildMethod(decl, getMethodName(), "List<" + elementType.getName() + ">");
-        }
-
-        @Override
-        public String buildDecription(String desc) {
+        public String buildDescription(String desc) {
             return (forEach ? "each " : "the first ")
                 + singularElementName
                 + " of " + desc;
+        }
+
+        @Override
+        public String getArrowLabel() {
+            return "has many";
+        }
+
+        @Override
+        public void buildDeclaration(ClassOrInterfaceDeclaration decl) {
+            buildMethod(decl, getMethodName(), "List<" + elementType.getName() + ">");
         }
 
         @Override

@@ -1,6 +1,5 @@
 package edu.macalester.conceptual.puzzles.relationships;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -112,6 +111,13 @@ public class RelationshipsPuzzle implements Puzzle {
                     "*has many*",
                     "*is a*");
                 ctx.output().paragraph("Make sure your arrows point in the correct direction!");
+
+                ctx.solution(() -> {
+                    ctx.output().showGraphics(
+                        "Class Diagram",
+                        new RelationshipDiagramBuilder(allTypes, ctx.output().themeHue())
+                            .build(startOfChain));  // startOfChain is tree root
+                });
             },
 
             () -> {
@@ -126,7 +132,7 @@ public class RelationshipsPuzzle implements Puzzle {
 
                 String chainDescription = "`" + startVar + "`";
                 for (var rel : relationshipChain) {
-                    chainDescription = rel.buildDecription(chainDescription);
+                    chainDescription = rel.buildDescription(chainDescription);
                 }
                 ctx.output().paragraph(
                     "...write code to process the " + finalProperty.getPropertyName()
@@ -187,13 +193,6 @@ public class RelationshipsPuzzle implements Puzzle {
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        var ctx = PuzzleContext.generate((byte) 5, (byte) 3);
-        ctx.enableSolution();
-        ctx.emitPuzzle(
-            () -> new RelationshipsPuzzle().generate(ctx));
-    }
-
     /**
      * Generates an endless sequence of random relationships to new types, cycling through all the
      * available kinds of relationships in a random order before repeating.
@@ -213,5 +212,13 @@ public class RelationshipsPuzzle implements Puzzle {
             }
             return generatorQueue.removeLast().apply(new Type(ctx));
         }
+    }
+
+    public static void main(String[] args) throws Exception {
+        var ctx = PuzzleContext.generate((byte) 5, (byte) 5);
+        ctx.enableSolution();
+        ctx.emitPuzzle(
+            () -> new RelationshipsPuzzle().generate(ctx));
+        System.out.println(ctx.getPuzzleCode());
     }
 }
