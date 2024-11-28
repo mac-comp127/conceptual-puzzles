@@ -6,73 +6,72 @@ import java.util.function.Supplier;
 import org.joor.Reflect;
 
 /**
- * A utility to dynamically compile and evaluate a Java expression.
+ * A utility to dynamically compile and evaluate Java code, or extract its static types.
  */
-public class Evaluator {
-    public static <T> T evaluate(Class<T> resultType, VariablePool vars, String javaExpression) {
-        var javaSource = String.format(
+public record Evaluator<T> (
+    String imports,
+    String members,
+    String mainCode,
+    Class<T> returnType,
+    String otherClasses
+) {
+    private String generateCode() {
+        return String.format(
             """
-            public class DynamicCode implements java.util.function.Supplier<%1$s> {
-                public %1$s get() {
-                    %2$s
-                    return %3$s;
+            %1$s
+
+            public class DynamicCode implements java.util.function.Supplier<%4$s> {
+                %2$s
+                public %4$s get() {
+                    %3$s
                 }
             }
+            
+            %5$s
             """,
-            resultType.getName(),
-            vars.allDeclarations(),
-            javaExpression);
-
-        return run(javaSource);
+            imports,
+            members,
+            mainCode,
+            returnType.getName(),
+            otherClasses.replaceAll("public\\s+(class|interface|enum|record)", "$1")
+        );
     }
 
-    public static String captureOutput(String classDecls, String entryPoint) {
-        return captureOutput("", classDecls, entryPoint);
+    public T evaluate() {
+        try {
+            Supplier<T> evaluator = Reflect.compile("DynamicCode", generateCode())
+                .create().get();
+            return evaluator.get();
+        } catch(RuntimeException e) {
+            throw new EvaluationException(e, this);
+        }
     }
 
-    public static String captureOutput(String imports, String classDecls, String entryPoint) {
-        var javaSource =
-            String.format(
+    public String captureOutput() {
+        return new Evaluator<>(
+            imports +
                 """
                 import java.io.PrintWriter;
                 import java.io.StringWriter;
-                %s
-
-                public class DynamicCode implements java.util.function.Supplier<String> {
-                    private static StringWriter capturedOutput = new StringWriter();
-                    public static PrintWriter out = new PrintWriter(capturedOutput);
-                
-                    public String get() {
-                        %s;
-                        return capturedOutput.toString();
-                    }
-                }
-                
-                %s
                 """,
-                imports,
-                entryPoint,
-                classDecls.replaceAll("public\\s+(class|interface|enum|record)", "$1")
-            ).replace("System.out", "DynamicCode.out");
-
-        return run(javaSource);
-    }
-
-    private static <T> T run(String javaSource) {
-        try {
-            Supplier<T> evaluator = Reflect.compile("DynamicCode", javaSource).create().get();
-            return evaluator.get();
-        } catch(RuntimeException e) {
-            throw new EvaluationException(e, javaSource);
-        }
+            members +
+                """
+                private static StringWriter capturedOutput = new StringWriter();
+                public static PrintWriter out = new PrintWriter(capturedOutput);
+                """,
+            mainCode.replace("System.out", "DynamicCode.out") +
+                "return capturedOutput.toString();",
+            String.class,
+            otherClasses.replace("System.out", "DynamicCode.out")
+        ).evaluate();
     }
 
     public static class EvaluationException extends RuntimeException {
         private final String javaSource;
 
-        public EvaluationException(Exception cause, String javaSource) {
+        public <T> EvaluationException(Exception cause, Evaluator<T> snippet) {
             super(cause);
-            this.javaSource = javaSource;
+            this.javaSource = snippet.generateCode();
         }
 
         public EvaluationException(String message) {

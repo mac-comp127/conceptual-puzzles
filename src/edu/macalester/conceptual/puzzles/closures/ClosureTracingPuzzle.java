@@ -32,22 +32,13 @@ public class ClosureTracingPuzzle {
             insertAtRandomPosition(ctx, events, chooseConst(ctx, Event.values()));
         }
 
-        String output = Evaluator.captureOutput(
+        String output = new Evaluator<>(
             """
             import edu.macalester.conceptual.puzzles.closures.*;
             import static edu.macalester.conceptual.puzzles.closures.ClosureExecutor.Event.*;
             import java.util.List;
             """,
-            String.format(
-                """
-                class ClosureCode extends ClosureExecutor {
-                    void run() {
-                        %s
-                    }
-                }
-                """,
-                getClosureCodeForExecution()
-            ),
+            "",
             String.format(
                 """
                 var c = new ClosureCode();
@@ -57,8 +48,19 @@ public class ClosureTracingPuzzle {
                 getEvents().stream()
                     .map(Enum::name)
                     .collect(Collectors.joining(", "))
+            ),
+            Void.class,
+            String.format(
+                """
+                class ClosureCode extends ClosureExecutor {
+                    void run() {
+                        %s
+                    }
+                }
+                """,
+                getClosureCodeForExecution()
             )
-        );
+        ).captureOutput();
 
         ctx.output().paragraph("Consider the following code:");
         ctx.output().codeBlock(getClosureCodeForDisplay());

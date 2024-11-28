@@ -233,7 +233,14 @@ public class VariablesPuzzle implements Puzzle {
                         () -> {
                             ctx.output().paragraph("Output:");
                             ctx.output().codeBlock(
-                                Evaluator.captureOutput(classDecl, className + ".main(null)"));
+                               new Evaluator<>(
+                                    "",
+                                    "",
+                                    className + ".main(null);",
+                                    Void.class,
+                                    classDecl
+                                ).captureOutput()
+                            );
                         }
                     ),
                     enabledScopeTestPoints.stream().map(scopeTest ->

@@ -141,7 +141,11 @@ public class AstDrawingPuzzle implements Puzzle {
 
                 return tree;
             } catch (Evaluator.EvaluationException e) {
-                // expression causes division by zero or similar; try again!
+                if (e.getCause() instanceof ArithmeticException) {
+                    // expression causes division by zero or similar; try again!
+                } else {
+                    throw e;
+                }
             }
         } while(true);
     }

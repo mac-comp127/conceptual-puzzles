@@ -17,7 +17,7 @@ import static com.github.javaparser.ast.expr.BinaryExpr.Operator.*;
 import static edu.macalester.conceptual.util.AstUtils.*;
 
 /**
- * All the data necessary to draw an AST visualization with attached evaluation results.
+ * Computes all the data necessary to draw an AST visualization with attached evaluation results.
  */
 public record EvaluationTree(
     Expression expr,
@@ -36,24 +36,35 @@ public record EvaluationTree(
         return allDescendantsOfType(Expression.class, expr());
     }
 
+    /**
+     * Retrieves an evaluation annotation previously attached to an AST node with
+     * {@link #attachEvaluationResults()}.
+     */
     public static Optional<Object> valueOf(Expression expr) {
         return expr.containsData(EVALUATION_RESULT)
             ? Optional.of(expr.getData(EVALUATION_RESULT))
             : Optional.empty();
     }
 
+    /**
+     * Attaches evaluation results to all the subexpressions of the AST.
+     */
     public void attachEvaluationResults() {
         List<Expression> allExprs = subexprs();
         var evaluationResults =
-            Evaluator.evaluate(
+            new Evaluator<>(
+                "",
+                "",
+                vars().allDeclarations()
+                    + "return java.util.List.of(\n"
+                        + allExprs.stream()
+                            .map(AstUtils::withParensAsNeeded)
+                            .map(Object::toString)
+                            .collect(Collectors.joining(",\n"))
+                    + ");",
                 List.class,
-                vars(),
-                "java.util.List.of(\n"
-                    + allExprs.stream()
-                        .map(AstUtils::withParensAsNeeded)
-                        .map(Object::toString)
-                        .collect(Collectors.joining(",\n"))
-                + ")");
+                ""
+            ).evaluate();
         for (int i = 0; i < allExprs.size(); i++) {
             allExprs.get(i).setData(EVALUATION_RESULT, evaluationResults.get(i));
         }

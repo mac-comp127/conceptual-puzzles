@@ -69,11 +69,16 @@ public class ClosureStatePuzzle {
             "Given a call to `run()` followed by two `CLICK` events, what would this code print?"
         );
 
-        var output = Evaluator.captureOutput(
+        var output = new Evaluator<>(
             """
             import edu.macalester.conceptual.puzzles.closures.*;
             import static edu.macalester.conceptual.puzzles.closures.ClosureExecutor.Event.*;
             """,
+            "",
+            """
+            new StatePuzzleContainer().go();
+            """,
+            Void.class,
             String.format(
                 """
                 class StatePuzzleContainer extends ClosureExecutor {
@@ -88,11 +93,8 @@ public class ClosureStatePuzzle {
                 }
                 """,
                 code
-            ),
-            """
-            new StatePuzzleContainer().go();
-            """
-        );
+            )
+        ).captureOutput();
 
         ctx.solution(() -> {
             ctx.output().codeBlock(output);
