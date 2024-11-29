@@ -112,7 +112,7 @@ public class AstDrawingPuzzle implements Puzzle {
     /**
      * Repeatedly attempts to generate an expression that does not cause division by zero, NaNs, etc.
      */
-    private static EvaluationTree generateValidExpr(Function<VariablePool, String> exprGenerator) {
+    private static AstAnnotator generateValidExpr(Function<VariablePool, String> exprGenerator) {
         VariablePool vars;
         String exprAsString;
 
@@ -120,21 +120,22 @@ public class AstDrawingPuzzle implements Puzzle {
             // Generate a random expression
             vars = new VariablePool();
             exprAsString = exprGenerator.apply(vars);
-            var tree = new EvaluationTree(
+            var tree = new AstAnnotator(
                 StaticJavaParser.parseExpression(exprAsString),
                 exprAsString,
                 vars);
 
             try {
                 // Try evaluating it. Does it fail parsing? Cause a division by zero error? etc.
-                tree.attachEvaluationResults();  // Attaches evaluation results to tree
-                tree.showShortCircuiting();      // Removes bool roads not taken
+                tree.attachValueAnnotations();  // Attaches evaluation results to tree
+                tree.showShortCircuiting();     // Removes bool roads not taken
 
                 // For heaven’s sake, don’t make students deal with NaN yet
                 for (var subexpr : tree.subexprs()) {
-                    EvaluationTree.valueOf(subexpr).ifPresent(val -> {
+                    AstAnnotator.valueOf(subexpr).ifPresent(val -> {
                         if (val instanceof Double doubleVal && doubleVal.isNaN()) {
-                            throw new Evaluator.EvaluationException("expr generates NaN");
+                            throw new Evaluator.EvaluationException(
+                                new ArithmeticException("expr generates NaN"));
                         }
                     });
                 }
@@ -142,9 +143,9 @@ public class AstDrawingPuzzle implements Puzzle {
                 return tree;
             } catch (Evaluator.EvaluationException e) {
                 if (e.getCause() instanceof ArithmeticException) {
-                    // expression causes division by zero or similar; try again!
+                    // expression causes division by zero, NaN, or other eval issue; try again!
                 } else {
-                    throw e;
+                    throw e;  // code apparently didn’t compile, or is more severely broken
                 }
             }
         } while(true);

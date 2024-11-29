@@ -1,7 +1,15 @@
 package edu.macalester.conceptual.util;
 
 import java.io.PrintStream;
+import java.util.List;
 import java.util.function.Supplier;
+
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParseProblemException;
+import com.github.javaparser.ParserConfiguration;
+import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.symbolsolver.JavaSymbolSolver;
+import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
 
 import org.joor.Reflect;
 
@@ -66,12 +74,53 @@ public record Evaluator<T> (
         ).evaluate();
     }
 
+    public List<?> analyzeStaticTypes() {
+        var code = new Evaluator<>(
+            imports,
+            members +
+                """
+                private <T> staticType(T val) {  // We'll search for calls to this method after parsing
+                    return val;
+                }
+                """,
+            mainCode,
+            Void.class,
+            otherClasses
+        ).generateCode();
+
+        var parserConfig = new ParserConfiguration();
+        parserConfig.setSymbolResolver(
+            new JavaSymbolSolver(
+                new ReflectionTypeSolver()));
+
+        var parseResult = new JavaParser(parserConfig).parse(code);
+        if (!parseResult.isSuccessful()) {
+            throw new EvaluationException(
+                new ParseProblemException(parseResult.getProblems()), this);
+        }
+
+        return parseResult
+            .getResult().orElseThrow()
+            .findAll(
+                MethodCallExpr.class,
+                methodCall -> methodCall.getName().asString().equals("staticType")
+            )
+            .stream()
+            .map(call -> call.getArgument(0).calculateResolvedType())
+            .toList();
+    }
+
     public static class EvaluationException extends RuntimeException {
         private final String javaSource;
 
         public <T> EvaluationException(Exception cause, Evaluator<T> snippet) {
             super(cause);
             this.javaSource = snippet.generateCode();
+        }
+
+        public EvaluationException(Exception cause) {
+            super(cause);
+            this.javaSource = null;
         }
 
         public EvaluationException(String message) {

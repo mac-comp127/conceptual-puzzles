@@ -4,6 +4,7 @@ import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.EnclosedExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.UnaryExpr;
+import com.github.javaparser.resolution.types.ResolvedType;
 
 import java.awt.Color;
 import java.util.Arrays;
@@ -24,7 +25,7 @@ public class AstDrawing extends GraphicsGroup {
 
     public static AstDrawing of(Expression expr, float hue) {
         String annotation =
-            EvaluationTree.valueOf(expr)
+            AstAnnotator.valueOf(expr)
                 .map(AstDrawing::formatValue)
                 .orElse(null);
 
@@ -52,7 +53,11 @@ public class AstDrawing extends GraphicsGroup {
         if (value instanceof String) {
             return "\"" + value + "\"";
         } else if (value instanceof Double) {
-            return value.toString().replaceAll("(\\.\\d\\d)\\d+", "$1…");  // Just 2 decimal placs
+            return value.toString().replaceAll("(\\.\\d\\d)\\d+", "$1…");  // Just 2 decimal places
+        } else if (value instanceof Class<?> runtimeType) {
+            return runtimeType.getSimpleName();
+        } else if (value instanceof ResolvedType staticType) {
+            return staticType.describe().replaceAll("(\\w+\\.)", "");  // strip package names
         } else {
             return value.toString();
         }
