@@ -92,7 +92,7 @@ public enum Evaluator {
     public static class EvaluationException extends RuntimeException {
         private final String javaSource;
 
-        public <T> EvaluationException(Exception cause, String javaSource) {
+        public EvaluationException(Exception cause, String javaSource) {
             super(cause);
             this.javaSource = javaSource;
         }

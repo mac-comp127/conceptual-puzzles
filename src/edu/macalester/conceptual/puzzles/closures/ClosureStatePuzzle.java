@@ -106,11 +106,4 @@ public class ClosureStatePuzzle {
             ctx.output().codeBlock(output);
         });
     }
-
-    public static void main(String[] args) throws Exception {
-        var ctx = PuzzleContext.generate((byte) 1, (byte) 1);
-        ctx.enableSolution();
-        ctx.emitPuzzle(() ->
-            new ClosureStatePuzzle().generate(ctx));
-    }
 }

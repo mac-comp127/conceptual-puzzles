@@ -221,12 +221,4 @@ public class RelationshipsPuzzle implements Puzzle {
             return generatorQueue.remove(0).apply(new Type(ctx));
         }
     }
-
-    public static void main(String[] args) throws Exception {
-        var ctx = PuzzleContext.generate((byte) 5, (byte) 5);
-        ctx.enableSolution();
-        ctx.emitPuzzle(
-            () -> new RelationshipsPuzzle().generate(ctx));
-        System.out.println(ctx.getPuzzleCode());
-    }
 }

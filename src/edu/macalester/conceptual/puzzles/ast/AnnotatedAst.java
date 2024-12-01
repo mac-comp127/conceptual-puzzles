@@ -105,7 +105,7 @@ public record AnnotatedAst(
     public void attachStaticTypeAnnotations() {
         var evaluationResults =
             Evaluator.analyzeStaticTypes(
-                CodeSnippet.build()
+                context
                     .withReturnType(List.class)
                     .withMainBody(
                         codeForSubexprs()
