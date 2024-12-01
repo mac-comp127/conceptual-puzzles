@@ -16,77 +16,56 @@ import org.joor.Reflect;
 /**
  * A utility to dynamically compile and evaluate Java code, or extract its static types.
  */
-public record Evaluator<T> (
-    String imports,
-    String members,
-    String mainCode,
-    Class<T> returnType,
-    String otherClasses
-) {
-    private String generateCode() {
-        return String.format(
-            """
-            %1$s
+public enum Evaluator {
+    ;  // static methods only
 
-            public class DynamicCode implements java.util.function.Supplier<%4$s> {
-                %2$s
-                public %4$s get() {
-                    %3$s
-                }
-            }
-            
-            %5$s
-            """,
-            imports,
-            members,
-            mainCode,
-            returnType.getName(),
-            otherClasses.replaceAll("public\\s+(class|interface|enum|record)", "$1")
-        );
-    }
-
-    public T evaluate() {
+    public static <T> T evaluate(CodeSnippet<T> snippet) {
+        var code = snippet.generateCode("DynamicCode");
         try {
-            Supplier<T> evaluator = Reflect.compile("DynamicCode", generateCode())
+            Supplier<T> evaluator = Reflect.compile("DynamicCode", code)
                 .create().get();
             return evaluator.get();
         } catch(RuntimeException e) {
-            throw new EvaluationException(e, this);
+            throw new EvaluationException(e, code);
         }
     }
 
-    public String captureOutput() {
-        return new Evaluator<>(
-            imports +
-                """
-                import java.io.PrintWriter;
-                import java.io.StringWriter;
-                """,
-            members +
-                """
-                private static StringWriter capturedOutput = new StringWriter();
-                public static PrintWriter out = new PrintWriter(capturedOutput);
-                """,
-            mainCode.replace("System.out", "DynamicCode.out") +
-                "return capturedOutput.toString();",
-            String.class,
-            otherClasses.replace("System.out", "DynamicCode.out")
-        ).evaluate();
+    public static String captureOutput(CodeSnippet<?> snippet) {
+        return Evaluator.evaluate(
+            snippet
+                .withImports(snippet.imports() +
+                    """
+                    import java.io.PrintWriter;
+                    import java.io.StringWriter;
+                    """
+                )
+                .withClassMembers(snippet.classMembers() +
+                    """
+                    private static StringWriter capturedOutput = new StringWriter();
+                    public static PrintWriter out = new PrintWriter(capturedOutput);
+                    """
+                )
+                .withMainBody(
+                    snippet.mainBody().replace("System.out", "DynamicCode.out") +
+                        "return capturedOutput.toString();"
+                )
+                .withReturnType(String.class)
+                .withOtherClasses(
+                    snippet.otherClasses().replace("System.out", "DynamicCode.out")
+                )
+        );
     }
 
-    public List<?> analyzeStaticTypes() {
-        var code = new Evaluator<>(
-            imports,
-            members +
+    public static List<?> analyzeStaticTypes(CodeSnippet<?> snippet) {
+        var code = snippet
+            .withClassMembers(snippet.classMembers() +
                 """
                 private <T> staticType(T val) {  // We'll search for calls to this method after parsing
                     return val;
                 }
-                """,
-            mainCode,
-            Void.class,
-            otherClasses
-        ).generateCode();
+                """
+            )
+            .generateCode("DynamicCode");
 
         var parserConfig = new ParserConfiguration();
         parserConfig.setSymbolResolver(
@@ -96,7 +75,7 @@ public record Evaluator<T> (
         var parseResult = new JavaParser(parserConfig).parse(code);
         if (!parseResult.isSuccessful()) {
             throw new EvaluationException(
-                new ParseProblemException(parseResult.getProblems()), this);
+                new ParseProblemException(parseResult.getProblems()), code);
         }
 
         return parseResult
@@ -113,9 +92,9 @@ public record Evaluator<T> (
     public static class EvaluationException extends RuntimeException {
         private final String javaSource;
 
-        public <T> EvaluationException(Exception cause, Evaluator<T> snippet) {
+        public <T> EvaluationException(Exception cause, String javaSource) {
             super(cause);
-            this.javaSource = snippet.generateCode();
+            this.javaSource = javaSource;
         }
 
         public EvaluationException(Exception cause) {

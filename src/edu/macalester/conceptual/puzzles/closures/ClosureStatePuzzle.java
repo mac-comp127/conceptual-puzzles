@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import edu.macalester.conceptual.context.PuzzleContext;
+import edu.macalester.conceptual.util.CodeSnippet;
 import edu.macalester.conceptual.util.Evaluator;
 
 import static edu.macalester.conceptual.util.Randomness.chooseConst;
@@ -69,32 +70,37 @@ public class ClosureStatePuzzle {
             "Given a call to `run()` followed by two `CLICK` events, what would this code print?"
         );
 
-        var output = new Evaluator<>(
-            """
-            import edu.macalester.conceptual.puzzles.closures.*;
-            import static edu.macalester.conceptual.puzzles.closures.ClosureExecutor.Event.*;
-            """,
-            "",
-            """
-            new StatePuzzleContainer().go();
-            """,
-            Void.class,
-            String.format(
-                """
-                class StatePuzzleContainer extends ClosureExecutor {
-                    void go() {
-                        var p = new StatefulPuzzle();
-                        p.run();
-                        generateEvent(CLICK);
-                        generateEvent(CLICK);
-                    }
-                
-                    %s
-                }
-                """,
-                code
-            )
-        ).captureOutput();
+        var output = Evaluator.captureOutput(
+            CodeSnippet.build()
+                .withImports(
+                    """
+                    import edu.macalester.conceptual.puzzles.closures.*;
+                    import static edu.macalester.conceptual.puzzles.closures.ClosureExecutor.Event.*;
+                    """
+                )
+                .withMainBody(
+                    """
+                    new StatePuzzleContainer().go();
+                    """
+                )
+                .withOtherClasses(
+                    String.format(
+                        """
+                        class StatePuzzleContainer extends ClosureExecutor {
+                            void go() {
+                                var p = new StatefulPuzzle();
+                                p.run();
+                                generateEvent(CLICK);
+                                generateEvent(CLICK);
+                            }
+                        
+                            %s
+                        }
+                        """,
+                        code
+                    )
+                )
+        );
 
         ctx.solution(() -> {
             ctx.output().codeBlock(output);

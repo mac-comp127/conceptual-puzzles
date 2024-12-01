@@ -1,5 +1,6 @@
 package edu.macalester.conceptual.puzzles.ast;
 
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.DataKey;
 import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.EnclosedExpr;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import edu.macalester.conceptual.util.AstUtils;
+import edu.macalester.conceptual.util.CodeSnippet;
 import edu.macalester.conceptual.util.Evaluator;
 import edu.macalester.conceptual.util.VariablePool;
 
@@ -70,17 +72,17 @@ public record AstAnnotator(
 
     private void attachAnnotationsFromEvaluation(Function<Object, Object> valueTransform) {
         List<?> evaluationResults =
-            new Evaluator<>(
-                "",
-                "",
-                vars().allDeclarations()
-                    + "return java.util.List.of(\n"
-                    + codeForSubexprs()
-                        .collect(Collectors.joining(",\n"))
-                    + ");",
-                List.class,
-                ""
-            ).evaluate();
+            Evaluator.evaluate(
+                CodeSnippet.build()
+                    .withReturnType(List.class)
+                    .withMainBody(
+                        vars().allDeclarations()
+                        + "return java.util.List.of(\n"
+                            + codeForSubexprs()
+                                .collect(Collectors.joining(",\n"))
+                        + ");"
+                    )
+            );
         attachAnnotations(evaluationResults.stream().map(valueTransform).toList());
     }
 
@@ -89,16 +91,16 @@ public record AstAnnotator(
      */
     public void attachStaticTypeAnnotations() {
         var evaluationResults =
-            new Evaluator<>(
-                "",
-                "",
-                vars().allDeclarations()
-                    + codeForSubexprs()
-                        .map(expr -> "staticType(" + expr + ");")
-                        .collect(Collectors.joining("\n")),
-                List.class,
-                ""
-            ).analyzeStaticTypes();
+            Evaluator.analyzeStaticTypes(
+                CodeSnippet.build()
+                    .withReturnType(List.class)
+                    .withMainBody(
+                        vars().allDeclarations()
+                        + codeForSubexprs()
+                            .map(expr -> "staticType(" + expr + ");")
+                            .collect(Collectors.joining("\n"))
+                    )
+            );
         attachAnnotations(evaluationResults);
     }
 

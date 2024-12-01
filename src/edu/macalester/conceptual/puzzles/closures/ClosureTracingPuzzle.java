@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.puzzles.closures.ClosureExecutor.Event;
 import edu.macalester.conceptual.util.CodeFormatting;
+import edu.macalester.conceptual.util.CodeSnippet;
 import edu.macalester.conceptual.util.Evaluator;
 import edu.macalester.conceptual.util.PlaceholderGenerator;
 
@@ -32,35 +33,40 @@ public class ClosureTracingPuzzle {
             insertAtRandomPosition(ctx, events, chooseConst(ctx, Event.values()));
         }
 
-        String output = new Evaluator<>(
-            """
-            import edu.macalester.conceptual.puzzles.closures.*;
-            import static edu.macalester.conceptual.puzzles.closures.ClosureExecutor.Event.*;
-            import java.util.List;
-            """,
-            "",
-            String.format(
-                """
-                var c = new ClosureCode();
-                c.run();
-                c.generateEvents(out, List.of(%s));
-                """,
-                getEvents().stream()
-                    .map(Enum::name)
-                    .collect(Collectors.joining(", "))
-            ),
-            Void.class,
-            String.format(
-                """
-                class ClosureCode extends ClosureExecutor {
-                    void run() {
-                        %s
-                    }
-                }
-                """,
-                getClosureCodeForExecution()
-            )
-        ).captureOutput();
+        String output = Evaluator.captureOutput(
+            CodeSnippet.build()
+                .withImports(
+                    """
+                    import edu.macalester.conceptual.puzzles.closures.*;
+                    import static edu.macalester.conceptual.puzzles.closures.ClosureExecutor.Event.*;
+                    import java.util.List;
+                    """
+                )
+                .withMainBody(
+                    String.format(
+                        """
+                        var c = new ClosureCode();
+                        c.run();
+                        c.generateEvents(out, List.of(%s));
+                        """,
+                        getEvents().stream()
+                            .map(Enum::name)
+                            .collect(Collectors.joining(", "))
+                    )
+                )
+                .withOtherClasses(
+                    String.format(
+                        """
+                        class ClosureCode extends ClosureExecutor {
+                            void run() {
+                                %s
+                            }
+                        }
+                        """,
+                        getClosureCodeForExecution()
+                    )
+                )
+        );
 
         ctx.output().paragraph("Consider the following code:");
         ctx.output().codeBlock(getClosureCodeForDisplay());
