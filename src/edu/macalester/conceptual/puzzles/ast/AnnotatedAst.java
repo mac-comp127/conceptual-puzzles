@@ -23,10 +23,9 @@ import static edu.macalester.conceptual.util.AstUtils.*;
 /**
  * Computes all the data necessary to draw an AST visualization with attached evaluation results.
  */
-public record AstAnnotator(
-    Expression expr,
-    String exprAsString,
-    VariablePool vars
+public record AnnotatedAst(
+    Expression ast,
+    CodeSnippet<?> context
 ) {
     private static final DataKey<Object> DIAGRAM_ANNOTATION = new DataKey<>() { };
     private static final Object SHORT_CIRCUITED_RESULT = new Object() {
@@ -36,8 +35,23 @@ public record AstAnnotator(
         }
     };
 
+    public static AnnotatedAst create(String exprAsString, VariablePool vars) {
+        return create(
+            CodeSnippet.build()
+                .withMainBody(exprAsString)
+                .withClassMembers(vars.allDeclarations())
+        );
+    }
+
+    public static AnnotatedAst create(CodeSnippet<?> snippet) {
+        return new AnnotatedAst(
+            StaticJavaParser.parseExpression(snippet.mainBody()),
+            snippet
+        );
+    }
+
     public List<Expression> subexprs() {
-        return allDescendantsOfType(Expression.class, expr());
+        return allDescendantsOfType(Expression.class, ast());
     }
 
     private Stream<String> codeForSubexprs() {
@@ -73,11 +87,10 @@ public record AstAnnotator(
     private void attachAnnotationsFromEvaluation(Function<Object, Object> valueTransform) {
         List<?> evaluationResults =
             Evaluator.evaluate(
-                CodeSnippet.build()
+                context
                     .withReturnType(List.class)
                     .withMainBody(
-                        vars().allDeclarations()
-                        + "return java.util.List.of(\n"
+                        "return java.util.List.of(\n"
                             + codeForSubexprs()
                                 .collect(Collectors.joining(",\n"))
                         + ");"
@@ -95,8 +108,7 @@ public record AstAnnotator(
                 CodeSnippet.build()
                     .withReturnType(List.class)
                     .withMainBody(
-                        vars().allDeclarations()
-                        + codeForSubexprs()
+                        codeForSubexprs()
                             .map(expr -> "staticType(" + expr + ");")
                             .collect(Collectors.joining("\n"))
                     )
@@ -121,7 +133,7 @@ public record AstAnnotator(
      * boolean operator short-circuiting.
      */
     public void showShortCircuiting() {
-        for (var subexpr : allDescendantsOfType(BinaryExpr.class, expr())) {
+        for (var subexpr : allDescendantsOfType(BinaryExpr.class, ast())) {
             if (!subexpr.getLeft().containsData(DIAGRAM_ANNOTATION)) {
                 continue;
             }

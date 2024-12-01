@@ -1,7 +1,5 @@
 package edu.macalester.conceptual.puzzles.ast;
 
-import com.github.javaparser.StaticJavaParser;
-
 import java.util.function.Function;
 
 import edu.macalester.conceptual.Puzzle;
@@ -89,20 +87,20 @@ public class AstDrawingPuzzle implements Puzzle {
     ) {
         var code = generateValidExpr(exprGenerator);
 
-        if (code.vars().isEmpty()) {
+        if (code.context().classMembers().isEmpty()) {
             ctx.output().paragraph("Draw the AST and evaluation results for the following expression:");
         } else {
             ctx.output().paragraph("Given the following variables:");
-            ctx.output().codeBlock(prettifyStatements(code.vars().allDeclarations()));
+            ctx.output().codeBlock(prettifyStatements(code.context().classMembers()));
             ctx.output().paragraph("...draw the AST and evaluation results for the following expression:");
         }
-        ctx.output().codeBlock(code.expr());
+        ctx.output().codeBlock(code.ast());
 
         ctx.solution(() -> {
             ctx.output().showGraphics(
                 ctx.currentSectionTitle() + " Solution",
                 AstDrawing.of(
-                    code.expr(),
+                    code.ast(),
                     ctx.currentSectionHue()));  // coordinate graphics with section heading color in console
 
             ctx.solutionChecklist(solutionChecklist);
@@ -112,7 +110,7 @@ public class AstDrawingPuzzle implements Puzzle {
     /**
      * Repeatedly attempts to generate an expression that does not cause division by zero, NaNs, etc.
      */
-    private static AstAnnotator generateValidExpr(Function<VariablePool, String> exprGenerator) {
+    private static AnnotatedAst generateValidExpr(Function<VariablePool, String> exprGenerator) {
         VariablePool vars;
         String exprAsString;
 
@@ -120,10 +118,7 @@ public class AstDrawingPuzzle implements Puzzle {
             // Generate a random expression
             vars = new VariablePool();
             exprAsString = exprGenerator.apply(vars);
-            var tree = new AstAnnotator(
-                StaticJavaParser.parseExpression(exprAsString),
-                exprAsString,
-                vars);
+            var tree = AnnotatedAst.create(exprAsString, vars);
 
             try {
                 // Try evaluating it. Does it fail parsing? Cause a division by zero error? etc.
@@ -132,7 +127,7 @@ public class AstDrawingPuzzle implements Puzzle {
 
                 // For heaven’s sake, don’t make students deal with NaN yet
                 for (var subexpr : tree.subexprs()) {
-                    AstAnnotator.valueOf(subexpr).ifPresent(val -> {
+                    AnnotatedAst.valueOf(subexpr).ifPresent(val -> {
                         if (val instanceof Double doubleVal && doubleVal.isNaN()) {
                             throw new Evaluator.EvaluationException(
                                 new ArithmeticException("expr generates NaN"));

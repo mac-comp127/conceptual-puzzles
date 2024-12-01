@@ -25,7 +25,7 @@ public class AstDrawing extends GraphicsGroup {
 
     public static AstDrawing of(Expression expr, float hue) {
         String annotation =
-            AstAnnotator.valueOf(expr)
+            AnnotatedAst.valueOf(expr)
                 .map(AstDrawing::formatValue)
                 .orElse(null);
 
