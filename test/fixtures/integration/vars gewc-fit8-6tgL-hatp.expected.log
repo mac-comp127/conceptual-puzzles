@@ -78,21 +78,21 @@ Explanation (which you do [3mnot[23m need to write out in your submitted solut
 
 Given the following code:
 
-    public class DuinMusmrosm {
+    public class Duin {
         private static int se = 0;
 
         private int ner = 0;
 
         public static void main(String[] args) {
             [100m[97m  D  [39m[49m
-            DuinMusmrosm d0 = new DuinMusmrosm();
-            DuinMusmrosm d1 = new DuinMusmrosm();
+            Duin d0 = new Duin();
+            Duin d1 = new Duin();
             [100m[97m  E  [39m[49m
             d0.cona(1);
-            d0 = new DuinMusmrosm();
+            d0 = new Duin();
             d1.cona(10);
             d0.cona(100);
-            d1 = new DuinMusmrosm();
+            d1 = new Duin();
             d1.cona(1000);
         }
 
@@ -222,25 +222,25 @@ Explanation (which you do [3mnot[23m need to write out in your submitted solut
 
 Given the following code:
 
-    public class XengSerde {
+    public class Xeng {
         private static int o = 0;
 
         public static void main(String[] args) {
             [100m[97m  J  [39m[49m
-            XengSerde x0 = new XengSerde();
-            XengSerde x1 = new XengSerde();
+            Xeng x0 = new Xeng();
+            Xeng x1 = new Xeng();
             [100m[97m  K  [39m[49m
-            x0.gelec(1);
-            x1.gelec(10);
+            x0.serde(1);
+            x1.serde(10);
             x0 = x1;
-            x0.gelec(100);
-            x1 = new XengSerde();
-            x1.gelec(1000);
+            x0.serde(100);
+            x1 = new Xeng();
+            x1.serde(1000);
         }
 
         private int drid = 0;
 
-        public void gelec(int jo) {
+        public void serde(int jo) {
             [100m[97m  L  [39m[49m
             int gict = 0;
             o += jo;
@@ -281,10 +281,10 @@ Explanation (which you do [3mnot[23m need to write out in your submitted solut
     
  2. At [100m[97m  J  [39m[49m , [4mx0[24m and [4mx1[24m are out of scope because they are not declared yet.
     [4mdrid[24m is out of scope because it is an [3minstance[23m variable, but [4mmain[24m is a
-    [3mstatic[23m method. [4mgict[24m is out of scope because it is local to [4mgelec[24m.
+    [3mstatic[23m method. [4mgict[24m is out of scope because it is local to [4mserde[24m.
     
  3. At [100m[97m  K  [39m[49m , [4mdrid[24m is out of scope because it is an [3minstance[23m variable, but [4mmain[24m
-    is a [3mstatic[23m method. [4mgict[24m is out of scope because it is local to [4mgelec[24m.
+    is a [3mstatic[23m method. [4mgict[24m is out of scope because it is local to [4mserde[24m.
     
  4. At [100m[97m  L  [39m[49m , [4mgict[24m is out of scope because it is not declared yet. [4mx0[24m and [4mx1[24m
     out of scope because they are local to the [4mmain[24m method.

@@ -31,6 +31,11 @@ public class VariablePool {
         return newVar.name;
     }
 
+    public void add(String type, String name, String initializer) {
+        var newVar = new Variable(name, type, initializer);
+        vars.add(newVar);
+    }
+
     public String allDeclarations() {
         return vars.stream()
             .map(Variable::declaration)

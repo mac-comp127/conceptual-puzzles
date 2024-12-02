@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.PuzzleContext;
+import edu.macalester.conceptual.util.CodeSnippet;
 import edu.macalester.conceptual.util.Evaluator;
 import edu.macalester.conceptual.util.Nonsense;
 import edu.macalester.conceptual.util.PlaceholderGenerator;
@@ -233,7 +234,12 @@ public class VariablesPuzzle implements Puzzle {
                         () -> {
                             ctx.output().paragraph("Output:");
                             ctx.output().codeBlock(
-                                Evaluator.captureOutput(classDecl, className + ".main(null)"));
+                                Evaluator.captureOutput(
+                                    CodeSnippet.build()
+                                        .withMainBody(className + ".main(null);")
+                                        .withOtherClasses(classDecl)
+                                )
+                            );
                         }
                     ),
                     enabledScopeTestPoints.stream().map(scopeTest ->

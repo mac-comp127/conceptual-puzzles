@@ -1,70 +1,92 @@
 package edu.macalester.conceptual.util;
 
 import java.io.PrintStream;
+import java.util.List;
 import java.util.function.Supplier;
+
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParseProblemException;
+import com.github.javaparser.ParserConfiguration;
+import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.symbolsolver.JavaSymbolSolver;
+import com.github.javaparser.symbolsolver.resolution.typesolvers.ReflectionTypeSolver;
 
 import org.joor.Reflect;
 
 /**
- * A utility to dynamically compile and evaluate a Java expression.
+ * A utility to dynamically compile and evaluate Java code, or extract its static types.
  */
-public class Evaluator {
-    public static <T> T evaluate(Class<T> resultType, VariablePool vars, String javaExpression) {
-        var javaSource = String.format(
-            """
-            public class DynamicCode implements java.util.function.Supplier<%1$s> {
-                public %1$s get() {
-                    %2$s
-                    return %3$s;
-                }
-            }
-            """,
-            resultType.getName(),
-            vars.allDeclarations(),
-            javaExpression);
+public enum Evaluator {
+    ;  // static methods only
 
-        return run(javaSource);
-    }
-
-    public static String captureOutput(String classDecls, String entryPoint) {
-        return captureOutput("", classDecls, entryPoint);
-    }
-
-    public static String captureOutput(String imports, String classDecls, String entryPoint) {
-        var javaSource =
-            String.format(
-                """
-                import java.io.PrintWriter;
-                import java.io.StringWriter;
-                %s
-
-                public class DynamicCode implements java.util.function.Supplier<String> {
-                    private static StringWriter capturedOutput = new StringWriter();
-                    public static PrintWriter out = new PrintWriter(capturedOutput);
-                
-                    public String get() {
-                        %s;
-                        return capturedOutput.toString();
-                    }
-                }
-                
-                %s
-                """,
-                imports,
-                entryPoint,
-                classDecls.replaceAll("public\\s+(class|interface|enum|record)", "$1")
-            ).replace("System.out", "DynamicCode.out");
-
-        return run(javaSource);
-    }
-
-    private static <T> T run(String javaSource) {
+    public static <T> T evaluate(CodeSnippet<T> snippet) {
+        var code = snippet.generateCode("DynamicCode");
         try {
-            Supplier<T> evaluator = Reflect.compile("DynamicCode", javaSource).create().get();
+            Supplier<T> evaluator = Reflect.compile("DynamicCode", code)
+                .create().get();
             return evaluator.get();
         } catch(RuntimeException e) {
-            throw new EvaluationException(e, javaSource);
+            throw new EvaluationException(e, code);
         }
+    }
+
+    public static String captureOutput(CodeSnippet<?> snippet) {
+        return Evaluator.evaluate(
+            snippet
+                .withImports(snippet.imports() +
+                    """
+                    import java.io.PrintWriter;
+                    import java.io.StringWriter;
+                    """
+                )
+                .withClassMembers(snippet.classMembers() +
+                    """
+                    private static StringWriter capturedOutput = new StringWriter();
+                    public static PrintWriter out = new PrintWriter(capturedOutput);
+                    """
+                )
+                .withMainBody(
+                    snippet.mainBody().replace("System.out", "DynamicCode.out") +
+                        "return capturedOutput.toString();"
+                )
+                .withReturnType(String.class)
+                .withOtherClasses(
+                    snippet.otherClasses().replace("System.out", "DynamicCode.out")
+                )
+        );
+    }
+
+    public static List<?> analyzeStaticTypes(CodeSnippet<?> snippet) {
+        var code = snippet
+            .withClassMembers(snippet.classMembers() +
+                """
+                private <T> staticType(T val) {  // We'll search for calls to this method after parsing
+                    return val;
+                }
+                """
+            )
+            .generateCode("DynamicCode");
+
+        var parserConfig = new ParserConfiguration();
+        parserConfig.setSymbolResolver(
+            new JavaSymbolSolver(
+                new ReflectionTypeSolver()));
+
+        var parseResult = new JavaParser(parserConfig).parse(code);
+        if (!parseResult.isSuccessful()) {
+            throw new EvaluationException(
+                new ParseProblemException(parseResult.getProblems()), code);
+        }
+
+        return parseResult
+            .getResult().orElseThrow()
+            .findAll(
+                MethodCallExpr.class,
+                methodCall -> methodCall.getName().asString().equals("staticType")
+            )
+            .stream()
+            .map(call -> call.getArgument(0).calculateResolvedType())
+            .toList();
     }
 
     public static class EvaluationException extends RuntimeException {
@@ -73,6 +95,11 @@ public class Evaluator {
         public EvaluationException(Exception cause, String javaSource) {
             super(cause);
             this.javaSource = javaSource;
+        }
+
+        public EvaluationException(Exception cause) {
+            super(cause);
+            this.javaSource = null;
         }
 
         public EvaluationException(String message) {

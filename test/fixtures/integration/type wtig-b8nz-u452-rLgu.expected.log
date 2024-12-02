@@ -1,0 +1,390 @@
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+[0J────────────────────────────────────────────────────────────────────────────────
+
+Given the following type declarations:
+
+    public interface OalRinstar {
+
+        public OalRinstar outo(OalRinstar ofui);
+    }
+
+    public class Detpha implements OalRinstar {
+        public OalRinstar outo(OalRinstar ofui) {
+            return this;
+        }
+    }
+
+    public class NacCisa implements OalRinstar {
+        public OalRinstar outo(OalRinstar ofui) {
+            return ofui;
+        }
+    }
+
+...and given the following setup code:
+
+    NacCisa foo = new NacCisa();
+    OalRinstar bar = new Detpha();
+
+[1m[38;5;16m[48;5;207m            [0m
+[1m[38;5;16m[48;5;207m   PART 1   [0m
+[1m[38;5;16m[48;5;207m            [0m
+
+Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k.a.
+[1mcompile-time type[22m) of each node in the tree:
+
+    foo.outo(bar.outo(bar))
+
+(The static type of an expression is the type that the compiler uses to check
+the code [3mbefore[23m it runs.)
+
+[1m[38;5;213m[48;5;53m              [0m
+[1m[38;5;213m[48;5;53m   SOLUTION   [0m
+[1m[38;5;213m[48;5;53m              [0m
+
+[3m<< See window titled “Part 1 Solution” >>[23m
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;227m            [0m
+[1m[38;5;16m[48;5;227m   PART 2   [0m
+[1m[38;5;16m[48;5;227m            [0m
+
+Draw an AST for the same expression, this time labeling the [1mruntime type[22m of each
+node in the tree.
+
+(The runtime type of an expression is the type of the actual value that appears
+when the code runs.)
+
+[1m[38;5;228m[48;5;58m              [0m
+[1m[38;5;228m[48;5;58m   SOLUTION   [0m
+[1m[38;5;228m[48;5;58m              [0m
+
+[3m<< See window titled “Part 2 Solution” >>[23m
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Given the following type declarations:
+
+    public interface Casmad {
+
+        public Casmad vedEte(Casmad e);
+    }
+
+    public class Acir implements Casmad {
+        public Casmad vedEte(Casmad e) {
+            return this;
+        }
+    }
+
+    public class Ciccon implements Casmad {
+        public Casmad vedEte(Casmad e) {
+            return new Ciccon();
+        }
+    }
+
+...and given the following setup code:
+
+    Casmad foo = new Acir();
+    Ciccon bar = new Ciccon();
+
+[1m[38;5;16m[48;5;75m            [0m
+[1m[38;5;16m[48;5;75m   PART 1   [0m
+[1m[38;5;16m[48;5;75m            [0m
+
+Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k.a.
+[1mcompile-time type[22m) of each node in the tree:
+
+    foo.vedEte(bar.vedEte(bar))
+
+(The static type of an expression is the type that the compiler uses to check
+the code [3mbefore[23m it runs.)
+
+[1m[38;5;117m[48;5;17m              [0m
+[1m[38;5;117m[48;5;17m   SOLUTION   [0m
+[1m[38;5;117m[48;5;17m              [0m
+
+[3m<< See window titled “Part 1 Solution” >>[23m
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;204m            [0m
+[1m[38;5;16m[48;5;204m   PART 2   [0m
+[1m[38;5;16m[48;5;204m            [0m
+
+Draw an AST for the same expression, this time labeling the [1mruntime type[22m of each
+node in the tree.
+
+(The runtime type of an expression is the type of the actual value that appears
+when the code runs.)
+
+[1m[38;5;211m[48;5;52m              [0m
+[1m[38;5;211m[48;5;52m   SOLUTION   [0m
+[1m[38;5;211m[48;5;52m              [0m
+
+[3m<< See window titled “Part 2 Solution” >>[23m
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Given the following type declarations:
+
+    public class Atri {
+        public Atri cleng(Atri o) {
+            return this;
+        }
+    }
+
+    public class Phlusprer extends Atri {
+        public Atri cleng(Atri o) {
+            return new Phlusprer();
+        }
+    }
+
+    public class ObuShengmant extends Atri {
+        public Atri cleng(Atri o) {
+            return new ObuShengmant();
+        }
+    }
+
+...and given the following setup code:
+
+    Phlusprer foo = new Phlusprer();
+    ObuShengmant bar = new ObuShengmant();
+
+[1m[38;5;16m[48;5;83m            [0m
+[1m[38;5;16m[48;5;83m   PART 1   [0m
+[1m[38;5;16m[48;5;83m            [0m
+
+Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k.a.
+[1mcompile-time type[22m) of each node in the tree:
+
+    foo.cleng(foo).cleng(bar)
+
+(The static type of an expression is the type that the compiler uses to check
+the code [3mbefore[23m it runs.)
+
+[1m[38;5;120m[48;5;22m              [0m
+[1m[38;5;120m[48;5;22m   SOLUTION   [0m
+[1m[38;5;120m[48;5;22m              [0m
+
+[3m<< See window titled “Part 1 Solution” >>[23m
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;99m            [0m
+[1m[38;5;16m[48;5;99m   PART 2   [0m
+[1m[38;5;16m[48;5;99m            [0m
+
+Draw an AST for the same expression, this time labeling the [1mruntime type[22m of each
+node in the tree.
+
+(The runtime type of an expression is the type of the actual value that appears
+when the code runs.)
+
+[1m[38;5;141m[48;5;17m              [0m
+[1m[38;5;141m[48;5;17m   SOLUTION   [0m
+[1m[38;5;141m[48;5;17m              [0m
+
+[3m<< See window titled “Part 2 Solution” >>[23m
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Given the following type declarations:
+
+    public class Ressmed {
+        public Ressmed dirass(Ressmed sats) {
+            return new Padent();
+        }
+    }
+
+    public class Padent extends Ressmed {
+        public Ressmed dirass(Ressmed sats) {
+            return sats;
+        }
+    }
+
+    public class Phanshen extends Ressmed {
+        public Ressmed dirass(Ressmed sats) {
+            return new Phanshen();
+        }
+    }
+
+...and given the following setup code:
+
+    Ressmed foo = new Padent();
+    Ressmed bar = new Phanshen();
+
+[1m[38;5;16m[48;5;221m            [0m
+[1m[38;5;16m[48;5;221m   PART 1   [0m
+[1m[38;5;16m[48;5;221m            [0m
+
+Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k.a.
+[1mcompile-time type[22m) of each node in the tree:
+
+    foo.dirass(foo.dirass(bar))
+
+(The static type of an expression is the type that the compiler uses to check
+the code [3mbefore[23m it runs.)
+
+[1m[38;5;222m[48;5;52m              [0m
+[1m[38;5;222m[48;5;52m   SOLUTION   [0m
+[1m[38;5;222m[48;5;52m              [0m
+
+[3m<< See window titled “Part 1 Solution” >>[23m
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;87m            [0m
+[1m[38;5;16m[48;5;87m   PART 2   [0m
+[1m[38;5;16m[48;5;87m            [0m
+
+Draw an AST for the same expression, this time labeling the [1mruntime type[22m of each
+node in the tree.
+
+(The runtime type of an expression is the type of the actual value that appears
+when the code runs.)
+
+[1m[38;5;123m[48;5;23m              [0m
+[1m[38;5;123m[48;5;23m   SOLUTION   [0m
+[1m[38;5;123m[48;5;23m              [0m
+
+[3m<< See window titled “Part 2 Solution” >>[23m
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Given the following type declarations:
+
+    public interface Sangci {
+
+        public Sangci iolcen(Sangci po);
+    }
+
+    public class Chrastmea implements Sangci {
+        public Sangci iolcen(Sangci po) {
+            return po;
+        }
+    }
+
+    public class Dinu implements Sangci {
+        public Sangci iolcen(Sangci po) {
+            return po;
+        }
+    }
+
+...and given the following setup code:
+
+    Sangci foo = new Dinu();
+    Sangci bar = new Chrastmea();
+
+[1m[38;5;16m[48;5;206m            [0m
+[1m[38;5;16m[48;5;206m   PART 1   [0m
+[1m[38;5;16m[48;5;206m            [0m
+
+Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k.a.
+[1mcompile-time type[22m) of each node in the tree:
+
+    foo.iolcen(foo.iolcen(bar))
+
+(The static type of an expression is the type that the compiler uses to check
+the code [3mbefore[23m it runs.)
+
+[1m[38;5;213m[48;5;53m              [0m
+[1m[38;5;213m[48;5;53m   SOLUTION   [0m
+[1m[38;5;213m[48;5;53m              [0m
+
+[3m<< See window titled “Part 1 Solution” >>[23m
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;155m            [0m
+[1m[38;5;16m[48;5;155m   PART 2   [0m
+[1m[38;5;16m[48;5;155m            [0m
+
+Draw an AST for the same expression, this time labeling the [1mruntime type[22m of each
+node in the tree.
+
+(The runtime type of an expression is the type of the actual value that appears
+when the code runs.)
+
+[1m[38;5;192m[48;5;22m              [0m
+[1m[38;5;192m[48;5;22m   SOLUTION   [0m
+[1m[38;5;192m[48;5;22m              [0m
+
+[3m<< See window titled “Part 2 Solution” >>[23m
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Given the following type declarations:
+
+    public interface RorIanmi {
+
+        public RorIanmi ciflio(RorIanmi en);
+    }
+
+    public class JouFlatro implements RorIanmi {
+        public RorIanmi ciflio(RorIanmi en) {
+            return this;
+        }
+    }
+
+    public class Smiozue implements RorIanmi {
+        public RorIanmi ciflio(RorIanmi en) {
+            return en;
+        }
+    }
+
+...and given the following setup code:
+
+    RorIanmi foo = new JouFlatro();
+    RorIanmi bar = new Smiozue();
+
+[1m[38;5;16m[48;5;69m            [0m
+[1m[38;5;16m[48;5;69m   PART 1   [0m
+[1m[38;5;16m[48;5;69m            [0m
+
+Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k.a.
+[1mcompile-time type[22m) of each node in the tree:
+
+    foo.ciflio(bar).ciflio(bar)
+
+(The static type of an expression is the type that the compiler uses to check
+the code [3mbefore[23m it runs.)
+
+[1m[38;5;111m[48;5;17m              [0m
+[1m[38;5;111m[48;5;17m   SOLUTION   [0m
+[1m[38;5;111m[48;5;17m              [0m
+
+[3m<< See window titled “Part 1 Solution” >>[23m
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;203m            [0m
+[1m[38;5;16m[48;5;203m   PART 2   [0m
+[1m[38;5;16m[48;5;203m            [0m
+
+Draw an AST for the same expression, this time labeling the [1mruntime type[22m of each
+node in the tree.
+
+(The runtime type of an expression is the type of the actual value that appears
+when the code runs.)
+
+[1m[38;5;210m[48;5;52m              [0m
+[1m[38;5;210m[48;5;52m   SOLUTION   [0m
+[1m[38;5;210m[48;5;52m              [0m
+
+[3m<< See window titled “Part 2 Solution” >>[23m
+
+────────────────────────────────────────────────────────────────────────────────
+
+[0m
