@@ -37,15 +37,15 @@ public record AnnotatedAst(
 
     public static AnnotatedAst create(String exprAsString, VariablePool vars) {
         return create(
+            exprAsString,
             CodeSnippet.build()
-                .withMainBody(exprAsString)
                 .withClassMembers(vars.allDeclarations())
         );
     }
 
-    public static AnnotatedAst create(CodeSnippet<?> snippet) {
+    public static AnnotatedAst create(String exprAsString, CodeSnippet<?> snippet) {
         return new AnnotatedAst(
-            StaticJavaParser.parseExpression(snippet.mainBody()),
+            StaticJavaParser.parseExpression(exprAsString),
             snippet
         );
     }
@@ -89,7 +89,7 @@ public record AnnotatedAst(
             Evaluator.evaluate(
                 context
                     .withReturnType(List.class)
-                    .withMainBody(
+                    .withMainBody(context.mainBody() +
                         "return java.util.List.of(\n"
                             + codeForSubexprs()
                                 .collect(Collectors.joining(",\n"))
@@ -107,7 +107,7 @@ public record AnnotatedAst(
             Evaluator.analyzeStaticTypes(
                 context
                     .withReturnType(List.class)
-                    .withMainBody(
+                    .withMainBody(context.mainBody() +
                         codeForSubexprs()
                             .map(expr -> "staticType(" + expr + ");")
                             .collect(Collectors.joining("\n"))

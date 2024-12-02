@@ -1,7 +1,9 @@
 package edu.macalester.conceptual.util;
 
+import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.BinaryExpr;
@@ -38,6 +40,20 @@ public enum AstUtils {
     // AST Creation
     //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
+    /**
+     * Creates an empty declaration for a public class.
+     */
+    public static ClassOrInterfaceDeclaration publicClassDecl(String name) {
+        return publicTypeDecl(name, false);
+    }
+
+    /**
+     * Creates an empty declaration for a public class or interface.
+     */
+    public static ClassOrInterfaceDeclaration publicTypeDecl(String name, boolean isInterface) {
+        return new ClassOrInterfaceDeclaration(
+            AstUtils.nodes(Modifier.publicModifier()), isInterface, name);
+    }
     /**
      * Creates an IntegerLiteralExpr for the given int value.
      */

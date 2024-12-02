@@ -169,9 +169,19 @@ public enum Randomness {
         return result;
     }
 
+    /**
+     * Wrapper for Collections.shuffle() that creates a new list.
+     */
     @SafeVarargs
     public static <T> List<T> shuffledListOf(PuzzleContext ctx, T... elems) {
-        var result = new ArrayList<>(Arrays.asList(elems));
+        return shuffled(ctx, Arrays.asList(elems));
+    }
+
+    /**
+     * Wrapper for Collections.shuffle() that creates a new list.
+     */
+    public static <T> List<T> shuffled(PuzzleContext ctx, List<T> list) {
+        var result = new ArrayList<>(list);
         Collections.shuffle(result, ctx.getRandom());
         return result;
     }

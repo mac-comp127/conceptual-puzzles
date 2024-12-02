@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.type.ReferenceType;
 
@@ -58,10 +57,7 @@ public class Type {
     }
 
     public ClassOrInterfaceDeclaration buildDeclarationAst() {
-        var decl = new ClassOrInterfaceDeclaration(
-            AstUtils.nodes(Modifier.publicModifier()),
-            false,  // All classes, no interfaces (at least for now)
-            getName());
+        var decl = AstUtils.publicClassDecl(getName());
         for (var rel : relationships) {
             rel.buildDeclaration(decl);
         }
