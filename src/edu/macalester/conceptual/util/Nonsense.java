@@ -39,7 +39,7 @@ public class Nonsense {
     }
 
     public static String typeName(PuzzleContext ctx) {
-        return words(ctx, NameFormat.CAPITALIZED_CAMEL_CASE, 2, 12, 5);
+        return words(ctx, NameFormat.CAPITALIZED_CAMEL_CASE, 3, 10, 4);
     }
 
     public static String methodName(PuzzleContext ctx) {

@@ -69,7 +69,7 @@ Something to double-check in your solution:
 
 Translate the following loop into a for-each loop:
 
-    MaChriackcur[] piwns;
+    Chriackcur[] piwns;
     ...
 
     for (int i = 0; i < piwns.length; i++) {
@@ -83,7 +83,7 @@ Translate the following loop into a for-each loop:
 [1m[38;5;122m[48;5;22m   SOLUTION   [0m
 [1m[38;5;122m[48;5;22m              [0m
 
-    for (MaChriackcur piwn : piwns) {
+    for (Chriackcur piwn : piwns) {
         cicSosm(7, piwn, 7);
         pulche();
         piwn.cimMechut(6, 4);
