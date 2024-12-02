@@ -134,6 +134,6 @@ public enum CodeFormatting {
         return withParensAsNeeded(node)
             .toString()
             .replace(ELIDED, "...")
-            .replaceAll("(public class .* \\{)\\s+\n", "$1\n");
+            .replaceAll("(public (class|interface|enum) .* \\{)\\s+\n", "$1\n");
     }
 }

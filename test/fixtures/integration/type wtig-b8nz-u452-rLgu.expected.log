@@ -6,7 +6,6 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
 Given the following type declarations:
 
     public interface OalRinstar {
-
         public OalRinstar outo(OalRinstar ofui);
     }
 
@@ -70,7 +69,6 @@ when the code runs.)
 Given the following type declarations:
 
     public interface Casmad {
-
         public Casmad vedEte(Casmad e);
     }
 
@@ -264,7 +262,6 @@ when the code runs.)
 Given the following type declarations:
 
     public interface Sangci {
-
         public Sangci iolcen(Sangci po);
     }
 
@@ -328,7 +325,6 @@ when the code runs.)
 Given the following type declarations:
 
     public interface RorIanmi {
-
         public RorIanmi ciflio(RorIanmi en);
     }
 
