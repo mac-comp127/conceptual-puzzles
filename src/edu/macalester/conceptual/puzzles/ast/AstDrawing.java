@@ -3,12 +3,15 @@ package edu.macalester.conceptual.puzzles.ast;
 import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.EnclosedExpr;
 import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.UnaryExpr;
 import com.github.javaparser.resolution.types.ResolvedType;
 
 import java.awt.Color;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import edu.macalester.conceptual.util.DiagramUtils;
 import edu.macalester.graphics.FontStyle;
@@ -44,6 +47,17 @@ public class AstDrawing extends GraphicsGroup {
                 hue,
                 AstDrawing.of(binary.getLeft(), hue),
                 AstDrawing.of(binary.getRight(), hue));
+        } else if (expr instanceof MethodCallExpr methodCall) {  // Tricky!
+            return new AstDrawing(
+                "." + methodCall.getNameAsString() + "()",
+                annotation,
+                hue,
+                true,
+                Stream.concat(
+                    Stream.of(methodCall.getScope().orElse(new NameExpr("this"))),
+                    methodCall.getArguments().stream()
+                ).map(ast -> AstDrawing.of(ast, hue)).toList()
+            );
         } else {                                         // ¯\_(ツ)_/¯ Just show the code
             return new AstDrawing(expr.toString(), annotation, hue);
         }
@@ -64,14 +78,19 @@ public class AstDrawing extends GraphicsGroup {
     }
 
     public AstDrawing(String labelText, String annotationText, float hue, AstDrawing... children) {
-        this(labelText, annotationText, hue, Arrays.asList(children));
+        this(labelText, annotationText, hue, false, Arrays.asList(children));
     }
 
-    public AstDrawing(String labelText, String annotationText, float hue, List<AstDrawing> children) {
+    public AstDrawing(
+        String labelText,
+        String annotationText,
+        float hue,
+        boolean methodCallChildSpacing,
+        List<AstDrawing> children
+    ) {
         // Root node
-        var label = new GraphicsText(labelText);
+        var label = makeLabel(labelText);
         label.setAlignment(TextAlignment.CENTER);
-        DiagramUtils.applyNodeLabelFont(label);
         label.setFillColor(Color.WHITE);
 
         // Children
@@ -114,10 +133,22 @@ public class AstDrawing extends GraphicsGroup {
         for (var child : children) {
             add(child, childX, childY);
 
+            double lineAnchorX;
+            if (methodCallChildSpacing) {
+                if (childX == 0) {
+                    lineAnchorX = label.getBoundsInParent().getMinX();
+                } else {
+                    double parentWidth = makeLabel("()").getWidth() / 2 - 1;
+                    lineAnchorX = label.getBoundsInParent().getMaxX() - parentWidth;
+                }
+            } else {
+                lineAnchorX = label.getPosition().getX();
+            }
+
             var line = new Line(
                 child.getPosition().getX() + child.rootNodeX,
                 child.getPosition().getY() - childMarginY,
-                label.getPosition().getX(),
+                lineAnchorX,
                 label.getPosition().getY() + childMarginY);
             line.setStrokeColor(DiagramUtils.connectingLineColor(hue));
             add(line);
@@ -126,4 +157,9 @@ public class AstDrawing extends GraphicsGroup {
         }
     }
 
+    private static GraphicsText makeLabel(String labelText) {
+        var label = new GraphicsText(labelText);
+        DiagramUtils.applyNodeLabelFont(label);
+        return label;
+    }
 }
