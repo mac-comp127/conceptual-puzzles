@@ -11,19 +11,19 @@ Given the following type declarations:
 
     public class Detpha implements OalRinstar {
         public OalRinstar outo(OalRinstar ofui) {
-            return this;
+            return new Detpha();
         }
     }
 
     public class NacCisa implements OalRinstar {
         public OalRinstar outo(OalRinstar ofui) {
-            return ofui;
+            return this;
         }
     }
 
 ...and given the following setup code:
 
-    NacCisa foo = new NacCisa();
+    OalRinstar foo = new NacCisa();
     OalRinstar bar = new Detpha();
 
 [1m[38;5;16m[48;5;207m            [0m
@@ -68,26 +68,26 @@ when the code runs.)
 
 Given the following type declarations:
 
-    public interface Casmad {
-        public Casmad vedEte(Casmad e);
+    public interface Macas {
+        public Macas baad(Macas di);
     }
 
-    public class Acir implements Casmad {
-        public Casmad vedEte(Casmad e) {
-            return this;
+    public class Broe implements Macas {
+        public Macas baad(Macas di) {
+            return new Eont();
         }
     }
 
-    public class Ciccon implements Casmad {
-        public Casmad vedEte(Casmad e) {
-            return new Ciccon();
+    public class Eont implements Macas {
+        public Macas baad(Macas di) {
+            return di;
         }
     }
 
 ...and given the following setup code:
 
-    Casmad foo = new Acir();
-    Ciccon bar = new Ciccon();
+    Macas foo = new Broe();
+    Eont bar = new Eont();
 
 [1m[38;5;16m[48;5;75m            [0m
 [1m[38;5;16m[48;5;75m   PART 1   [0m
@@ -96,7 +96,7 @@ Given the following type declarations:
 Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k.a.
 [1mcompile-time type[22m) of each node in the tree:
 
-    foo.vedEte(bar.vedEte(bar))
+    foo.baad(bar).baad(bar)
 
 (The static type of an expression is the type that the compiler uses to check
 the code [3mbefore[23m it runs.)
@@ -131,28 +131,26 @@ when the code runs.)
 
 Given the following type declarations:
 
-    public class Atri {
-        public Atri cleng(Atri o) {
-            return this;
+    public interface Spodga {
+        public Spodga obuCleng(Spodga o);
+    }
+
+    public class Bioum implements Spodga {
+        public Spodga obuCleng(Spodga o) {
+            return o;
         }
     }
 
-    public class Phlusprer extends Atri {
-        public Atri cleng(Atri o) {
-            return new Phlusprer();
-        }
-    }
-
-    public class ObuShengmant extends Atri {
-        public Atri cleng(Atri o) {
-            return new ObuShengmant();
+    public class UalPhlusprer implements Spodga {
+        public Spodga obuCleng(Spodga o) {
+            return new Bioum();
         }
     }
 
 ...and given the following setup code:
 
-    Phlusprer foo = new Phlusprer();
-    ObuShengmant bar = new ObuShengmant();
+    Spodga foo = new Bioum();
+    Spodga bar = new UalPhlusprer();
 
 [1m[38;5;16m[48;5;83m            [0m
 [1m[38;5;16m[48;5;83m   PART 1   [0m
@@ -161,7 +159,7 @@ Given the following type declarations:
 Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k.a.
 [1mcompile-time type[22m) of each node in the tree:
 
-    foo.cleng(foo).cleng(bar)
+    foo.obuCleng(bar.obuCleng(bar))
 
 (The static type of an expression is the type that the compiler uses to check
 the code [3mbefore[23m it runs.)
@@ -196,28 +194,26 @@ when the code runs.)
 
 Given the following type declarations:
 
-    public class Ressmed {
-        public Ressmed dirass(Ressmed sats) {
-            return new Padent();
+    public interface Cedfal {
+        public Cedfal ediPura(Cedfal pse);
+    }
+
+    public class Bodweu implements Cedfal {
+        public Cedfal ediPura(Cedfal pse) {
+            return new Bodweu();
         }
     }
 
-    public class Padent extends Ressmed {
-        public Ressmed dirass(Ressmed sats) {
-            return sats;
-        }
-    }
-
-    public class Phanshen extends Ressmed {
-        public Ressmed dirass(Ressmed sats) {
-            return new Phanshen();
+    public class BeuScrilda implements Cedfal {
+        public Cedfal ediPura(Cedfal pse) {
+            return this;
         }
     }
 
 ...and given the following setup code:
 
-    Ressmed foo = new Padent();
-    Ressmed bar = new Phanshen();
+    Cedfal foo = new Bodweu();
+    Cedfal bar = new BeuScrilda();
 
 [1m[38;5;16m[48;5;221m            [0m
 [1m[38;5;16m[48;5;221m   PART 1   [0m
@@ -226,7 +222,7 @@ Given the following type declarations:
 Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k.a.
 [1mcompile-time type[22m) of each node in the tree:
 
-    foo.dirass(foo.dirass(bar))
+    foo.ediPura(bar).ediPura(bar)
 
 (The static type of an expression is the type that the compiler uses to check
 the code [3mbefore[23m it runs.)
@@ -261,26 +257,28 @@ when the code runs.)
 
 Given the following type declarations:
 
-    public interface Sangci {
-        public Sangci iolcen(Sangci po);
-    }
-
-    public class Chrastmea implements Sangci {
-        public Sangci iolcen(Sangci po) {
-            return po;
+    public class Rila {
+        public Rila ciflio(Rila en) {
+            return new Sasjou();
         }
     }
 
-    public class Dinu implements Sangci {
-        public Sangci iolcen(Sangci po) {
-            return po;
+    public class Sasjou extends Rila {
+        public Rila ciflio(Rila en) {
+            return en;
+        }
+    }
+
+    public class Flatro extends Rila {
+        public Rila ciflio(Rila en) {
+            return this;
         }
     }
 
 ...and given the following setup code:
 
-    Sangci foo = new Dinu();
-    Sangci bar = new Chrastmea();
+    Rila foo = new Sasjou();
+    Flatro bar = new Flatro();
 
 [1m[38;5;16m[48;5;206m            [0m
 [1m[38;5;16m[48;5;206m   PART 1   [0m
@@ -289,7 +287,7 @@ Given the following type declarations:
 Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k.a.
 [1mcompile-time type[22m) of each node in the tree:
 
-    foo.iolcen(foo.iolcen(bar))
+    foo.ciflio(foo.ciflio(bar))
 
 (The static type of an expression is the type that the compiler uses to check
 the code [3mbefore[23m it runs.)
@@ -324,26 +322,28 @@ when the code runs.)
 
 Given the following type declarations:
 
-    public interface RorIanmi {
-        public RorIanmi ciflio(RorIanmi en);
+    public class Ronen {
+        public Ronen tril(Ronen ipas) {
+            return ipas;
+        }
     }
 
-    public class JouFlatro implements RorIanmi {
-        public RorIanmi ciflio(RorIanmi en) {
+    public class CioBian extends Ronen {
+        public Ronen tril(Ronen ipas) {
             return this;
         }
     }
 
-    public class Smiozue implements RorIanmi {
-        public RorIanmi ciflio(RorIanmi en) {
-            return en;
+    public class Ripsalt extends Ronen {
+        public Ronen tril(Ronen ipas) {
+            return new Ripsalt();
         }
     }
 
 ...and given the following setup code:
 
-    RorIanmi foo = new JouFlatro();
-    RorIanmi bar = new Smiozue();
+    Ronen foo = new Ripsalt();
+    Ronen bar = new CioBian();
 
 [1m[38;5;16m[48;5;69m            [0m
 [1m[38;5;16m[48;5;69m   PART 1   [0m
@@ -352,7 +352,7 @@ Given the following type declarations:
 Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k.a.
 [1mcompile-time type[22m) of each node in the tree:
 
-    foo.ciflio(bar).ciflio(bar)
+    foo.tril(foo.tril(bar))
 
 (The static type of an expression is the type that the compiler uses to check
 the code [3mbefore[23m it runs.)

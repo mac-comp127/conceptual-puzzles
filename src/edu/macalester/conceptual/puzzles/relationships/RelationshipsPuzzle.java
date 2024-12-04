@@ -12,6 +12,7 @@ import com.github.javaparser.ast.expr.NameExpr;
 
 import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.PuzzleContext;
+import edu.macalester.conceptual.util.ChoiceDeck;
 import edu.macalester.conceptual.util.CodeFormatting;
 import edu.macalester.conceptual.util.Nonsense;
 import edu.macalester.conceptual.util.Randomness;
@@ -32,7 +33,7 @@ public class RelationshipsPuzzle implements Puzzle {
     private final List<Relationship> relationshipChain = new ArrayList<>();
     private Type startOfChain, endOfChain;
 
-    private RelationshipGenerator relGenerator = new RelationshipGenerator();
+    private ChoiceDeck<Function<Type, Relationship>> relationshipDeck;
 
     @Override
     public byte id() {
@@ -66,6 +67,13 @@ public class RelationshipsPuzzle implements Puzzle {
 
     @Override
     public void generate(PuzzleContext ctx) {
+        relationshipDeck = new ChoiceDeck<>(ctx, List.of(
+            type -> new Relationship.HasA(Nonsense.propertyName(ctx), type),
+            type -> new Relationship.IsA(type),
+            type -> new Relationship.HasMany(
+                Nonsense.propertyName(ctx), type, ctx.getRandom().nextBoolean())
+        ));
+
         // The chain of relationships we’ll ask the puzzler to traverse in part 2
         buildChain(ctx);
 
@@ -161,7 +169,7 @@ public class RelationshipsPuzzle implements Puzzle {
 
         endOfChain = startOfChain;
         while (relationshipChain.size() < chainLength) {
-            var rel = relGenerator.generate(ctx);
+            var rel = randomRelationship(ctx);
             allTypes.add(rel.getTargetType());
             relationshipChain.add(rel);
             endOfChain.add(rel);
@@ -176,13 +184,17 @@ public class RelationshipsPuzzle implements Puzzle {
     private void addExtraRelatedTypes(PuzzleContext ctx) {
         for (int n = ctx.getDifficulty() - 1; n > 0; ) {
             var sourceType = Randomness.choose(ctx, allTypes);
-            var rel = relGenerator.generate(ctx);
+            var rel = randomRelationship(ctx);
             if (sourceType.canAdd(rel)) {
                 sourceType.add(rel);
                 allTypes.add(rel.getTargetType());
                 n--;
             }
         }
+    }
+
+    private Relationship randomRelationship(PuzzleContext ctx) {
+        return relationshipDeck.draw().apply(new Type(ctx));
     }
 
     /**
@@ -198,27 +210,6 @@ public class RelationshipsPuzzle implements Puzzle {
                     )
                 );
             }
-        }
-    }
-
-    /**
-     * Generates an endless sequence of random relationships to new types, cycling through all the
-     * available kinds of relationships in a random order before repeating.
-     */
-    private static class RelationshipGenerator {
-        private final List<Function<Type, Relationship>> generatorQueue = new ArrayList<>();
-
-        Relationship generate(PuzzleContext ctx) {
-            if (generatorQueue.isEmpty()) {
-                generatorQueue.addAll(List.of(
-                    type -> new Relationship.HasA(Nonsense.propertyName(ctx), type),
-                    type -> new Relationship.IsA(type),
-                    type -> new Relationship.HasMany(
-                        Nonsense.propertyName(ctx), type, ctx.getRandom().nextBoolean())
-                ));
-                Collections.shuffle(generatorQueue, ctx.getRandom());
-            }
-            return generatorQueue.remove(0).apply(new Type(ctx));
         }
     }
 }

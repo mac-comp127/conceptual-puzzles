@@ -18,7 +18,7 @@ public class RelationshipDiagramBuilder {
     private final Collection<Type> includedTypes;
     private final float hue;
     private final double innerMargin = 18, spacing = 24;
-    private double arrowWidth = 12, arrowLen = 12;
+    private final double arrowWidth = 12, arrowLen = 12;
 
     public RelationshipDiagramBuilder(List<Type> includedTypes, float hue) {
         this.includedTypes = List.copyOf(includedTypes);

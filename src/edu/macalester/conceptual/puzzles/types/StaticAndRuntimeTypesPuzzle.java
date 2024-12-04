@@ -2,20 +2,23 @@ package edu.macalester.conceptual.puzzles.types;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.expr.ThisExpr;
 import com.github.javaparser.ast.stmt.ReturnStmt;
-import com.github.javaparser.ast.type.ReferenceType;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
 import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.puzzles.ast.AnnotatedAst;
 import edu.macalester.conceptual.puzzles.ast.AstDrawing;
 import edu.macalester.conceptual.util.AstUtils;
+import edu.macalester.conceptual.util.ChoiceDeck;
 import edu.macalester.conceptual.util.CodeSnippet;
 import edu.macalester.conceptual.util.Nonsense;
 import edu.macalester.conceptual.util.Randomness;
@@ -55,11 +58,10 @@ public class StaticAndRuntimeTypesPuzzle implements Puzzle {
             return subtype;
         }).toList();
 
-        String polymorphicMethodName = Nonsense.methodName(ctx);
-        String polymorphicParamName = Nonsense.variableName(ctx);
-        addPolyMethod(ctx, supertype, polymorphicMethodName, supertype, polymorphicParamName, subtypes);
+        var polyMethod = new PolymorphicMethodBuilder(ctx, supertype, subtypes);
+        polyMethod.addMethodToType(supertype);
         for (var subtype : subtypes) {
-            addPolyMethod(ctx, subtype, polymorphicMethodName, supertype, polymorphicParamName, subtypes);
+            polyMethod.addMethodToType(subtype);
         }
 
         var annotatedAst = AnnotatedAst.create(
@@ -68,7 +70,7 @@ public class StaticAndRuntimeTypesPuzzle implements Puzzle {
                     "foo.%1$s(%2$s).%1$s(bar)",
                     "foo.%1$s(%2$s.%1$s(bar))"
                 ),
-                polymorphicMethodName,
+                polyMethod.getMethodName(),
                 Randomness.chooseConst(ctx, "foo", "bar")
             ),
             CodeSnippet.build()
@@ -89,7 +91,7 @@ public class StaticAndRuntimeTypesPuzzle implements Puzzle {
                 ))
                 .withOtherClasses(
                     prettifyWholeFile(
-                        supertype.toString()
+                        supertype
                         + String.join("",
                             Randomness.shuffled(ctx,
                                 subtypes.stream()
@@ -160,38 +162,55 @@ public class StaticAndRuntimeTypesPuzzle implements Puzzle {
         );
     }
 
-    //
-    private static void addPolyMethod(
-        PuzzleContext ctx,
-        ClassOrInterfaceDeclaration type,
-        String methodName,
-        ClassOrInterfaceDeclaration paramTypeDecl,
-        String paramName,
-        List<ClassOrInterfaceDeclaration> subtypes
-    ) {
-        var method = type.addMethod(methodName, PUBLIC);
-        ReferenceType paramType = AstUtils.classNamed(paramTypeDecl.getNameAsString());
-        method.addParameter(paramType, paramName);
-        method.setType(paramType);
-        if (type.isInterface()) {
-            method.removeBody();
-        } else {
-            method.setBody(AstUtils.blockOf(
-                new ReturnStmt(
-                    Randomness.choose(ctx,
-                        () -> new ThisExpr(),
-                        () -> new NameExpr(paramName),
-                        () -> Randomness.choose(ctx,
-                            subtypes.stream()
-                                .map(t -> new ObjectCreationExpr(
-                                    null,
-                                    AstUtils.classNamed(t.getNameAsString()),
-                                    AstUtils.nodes()))
-                                .toList()
-                        )
-                    )
-                )
+    /**
+     * Creates methods of the form `T foo(T bar) { ... }`, where T is a supertype and the method
+     * body returns any one of its available subtypes.
+     */
+    private static class PolymorphicMethodBuilder {
+        private final ClassOrInterfaceType supertype;
+
+        private final String methodName;
+        private final String paramName;
+
+        private final ChoiceDeck<Supplier<Expression>> methodImplDeck;
+
+        public PolymorphicMethodBuilder(
+            PuzzleContext ctx,
+            ClassOrInterfaceDeclaration supertypeDecl,
+            List<ClassOrInterfaceDeclaration> subtypeDecls
+        ) {
+            this.supertype = AstUtils.classNamed(supertypeDecl.getNameAsString());
+
+            methodName = Nonsense.methodName(ctx);
+            paramName = Nonsense.variableName(ctx);
+
+            var subtypes = subtypeDecls.stream()
+                .map(t -> AstUtils.classNamed(t.getNameAsString()))
+                .toList();
+
+            methodImplDeck = new ChoiceDeck<>(ctx, List.of(
+                () -> new ThisExpr(),
+                () -> new NameExpr(paramName),
+                () -> new ObjectCreationExpr(
+                    null, Randomness.choose(ctx, subtypes), AstUtils.nodes())
             ));
+        }
+
+        public String getMethodName() {
+            return methodName;
+        }
+
+        public void addMethodToType(ClassOrInterfaceDeclaration type) {
+            var method = type.addMethod(methodName, PUBLIC);
+            method.addParameter(supertype, paramName);
+            method.setType(supertype);
+            if (type.isInterface()) {
+                method.removeBody();
+            } else {
+                method.setBody(AstUtils.blockOf(
+                    new ReturnStmt(methodImplDeck.draw().get())
+                ));
+            }
         }
     }
 }
