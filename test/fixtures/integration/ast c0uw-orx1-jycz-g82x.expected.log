@@ -1,0 +1,847 @@
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+[0J────────────────────────────────────────────────────────────────────────────────
+
+For each of the Java expressions below:
+
+  - Draw an AST for the expression.
+  - Show how the expression evaluates at each node in the tree.
+
+Be sure that your tree accurately reflects how Java would evaluate the
+expression.
+
+[1m[38;5;16m[48;5;83m            [0m
+[1m[38;5;16m[48;5;83m   PART 1   [0m
+[1m[38;5;16m[48;5;83m            [0m
+
+Given the following variables:
+
+    int maip = 8;
+    int ap = 8;
+    double ral = 4.0;
+    int ti = 1;
+    double une = 2.0;
+    double haeph = 1.0;
+    int chleve = 8;
+    int o = 8;
+    int ra = 6;
+    int swo = 6;
+    int liwo = 6;
+    int e = 6;
+    double nephut = 1.0;
+    double en = 5.0;
+    double gnaruss = 3.0;
+    double qontpra = 5.0;
+    double epo = 3.0;
+    double miua = 1.0;
+    int chublos = 1;
+    double chong = 4.0;
+    double udsa = 1.0;
+    double bolbur = 1.0;
+    int kices = 1;
+
+...draw the AST and evaluation results for the following expression:
+
+    maip % ap - 4 + 9 * ral + ti - 8 % une % 7 - 8 % 9 - haeph / chleve - 7 / 6 + 7 % 4 - 1 / o + 4 * 3 - ra + swo + 4 * 6 + 0 * 1 % 4 % liwo / 9 * e * nephut + en + gnaruss / 1 * qontpra - epo + miua * 4 + chublos + chong / udsa + 4 + 2 + 4 * bolbur * 9 + kices * 7 / 4 + 3 * 0
+
+[1m[38;5;120m[48;5;22m              [0m
+[1m[38;5;120m[48;5;22m   SOLUTION   [0m
+[1m[38;5;120m[48;5;22m              [0m
+
+[3m<< See window titled “Part 1 Solution” >>[23m
+
+Things to double-check in your solution:
+
+  - Do you have the left and right branches on the correct side?
+  - Did you indicate the difference between ints and floating point values?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;63m            [0m
+[1m[38;5;16m[48;5;63m   PART 2   [0m
+[1m[38;5;16m[48;5;63m            [0m
+
+Given the following variables:
+
+    double ic = 1.0;
+    double maph = 1.0;
+    int phergroops = 7;
+    double elclit = 5.0;
+    int bial = 6;
+    double vo = 5.0;
+    boolean ede = false;
+    double peagel = 1.0;
+    int pri = 2;
+    int pa = 1;
+    int bosed = 2;
+    double witro = 5.0;
+    int desra = 4;
+    double sqel = 2.0;
+    double proup = 5.0;
+    int ma = 8;
+    int ulshi = 8;
+    double numphspho = 3.0;
+    double puath = 3.0;
+    double mur = 2.0;
+    double to = 4.0;
+    int poriaw = 4;
+    double gratoun = 4.0;
+    boolean budhan = true;
+    double poengdoss = 5.0;
+    boolean pirkud = true;
+    boolean mousshu = false;
+    double gresmphes = 4.0;
+    boolean sesscu = true;
+    int tengi = 8;
+    int jiod = 3;
+    double nuni = 5.0;
+    int pamism = 6;
+    boolean plecvism = true;
+
+...draw the AST and evaluation results for the following expression:
+
+    ic + maph <= phergroops / elclit != !(3 >= 2 % 6) && 2 - 7 >= bial || 3 % vo >= 8 + 3 && !ede || !(peagel <= pri - pa) || bosed > witro / desra || 3 < sqel + proup == 3 % 1 < ma != (8 != 5 + ulshi) || 4 + numphspho >= 9 && puath + mur != to - 8 && poriaw * gratoun > 6 || 1 < 7 != !budhan != poengdoss % 5 < 4 || !pirkud || mousshu && gresmphes > 9 != 4 * 0 <= 4 != sesscu && 1 + tengi >= 5 || jiod >= 6 || !(nuni != pamism * 1) == !plecvism
+
+[1m[38;5;105m[48;5;17m              [0m
+[1m[38;5;105m[48;5;17m   SOLUTION   [0m
+[1m[38;5;105m[48;5;17m              [0m
+
+[3m<< See window titled “Part 2 Solution” >>[23m
+
+Things to double-check in your solution:
+
+  - Does your tree correctly reflect the precedence of && and ||?
+  - Did you correctly show short-circuiting? (That is when the right branch of
+    && or || is never evaluated because the left branch already determines the
+    answer.)
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;215m            [0m
+[1m[38;5;16m[48;5;215m   PART 3   [0m
+[1m[38;5;16m[48;5;215m            [0m
+
+Draw the AST and evaluation results for the following expression:
+
+    0 + 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 + 11 + 12 + 13 + 14 + 15 + 16 + 17 + 18 + "19" + 20 + "21" + 22 + 23 + 24 + 25 + 26 + 27 + "28" + 29 + 30 + "31" + 32 + 33 + 34 + 35 + "36" + 37 + 38 + "39" + "40" + 41 + 42 + "43" + 44 + 45 + "46" + 47 + 48 + "49" + "50" + "51" + "52"
+
+[1m[38;5;216m[48;5;52m              [0m
+[1m[38;5;216m[48;5;52m   SOLUTION   [0m
+[1m[38;5;216m[48;5;52m              [0m
+
+[3m<< See window titled “Part 3 Solution” >>[23m
+
+Things to double-check in your solution:
+
+  - Did you indicate the distinction between ints and Strings?
+  - Are your left/right branches correct?
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+For each of the Java expressions below:
+
+  - Draw an AST for the expression.
+  - Show how the expression evaluates at each node in the tree.
+
+Be sure that your tree accurately reflects how Java would evaluate the
+expression.
+
+[1m[38;5;16m[48;5;86m            [0m
+[1m[38;5;16m[48;5;86m   PART 1   [0m
+[1m[38;5;16m[48;5;86m            [0m
+
+Given the following variables:
+
+    int da = 6;
+    double seph = 4.0;
+    int nurnea = 4;
+    int tre = 8;
+    int etpe = 5;
+    int scheti = 5;
+    double em = 4.0;
+    double engspa = 4.0;
+    int cawdsiss = 5;
+    double holloss = 4.0;
+    double vecde = 2.0;
+    int pab = 3;
+    int oss = 5;
+    int me = 6;
+    double blemat = 4.0;
+    int poin = 9;
+    double gassdas = 3.0;
+    int nepbi = 1;
+    double ringphan = 4.0;
+    int trusmeng = 7;
+    double ul = 1.0;
+    int cospriss = 4;
+    double ka = 2.0;
+    double er = 1.0;
+    double vu = 1.0;
+
+...draw the AST and evaluation results for the following expression:
+
+    da % 9 + seph * nurnea + 2 * tre * 6 * 0 % 6 % 7 / 7 % (4 % etpe % scheti - em / 9 + 2 / engspa) + cawdsiss / 5 - holloss / vecde * 7 / 0 * pab + 8 * oss - me + 9 * 9 / 6 / blemat % 6 + poin / 4 - gassdas % 7 - 8 + nepbi + 5 * ringphan - trusmeng * ul - 1 * 6 / 3 / cospriss * 8 * ka / er % 6 + vu
+
+[1m[38;5;123m[48;5;23m              [0m
+[1m[38;5;123m[48;5;23m   SOLUTION   [0m
+[1m[38;5;123m[48;5;23m              [0m
+
+[3m<< See window titled “Part 1 Solution” >>[23m
+
+Things to double-check in your solution:
+
+  - Do you have the left and right branches on the correct side?
+  - Did you indicate the difference between ints and floating point values?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;207m            [0m
+[1m[38;5;16m[48;5;207m   PART 2   [0m
+[1m[38;5;16m[48;5;207m            [0m
+
+Given the following variables:
+
+    boolean a = false;
+    int tremeph = 1;
+    int gnid = 8;
+    boolean naceo = true;
+    boolean saol = true;
+    int niste = 5;
+    int ceo = 1;
+    boolean otvon = true;
+    int midick = 8;
+    double ounpir = 1.0;
+    int grism = 1;
+    int ent = 5;
+    int auhi = 7;
+    int siso = 3;
+    double halphis = 4.0;
+    int bi = 3;
+    int metzon = 3;
+    boolean gastfed = true;
+    double spasde = 3.0;
+    int stisil = 6;
+    int ceish = 4;
+    int aest = 5;
+    int pe = 1;
+    boolean tizuc = true;
+    int cim = 5;
+    int irlsep = 9;
+    boolean thialpu = false;
+    double esso = 2.0;
+    int eshbac = 3;
+    int re = 9;
+    double lasgo = 1.0;
+    double ce = 4.0;
+    boolean eal = true;
+
+...draw the AST and evaluation results for the following expression:
+
+    a == (!(4 + tremeph == 2 % gnid)) == !!naceo == (8 == 9 - 6) == saol && !(8 <= 7 - 6) != niste > ceo != (otvon && midick / ounpir >= 4 / grism == 0 > ent / 8 == auhi + siso <= 5 * 5 && !(!(halphis <= bi)) == metzon < 5 == gastfed || spasde * stisil == ceish % aest == !(pe >= 2 + 6) || 4 % 3 <= 6 % 9 || !tizuc || !(cim == irlsep) || thialpu != esso + eshbac < 9 || re >= lasgo && 2 < ce) == eal == !(0 > 9)
+
+[1m[38;5;213m[48;5;53m              [0m
+[1m[38;5;213m[48;5;53m   SOLUTION   [0m
+[1m[38;5;213m[48;5;53m              [0m
+
+[3m<< See window titled “Part 2 Solution” >>[23m
+
+Things to double-check in your solution:
+
+  - Does your tree correctly reflect the precedence of && and ||?
+  - Did you correctly show short-circuiting? (That is when the right branch of
+    && or || is never evaluated because the left branch already determines the
+    answer.)
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;191m            [0m
+[1m[38;5;16m[48;5;191m   PART 3   [0m
+[1m[38;5;16m[48;5;191m            [0m
+
+Draw the AST and evaluation results for the following expression:
+
+    0 + 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 + 11 + 12 + 13 + 14 + (15 + 16 + 17 + "18" + 19) + 20 + 21 + 22 + "23" + "24" + 25 + 26 + 27 + "28" + "29" + 30 + 31 + 32 + 33 + 34 + 35 + 36 + 37 + 38 + 39 + "40" + 41 + "42" + 43 + "44" + 45 + "46" + 47 + "48" + "49" + 50 + 51 + 52
+
+[1m[38;5;192m[48;5;58m              [0m
+[1m[38;5;192m[48;5;58m   SOLUTION   [0m
+[1m[38;5;192m[48;5;58m              [0m
+
+[3m<< See window titled “Part 3 Solution” >>[23m
+
+Things to double-check in your solution:
+
+  - Did you indicate the distinction between ints and Strings?
+  - Are your left/right branches correct?
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+For each of the Java expressions below:
+
+  - Draw an AST for the expression.
+  - Show how the expression evaluates at each node in the tree.
+
+Be sure that your tree accurately reflects how Java would evaluate the
+expression.
+
+[1m[38;5;16m[48;5;75m            [0m
+[1m[38;5;16m[48;5;75m   PART 1   [0m
+[1m[38;5;16m[48;5;75m            [0m
+
+Given the following variables:
+
+    int hiarlis = 5;
+    int destthud = 8;
+    double engass = 2.0;
+    double mif = 5.0;
+    double cialol = 4.0;
+    double gir = 2.0;
+    double di = 1.0;
+    int wibast = 8;
+    double barne = 5.0;
+    double diossan = 2.0;
+    double pidho = 1.0;
+    int issfi = 2;
+    int trirdemb = 5;
+    double ralchri = 4.0;
+    int nisoss = 8;
+    int dodin = 8;
+    int cu = 1;
+    int racag = 4;
+    int lashad = 1;
+    double cish = 5.0;
+    double radent = 2.0;
+    int fonpe = 9;
+    double swaesse = 2.0;
+
+...draw the AST and evaluation results for the following expression:
+
+    3 * 0 % 6 % 9 * 5 + 6 * 4 * 8 + hiarlis - 3 / (destthud / engass * mif / cialol % 9 % gir + di * wibast % 5 % 7 * 7 - 5 + 0 / barne * 7 - diossan / 9 + pidho / issfi + 9 % 6 % 7 / trirdemb % ralchri + 3 * nisoss % dodin - cu - 2 + 4 % 1 + racag - 2 - lashad % 1 - 4 / cish - radent + 8 - fonpe * swaesse % 9)
+
+[1m[38;5;111m[48;5;17m              [0m
+[1m[38;5;111m[48;5;17m   SOLUTION   [0m
+[1m[38;5;111m[48;5;17m              [0m
+
+[3m<< See window titled “Part 1 Solution” >>[23m
+
+Things to double-check in your solution:
+
+  - Do you have the left and right branches on the correct side?
+  - Did you indicate the difference between ints and floating point values?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;203m            [0m
+[1m[38;5;16m[48;5;203m   PART 2   [0m
+[1m[38;5;16m[48;5;203m            [0m
+
+Given the following variables:
+
+    boolean eneng = true;
+    int qaspeousm = 9;
+    int ics = 7;
+    int nall = 9;
+    double mour = 4.0;
+    int wognsess = 3;
+    int ioda = 9;
+    double reaed = 3.0;
+    int stesskass = 3;
+    int naiest = 7;
+    double cecflen = 5.0;
+    boolean vesmot = false;
+    double nasm = 3.0;
+    int ebesm = 4;
+    double hungfra = 4.0;
+    double oun = 1.0;
+    double incles = 4.0;
+    boolean eess = false;
+    boolean trialcar = false;
+    boolean cus = true;
+    double nir = 3.0;
+    boolean i = true;
+    int onthdaid = 3;
+    int oben = 2;
+    boolean fintgac = false;
+    int be = 4;
+    boolean ri = true;
+    int nes = 5;
+    int dubi = 4;
+
+...draw the AST and evaluation results for the following expression:
+
+    (eneng || 0 > 1 != 0 >= qaspeousm + 0 != ics % nall < 9 != 1 < mour % wognsess || ioda != reaed / stesskass || naiest >= cecflen == vesmot || nasm + 2 < 0 && ebesm >= hungfra && oun / incles > 7 == eess != trialcar == cus && 7 - 1 > 9 / 3 && !(nir < 4) && !!i && !(onthdaid > 6)) || 1 / oben >= 9 % 1 && fintgac && 0 > be - 2 && ri != !(8 + 5 < 7 / nes) && 6 % 9 == dubi || 3 < 8 - 3
+
+[1m[38;5;210m[48;5;52m              [0m
+[1m[38;5;210m[48;5;52m   SOLUTION   [0m
+[1m[38;5;210m[48;5;52m              [0m
+
+[3m<< See window titled “Part 2 Solution” >>[23m
+
+Things to double-check in your solution:
+
+  - Does your tree correctly reflect the precedence of && and ||?
+  - Did you correctly show short-circuiting? (That is when the right branch of
+    && or || is never evaluated because the left branch already determines the
+    answer.)
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;84m            [0m
+[1m[38;5;16m[48;5;84m   PART 3   [0m
+[1m[38;5;16m[48;5;84m            [0m
+
+Draw the AST and evaluation results for the following expression:
+
+    0 + 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 + 11 + 12 + 13 + 14 + 15 + 16 + "17" + 18 + 19 + 20 + 21 + "22" + 23 + 24 + "25" + 26 + 27 + "28" + 29 + 30 + "31" + "32" + "33" + "34" + 35 + 36 + ("37" + 38 + 39 + 40 + 41 + 42 + 43 + 44 + 45 + "46" + 47 + 48 + 49 + "50") + "51" + "52"
+
+[1m[38;5;121m[48;5;22m              [0m
+[1m[38;5;121m[48;5;22m   SOLUTION   [0m
+[1m[38;5;121m[48;5;22m              [0m
+
+[3m<< See window titled “Part 3 Solution” >>[23m
+
+Things to double-check in your solution:
+
+  - Did you indicate the distinction between ints and Strings?
+  - Are your left/right branches correct?
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+For each of the Java expressions below:
+
+  - Draw an AST for the expression.
+  - Show how the expression evaluates at each node in the tree.
+
+Be sure that your tree accurately reflects how Java would evaluate the
+expression.
+
+[1m[38;5;16m[48;5;135m            [0m
+[1m[38;5;16m[48;5;135m   PART 1   [0m
+[1m[38;5;16m[48;5;135m            [0m
+
+Given the following variables:
+
+    int ilism = 4;
+    int aphith = 9;
+    double mismsed = 1.0;
+    double ponti = 5.0;
+    double es = 1.0;
+    double phik = 5.0;
+    double prafli = 5.0;
+    int cece = 4;
+    double wrolsa = 1.0;
+    int oo = 8;
+    double ioas = 4.0;
+    int ed = 9;
+    int larmmarm = 8;
+    double rol = 3.0;
+    double tinid = 1.0;
+    double bealtqin = 1.0;
+    double weder = 3.0;
+    int sunch = 3;
+    double li = 4.0;
+    int veaant = 3;
+    double nespen = 5.0;
+    int croinass = 3;
+    double pregfess = 4.0;
+
+...draw the AST and evaluation results for the following expression:
+
+    0 % 4 % ilism / aphith / mismsed % 7 * ponti % 3 * 1 / es % 1 * 7 - 9 - 9 % phik % 1 + prafli + cece + wrolsa % oo % 1 * 4 - ioas % 7 - 0 / ed / larmmarm * rol % tinid * bealtqin / 2 % weder - 6 / 1 * 5 - 3 * 4 - 4 - sunch - li * veaant * 4 / 8 / nespen % 8 / croinass / pregfess - 7 + 2 + 3 + 9 + 1
+
+[1m[38;5;177m[48;5;17m              [0m
+[1m[38;5;177m[48;5;17m   SOLUTION   [0m
+[1m[38;5;177m[48;5;17m              [0m
+
+[3m<< See window titled “Part 1 Solution” >>[23m
+
+Things to double-check in your solution:
+
+  - Do you have the left and right branches on the correct side?
+  - Did you indicate the difference between ints and floating point values?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;221m            [0m
+[1m[38;5;16m[48;5;221m   PART 2   [0m
+[1m[38;5;16m[48;5;221m            [0m
+
+Given the following variables:
+
+    boolean sopat = true;
+    boolean nel = false;
+    boolean tartdard = false;
+    boolean ander = false;
+    boolean reritt = true;
+    boolean trantne = false;
+    int qihark = 3;
+    double olcir = 2.0;
+    boolean dosse = true;
+    int phuirswi = 8;
+    double feaec = 1.0;
+    double denpsas = 1.0;
+    boolean eaenang = true;
+    double passa = 5.0;
+    boolean jocic = true;
+    double cina = 2.0;
+    double pinoc = 2.0;
+    double maas = 1.0;
+    double ho = 3.0;
+    int paiso = 2;
+    int icsei = 2;
+    double socvoong = 1.0;
+    double reu = 5.0;
+    int scersut = 7;
+    boolean si = true;
+    double reli = 1.0;
+    int ro = 8;
+    double chri = 2.0;
+    double se = 5.0;
+    double pras = 1.0;
+    double oufal = 1.0;
+    boolean ponho = true;
+    int doostbis = 4;
+
+...draw the AST and evaluation results for the following expression:
+
+    sopat && nel && tartdard || ander == reritt || trantne == qihark <= olcir == dosse && (3 <= phuirswi % feaec != 2 > 5 * denpsas != eaenang || !(3 + passa <= 0 * 4) || jocic != 6 / cina < 8 != (6 == 2 + pinoc)) != (maas * ho != paiso - icsei) || socvoong / 7 <= reu % 7 == 5 > scersut != !si == (reli / ro != 1) == chri % se < 8 % pras == !(7 % 6 >= oufal) || 1 * 0 <= 1 / 9 || !!ponho != doostbis < 9 * 2
+
+[1m[38;5;228m[48;5;58m              [0m
+[1m[38;5;228m[48;5;58m   SOLUTION   [0m
+[1m[38;5;228m[48;5;58m              [0m
+
+[3m<< See window titled “Part 2 Solution” >>[23m
+
+Things to double-check in your solution:
+
+  - Does your tree correctly reflect the precedence of && and ||?
+  - Did you correctly show short-circuiting? (That is when the right branch of
+    && or || is never evaluated because the left branch already determines the
+    answer.)
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;87m            [0m
+[1m[38;5;16m[48;5;87m   PART 3   [0m
+[1m[38;5;16m[48;5;87m            [0m
+
+Draw the AST and evaluation results for the following expression:
+
+    0 + 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 + 11 + 12 + 13 + 14 + 15 + 16 + "17" + "18" + 19 + 20 + 21 + (22 + 23 + 24 + 25 + 26 + "27" + 28 + "29" + "30" + 31 + 32 + 33 + 34 + "35" + 36 + 37 + 38 + 39 + "40" + 41 + "42" + 43 + 44 + 45 + "46" + 47 + 48 + 49 + "50") + 51 + 52
+
+[1m[38;5;123m[48;5;23m              [0m
+[1m[38;5;123m[48;5;23m   SOLUTION   [0m
+[1m[38;5;123m[48;5;23m              [0m
+
+[3m<< See window titled “Part 3 Solution” >>[23m
+
+Things to double-check in your solution:
+
+  - Did you indicate the distinction between ints and Strings?
+  - Are your left/right branches correct?
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+For each of the Java expressions below:
+
+  - Draw an AST for the expression.
+  - Show how the expression evaluates at each node in the tree.
+
+Be sure that your tree accurately reflects how Java would evaluate the
+expression.
+
+[1m[38;5;16m[48;5;206m            [0m
+[1m[38;5;16m[48;5;206m   PART 1   [0m
+[1m[38;5;16m[48;5;206m            [0m
+
+Given the following variables:
+
+    int miant = 5;
+    double pi = 2.0;
+    double cohiac = 5.0;
+    double sto = 5.0;
+    double ussmal = 5.0;
+    double cidong = 3.0;
+    double deack = 2.0;
+    int smosm = 2;
+    double asteng = 4.0;
+    int sonthup = 4;
+    double nakis = 5.0;
+    double sa = 2.0;
+    double riird = 3.0;
+    int ou = 3;
+    int am = 5;
+    int snen = 9;
+    int emass = 5;
+    double proanan = 3.0;
+    int pulrah = 1;
+    double carpox = 5.0;
+    int hifach = 2;
+
+...draw the AST and evaluation results for the following expression:
+
+    6 * 0 * (0 / 5 * 1 + 0 * 5 + miant + 0 - pi / 4 / 9 - cohiac - sto - 4 - 0 + ussmal - 4 + cidong - deack % smosm - asteng + 6 % 7 % 9 - 2 % sonthup - 6 - 1 % nakis * 1 % sa + riird % ou / 8 * 4 / 6 / 5 * am - 0 / 9 / snen * emass - proanan * 5 + 5 + 6) * pulrah - carpox % hifach + 1 % 1
+
+[1m[38;5;212m[48;5;52m              [0m
+[1m[38;5;212m[48;5;52m   SOLUTION   [0m
+[1m[38;5;212m[48;5;52m              [0m
+
+[3m<< See window titled “Part 1 Solution” >>[23m
+
+Things to double-check in your solution:
+
+  - Do you have the left and right branches on the correct side?
+  - Did you indicate the difference between ints and floating point values?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;119m            [0m
+[1m[38;5;16m[48;5;119m   PART 2   [0m
+[1m[38;5;16m[48;5;119m            [0m
+
+Given the following variables:
+
+    boolean andbre = false;
+    boolean tadpri = true;
+    double fecscle = 4.0;
+    int crai = 3;
+    int pohuss = 5;
+    double cesswec = 2.0;
+    int lornais = 1;
+    double semhis = 4.0;
+    int thilcoap = 9;
+    boolean dartact = false;
+    int icmec = 6;
+    boolean cecho = true;
+    double velwam = 4.0;
+    int phords = 6;
+    int oic = 7;
+    int pirho = 6;
+    double mefait = 3.0;
+    boolean heen = false;
+    int scla = 9;
+    int canhism = 3;
+    double po = 2.0;
+    boolean or = false;
+    boolean gesti = true;
+    int enmo = 5;
+    int ecan = 7;
+    int harbu = 7;
+    double lantusm = 5.0;
+    double osa = 2.0;
+    double draed = 2.0;
+    int skiaplum = 1;
+    int sainheet = 9;
+    double sadcist = 4.0;
+    int phoba = 9;
+    double vur = 3.0;
+    int sorrod = 7;
+    double psea = 5.0;
+
+...draw the AST and evaluation results for the following expression:
+
+    andbre || tadpri != (fecscle == crai) == 6 > pohuss != cesswec * 0 >= 0 + lornais == semhis > 7 || thilcoap - 5 <= 0 || dartact == (7 + 9 != 9 * icmec) || cecho != velwam * phords < oic / pirho || 5 > 6 * mefait || !heen && 1 + 1 < scla + canhism || po < 9 || 4 >= 1 - 3 == or && gesti && 0 != enmo != 9 - ecan < 3 || harbu + lantusm <= osa - 5 == draed <= skiaplum == sainheet <= 1 == sadcist + phoba > 7 - vur != sorrod % psea > 5
+
+[1m[38;5;156m[48;5;22m              [0m
+[1m[38;5;156m[48;5;22m   SOLUTION   [0m
+[1m[38;5;156m[48;5;22m              [0m
+
+[3m<< See window titled “Part 2 Solution” >>[23m
+
+Things to double-check in your solution:
+
+  - Does your tree correctly reflect the precedence of && and ||?
+  - Did you correctly show short-circuiting? (That is when the right branch of
+    && or || is never evaluated because the left branch already determines the
+    answer.)
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;63m            [0m
+[1m[38;5;16m[48;5;63m   PART 3   [0m
+[1m[38;5;16m[48;5;63m            [0m
+
+Draw the AST and evaluation results for the following expression:
+
+    0 + 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 + 11 + 12 + 13 + 14 + 15 + 16 + 17 + 18 + "19" + "20" + 21 + "22" + "23" + 24 + 25 + "26" + 27 + "28" + 29 + "30" + 31 + "32" + 33 + 34 + 35 + 36 + 37 + 38 + 39 + 40 + 41 + 42 + "43" + 44 + 45 + 46 + 47 + 48 + 49 + "50" + 51 + 52
+
+[1m[38;5;105m[48;5;17m              [0m
+[1m[38;5;105m[48;5;17m   SOLUTION   [0m
+[1m[38;5;105m[48;5;17m              [0m
+
+[3m<< See window titled “Part 3 Solution” >>[23m
+
+Things to double-check in your solution:
+
+  - Did you indicate the distinction between ints and Strings?
+  - Are your left/right branches correct?
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+For each of the Java expressions below:
+
+  - Draw an AST for the expression.
+  - Show how the expression evaluates at each node in the tree.
+
+Be sure that your tree accurately reflects how Java would evaluate the
+expression.
+
+[1m[38;5;16m[48;5;209m            [0m
+[1m[38;5;16m[48;5;209m   PART 1   [0m
+[1m[38;5;16m[48;5;209m            [0m
+
+Given the following variables:
+
+    int ror = 3;
+    double geca = 3.0;
+    int mi = 8;
+    int aske = 8;
+    int raism = 8;
+    double bingga = 3.0;
+    double tamir = 5.0;
+    double boosman = 2.0;
+    int zerpang = 1;
+    double chofi = 4.0;
+    int skivhos = 8;
+    double la = 5.0;
+    int fena = 3;
+    int co = 2;
+    double hi = 5.0;
+    double in = 3.0;
+    double gne = 2.0;
+    double feng = 3.0;
+    double dormiph = 3.0;
+    double segor = 3.0;
+    int fla = 9;
+    int tanim = 4;
+    int burmo = 9;
+    double engpal = 1.0;
+    int hunplir = 8;
+    int cuact = 5;
+    int onaic = 6;
+    int sclalpai = 9;
+    int ceckast = 9;
+    double wo = 3.0;
+
+...draw the AST and evaluation results for the following expression:
+
+    6 - 2 + ror + geca % 6 * mi - aske + raism - bingga / 3 / tamir / 6 / 9 / 6 + boosman - zerpang % chofi * skivhos % 4 + 8 + 9 * 6 * la / 2 + fena / co + hi * in - gne / 0 + feng - 0 + 4 - dormiph % 3 % 6 * segor / fla * 0 * tanim / burmo / engpal * 0 * hunplir * cuact - 0 / onaic * sclalpai - ceckast - 6 * wo + 2
+
+[1m[38;5;216m[48;5;52m              [0m
+[1m[38;5;216m[48;5;52m   SOLUTION   [0m
+[1m[38;5;216m[48;5;52m              [0m
+
+[3m<< See window titled “Part 1 Solution” >>[23m
+
+Things to double-check in your solution:
+
+  - Do you have the left and right branches on the correct side?
+  - Did you indicate the difference between ints and floating point values?
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;85m            [0m
+[1m[38;5;16m[48;5;85m   PART 2   [0m
+[1m[38;5;16m[48;5;85m            [0m
+
+Given the following variables:
+
+    boolean misil = false;
+    double dobess = 3.0;
+    int hibent = 5;
+    int an = 7;
+    int sinpa = 6;
+    double pnair = 5.0;
+    double trede = 5.0;
+    double pueiw = 2.0;
+    boolean trenir = true;
+    int onco = 8;
+    int ptir = 1;
+    double woss = 1.0;
+    int fung = 3;
+    double splom = 2.0;
+    double ai = 2.0;
+    int stodwa = 4;
+    boolean bil = true;
+    double wung = 3.0;
+    int peced = 4;
+    boolean eed = false;
+    boolean gintchrel = true;
+    double pestiss = 2.0;
+    int puk = 7;
+    int zes = 9;
+    int ced = 8;
+    int ve = 5;
+    boolean derel = false;
+    boolean plelluant = false;
+    int wersat = 8;
+    double ipre = 4.0;
+    int ciu = 1;
+    double branxfosm = 5.0;
+    int oiclunth = 4;
+    int rilsaid = 1;
+
+...draw the AST and evaluation results for the following expression:
+
+    misil || dobess == hibent % 3 == (an == 0 / 6) || sinpa + pnair < trede * 6 || !(pueiw > 8 / 9) != !trenir && !(!(!(5 >= 6))) != !(2 - onco <= 0 % 9) != (ptir - woss == fung) == (splom % 6 != 1) && ai != 3 && !(stodwa > 9) || bil && wung == peced && eed || !(1 > 0) == gintchrel || pestiss - puk < zes - 0 == 5 < 6 != ced > ve != derel && !!plelluant != (!(wersat / ipre != ciu / branxfosm)) != 3 / oiclunth <= 6 && 2 + rilsaid < 4 % 7
+
+[1m[38;5;122m[48;5;22m              [0m
+[1m[38;5;122m[48;5;22m   SOLUTION   [0m
+[1m[38;5;122m[48;5;22m              [0m
+
+[3m<< See window titled “Part 2 Solution” >>[23m
+
+Things to double-check in your solution:
+
+  - Does your tree correctly reflect the precedence of && and ||?
+  - Did you correctly show short-circuiting? (That is when the right branch of
+    && or || is never evaluated because the left branch already determines the
+    answer.)
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+[1m[38;5;16m[48;5;207m            [0m
+[1m[38;5;16m[48;5;207m   PART 3   [0m
+[1m[38;5;16m[48;5;207m            [0m
+
+Draw the AST and evaluation results for the following expression:
+
+    0 + 1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 + 11 + 12 + (13 + 14 + 15 + 16 + "17" + 18 + "19" + "20" + 21 + "22" + 23 + 24 + 25 + 26 + 27 + 28 + 29 + 30 + 31 + 32 + 33 + 34 + "35" + "36" + 37 + 38 + 39 + "40" + 41 + 42 + 43) + 44 + "45" + 46 + 47 + "48" + 49 + 50 + 51 + 52
+
+[1m[38;5;213m[48;5;53m              [0m
+[1m[38;5;213m[48;5;53m   SOLUTION   [0m
+[1m[38;5;213m[48;5;53m              [0m
+
+[3m<< See window titled “Part 3 Solution” >>[23m
+
+Things to double-check in your solution:
+
+  - Did you indicate the distinction between ints and Strings?
+  - Are your left/right branches correct?
+
+────────────────────────────────────────────────────────────────────────────────
+
+[0m
+***************** PLEASE NOTE ******************
+***                                          ***
+*** The puzzle above has a difficulty of 50.  ***
+*** The difficulty level to get credit is 2. ***
+***                                          ***
+************************************************
+
+To try the puzzle at the goal difficulty, generate a puzzle without the --difficulty option.
+
+Want to practice more basics first? Try a simpler puzzle:
+
+  bin/puzzle gen ast --difficulty 49
+

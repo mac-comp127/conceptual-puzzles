@@ -108,13 +108,27 @@ public class Generator {
         // Stick it all together!
         var result = new StringBuilder();
         for (int n = 0; n < exprs.size(); n++) {
+            var nextExpr = exprs.get(n);
+
             if (!result.isEmpty()) {
-                result.append(Randomness.chooseConst(ctx, operatorChoices));
+                var operator = Randomness.chooseConst(ctx, operatorChoices);
+                result.append(operator);
+
+                // When operatorChoices are boolean operators (&& || == !=), the assumption is that
+                // the subexpressions are boolean exprs. When a subexpression is `int == int`,
+                // we are in danger of generating `bool == int == int`, which will fail to compile.
+                // Thus if rhs has a boolean equality operator, we force `bool == (int == int)`.
+                // Doing this with ASTs instead of strings might have been better, but...oh well!
+
+                if (operator.matches("==|!=") && nextExpr.matches(".*(==|!=).*")) {
+                    nextExpr = "(" + nextExpr + ")";
+                }
             }
+
             if (n == openParen) {
                 result.append('(');
             }
-            result.append(exprs.get(n));
+            result.append(nextExpr);
             if (n == closeParen) {
                 result.append(')');
             }

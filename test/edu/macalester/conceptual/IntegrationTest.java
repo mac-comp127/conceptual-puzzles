@@ -36,7 +36,8 @@ public class IntegrationTest {
         "2mgg-4Ldu-2mq7-Ld3",   // loop
         "azy1-v4Lt-rq5L-7g92",  // ast
         "5i42-dtog-jq0h-93cn",  // bool
-        "5kwo-ytu2-xjbr-tuir"   // bool, difficulty = 5
+        "5kwo-ytu2-xjbr-tuir",  // bool, difficulty = 5
+        "c0uw-orx1-jycz-g82x"   // ast, difficulty = 50, potential operator precedence issue
     );
 
     @TestFactory
