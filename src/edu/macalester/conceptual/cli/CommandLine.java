@@ -59,6 +59,7 @@ public class CommandLine {
             System.err.println();
             System.err.println("Command line args: " + String.join(" ", args));
             System.err.println();
+            System.exit(1);
         }
 
         if (System.getenv().containsKey("PUZZLE_EXIT_IMMEDIATELY")) {
