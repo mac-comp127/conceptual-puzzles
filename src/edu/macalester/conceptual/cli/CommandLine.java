@@ -98,31 +98,14 @@ public class CommandLine {
         // get the data we need
         CommandData data = getPuzzleFromType(options);
 
-
-
         // output the result:
-        String puzzleType = options.commandAndArgs().get(1);
         if (data.puzzle == null) {
+            String puzzleType = options.commandAndArgs().get(1);
             System.err.println("Unknown puzzle puzzleType: " + puzzleType);
             System.err.println("Use `puzzle list` to see available options");
             return;
         }
-
-        emitPuzzle(data.puzzle, data.ctx, data.options);
-        if (data.options.solutionHtml() != null) {
-            // We need a new context and a new instance of the puzzle class, so that we don't get
-            // leftover state from the first pass
-            PuzzleContext solveCtx = data.ctx.cleanCopy();
-            Puzzle puzzleForSolution = Puzzle.findByName(puzzleType);
-            applyOptionsToContext(options, solveCtx, puzzleForSolution, true);
-            emitPuzzle(puzzleForSolution, solveCtx, options);
-        }
-
-        System.out.println();
-        System.out.println("Puzzle code: \u001b[7m " + data.ctx.getPuzzleCode() + " \u001b[0m");
-        System.out.println();
-        System.out.println("To see solution:");
-        System.out.println("  " + executableName() + " solve " + data.ctx.getPuzzleCode());
+        displayPuzzle(data.puzzle, data.ctx, data.options);
     }
 
     private static void show(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
@@ -132,28 +115,13 @@ public class CommandLine {
         // process the input:
         CommandData data = getPuzzleFromCode(options);
 
-
-        // do what this command does:
-
-        // TODO handle null puzzle! Bad code, old code no longer supported, etc
-
-        emitPuzzle(data.puzzle, data.ctx, data.options);
-
-        if (data.options.solutionHtml() != null) {
-            // We need a new context and a new instance of the data.puzzle class, so that we don't get
-            // leftover state from the first pass
-            var solveCtx = data.ctx.cleanCopy();
-            var puzzleForSolution = Puzzle.findByID(data.puzzle.id());
-            boolean solutionOutput = true;
-            applyOptionsToContext(data.options, solveCtx, puzzleForSolution, solutionOutput);
-            emitPuzzle(puzzleForSolution, solveCtx, data.options);
+        // output the result:
+        if (data.puzzle == null) {
+            System.err.println("This puzzle code is invalid or refers to a puzzle type that no longer exists.");
+            System.err.println("Are you using an outdated code from a previous semester?");
+            return;
         }
-
-        System.out.println();
-        System.out.println("Puzzle code: \u001b[7m " + data.ctx.getPuzzleCode() + " \u001b[0m");
-        System.out.println();
-        System.out.println("To see solution:");
-        System.out.println("  " + executableName() + " solve " + data.ctx.getPuzzleCode());
+        displayPuzzle(data.puzzle, data.ctx, data.options);
     }
 
     private static void solve(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
@@ -163,7 +131,7 @@ public class CommandLine {
         // process the input:
         CommandData data = getPuzzleFromCode(options);
 
-        // do what this command does:
+        // output the result:
         if (data.puzzle == null) {
             System.err.println("This puzzle code refers to a puzzle type that no longer exists.");
             System.err.println("Are you using an outdated code from a previous semester?");
@@ -290,6 +258,26 @@ public class CommandLine {
                 });
             }
         }
+    }
+
+    private static void displayPuzzle(Puzzle puzzle, PuzzleContext ctx, PuzzleOptions options) throws IOException {
+        emitPuzzle(puzzle, ctx, options);
+
+        if (options.solutionHtml() != null) {
+            // We need a new context and a new instance of the puzzle class, so that we don't get
+            // leftover state from the first pass
+            var solveCtx = ctx.cleanCopy();
+            var puzzleForSolution = Puzzle.findByID(puzzle.id());
+            boolean solutionOutput = true;
+            applyOptionsToContext(options, solveCtx, puzzleForSolution, solutionOutput);
+            emitPuzzle(puzzleForSolution, solveCtx, options);
+        }
+
+        System.out.println();
+        System.out.println("Puzzle code: \u001b[7m " + ctx.getPuzzleCode() + " \u001b[0m");
+        System.out.println();
+        System.out.println("To see solution:");
+        System.out.println("  " + executableName() + " solve " + ctx.getPuzzleCode());
     }
 
     private static void emitPuzzle(Puzzle puzzle, PuzzleContext ctx, PuzzleOptions options) throws IOException {
