@@ -39,7 +39,7 @@ public class CommandLine {
 
         try {
             String command = options.commandAndArgs().get(0);
-            switch(command) {
+            switch (command) {
                 case "help" -> {
                     printHelp(options, true);
                 }
@@ -49,12 +49,17 @@ public class CommandLine {
                 case "gen" -> {
                     generate(options);
                 }
+                case "show" -> {
+                    show(options);
+                }
                 case "solve" -> {
                     solve(options);
                 }
                 default -> options.usageError("Unknown command: " + command);
             }
-        } catch(Exception e) {
+        } catch (InvalidPuzzleCodeException e) {
+            System.out.println("invalid puzzle code exception");
+        } catch (Exception e) {
             e.printStackTrace();
             System.err.println();
             System.err.println("Command line args: " + String.join(" ", args));
@@ -80,26 +85,31 @@ public class CommandLine {
     }
 
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-    // Generating and Solving Puzzles
+    // Generating, Showing, Solving Puzzles
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
     private static void generate(PuzzleOptions options) throws IOException {
+        // process input:
         requireCommandArgs(1, options);
-        var puzzleName = options.commandAndArgs().get(1);
-        var puzzle = Puzzle.findByName(puzzleName);
-        if(puzzle == null) {
+        String puzzleName = options.commandAndArgs().get(1);
+
+        // build data needed to execute this command
+        Puzzle puzzle = Puzzle.findByName(puzzleName);
+        if (puzzle == null) {
             System.err.println("Unknown puzzle type: " + puzzleName);
             System.err.println("Use `puzzle list` to see available options");
             return;
         }
 
-        var ctx = PuzzleContext.generate(
+        PuzzleContext ctx = PuzzleContext.generate(
             puzzle.id(),
             options.difficulty() != null
                 ? options.difficulty()
                 : puzzle.goalDifficulty());
 
         applyOptionsToContext(options, ctx, puzzle, false);
+
+        // output what we output!
         emitPuzzle(puzzle, ctx, options);
 
         if (options.solutionHtml() != null) {
@@ -118,11 +128,50 @@ public class CommandLine {
         System.out.println("  " + executableName() + " solve " + ctx.getPuzzleCode());
     }
 
-    private static void solve(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
+    private static void show(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
+
+        // process & validate input
         requireCommandArgs(1, options);
-        var ctx = PuzzleContext.fromPuzzleCode(options.commandAndArgs().get(1));
-        var puzzle = Puzzle.findByID(ctx.getPuzzleID());
-        if(puzzle == null) {
+
+
+        // build data needed to execute command
+        PuzzleContext ctx = PuzzleContext.fromPuzzleCode(options.commandAndArgs().get(1));
+        Puzzle puzzle = Puzzle.findByID(ctx.getPuzzleID());
+        if (puzzle == null) {
+            System.err.println("This puzzle code refers to a puzzle type that no longer exists.");
+            System.err.println("Are you using an outdated code from a previous semester?");
+            return;
+        }
+        applyOptionsToContext(options, ctx, puzzle, false);
+
+        // do what this command does:
+        emitPuzzle(puzzle, ctx, options);
+
+        if (options.solutionHtml() != null) {
+            // We need a new context and a new instance of the puzzle class, so that we don't get
+            // leftover state from the first pass
+            var solveCtx = ctx.cleanCopy();
+            var puzzleForSolution = Puzzle.findByID(puzzle.id());
+            applyOptionsToContext(options, solveCtx, puzzleForSolution, true);
+            emitPuzzle(puzzleForSolution, solveCtx, options);
+
+        }
+
+        System.out.println();
+        System.out.println("Puzzle code: \u001b[7m " + ctx.getPuzzleCode() + " \u001b[0m");
+        System.out.println();
+        System.out.println("To see solution:");
+        System.out.println("  " + executableName() + " solve " + ctx.getPuzzleCode());
+    }
+
+    private static void solve(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
+        // process input
+        requireCommandArgs(1, options);
+
+        // build data needed to execute command
+        PuzzleContext ctx = PuzzleContext.fromPuzzleCode(options.commandAndArgs().get(1));
+        Puzzle puzzle = Puzzle.findByID(ctx.getPuzzleID());
+        if (puzzle == null) {
             System.err.println("This puzzle code refers to a puzzle type that no longer exists.");
             System.err.println("Are you using an outdated code from a previous semester?");
             return;
@@ -130,6 +179,8 @@ public class CommandLine {
 
         applyOptionsToContext(options, ctx, puzzle, true);
         ctx.setPuzzleTitle(puzzle.description() + ": Solution");
+
+        // execute the command!
         emitPuzzle(puzzle, ctx, options);
 
         if (ctx.getDifficulty() != puzzle.goalDifficulty()) {
@@ -148,8 +199,7 @@ public class CommandLine {
                 puzzle.goalDifficulty()));
         }
         if (ctx.getDifficulty() > puzzle.minDifficulty()
-            && puzzle.minDifficulty() < puzzle.goalDifficulty()
-        ) {
+            && puzzle.minDifficulty() < puzzle.goalDifficulty()) {
             System.out.println("Want to practice more basics first? Try a simpler puzzle:");
             System.out.println();
             System.out.println("  " + executableName() + " gen " + puzzle.name()
@@ -169,8 +219,7 @@ public class CommandLine {
         PuzzleOptions options,
         PuzzleContext ctx,
         Puzzle puzzle,
-        boolean solutionOutput
-    ) throws IOException {
+        boolean solutionOutput) throws IOException {
         ctx.setPuzzleTitle(puzzle.description());
 
         if (options.includeSolutions() || solutionOutput) {
@@ -187,15 +236,13 @@ public class CommandLine {
 
         ctx.setPartsToShow(options.partsToShow());
 
-        String htmlOutput =
-            solutionOutput && options.solutionHtml() != null
-                ? options.solutionHtml()
-                : options.html();
+        String htmlOutput = solutionOutput && options.solutionHtml() != null
+            ? options.solutionHtml()
+            : options.html();
         if (htmlOutput != null) {
-            var htmlPrinter =
-                "-".equals(htmlOutput)
-                    ? new HtmlPuzzlePrinter()
-                    : new HtmlPuzzlePrinter(new FileOutputStream(htmlOutput));
+            var htmlPrinter = "-".equals(htmlOutput)
+                ? new HtmlPuzzlePrinter()
+                : new HtmlPuzzlePrinter(new FileOutputStream(htmlOutput));
             if (!ctx.isSolutionEnabled()) {
                 htmlPrinter.enableCopyPasteObfuscation();
             }
@@ -205,8 +252,7 @@ public class CommandLine {
         if (options.saveCode() != null) {
             try (
                 var out = new PrintWriter(
-                    new FileOutputStream(options.saveCode()), false, StandardCharsets.UTF_8)
-            ) {
+                    new FileOutputStream(options.saveCode()), false, StandardCharsets.UTF_8)) {
                 out.println("Puzzle type: " + puzzle.name());
                 out.println("Puzzle code: " + ctx.getPuzzleCode());
                 out.println();
@@ -257,7 +303,7 @@ public class CommandLine {
         var properties = new Properties();
         try (var stream = CommandLine.class.getResourceAsStream("/git.properties")) {
             properties.load(stream);
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         System.out.println("puzzle generator version:");
@@ -308,6 +354,7 @@ public class CommandLine {
             Commands:
               puzzle list           List available puzzle types
               puzzle gen <type>     Generate a new puzzle
+              puzzle show <code>    Print a puzzle
               puzzle solve <code>   Print the solution to a puzzle
             """);
     }
