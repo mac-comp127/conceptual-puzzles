@@ -88,102 +88,96 @@ public class CommandLine {
     // Generating, Showing, Solving Puzzles
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-    private static void generate(PuzzleOptions options) throws IOException {
-        // process input:
-        requireCommandArgs(1, options);
-        String puzzleName = options.commandAndArgs().get(1);
 
-        // build data needed to execute this command
-        Puzzle puzzle = Puzzle.findByName(puzzleName);
-        if (puzzle == null) {
-            System.err.println("Unknown puzzle type: " + puzzleName);
+    record CommandData(Puzzle puzzle, PuzzleContext ctx, PuzzleOptions options) {};
+
+    private static void generate(PuzzleOptions options) throws IOException {
+        // validate data:
+        requireCommandArgs(1, options);
+
+        // get the data we need
+        CommandData data = getPuzzleFromType(options);
+
+
+
+        // output the result:
+        String puzzleType = options.commandAndArgs().get(1);
+        if (data.puzzle == null) {
+            System.err.println("Unknown puzzle puzzleType: " + puzzleType);
             System.err.println("Use `puzzle list` to see available options");
             return;
         }
 
-        PuzzleContext ctx = PuzzleContext.generate(
-            puzzle.id(),
-            options.difficulty() != null
-                ? options.difficulty()
-                : puzzle.goalDifficulty());
-
-        applyOptionsToContext(options, ctx, puzzle, false);
-
-        // output what we output!
-        emitPuzzle(puzzle, ctx, options);
-
-        if (options.solutionHtml() != null) {
+        emitPuzzle(data.puzzle, data.ctx, data.options);
+        if (data.options.solutionHtml() != null) {
             // We need a new context and a new instance of the puzzle class, so that we don't get
             // leftover state from the first pass
-            var solveCtx = ctx.cleanCopy();
-            var puzzleForSolution = Puzzle.findByName(puzzleName);
+            PuzzleContext solveCtx = data.ctx.cleanCopy();
+            Puzzle puzzleForSolution = Puzzle.findByName(puzzleType);
             applyOptionsToContext(options, solveCtx, puzzleForSolution, true);
             emitPuzzle(puzzleForSolution, solveCtx, options);
         }
 
         System.out.println();
-        System.out.println("Puzzle code: \u001b[7m " + ctx.getPuzzleCode() + " \u001b[0m");
+        System.out.println("Puzzle code: \u001b[7m " + data.ctx.getPuzzleCode() + " \u001b[0m");
         System.out.println();
         System.out.println("To see solution:");
-        System.out.println("  " + executableName() + " solve " + ctx.getPuzzleCode());
+        System.out.println("  " + executableName() + " solve " + data.ctx.getPuzzleCode());
     }
 
     private static void show(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
-
-        // process & validate input
+        // validate input:
         requireCommandArgs(1, options);
 
+        // process the input:
+        CommandData data = getPuzzleFromCode(options);
 
-        // build data needed to execute command
-        PuzzleContext ctx = PuzzleContext.fromPuzzleCode(options.commandAndArgs().get(1));
-        Puzzle puzzle = Puzzle.findByID(ctx.getPuzzleID());
-        if (puzzle == null) {
-            System.err.println("This puzzle code refers to a puzzle type that no longer exists.");
-            System.err.println("Are you using an outdated code from a previous semester?");
-            return;
-        }
-        applyOptionsToContext(options, ctx, puzzle, false);
 
         // do what this command does:
-        emitPuzzle(puzzle, ctx, options);
 
-        if (options.solutionHtml() != null) {
-            // We need a new context and a new instance of the puzzle class, so that we don't get
+        // TODO handle null puzzle! Bad code, old code no longer supported, etc
+
+        emitPuzzle(data.puzzle, data.ctx, data.options);
+
+        if (data.options.solutionHtml() != null) {
+            // We need a new context and a new instance of the data.puzzle class, so that we don't get
             // leftover state from the first pass
-            var solveCtx = ctx.cleanCopy();
-            var puzzleForSolution = Puzzle.findByID(puzzle.id());
-            applyOptionsToContext(options, solveCtx, puzzleForSolution, true);
-            emitPuzzle(puzzleForSolution, solveCtx, options);
-
+            var solveCtx = data.ctx.cleanCopy();
+            var puzzleForSolution = Puzzle.findByID(data.puzzle.id());
+            boolean solutionOutput = true;
+            applyOptionsToContext(data.options, solveCtx, puzzleForSolution, solutionOutput);
+            emitPuzzle(puzzleForSolution, solveCtx, data.options);
         }
 
         System.out.println();
-        System.out.println("Puzzle code: \u001b[7m " + ctx.getPuzzleCode() + " \u001b[0m");
+        System.out.println("Puzzle code: \u001b[7m " + data.ctx.getPuzzleCode() + " \u001b[0m");
         System.out.println();
         System.out.println("To see solution:");
-        System.out.println("  " + executableName() + " solve " + ctx.getPuzzleCode());
+        System.out.println("  " + executableName() + " solve " + data.ctx.getPuzzleCode());
     }
 
     private static void solve(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
-        // process input
+        // validate input:
         requireCommandArgs(1, options);
 
-        // build data needed to execute command
-        PuzzleContext ctx = PuzzleContext.fromPuzzleCode(options.commandAndArgs().get(1));
-        Puzzle puzzle = Puzzle.findByID(ctx.getPuzzleID());
-        if (puzzle == null) {
+        // process the input:
+        CommandData data = getPuzzleFromCode(options);
+
+        // do what this command does:
+        if (data.puzzle == null) {
             System.err.println("This puzzle code refers to a puzzle type that no longer exists.");
             System.err.println("Are you using an outdated code from a previous semester?");
             return;
         }
 
-        applyOptionsToContext(options, ctx, puzzle, true);
-        ctx.setPuzzleTitle(puzzle.description() + ": Solution");
+        boolean solutionOutput = true;
+        applyOptionsToContext(data.options, data.ctx, data.puzzle, solutionOutput);
+        data.ctx.setPuzzleTitle(data.puzzle.description() + ": Solution");
 
         // execute the command!
-        emitPuzzle(puzzle, ctx, options);
+        emitPuzzle(data.puzzle, data.ctx, data.options);
 
-        if (ctx.getDifficulty() != puzzle.goalDifficulty()) {
+        if (data.ctx.getDifficulty() != data.puzzle.goalDifficulty()) {
             System.out.println(MessageFormat.format(
                 """
                 ***************** PLEASE NOTE ******************
@@ -195,24 +189,50 @@ public class CommandLine {
 
                 To try the puzzle at the goal difficulty, generate a puzzle without the --difficulty option.
                 """,
-                ctx.getDifficulty(),
-                puzzle.goalDifficulty()));
+                data.ctx.getDifficulty(),
+                data.puzzle.goalDifficulty()));
         }
-        if (ctx.getDifficulty() > puzzle.minDifficulty()
-            && puzzle.minDifficulty() < puzzle.goalDifficulty()) {
-            System.out.println("Want to practice more basics first? Try a simpler puzzle:");
+        if (data.ctx.getDifficulty() > data.puzzle.minDifficulty()
+            && data.puzzle.minDifficulty() < data.puzzle.goalDifficulty()) {
+            System.out.println("Want to practice more basics first? Try a simpler data.puzzle:");
             System.out.println();
-            System.out.println("  " + executableName() + " gen " + puzzle.name()
-                + " --difficulty " + (ctx.getDifficulty() - 1));
+            System.out.println("  " + executableName() + " gen " + data.puzzle.name()
+                + " --difficulty " + (data.ctx.getDifficulty() - 1));
             System.out.println();
         }
-        if (ctx.getDifficulty() < puzzle.maxDifficulty()) {
+        if (data.ctx.getDifficulty() < data.puzzle.maxDifficulty()) {
             System.out.println("Want a bigger challenge? Try a harder difficulty level:");
             System.out.println();
-            System.out.println("  " + executableName() + " gen " + puzzle.name()
-                + " --difficulty " + (ctx.getDifficulty() + 1));
+            System.out.println("  " + executableName() + " gen " + data.puzzle.name()
+                + " --difficulty " + (data.ctx.getDifficulty() + 1));
             System.out.println();
         }
+    }
+
+    private static CommandData getPuzzleFromType(PuzzleOptions options) throws IOException {
+        // the commandline UI refers to "types"; the Puzzle class and
+        // friends use "name" because they talk about *names* of
+        // classes.
+        String puzzleType = options.commandAndArgs().get(1);
+        Puzzle puzzle = Puzzle.findByName(puzzleType);
+        PuzzleContext ctx = null;
+        if (puzzle != null) {
+            ctx = PuzzleContext.generate(puzzle.id(),
+                                         options.difficulty() != null
+                                         ? options.difficulty()
+                                         : puzzle.goalDifficulty());
+            applyOptionsToContext(options, ctx, puzzle, false);
+        }
+        return new CommandData(puzzle, ctx, options);
+    }
+
+    private static CommandData getPuzzleFromCode(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
+        PuzzleContext ctx = PuzzleContext.fromPuzzleCode(options.commandAndArgs().get(1));
+        Puzzle puzzle = Puzzle.findByID(ctx.getPuzzleID());
+        if (puzzle != null) {
+            applyOptionsToContext(options, ctx, puzzle, false);
+        }
+        return new CommandData(puzzle, ctx, options);
     }
 
     private static void applyOptionsToContext(

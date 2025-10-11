@@ -69,8 +69,18 @@ Plan:
    Or identify codes by stuffing them into a String wrapper? (But String
    is final, right?)
 
+Did not survive first contact with the enemy:
 
+- forget overloading; at this level, we just have strings, and for the
+  moment I want to stuff the logic of lookup from type or code into the
+  factored-out methods. So just use different names, who'll probably
+  be more readable anyway
 
 * include puzzle code in html output
 
 then you can print, come back later and re-show or get a solution
+
+* codes
+
+ast:
+ az9w-8nwj-165d-axjm
