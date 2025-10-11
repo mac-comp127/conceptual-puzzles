@@ -1,0 +1,137 @@
+* notes for puzzles on constructor chains
+
+Idea here is to have some inheritance hierarchy with various
+constructors, and to test students' understanding of how the various
+super() constructors get called.
+
+Copy over my examples. For difficulties:
+
+(The end question is always "what gets printed?" from the constructors.)
+
+Minimum difficulty for credit: 3.
+
+1. Linear hierarchy at least 3 levels deep. Just default constructors, each
+   just prints something class-specific. Call new for the leaf class, or
+   perhaps something in the middle.
+2. Like 1, but with one or more classes in the chain having a
+   non-default constructor, and a parent with a non-default constructor
+   of the same signature. Child non-default calls the parent
+   non-default. Call new in a way that may (or may not!) go through the
+   non-defaults.
+3. Like 2, but mix up default and non-default: have a default call a
+   non-default and vice versa. Call new in a way that does/does not go
+   through default constructor.
+4. Like 3, but two leaf classes. Problem asks for output for the
+   creation of one of each of those leaf classes from some external
+   context.
+5. Non-linear topology, with same kind of constructor calls as in 4.
+   Sibling classes not necessarily as leaves. But now one of the
+   constructors for class A creates an instance of class B (which could
+   be some ancestor or descendant...). Question involves creating an A
+   or subclass thereof.
+6. Like 5, but more classes -- either at top or bottom of chain, or more
+   siblings.
+7. Like 6, but now multiple levels with siblings. Problem may involve
+   creating two instances: one goes through just one of the "sibling
+   levels", the other goes through both.
+8. Like 7 but either "taller" or "wider".
+9. Like 8 but again, either taller or wider.
+
+* Danny Kluver's inheritance problem
+:PROPERTIES:
+:CREATED:  [2025-10-11T16:05:14-0500]
+:END:
+
+See email from Paul Oct 9, 2025, 9:00 PM:
+
+#+begin_src java
+public class Apple {
+    protected int dog;
+    public Apple(int doggie) {
+        dog = doggie;
+    }
+    public void earth() {
+        dog = dog + 1;
+    }
+    public int flop(int harp) {
+        for (int i = 0; i<harp; i++) {
+            earth();
+        }
+        System.out.println(this);
+        return dog;
+    }
+    public String toString() {
+        return "Apple dog="+dog;
+    }
+}
+
+public class Banana extends Apple {
+    private int cat;
+    public Banana(int garf) {
+        super(0);
+        cat = garf;
+    }
+    public void earth() {
+        dog = dog + cat;
+    }
+    public String toString() {
+        String retval = "Banana";
+        retval = retval + " dog="+dog;
+        retval = retval + " cat="+cat;
+        return retval;
+    }
+}
+
+public class FruitSalad {
+    public static void main(String[] args) {
+        Apple jack = new Apple(18);
+        Apple karp = new Banana(3);
+        Banana nanna = new Banana(5);
+
+        jack.earth();
+        karp.earth();
+        nanna.earth();
+
+        System.out.println(jack);
+        System.out.println(karp);
+        System.out.println(nanna);
+
+        jack.flop(3);
+        karp.flop(4);
+        nanna.flop(5);
+    }
+}
+#+end_src
+
+Question: What would be printed if we were to run the main method on
+FruitSalad?
+** parameters affecting difficulty?
+- inheritance hierarchy topology -- depth of chain, or complexity
+  overall if siblings;
+- number of fields in the classes
+- variety of access modifiers in the classes
+- variety of static and nonstatic
+- number of methods using the fields
+- whether the methods print or not
+- whether the methods mutate fields or not
+- whether the constructors print or not
+- whether any methods are overridden or not
+- calls to this.method or super.method that do or do not invoke the most
+  obvious-seeming method -- i.e., you call this.method while
+  syntactically in class A, but the code executed at runtime is in class
+  B because of overrides or inheritance.
+
+
+* unrelated: use Shipping Forecast-related places instead of nonsense words
+:PROPERTIES:
+:CREATED:  [2025-10-11T15:46:30-0500]
+:END:
+
+https://en.wikipedia.org/wiki/Inshore_coastal_areas_of_the_United_Kingdom#See_also
+
+https://en.wikipedia.org/wiki/List_of_coastal_weather_stations_in_the_British_Isles
+
+someone wrote a linguistics paper analyzing the structure of the
+shipping forecast; it seems to pretty much describe an algorithm one
+could use to generate realistic but fake shipping forecasts:
+https://www.researchgate.net/profile/Ana-Bocanegra-Valle/publication/286541475_The_Constructing_of_Shipping_Forecasts_in_English_A_Pilot_Study/links/566d64c708ae430ab4ffe8a1/The-Constructing-of-Shipping-Forecasts-in-English-A-Pilot-Study.pdf?origin=publication_detail&_tp=eyJjb250ZXh0Ijp7ImZpcnN0UGFnZSI6InB1YmxpY2F0aW9uIiwicGFnZSI6InB1YmxpY2F0aW9uRG93bmxvYWQiLCJwcmV2aW91c1BhZ2UiOiJwdWJsaWNhdGlvbiJ9fQ
