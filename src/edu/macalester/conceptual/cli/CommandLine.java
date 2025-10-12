@@ -162,7 +162,7 @@ public class CommandLine {
         }
         if (data.ctx.getDifficulty() > data.puzzle.minDifficulty()
             && data.puzzle.minDifficulty() < data.puzzle.goalDifficulty()) {
-            System.out.println("Want to practice more basics first? Try a simpler data.puzzle:");
+            System.out.println("Want to practice more basics first? Try a simpler puzzle:");
             System.out.println();
             System.out.println("  " + executableName() + " gen " + data.puzzle.name()
                 + " --difficulty " + (data.ctx.getDifficulty() - 1));
