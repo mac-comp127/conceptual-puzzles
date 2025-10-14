@@ -8,6 +8,7 @@ import edu.macalester.conceptual.puzzles.ast.AstDrawingPuzzle;
 import edu.macalester.conceptual.puzzles.booleans.BooleansAndConditionalsPuzzle;
 import edu.macalester.conceptual.puzzles.classes.ClassDeclarationsPuzzle;
 import edu.macalester.conceptual.puzzles.closures.ClosuresPuzzle;
+import edu.macalester.conceptual.puzzles.constructorchains.ConstructorChainPuzzle;
 import edu.macalester.conceptual.puzzles.loops.LoopPuzzle;
 import edu.macalester.conceptual.puzzles.relationships.RelationshipsPuzzle;
 import edu.macalester.conceptual.puzzles.stack.StackAndHeapPuzzle;
@@ -39,8 +40,8 @@ public interface Puzzle {
             new VariablesPuzzle(),
             new RelationshipsPuzzle(),
             new StaticAndRuntimeTypesPuzzle(),
-            new ClosuresPuzzle()
-        );
+            new ClosuresPuzzle(),
+            new ConstructorChainPuzzle());
     }
 
     /**
@@ -68,8 +69,8 @@ public interface Puzzle {
     }
 
     /**
-     * The difficultly level necessary to receive credit for this puzzle. This is the default
-     * difficulty if the user does not specify the <code>--difficulty</code> option.
+     * The difficultly level necessary to receive credit for this puzzle. This is the default difficulty
+     * if the user does not specify the <code>--difficulty</code> option.
      * <p>
      * Default implementation: returns <code>minDifficulty()</code>.
      */
@@ -102,22 +103,22 @@ public interface Puzzle {
     void generate(PuzzleContext ctx);
 
     /**
-     * Finds the unique <code>Puzzle</code> whose <code>id()</code> matches <code>id</code>, or
-     * null if no such puzzle exists. Raises an error if there are duplicate puzzle IDs.
+     * Finds the unique <code>Puzzle</code> whose <code>id()</code> matches <code>id</code>, or null if
+     * no such puzzle exists. Raises an error if there are duplicate puzzle IDs.
      */
     static Puzzle findByID(byte id) {
         return find(id, Puzzle::id, "id");
     }
 
     /**
-     * Finds the unique <code>Puzzle</code> whose <code>name()</code> matches <code>name</code>, or
-     * null if no such puzzle exists. Raises an error if there are duplicate puzzle names.
+     * Finds the unique <code>Puzzle</code> whose <code>name()</code> matches <code>name</code>, or null
+     * if no such puzzle exists. Raises an error if there are duplicate puzzle names.
      */
     static Puzzle findByName(String name) {
         return find(name, Puzzle::name, "name");
     }
 
-    private static <T> Puzzle find(T target, Function<Puzzle,T> property, String propertyName) {
+    private static <T> Puzzle find(T target, Function<Puzzle, T> property, String propertyName) {
         List<Puzzle> results = Puzzle.all().stream()
             .filter(puzzle -> property.apply(puzzle).equals(target))
             .toList();
@@ -129,7 +130,7 @@ public interface Puzzle {
         if (results.size() > 1) {
             throw new AssertionError(
                 "Multiple puzzles have " + propertyName + "=" + target
-                + ", which should be unique: " + results);
+                    + ", which should be unique: " + results);
         }
 
         return results.get(0);
