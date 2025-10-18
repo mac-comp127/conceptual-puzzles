@@ -363,7 +363,7 @@ public class CommandLine {
             Commands:
               puzzle list           List available puzzle types
               puzzle gen <type>     Generate a new puzzle
-              puzzle show <code>    Print a puzzle
+              puzzle show <code>    Print a previously generated puzzle
               puzzle solve <code>   Print the solution to a puzzle
             """);
     }
