@@ -113,10 +113,10 @@ class PuzzleOptions {
     private Option addOption(
         String shortName,
         String longName,
-        String decsription) {
+        String description) {
         var option = Option.builder(shortName)
             .longOpt(longName)
-            .desc(decsription)
+            .desc(description)
             .build();
         options.addOption(option);
         return option;
