@@ -105,7 +105,7 @@ public class CommandLine {
             System.err.println("Use `puzzle list` to see available options");
             return;
         }
-        displayPuzzle(outputContext.puzzle, outputContext.ctx, outputContext.options);
+        displayPuzzle(outputContext);
     }
 
     private static void show(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
@@ -121,7 +121,7 @@ public class CommandLine {
             System.err.println("Are you using an outdated code from a previous semester?");
             return;
         }
-        displayPuzzle(outputContext.puzzle, outputContext.ctx, outputContext.options);
+        displayPuzzle(outputContext);
     }
 
     private static void solve(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
@@ -261,24 +261,23 @@ public class CommandLine {
         }
     }
 
-    private static void displayPuzzle(Puzzle puzzle, PuzzleContext ctx, PuzzleOptions options) throws IOException {
-        emitPuzzle(puzzle, ctx, options);
-
-        if (options.solutionHtml() != null) {
+    private static void displayPuzzle(PuzzleOutputContext outputContext) throws IOException {
+        emitPuzzle(outputContext.puzzle, outputContext.ctx, outputContext.options);
+        if (outputContext.options.solutionHtml() != null) {
             // We need a new context and a new instance of the puzzle class, so that we don't get
             // leftover state from the first pass
-            var solveCtx = ctx.cleanCopy();
-            var puzzleForSolution = Puzzle.findByID(puzzle.id());
+            var solveCtx = outputContext.ctx.cleanCopy();
+            var puzzleForSolution = Puzzle.findByID(outputContext.puzzle.id());
             boolean solutionOutput = true;
-            applyOptionsToContext(options, solveCtx, puzzleForSolution, solutionOutput);
-            emitPuzzle(puzzleForSolution, solveCtx, options);
+            applyOptionsToContext(outputContext.options, solveCtx, puzzleForSolution, solutionOutput);
+            emitPuzzle(puzzleForSolution, solveCtx, outputContext.options);
         }
 
         System.out.println();
-        System.out.println("Puzzle code: \u001b[7m " + ctx.getPuzzleCode() + " \u001b[0m");
+        System.out.println("Puzzle code: \u001b[7m " + outputContext.ctx.getPuzzleCode() + " \u001b[0m");
         System.out.println();
         System.out.println("To see solution:");
-        System.out.println("  " + executableName() + " solve " + ctx.getPuzzleCode());
+        System.out.println("  " + executableName() + " solve " + outputContext.ctx.getPuzzleCode());
     }
 
     private static void emitPuzzle(Puzzle puzzle, PuzzleContext ctx, PuzzleOptions options) throws IOException {
