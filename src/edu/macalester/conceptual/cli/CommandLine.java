@@ -88,24 +88,24 @@ public class CommandLine {
     // Generating, Showing, Solving Puzzles
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-
-    record CommandData(Puzzle puzzle, PuzzleContext ctx, PuzzleOptions options) {};
+    private record PuzzleOutputContext(Puzzle puzzle, PuzzleContext ctx, PuzzleOptions options) {
+    };
 
     private static void generate(PuzzleOptions options) throws IOException {
         // validate data:
         requireCommandArgs(1, options);
 
         // get the data we need
-        CommandData data = getPuzzleFromType(options);
+        PuzzleOutputContext outputContext = getPuzzleFromType(options);
 
         // output the result:
-        if (data.puzzle == null) {
+        if (outputContext.puzzle == null) {
             String puzzleType = options.commandAndArgs().get(1);
             System.err.println("Unknown puzzle puzzleType: " + puzzleType);
             System.err.println("Use `puzzle list` to see available options");
             return;
         }
-        displayPuzzle(data.puzzle, data.ctx, data.options);
+        displayPuzzle(outputContext.puzzle, outputContext.ctx, outputContext.options);
     }
 
     private static void show(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
@@ -113,15 +113,15 @@ public class CommandLine {
         requireCommandArgs(1, options);
 
         // process the input:
-        CommandData data = getPuzzleFromCode(options);
+        PuzzleOutputContext outputContext = getPuzzleFromCode(options);
 
         // output the result:
-        if (data.puzzle == null) {
+        if (outputContext.puzzle == null) {
             System.err.println("This puzzle code is invalid or refers to a puzzle type that no longer exists.");
             System.err.println("Are you using an outdated code from a previous semester?");
             return;
         }
-        displayPuzzle(data.puzzle, data.ctx, data.options);
+        displayPuzzle(outputContext.puzzle, outputContext.ctx, outputContext.options);
     }
 
     private static void solve(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
@@ -129,23 +129,23 @@ public class CommandLine {
         requireCommandArgs(1, options);
 
         // process the input:
-        CommandData data = getPuzzleFromCode(options);
+        PuzzleOutputContext outputContext = getPuzzleFromCode(options);
 
         // output the result:
-        if (data.puzzle == null) {
+        if (outputContext.puzzle == null) {
             System.err.println("This puzzle code refers to a puzzle type that no longer exists.");
             System.err.println("Are you using an outdated code from a previous semester?");
             return;
         }
 
         boolean solutionOutput = true;
-        applyOptionsToContext(data.options, data.ctx, data.puzzle, solutionOutput);
-        data.ctx.setPuzzleTitle(data.puzzle.description() + ": Solution");
+        applyOptionsToContext(outputContext.options, outputContext.ctx, outputContext.puzzle, solutionOutput);
+        outputContext.ctx.setPuzzleTitle(outputContext.puzzle.description() + ": Solution");
 
         // execute the command!
-        emitPuzzle(data.puzzle, data.ctx, data.options);
+        emitPuzzle(outputContext.puzzle, outputContext.ctx, outputContext.options);
 
-        if (data.ctx.getDifficulty() != data.puzzle.goalDifficulty()) {
+        if (outputContext.ctx.getDifficulty() != outputContext.puzzle.goalDifficulty()) {
             System.out.println(MessageFormat.format(
                 """
                 ***************** PLEASE NOTE ******************
@@ -157,27 +157,27 @@ public class CommandLine {
 
                 To try the puzzle at the goal difficulty, generate a puzzle without the --difficulty option.
                 """,
-                data.ctx.getDifficulty(),
-                data.puzzle.goalDifficulty()));
+                outputContext.ctx.getDifficulty(),
+                outputContext.puzzle.goalDifficulty()));
         }
-        if (data.ctx.getDifficulty() > data.puzzle.minDifficulty()
-            && data.puzzle.minDifficulty() < data.puzzle.goalDifficulty()) {
+        if (outputContext.ctx.getDifficulty() > outputContext.puzzle.minDifficulty()
+            && outputContext.puzzle.minDifficulty() < outputContext.puzzle.goalDifficulty()) {
             System.out.println("Want to practice more basics first? Try a simpler puzzle:");
             System.out.println();
-            System.out.println("  " + executableName() + " gen " + data.puzzle.name()
-                + " --difficulty " + (data.ctx.getDifficulty() - 1));
+            System.out.println("  " + executableName() + " gen " + outputContext.puzzle.name()
+                + " --difficulty " + (outputContext.ctx.getDifficulty() - 1));
             System.out.println();
         }
-        if (data.ctx.getDifficulty() < data.puzzle.maxDifficulty()) {
+        if (outputContext.ctx.getDifficulty() < outputContext.puzzle.maxDifficulty()) {
             System.out.println("Want a bigger challenge? Try a harder difficulty level:");
             System.out.println();
-            System.out.println("  " + executableName() + " gen " + data.puzzle.name()
-                + " --difficulty " + (data.ctx.getDifficulty() + 1));
+            System.out.println("  " + executableName() + " gen " + outputContext.puzzle.name()
+                + " --difficulty " + (outputContext.ctx.getDifficulty() + 1));
             System.out.println();
         }
     }
 
-    private static CommandData getPuzzleFromType(PuzzleOptions options) throws IOException {
+    private static PuzzleOutputContext getPuzzleFromType(PuzzleOptions options) throws IOException {
         // the commandline UI refers to "types"; the Puzzle class and
         // friends use "name" because they talk about *names* of
         // classes.
@@ -186,21 +186,22 @@ public class CommandLine {
         PuzzleContext ctx = null;
         if (puzzle != null) {
             ctx = PuzzleContext.generate(puzzle.id(),
-                                         options.difficulty() != null
-                                         ? options.difficulty()
-                                         : puzzle.goalDifficulty());
+                options.difficulty() != null
+                    ? options.difficulty()
+                    : puzzle.goalDifficulty());
             applyOptionsToContext(options, ctx, puzzle, false);
         }
-        return new CommandData(puzzle, ctx, options);
+        return new PuzzleOutputContext(puzzle, ctx, options);
     }
 
-    private static CommandData getPuzzleFromCode(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
+    private static PuzzleOutputContext getPuzzleFromCode(PuzzleOptions options)
+        throws InvalidPuzzleCodeException, IOException {
         PuzzleContext ctx = PuzzleContext.fromPuzzleCode(options.commandAndArgs().get(1));
         Puzzle puzzle = Puzzle.findByID(ctx.getPuzzleID());
         if (puzzle != null) {
             applyOptionsToContext(options, ctx, puzzle, false);
         }
-        return new CommandData(puzzle, ctx, options);
+        return new PuzzleOutputContext(puzzle, ctx, options);
     }
 
     private static void applyOptionsToContext(
