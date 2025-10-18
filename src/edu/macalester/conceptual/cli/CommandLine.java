@@ -96,7 +96,7 @@ public class CommandLine {
         requireCommandArgs(1, options);
 
         // get the data we need
-        PuzzleOutputContext outputContext = getPuzzleFromType(options);
+        PuzzleOutputContext outputContext = generatePuzzleFromType(options);
 
         // output the result:
         if (outputContext.puzzle == null) {
@@ -177,7 +177,7 @@ public class CommandLine {
         }
     }
 
-    private static PuzzleOutputContext getPuzzleFromType(PuzzleOptions options) throws IOException {
+    private static PuzzleOutputContext generatePuzzleFromType(PuzzleOptions options) throws IOException {
         // the commandline UI refers to "types"; the Puzzle class and
         // friends use "name" because they talk about *names* of
         // classes.
