@@ -39,7 +39,7 @@ public class CommandLine {
 
         try {
             String command = options.commandAndArgs().get(0);
-            switch (command) {
+            switch(command) {
                 case "help" -> {
                     printHelp(options, true);
                 }
@@ -57,9 +57,7 @@ public class CommandLine {
                 }
                 default -> options.usageError("Unknown command: " + command);
             }
-        } catch (InvalidPuzzleCodeException e) {
-            System.out.println("invalid puzzle code exception");
-        } catch (Exception e) {
+        } catch(Exception e) {
             e.printStackTrace();
             System.err.println();
             System.err.println("Command line args: " + String.join(" ", args));
