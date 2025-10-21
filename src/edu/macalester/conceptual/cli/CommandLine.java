@@ -159,7 +159,8 @@ public class CommandLine {
                 outputContext.puzzle.goalDifficulty()));
         }
         if (outputContext.ctx.getDifficulty() > outputContext.puzzle.minDifficulty()
-            && outputContext.puzzle.minDifficulty() < outputContext.puzzle.goalDifficulty()) {
+            && outputContext.puzzle.minDifficulty() < outputContext.puzzle.goalDifficulty()
+        ) {
             System.out.println("Want to practice more basics first? Try a simpler puzzle:");
             System.out.println();
             System.out.println("  " + executableName() + " gen " + outputContext.puzzle.name()
@@ -206,7 +207,8 @@ public class CommandLine {
         PuzzleOptions options,
         PuzzleContext ctx,
         Puzzle puzzle,
-        boolean solutionOutput) throws IOException {
+        boolean solutionOutput
+    ) throws IOException {
         ctx.setPuzzleTitle(puzzle.description());
 
         if (options.includeSolutions() || solutionOutput) {
@@ -223,13 +225,15 @@ public class CommandLine {
 
         ctx.setPartsToShow(options.partsToShow());
 
-        String htmlOutput = solutionOutput && options.solutionHtml() != null
-            ? options.solutionHtml()
-            : options.html();
+        String htmlOutput =
+            solutionOutput && options.solutionHtml() != null
+                ? options.solutionHtml()
+                : options.html();
         if (htmlOutput != null) {
-            var htmlPrinter = "-".equals(htmlOutput)
-                ? new HtmlPuzzlePrinter()
-                : new HtmlPuzzlePrinter(new FileOutputStream(htmlOutput));
+            var htmlPrinter =
+                "-".equals(htmlOutput)
+                    ? new HtmlPuzzlePrinter()
+                    : new HtmlPuzzlePrinter(new FileOutputStream(htmlOutput));
             if (!ctx.isSolutionEnabled()) {
                 htmlPrinter.enableCopyPasteObfuscation();
             }
@@ -239,7 +243,8 @@ public class CommandLine {
         if (options.saveCode() != null) {
             try (
                 var out = new PrintWriter(
-                    new FileOutputStream(options.saveCode()), false, StandardCharsets.UTF_8)) {
+                    new FileOutputStream(options.saveCode()), false, StandardCharsets.UTF_8)
+            ) {
                 out.println("Puzzle type: " + puzzle.name());
                 out.println("Puzzle code: " + ctx.getPuzzleCode());
                 out.println();
@@ -309,7 +314,7 @@ public class CommandLine {
         var properties = new Properties();
         try (var stream = CommandLine.class.getResourceAsStream("/git.properties")) {
             properties.load(stream);
-        } catch (IOException e) {
+        } catch(IOException e) {
             throw new RuntimeException(e);
         }
         System.out.println("puzzle generator version:");
