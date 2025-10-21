@@ -134,6 +134,16 @@ public enum CodeFormatting {
         return withParensAsNeeded(node)
             .toString()
             .replace(ELIDED, "...")
-            .replaceAll("(public (class|interface|enum) .* \\{)\\s+\n", "$1\n");
+
+            // The javaparser library we use has very limited output customization options -- it’s
+            // effectively either “go with the default” or “write your own formatter” -- so we
+            // clean up some of its formatting using string manipulation to bring things more into
+            // line with Java standards.
+
+            // - Remove blank line before first class member:
+            .replaceAll("(public (class|interface|enum) .* \\{)\\s+\n", "$1\n")
+
+            // - Remove blank lines between fields:
+            .replaceAll("\n\n( *private [^(]+?(;| = .*;))", "\n$1");
     }
 }

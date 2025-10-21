@@ -3,32 +3,20 @@ package edu.macalester.conceptual.util;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.expr.AssignExpr;
-import com.github.javaparser.ast.expr.BinaryExpr;
-import com.github.javaparser.ast.expr.BooleanLiteralExpr;
-import com.github.javaparser.ast.expr.CastExpr;
-import com.github.javaparser.ast.expr.ConditionalExpr;
-import com.github.javaparser.ast.expr.EnclosedExpr;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.InstanceOfExpr;
-import com.github.javaparser.ast.expr.IntegerLiteralExpr;
-import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import com.github.javaparser.ast.expr.UnaryExpr;
-import com.github.javaparser.ast.expr.VariableDeclarationExpr;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ExpressionStmt;
-import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.expr.*;
+import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 
 import static com.github.javaparser.ast.expr.BinaryExpr.Operator.*;
 import static com.github.javaparser.ast.expr.UnaryExpr.Operator.*;
+import static java.util.stream.Collectors.groupingBy;
 
 /**
  * Assorted utilities for creating and working with JavaParser ASTs.
@@ -232,5 +220,29 @@ public enum AstUtils {
 
     private static Expression replaceOperator(BinaryExpr expr, BinaryExpr.Operator operator) {
         return new BinaryExpr(expr.getLeft(), expr.getRight(), operator);
+    }
+
+    /**
+     * Reorders the member variables and methods of the given declaration to appear in standard
+     * Java order: variables, then methods, then constructors, static before instance.
+     */
+    public static void orderMembersByJavaConventions(ClassOrInterfaceDeclaration classDecl) {
+        var sortedMembers = classDecl.getMembers().stream()
+            .sorted(Comparator.comparing(
+                m -> {
+                    if (m.isFieldDeclaration() && m.asFieldDeclaration().isStatic()) {
+                        return 0;
+                    } else if (m.isFieldDeclaration()) {
+                        return 1;
+                    } else if (m.isConstructorDeclaration()) {
+                        return 2;
+                    } else {
+                        return 3;
+                    }
+                }
+            ))
+            .toList();
+
+        classDecl.setMembers(new NodeList<>(sortedMembers));
     }
 }
