@@ -15,6 +15,20 @@ import static com.github.javaparser.StaticJavaParser.parseExpression;
 import static edu.macalester.conceptual.util.AstUtils.classNamed;
 import static edu.macalester.conceptual.util.Nonsense.word;
 
+/**
+ * The list of types that properties in our model can have. The goal here is to produce enough
+ * variation to make the nonsense models feel like they have a real structure without turning this
+ * puzzle into a test of data structure or Java API knowledge. The types here are all familiar, and
+ * the mutations and derived values all use trivial operations that (hopefully!) feel familiar to
+ * students.
+ * <p>
+ * All these types can randomly generate:
+ * <ul>
+ *  <li>a value that can be assigned to a variable of this type,</li>
+ *  <li>an expression that computes a new value from a variable of this type, and</li>
+ *  <li>an expression that mutates a variable of this type.</li>
+ * </ul>
+ */
 enum PropertyType {
     STRING(classNamed("String"), "string") {
         ExprWithDescription generateValue(PuzzleContext ctx, boolean mutable) {
@@ -137,7 +151,8 @@ enum PropertyType {
             int dx = ctx.getRandom().nextInt(1, 10);
             return new ExprWithDescription(
                 variableName + ".moveBy(" + dx + ", 0)",
-                "moves `" + variableName + "` to the right by " + dx + " pixels");
+                "moves `" + variableName + "` to the right by " + dx + " pixels"
+                    + "(using the `moveBy` method)");
         }
     };
 

@@ -93,18 +93,24 @@ public class ClassDeclarationsPuzzle implements Puzzle {
                 "Are the correct items `static`?",
                 "Are the correct items `final`?",
                 "Are all the variable types and method return types correct?",
-                "Are the class members in the correct order?"
-                    + " It should be: (1) static variables, (2) instance variables,"
-                    + " (3) constructors, (4) methods.",
+                """
+                Are the class members in the correct order?
+                It should be: (1) static variables, (2) instance variables,
+                (3) constructors, (4) methods.
+                """,
                 "Do members have the correct capitalization?");
             ctx.output().paragraph("Acceptable variations in the solution:");
             ctx.output().bulletList(
-                "It is OK if you initialized *non-static* variables"
-                    + " in the constructor instead of in the declaration."
-                    + " (Ask your instructor if you aren’t clear what this means.)"
-                    + " Note that *static* variables _must_ be initialized in the declaration.",
-                "It is OK if you used a slightly different but equivalent form of an expression,"
-                    + " such as `+= 1` instead of `++`.");
+                """
+                It is OK if you initialized *non-static* variables"
+                in the constructor instead of in the declaration.
+                (Ask your instructor if you aren’t clear what this means.)
+                Note that *static* variables _must_ be initialized in the declaration.
+                """,
+                """
+                It is OK if you used a slightly different but equivalent form of an expression,
+                such as `+= 1` instead of `++`.
+                """);
         });
     }
 

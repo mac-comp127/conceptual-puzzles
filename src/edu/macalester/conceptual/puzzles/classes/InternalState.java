@@ -24,7 +24,7 @@ class InternalState implements ClassFeature {
         return new InternalState(propertyName(ctx), type, initialValue);
     }
 
-    InternalState(String name, PropertyType type, ExprWithDescription initialValue) {
+    private InternalState(String name, PropertyType type, ExprWithDescription initialValue) {
         this.name = name;
         this.type = type;
         this.initialValue = initialValue;
@@ -33,10 +33,12 @@ class InternalState implements ClassFeature {
     @Override
     public String describeInWords(String className) {
         return MessageFormat.format(
-            "Each {0} has a {1}, which is a/an {2}. "
-                + "A/An {1} is part of the internal state of a/an {0}: "
-                + "no other classes can see the value of {1} or directly change it. "
-                + "When a/an {0} is first created, the value of its {1} starts out as {3}.",
+            """
+            Each {0} has a {1}, which is a/an {2}.
+            A/An {1} is part of the internal state of a/an {0}:
+            no other classes can see the value of {1} or directly change it.
+            When a/an {0} is first created, the value of its {1} starts out as {3}.
+            """,
             "`" + className + "`",
             "`" + name + "`",
             type.description(),

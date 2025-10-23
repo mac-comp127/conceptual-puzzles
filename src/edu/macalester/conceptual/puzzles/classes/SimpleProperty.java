@@ -20,7 +20,9 @@ import static edu.macalester.conceptual.util.Nonsense.propertyName;
 import static edu.macalester.conceptual.util.Randomness.chooseConst;
 
 /**
- * Final ivar, getter, constructor param
+ * An instance variable + getter + optional setter. If there is no setter, the ivar is final.
+ * Immutable properties always take a value passed to the constructur. Mutable properties may also
+ * take a hard-coded initial value instead.
  */
 class SimpleProperty implements ClassFeature {
     private final String name;

@@ -14,6 +14,9 @@ import edu.macalester.conceptual.util.Nonsense;
 
 import static edu.macalester.conceptual.util.AstUtils.blockOf;
 
+/**
+ * A method that changes internal state.
+ */
 class MutatingBehavior implements ClassFeature {
     private final String name;
     private final ExprWithDescription mutation;
@@ -24,7 +27,7 @@ class MutatingBehavior implements ClassFeature {
             stateVariable.type().generateMutation(ctx, stateVariable.name()));
     }
 
-    MutatingBehavior(String name, ExprWithDescription mutation) {
+    private MutatingBehavior(String name, ExprWithDescription mutation) {
         this.name = name;
         this.mutation = mutation;
     }

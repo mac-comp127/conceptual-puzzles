@@ -13,6 +13,9 @@ import edu.macalester.conceptual.context.PuzzleContext;
 import static edu.macalester.conceptual.util.Nonsense.constantName;
 import static edu.macalester.conceptual.util.Randomness.chooseConst;
 
+/**
+ * A public static final CONSTANT_VALUE.
+ */
 class StaticConstant implements ClassFeature {
     private final String name;
     private final PropertyType type;
@@ -26,7 +29,7 @@ class StaticConstant implements ClassFeature {
         return new StaticConstant(constantName(ctx), type, value, isPrivate);
     }
 
-    StaticConstant(String name, PropertyType type, ExprWithDescription value, boolean isPrivate) {
+    private StaticConstant(String name, PropertyType type, ExprWithDescription value, boolean isPrivate) {
         this.name = name;
         this.type = type;
         this.value = value;
@@ -40,13 +43,13 @@ class StaticConstant implements ClassFeature {
             All {0}s share a single {1}, which is a/an {2}.
             It is a constant.
             Its value is {3}.
-            Other classes {4} see its value.
+            Other classes *{4}* see its value.
             """,
             "`" + className + "`",
             "`" + name + "`",
             type.description(),
             value.description(),
-            isPrivate ? "*cannot*" : "*can*");
+            isPrivate ? "cannot" : "can");
     }
 
     @Override

@@ -14,6 +14,9 @@ import edu.macalester.conceptual.context.PuzzleContext;
 import static edu.macalester.conceptual.util.Nonsense.propertyName;
 import static edu.macalester.conceptual.util.Randomness.chooseConst;
 
+/**
+ * A private static variable.
+ */
 class StaticVariable implements ClassFeature {
     private final String name;
     private final PropertyType type;
@@ -28,7 +31,7 @@ class StaticVariable implements ClassFeature {
         return new StaticVariable(name, type, initialValue, mutationInConstructor);
     }
 
-    StaticVariable(String name, PropertyType type, ExprWithDescription initialValue, ExprWithDescription mutationInConstructor) {
+    private StaticVariable(String name, PropertyType type, ExprWithDescription initialValue, ExprWithDescription mutationInConstructor) {
         this.name = name;
         this.type = type;
         this.initialValue = initialValue;
@@ -38,10 +41,12 @@ class StaticVariable implements ClassFeature {
     @Override
     public String describeInWords(String className) {
         return MessageFormat.format(
-            "All {0}s share a single {1}, which is a/an {2}. "
-                + "No other classes can directly ask for the value of {1}. "
-                + "The value of {1} starts out as {3} when the program starts. "
-                + "Every time a new {0} is created, it {4}.",
+            """
+            All {0}s share a single {1}, which is a/an {2}.
+            No other classes can directly ask for the value of {1}.
+            The value of {1} starts out as {3} when the program starts.
+            Every time a new {0} is created, it {4}.
+            """,
             "`" + className + "`",
             "`" + name + "`",
             type.description(),
