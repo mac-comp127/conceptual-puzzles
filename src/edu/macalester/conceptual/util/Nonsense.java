@@ -49,6 +49,15 @@ public class Nonsense {
         return words(ctx, NameFormat.LOWER_CAMEL_CASE, 3, 6, 4);
     }
 
+    public static String verbyMethodName(PuzzleContext ctx) {
+        var name = words(ctx, NameFormat.LOWER_CAMEL_CASE, 3, 5, 3);;
+        if (name.matches(".*[aeiou]$")) {
+            name += chooseConst(ctx, "l", "t", "n");
+        }
+        name += chooseConst(ctx, "ate", "ify", "ize");
+        return name;
+    }
+
     public static String methodCall(PuzzleContext ctx, String... args) {
         return methodName(ctx) + "(" + String.join(",", args) + ")";
     }

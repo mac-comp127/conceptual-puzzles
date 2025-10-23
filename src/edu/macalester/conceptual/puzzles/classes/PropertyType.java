@@ -137,7 +137,7 @@ enum PropertyType {
             int dx = ctx.getRandom().nextInt(1, 10);
             return new ExprWithDescription(
                 variableName + ".moveBy(" + dx + ", 0)",
-                "`" + variableName + "` moves to the right by " + dx + " pixels");
+                "moves `" + variableName + "` to the right by " + dx + " pixels");
         }
     };
 

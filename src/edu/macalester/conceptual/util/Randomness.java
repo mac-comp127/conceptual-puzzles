@@ -8,7 +8,6 @@ import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 import edu.macalester.conceptual.context.PuzzleContext;
-import edu.macalester.conceptual.puzzles.relationships.Type;
 
 /**
  * Utilities for adding random variation to puzzles.

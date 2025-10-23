@@ -2,8 +2,8 @@ package edu.macalester.conceptual.puzzles.classes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.IntStream;
 
 import com.github.javaparser.ast.Modifier;
 
@@ -55,17 +55,28 @@ public class ClassDeclarationsPuzzle implements Puzzle {
             () -> StaticConstant.generate(ctx)
         ));
 
-        int numFeatures = ctx.getDifficulty();
-        var features = new ArrayList<>(
-            IntStream.range(0, numFeatures)
-                .mapToObj(n -> featureDeck.draw().get())
-                .toList());
+        var features = new ArrayList<ClassFeature>();
 
-        var allStateVariables = features.stream()
-            .flatMap(feature -> feature.getStateVariables().stream())
-            .toList();
-        var stateVariable = Randomness.choose(ctx, allStateVariables);
-        features.add(ComputedProperty.generate(ctx, stateVariable));
+        int numFeatures = ctx.getDifficulty();
+        for (int n = 0; n < numFeatures; n++) {
+            features.add(featureDeck.draw().get());
+        }
+
+        int numComplications = Math.max(0, ctx.getDifficulty() - 2);
+        var complicationsDeck = new ChoiceDeck<Supplier<ClassFeature>>(ctx, List.of(
+            () -> withRandomStateVariable(ctx, features, false,
+                stateVariable -> MutatingBehavior.generate(ctx, stateVariable)),
+            () -> withRandomStateVariable(ctx, features, true,
+                stateVariable -> ComputedProperty.generate(ctx, stateVariable))
+        ));
+        for (int n = 0; n < numComplications; ) {
+            var feature = complicationsDeck.draw().get();
+            if (feature != null) {
+                features.add(feature);
+                n++;
+            }
+        }
+
 
         ctx.output().paragraph(
             "Translate the specification below into an idiomatic Java class definition:");
@@ -95,6 +106,27 @@ public class ClassDeclarationsPuzzle implements Puzzle {
                 "It is OK if you used a slightly different but equivalent form of an expression,"
                     + " such as `+= 1` instead of `++`.");
         });
+    }
+
+    private <T> T withRandomStateVariable(
+        PuzzleContext ctx,
+        List<ClassFeature> features,
+        boolean allowImmutable,
+        Function<ClassFeature.StateVariable, T> featureGenerator
+    ) {
+        var stateVariables = features.stream()
+            .flatMap(feature -> feature.getStateVariables().stream())
+            .filter(v -> allowImmutable || v.isMutable())
+            .toList();
+
+        // Bail if no variables available: for example, if there are no mutable variables and we’re
+        // trying to generate a mutating behavior
+        if (stateVariables.isEmpty()) {
+            return null;
+        }
+
+        var stateVariable = Randomness.choose(ctx, stateVariables);
+        return featureGenerator.apply(stateVariable);
     }
 
     private static void outputSpecification(PuzzleContext ctx, String className, List<ClassFeature> features) {

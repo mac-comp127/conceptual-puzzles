@@ -14,8 +14,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static com.github.javaparser.StaticJavaParser.parseExpression;
+import static com.github.javaparser.StaticJavaParser.parseStatement;
 import static com.github.javaparser.ast.expr.BinaryExpr.Operator.*;
 import static com.github.javaparser.ast.expr.UnaryExpr.Operator.*;
+import static com.github.javaparser.utils.Utils.capitalize;
 import static java.util.stream.Collectors.groupingBy;
 
 /**
@@ -42,6 +45,61 @@ public enum AstUtils {
         return new ClassOrInterfaceDeclaration(
             AstUtils.nodes(Modifier.publicModifier()), isInterface, name);
     }
+
+    /**
+     * Adds a standard getter method for the given property name (not including the "get"), whose
+     * implementation returns the instance variable with the same name as the property.
+     *
+     * @return
+     */
+    public static MethodDeclaration addGetter(
+        ClassOrInterfaceDeclaration classDecl,
+        String type,
+        String name
+    ) {
+        return addGetter(classDecl, type, name, parseExpression(name));
+    }
+    /**
+     * Adds a getter method for the given property name that returns an arbitrary expression.
+     */
+    public static MethodDeclaration addGetter(
+        ClassOrInterfaceDeclaration classDecl,
+        String type,
+        String name,
+        Expression returnValue
+    ) {
+        var getter = classDecl.addMethod("get" + capitalize(name), Modifier.Keyword.PUBLIC);
+        getter.setType(type);
+        getter.setBody(blockOf(new ReturnStmt(returnValue)));
+        return getter;
+    }
+
+    /**
+     * Adds a standard setter method for the given property name (not including the "get"), whose
+     * implementation sets the instance variable with the same name as the property to the
+     * value of the method’s single parameter.
+     */
+    public static MethodDeclaration addSetter(
+        ClassOrInterfaceDeclaration classDecl,
+        String type,
+        String name
+    ) {
+        var setter = classDecl.addMethod("set" + capitalize(name), Modifier.Keyword.PUBLIC);
+        setter.addParameter(type, name);
+        setter.setBody(blockOf(
+            buildSetterStatement(name)
+        ));
+        return setter;
+    }
+
+    /**
+     * Generates a statement of the form `this.name = name;`. Useful for both setter methods
+     * and constructors.
+     */
+    public static Statement buildSetterStatement(String name) {
+        return parseStatement("this." + name + " = " + name + ";");
+    }
+
     /**
      * Creates an IntegerLiteralExpr for the given int value.
      */
@@ -230,14 +288,21 @@ public enum AstUtils {
         var sortedMembers = classDecl.getMembers().stream()
             .sorted(Comparator.comparing(
                 m -> {
-                    if (m.isFieldDeclaration() && m.asFieldDeclaration().isStatic()) {
-                        return 0;
-                    } else if (m.isFieldDeclaration()) {
-                        return 1;
+                    if (m.isFieldDeclaration()) {
+                        var field = m.asFieldDeclaration();
+                        if (field.isStatic()) {
+                            if (field.isPublic() && field.isFinal()) {
+                                return 0;  // static constants
+                            } else {
+                                return 1;  // other static vars
+                            }
+                        } else {
+                            return 2;  // instance vars
+                        }
                     } else if (m.isConstructorDeclaration()) {
-                        return 2;
-                    } else {
                         return 3;
+                    } else {
+                        return 4;
                     }
                 }
             ))

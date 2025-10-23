@@ -144,6 +144,6 @@ public enum CodeFormatting {
             .replaceAll("(public (class|interface|enum) .* \\{)\\s+\n", "$1\n")
 
             // - Remove blank lines between fields:
-            .replaceAll("\n\n( *private [^(]+?(;| = .*;))", "\n$1");
+            .replaceAll("\n\n( *(public|private) [^(]+?(;| = .*;))", "\n$1");
     }
 }
