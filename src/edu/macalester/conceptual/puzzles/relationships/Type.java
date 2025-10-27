@@ -14,7 +14,7 @@ import edu.macalester.conceptual.util.Nonsense;
 /**
  * Just the info about a class/interface we need for the relationships puzzle.
  */
-public class Type {
+class Type {
     private final String name;
     private final List<Relationship> relationships = new ArrayList<>();
 

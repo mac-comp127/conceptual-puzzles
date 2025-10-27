@@ -8,7 +8,7 @@ import edu.macalester.conceptual.util.VariablePool;
 
 import static edu.macalester.conceptual.util.Randomness.*;
 
-public class Generator {
+class Generator {
     /**
      * Generates an expression consisting of nothing but arithmetic operations.
      */

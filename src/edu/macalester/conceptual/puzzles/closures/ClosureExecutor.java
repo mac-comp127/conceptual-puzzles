@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Methods called from the closure puzzle code.
+ * Methods called from the closure puzzle code. Must be public so generated code can use it.
  */
 public class ClosureExecutor {
     public enum Event { TICK, CLICK, KEY };

@@ -13,7 +13,7 @@ import static com.github.javaparser.ast.expr.UnaryExpr.Operator.*;
 import static edu.macalester.conceptual.util.AstUtils.*;
 import static edu.macalester.conceptual.util.Randomness.*;
 
-public enum Generator {
+enum Generator {
     ; // static methods only
 
     /**

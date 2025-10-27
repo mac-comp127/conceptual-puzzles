@@ -14,7 +14,7 @@ import edu.macalester.graphics.Point;
 import edu.macalester.graphics.Rectangle;
 import edu.macalester.graphics.Strokable;
 
-public class RelationshipDiagramBuilder {
+class RelationshipDiagramBuilder {
     private final Collection<Type> includedTypes;
     private final float hue;
     private final double innerMargin = 18, spacing = 24;

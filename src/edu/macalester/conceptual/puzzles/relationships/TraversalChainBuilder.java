@@ -10,7 +10,7 @@ import com.github.javaparser.ast.stmt.Statement;
 
 import edu.macalester.conceptual.util.AstUtils;
 
-public class TraversalChainBuilder {
+class TraversalChainBuilder {
     private ExpressionStmt curStmt;
     private final Statement resultNode;
 

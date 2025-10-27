@@ -13,7 +13,7 @@ import edu.macalester.conceptual.util.AstUtils;
 import edu.macalester.conceptual.util.CodeFormatting;
 import edu.macalester.conceptual.util.Nonsense;
 
-public interface Relationship {
+interface Relationship {
     Type getTargetType();
 
     default String buildDescription(String desc) {
