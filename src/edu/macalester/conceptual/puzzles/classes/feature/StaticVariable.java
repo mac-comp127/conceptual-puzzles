@@ -1,4 +1,4 @@
-package edu.macalester.conceptual.puzzles.classes;
+package edu.macalester.conceptual.puzzles.classes.feature;
 
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -9,10 +9,8 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 
-import edu.macalester.conceptual.context.PuzzleContext;
-
-import static edu.macalester.conceptual.util.Nonsense.propertyName;
-import static edu.macalester.conceptual.util.Randomness.chooseConst;
+import edu.macalester.conceptual.puzzles.classes.ExprWithDescription;
+import edu.macalester.conceptual.puzzles.classes.type.PropertyType;
 
 /**
  * A private static variable.
@@ -23,15 +21,7 @@ class StaticVariable implements ClassFeature {
     private final ExprWithDescription initialValue;
     private final ExprWithDescription mutationInConstructor;
 
-    static StaticVariable generate(PuzzleContext ctx) {
-        var name = propertyName(ctx);
-        var type = chooseConst(ctx, PropertyType.values());
-        var initialValue = type.generateValue(ctx, true);
-        var mutationInConstructor = type.generateMutation(ctx, name);
-        return new StaticVariable(name, type, initialValue, mutationInConstructor);
-    }
-
-    private StaticVariable(String name, PropertyType type, ExprWithDescription initialValue, ExprWithDescription mutationInConstructor) {
+    StaticVariable(String name, PropertyType type, ExprWithDescription initialValue, ExprWithDescription mutationInConstructor) {
         this.name = name;
         this.type = type;
         this.initialValue = initialValue;
@@ -55,17 +45,14 @@ class StaticVariable implements ClassFeature {
     }
 
     @Override
-    public void addToClassDeclaration(ClassOrInterfaceDeclaration classDecl) {
+    public void addToCode(ClassOrInterfaceDeclaration classDecl, ConstructorDeclaration ctor) {
         classDecl.addFieldWithInitializer(
             type.astType(),
             name,
             initialValue.code(),
             Modifier.Keyword.PRIVATE,
             Modifier.Keyword.STATIC);
-    }
 
-    @Override
-    public void addToConstructor(ConstructorDeclaration ctor) {
         ctor.getBody().addStatement(
             new ExpressionStmt(
                 mutationInConstructor.code()));

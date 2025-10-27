@@ -1,4 +1,4 @@
-package edu.macalester.conceptual.puzzles.classes;
+package edu.macalester.conceptual.puzzles.classes.feature;
 
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -8,10 +8,8 @@ import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 
-import edu.macalester.conceptual.context.PuzzleContext;
-
-import static edu.macalester.conceptual.util.Nonsense.constantName;
-import static edu.macalester.conceptual.util.Randomness.chooseConst;
+import edu.macalester.conceptual.puzzles.classes.ExprWithDescription;
+import edu.macalester.conceptual.puzzles.classes.type.PropertyType;
 
 /**
  * A public static final CONSTANT_VALUE.
@@ -22,14 +20,7 @@ class StaticConstant implements ClassFeature {
     private final ExprWithDescription value;
     private final boolean isPrivate;
 
-    static StaticConstant generate(PuzzleContext ctx) {
-        var type = chooseConst(ctx, PropertyType.values());
-        ExprWithDescription value = type.generateValue(ctx, false);
-        boolean isPrivate = ctx.getRandom().nextBoolean();
-        return new StaticConstant(constantName(ctx), type, value, isPrivate);
-    }
-
-    private StaticConstant(String name, PropertyType type, ExprWithDescription value, boolean isPrivate) {
+    StaticConstant(String name, PropertyType type, ExprWithDescription value, boolean isPrivate) {
         this.name = name;
         this.type = type;
         this.value = value;
@@ -53,7 +44,7 @@ class StaticConstant implements ClassFeature {
     }
 
     @Override
-    public void addToClassDeclaration(ClassOrInterfaceDeclaration classDecl) {
+    public void addToCode(ClassOrInterfaceDeclaration classDecl, ConstructorDeclaration ctor) {
         classDecl.addFieldWithInitializer(
             type.astType(),
             name,
@@ -61,11 +52,6 @@ class StaticConstant implements ClassFeature {
             isPrivate ? Modifier.Keyword.PRIVATE : Modifier.Keyword.PUBLIC,
             Modifier.Keyword.STATIC,
             Modifier.Keyword.FINAL);
-    }
-
-    @Override
-    public void addToConstructor(ConstructorDeclaration ctor) {
-        // nothing to do
     }
 
     @Override

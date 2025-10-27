@@ -1,4 +1,4 @@
-package edu.macalester.conceptual.puzzles.classes;
+package edu.macalester.conceptual.puzzles.classes.feature;
 
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -8,23 +8,15 @@ import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 
-import edu.macalester.conceptual.context.PuzzleContext;
-
-import static edu.macalester.conceptual.util.Nonsense.propertyName;
-import static edu.macalester.conceptual.util.Randomness.chooseConst;
+import edu.macalester.conceptual.puzzles.classes.ExprWithDescription;
+import edu.macalester.conceptual.puzzles.classes.type.PropertyType;
 
 class InternalState implements ClassFeature {
     private final String name;
     private final PropertyType type;
     private final ExprWithDescription initialValue;
 
-    static InternalState generate(PuzzleContext ctx) {
-        var type = chooseConst(ctx, PropertyType.values());
-        ExprWithDescription initialValue = type.generateValue(ctx, true);
-        return new InternalState(propertyName(ctx), type, initialValue);
-    }
-
-    private InternalState(String name, PropertyType type, ExprWithDescription initialValue) {
+    InternalState(String name, PropertyType type, ExprWithDescription initialValue) {
         this.name = name;
         this.type = type;
         this.initialValue = initialValue;
@@ -46,17 +38,14 @@ class InternalState implements ClassFeature {
     }
 
     @Override
-    public void addToClassDeclaration(ClassOrInterfaceDeclaration classDecl) {
+    public void addToCode(ClassOrInterfaceDeclaration classDecl, ConstructorDeclaration ctor) {
+        // private String foo = "bar";
+
         classDecl.addFieldWithInitializer(
             type.astType(),
             name,
             initialValue.code(),
             Modifier.Keyword.PRIVATE);
-    }
-
-    @Override
-    public void addToConstructor(ConstructorDeclaration ctor) {
-        // nothing to do
     }
 
     @Override

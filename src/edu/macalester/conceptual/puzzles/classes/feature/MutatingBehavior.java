@@ -1,4 +1,4 @@
-package edu.macalester.conceptual.puzzles.classes;
+package edu.macalester.conceptual.puzzles.classes.feature;
 
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -9,8 +9,7 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 
-import edu.macalester.conceptual.context.PuzzleContext;
-import edu.macalester.conceptual.util.Nonsense;
+import edu.macalester.conceptual.puzzles.classes.ExprWithDescription;
 
 import static edu.macalester.conceptual.util.AstUtils.blockOf;
 
@@ -21,13 +20,7 @@ class MutatingBehavior implements ClassFeature {
     private final String name;
     private final ExprWithDescription mutation;
 
-    static ClassFeature generate(PuzzleContext ctx, StateVariable stateVariable) {
-        return new MutatingBehavior(
-            Nonsense.verbyMethodName(ctx),
-            stateVariable.type().generateMutation(ctx, stateVariable.name()));
-    }
-
-    private MutatingBehavior(String name, ExprWithDescription mutation) {
+    MutatingBehavior(String name, ExprWithDescription mutation) {
         this.name = name;
         this.mutation = mutation;
     }
@@ -46,16 +39,14 @@ class MutatingBehavior implements ClassFeature {
     }
 
     @Override
-    public void addToClassDeclaration(ClassOrInterfaceDeclaration classDecl) {
+    public void addToCode(ClassOrInterfaceDeclaration classDecl, ConstructorDeclaration ctor) {
+        // public void fooify() {
+        //     << mutate bar >>
+        // }
         var method = classDecl.addMethod(name, Modifier.Keyword.PUBLIC);
         method.setBody(blockOf(
             new ExpressionStmt(mutation.code())
         ));
-    }
-
-    @Override
-    public void addToConstructor(ConstructorDeclaration ctor) {
-        // nothing to do
     }
 
     @Override

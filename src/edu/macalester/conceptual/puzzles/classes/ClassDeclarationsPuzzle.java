@@ -9,6 +9,7 @@ import com.github.javaparser.ast.Modifier;
 
 import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.PuzzleContext;
+import edu.macalester.conceptual.puzzles.classes.feature.ClassFeature;
 import edu.macalester.conceptual.util.AstUtils;
 import edu.macalester.conceptual.util.ChoiceDeck;
 import edu.macalester.conceptual.util.Randomness;
@@ -47,27 +48,35 @@ public class ClassDeclarationsPuzzle implements Puzzle {
     public void generate(PuzzleContext ctx) {
         var className = typeName(ctx);
 
-        var featureDeck = new ChoiceDeck<Supplier<ClassFeature>>(ctx, List.of(
-            () -> SimpleProperty.generateImmutable(ctx),
-            () -> SimpleProperty.generateMutable(ctx),
-            () -> InternalState.generate(ctx),
-            () -> StaticVariable.generate(ctx),
-            () -> StaticConstant.generate(ctx)
-        ));
+        // A ClassFeature is anything that shows up as a bullet-listed item in the specification
+        // and translates into class declaration code.
 
         var features = new ArrayList<ClassFeature>();
+
+        // First we add several random property features to the class, all of which are independent
+        // of each other:
+
+        var featureDeck = new ChoiceDeck<Supplier<ClassFeature>>(ctx, List.of(
+            () -> ClassFeature.generateImmutableProperty(ctx),
+            () -> ClassFeature.generateMutableProperty(ctx),
+            () -> ClassFeature.generateInternalState(ctx),
+            () -> ClassFeature.generateStaticVariable(ctx),
+            () -> ClassFeature.generateStaticConstant(ctx)
+        ));
 
         int numFeatures = ctx.getDifficulty();
         for (int n = 0; n < numFeatures; n++) {
             features.add(featureDeck.draw().get());
         }
 
+        // We then add “complications,” features that depend on other features:
+
         int numComplications = Math.max(0, ctx.getDifficulty() - 2);
         var complicationsDeck = new ChoiceDeck<Supplier<ClassFeature>>(ctx, List.of(
             () -> withRandomStateVariable(ctx, features, false,
-                stateVariable -> MutatingBehavior.generate(ctx, stateVariable)),
+                stateVariable -> ClassFeature.generateMutatingBehavior(ctx, stateVariable)),
             () -> withRandomStateVariable(ctx, features, true,
-                stateVariable -> ComputedProperty.generate(ctx, stateVariable))
+                stateVariable -> ClassFeature.generateComputedProperty(ctx, stateVariable))
         ));
         for (int n = 0; n < numComplications; ) {
             var feature = complicationsDeck.draw().get();
@@ -77,6 +86,7 @@ public class ClassDeclarationsPuzzle implements Puzzle {
             }
         }
 
+        // We have a class spec!
 
         ctx.output().paragraph(
             "Translate the specification below into an idiomatic Java class definition:");
@@ -114,6 +124,11 @@ public class ClassDeclarationsPuzzle implements Puzzle {
         });
     }
 
+    /**
+     * A utility for generating features that depend on state variables from other features.
+     * We check for available state variables matching the parameters, and call the generator with
+     * a random one only if any were available.
+     */
     private <T> T withRandomStateVariable(
         PuzzleContext ctx,
         List<ClassFeature> features,
@@ -154,14 +169,10 @@ public class ClassDeclarationsPuzzle implements Puzzle {
 
     private static void outputClassDeclaration(PuzzleContext ctx, String className, List<ClassFeature> features) {
         var classDecl = publicTypeDecl(className, false);
-
-        for (var feature : features) {
-            feature.addToClassDeclaration(classDecl);
-        }
-
         var ctor = classDecl.addConstructor(Modifier.Keyword.PUBLIC);
+
         for (var feature : features) {
-            feature.addToConstructor(ctor);
+            feature.addToCode(classDecl, ctor);
         }
 
         AstUtils.orderMembersByJavaConventions(classDecl);

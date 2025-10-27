@@ -1,4 +1,4 @@
-package edu.macalester.conceptual.puzzles.classes;
+package edu.macalester.conceptual.puzzles.classes.feature;
 
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -7,21 +7,14 @@ import java.util.List;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 
-import edu.macalester.conceptual.context.PuzzleContext;
+import edu.macalester.conceptual.puzzles.classes.TypedExprWithDescription;
 import edu.macalester.conceptual.util.AstUtils;
-import edu.macalester.conceptual.util.Nonsense;
 
 class ComputedProperty implements ClassFeature {
     private final String name;
     private final TypedExprWithDescription derivedValue;
 
-    static ClassFeature generate(PuzzleContext ctx, StateVariable stateVariable) {
-        return new ComputedProperty(
-            Nonsense.propertyName(ctx),
-            stateVariable.type().generateDerivedValue(ctx, stateVariable.name()));
-    }
-
-    private ComputedProperty(String name, TypedExprWithDescription derivedValue) {
+    ComputedProperty(String name, TypedExprWithDescription derivedValue) {
         this.name = name;
         this.derivedValue = derivedValue;
     }
@@ -42,17 +35,16 @@ class ComputedProperty implements ClassFeature {
     }
 
     @Override
-    public void addToClassDeclaration(ClassOrInterfaceDeclaration classDecl) {
+    public void addToCode(ClassOrInterfaceDeclaration classDecl, ConstructorDeclaration ctor) {
+        // public String getFoo() {
+        //     return << value derived from bar >>;
+        // }
+
         AstUtils.addGetter(
             classDecl,
             derivedValue.type().javaName(),
             name,
             derivedValue.code());
-    }
-
-    @Override
-    public void addToConstructor(ConstructorDeclaration ctor) {
-        // nothing to do
     }
 
     @Override
