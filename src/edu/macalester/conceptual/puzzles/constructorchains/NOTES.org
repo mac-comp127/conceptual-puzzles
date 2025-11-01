@@ -170,7 +170,6 @@ FruitSalad?
   syntactically in class A, but the code executed at runtime is in class
   B because of overrides or inheritance.
 
-
 * unrelated: use Shipping Forecast-related places instead of nonsense words
 :PROPERTIES:
 :CREATED:  [2025-10-11T15:46:30-0500]
@@ -184,3 +183,87 @@ someone wrote a linguistics paper analyzing the structure of the
 shipping forecast; it seems to pretty much describe an algorithm one
 could use to generate realistic but fake shipping forecasts:
 https://www.researchgate.net/profile/Ana-Bocanegra-Valle/publication/286541475_The_Constructing_of_Shipping_Forecasts_in_English_A_Pilot_Study/links/566d64c708ae430ab4ffe8a1/The-Constructing-of-Shipping-Forecasts-in-English-A-Pilot-Study.pdf?origin=publication_detail&_tp=eyJjb250ZXh0Ijp7ImZpcnN0UGFnZSI6InB1YmxpY2F0aW9uIiwicGFnZSI6InB1YmxpY2F0aW9uRG93bmxvYWQiLCJwcmV2aW91c1BhZ2UiOiJwdWJsaWNhdGlvbiJ9fQ
+
+* "test drive" problem given to ambitious volunteer students
+Here's what I sent to Cory Li and Rigo Tesoro:
+
+With the following class declarations:
+#+begin_src java
+    public class Lochy {
+        public Lochy() {
+        }
+    }
+
+    public class GreatOrmeHead extends Lochy {
+        public GreatOrmeHead() {
+            Lochy myLochy = new Lochy();
+            System.out.println("GreatOrmeHead default constructor");
+        }
+    }
+
+    public class Humber extends GreatOrmeHead {
+        public Humber() {
+            Lochy myLochy = new Lochy();
+        }
+    }
+
+    public class Shannon extends Humber {
+        public Shannon() {
+            Humber myHumber = new Humber();
+            System.out.println("Shannon default constructor");
+        }
+    }
+#+end_src
+
+What gets printed when you create an instance of Shannon?
+
+Solution:
+
+#+begin_quote
+GreatOrmeHead default constructor
+GreatOrmeHead default constructor
+Shannon default constructor
+#+end_quote
+
+Also asked "In addition to working through the puzzle below, I'd also
+like feedback on what you think about it. How hard did you think it was?
+Does it seem like too much? How much did you struggle? Was it too
+confusing? Do you see how it is related to things we have studied in
+this class?"
+
+** Rigo's comments
+I didn't think it was very hard for me, but it was a clever trick that I
+think is very much worth having a problem about. I wouldn't be surprised
+if some other people in the class would find it more difficult than I
+did, but it's not necessarily the hardest puzzle I've seen.
+
+It seems like about the perfect amount for this kind of problem, really.
+If there were any more classes the actual thing the problem's checking
+for would get a bit swamped in the subclass soup, and if there were any
+fewer classes there would be no good opportunity to check for the thing
+at all.
+
+I didn't really struggle with it at all, but it still took me
+multiple passes through the code to actually notice the trick. (I almost
+thought I had already finished the problem before I saw it, which I
+think is perfect for this kind of puzzle.) It seems likely to me that a
+lot of people would submit an answer with only one GreatOrmeHead default
+constructor fairly readily and then get stuck when they see that it's
+wrong. Not that I think that's at all a bad thing.
+
+It's definitely not too confusing for me. It might be pretty confusing
+for people who spend long enough before noticing the trick with the
+problem, but I think that would be to the extent to which is appropriate
+for a problem like this anyway, so I wouldn't call that too confusing.
+
+I think it's the right amount of confusing. I can definitely see how
+it's related to things we've learned in the class. It's talking about
+the whole thing where constructors automatically call super();
+immediately if you don't do that yourself.
+
+All in all, I think this is a great problem. It's exactly as concise as
+it needs to be, and it's the right difficulty to catch you unawares if
+you aren't paying attention but neither be tedious nor be baffling
+instead. It has one main trick and exactly one other thing going on—one
+more thing and it would be too complicated, one less and it would be too
+easy. I really like it!
