@@ -35,12 +35,21 @@ public class ConstructorChainPuzzle implements Puzzle {
     }
 
     @Override
+    public byte goalDifficulty() {
+        return 2;
+    }
+
+    @Override
+    public byte maxDifficulty() {
+        return 10;
+    }
+    @Override
     public void generate(PuzzleContext ctx) {
 
         ctx.output().paragraph("With the following class declarations:");
 
         Random rand = ctx.getRandom();
-        int depth = rand.nextInt(0, 8);
+        int depth = classHierarchyDepth(ctx);
 
         // cat file-with-class-decl | bin/astprinter class
         // use the output to inform the code below that builds your AST;
@@ -56,24 +65,36 @@ public class ConstructorChainPuzzle implements Puzzle {
         ctx.output().codeBlock(CodeFormatting.prettify(decl));
 
         List<ClassOrInterfaceDeclaration> classes = new ArrayList<>();
-
         classes.add(decl);
 
         for (int i = 0; i < depth; i++) {
-            String parentClass = decl.getNameAsString();
-            className = RandomWeatherPlace.getTypeName(ctx);
-            decl = AstUtils.publicClassDecl(className);
-            decl.addExtendedType(parentClass);
-            decl.addConstructor();
-            maybeAddNonDefaultCtor(decl, rand);
+            List<ClassOrInterfaceDeclaration> classesToAdd = new ArrayList<>();
+            int numSiblings = numSiblings(ctx);
+            String parentClass = classes.getLast().getNameAsString();
+            for (int j = 0; j < numSiblings; j++) {
+                // TODO for now, just using the last class in `classes` as the parent, but
+                // what if there are two siblings in the previous level? Do we want to be able
+                // to choose any one? I suspect continuing to use a list here is going to get
+                // unwieldly if we want full generality...OTOH if we can detect if a class has
+                // no descendants, we could just randomly choose classes until we one of those.
 
-            // TODO: for extra difficulty, shuffle the order of these
-            maybeAddObjCreation(decl, classes, ctx);
-            maybeAddNonDefaultCtorObjectCreation(decl, classes, ctx);
-            maybeAddPrintLn(decl, rand);
+                className = RandomWeatherPlace.getTypeName(ctx);
+                decl = AstUtils.publicClassDecl(className);
+                decl.addExtendedType(parentClass);
+                decl.addConstructor(Modifier.Keyword.PUBLIC);
+                maybeAddNonDefaultCtor(decl, rand);
 
-            ctx.output().codeBlock(CodeFormatting.prettify(decl));
-            classes.add(decl);
+                // TODO: for extra difficulty, shuffle the order of these
+                maybeAddObjCreation(decl, classes, ctx);
+                maybeAddNonDefaultCtorObjectCreation(decl, classes, ctx);
+                maybeAddPrintLn(decl, rand);
+
+                ctx.output().codeBlock(CodeFormatting.prettify(decl));
+                classesToAdd.add(decl);
+            }
+            classes.addAll(classesToAdd);
+
+            //
         }
 
         // FIXME need to specify which constructor, if leaf class has more than one
@@ -165,6 +186,20 @@ public class ConstructorChainPuzzle implements Puzzle {
             }
 
 
+        }
+    }
+
+    // parameters that depend on the difficulty level. TODO: actually figure out the logic we want.
+
+    private int classHierarchyDepth(PuzzleContext ctx) {
+        return 4 + ctx.getRandom().nextInt( ctx.getDifficulty());
+    }
+
+    private int numSiblings(PuzzleContext ctx) {
+        if (ctx.getDifficulty() < 3) {
+            return 1;
+        } else {
+            return ctx.getRandom().nextInt(1, 3);
         }
     }
 }
