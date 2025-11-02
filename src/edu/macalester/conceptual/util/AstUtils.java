@@ -38,6 +38,10 @@ public enum AstUtils {
         return publicTypeDecl(name, false);
     }
 
+    public static ClassOrInterfaceDeclaration classDecl(String name) {
+        return typeDecl(name, false);
+    }
+
     /**
      * Creates an empty declaration for a public class or interface.
      */
@@ -106,6 +110,14 @@ public enum AstUtils {
      */
     public static Statement buildSetterStatement(String name) {
         return parseStatement("this." + name + " = " + name + ";");
+    }
+
+    /**
+     * Creates an empty declaration for a class or interface.
+     */
+    public static ClassOrInterfaceDeclaration typeDecl(String name, boolean isInterface) {
+        return new ClassOrInterfaceDeclaration(
+                AstUtils.nodes(), isInterface, name);
     }
 
     /**
