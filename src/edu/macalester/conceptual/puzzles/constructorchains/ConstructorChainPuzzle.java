@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
 public class ConstructorChainPuzzle implements Puzzle {
     @Override
     public byte id() {
@@ -43,13 +42,30 @@ public class ConstructorChainPuzzle implements Puzzle {
     public byte maxDifficulty() {
         return 10;
     }
+
     @Override
     public void generate(PuzzleContext ctx) {
 
         ctx.output().paragraph("With the following class declarations:");
 
+        // FIXME need to specify which constructor, if leaf class has more than one
+        var decls = generateDeclarations(ctx);
+        ctx.output().codeBlock(decls.declarationsCode);
+        ctx.output().paragraph("What gets printed when you create an instance of " + decls.className + "?");
+
+
+    }
+
+    private record Declarations(
+            String declarationsCode,
+            String className) {
+    }
+
+    private Declarations generateDeclarations(PuzzleContext ctx) {
         Random rand = ctx.getRandom();
         int depth = classHierarchyDepth(ctx);
+
+        StringBuilder declarationsCode = new StringBuilder();
 
         // cat file-with-class-decl | bin/astprinter class
         // use the output to inform the code below that builds your AST;
@@ -57,12 +73,13 @@ public class ConstructorChainPuzzle implements Puzzle {
         // so "bottom-up" here means "rightmost-indented left" there, so to speak
 
         String className = RandomLoch.getTypeName(ctx);
-        var decl = AstUtils.publicClassDecl(className);
+        var decl = AstUtils.classDecl(className);
         decl.addConstructor(Modifier.Keyword.PUBLIC);
         maybeAddPrintLn(decl, rand);
         maybeAddNonDefaultCtor(decl, rand);
 
-        ctx.output().codeBlock(CodeFormatting.prettify(decl));
+        declarationsCode.append(CodeFormatting.prettify(decl));
+        declarationsCode.append("\n\n");
 
         List<ClassOrInterfaceDeclaration> classes = new ArrayList<>();
         classes.add(decl);
@@ -79,7 +96,7 @@ public class ConstructorChainPuzzle implements Puzzle {
                 // no descendants, we could just randomly choose classes until we one of those.
 
                 className = RandomWeatherPlace.getTypeName(ctx);
-                decl = AstUtils.publicClassDecl(className);
+                decl = AstUtils.classDecl(className);
                 decl.addExtendedType(parentClass);
                 decl.addConstructor(Modifier.Keyword.PUBLIC);
                 maybeAddNonDefaultCtor(decl, rand);
@@ -89,20 +106,19 @@ public class ConstructorChainPuzzle implements Puzzle {
                 maybeAddNonDefaultCtorObjectCreation(decl, classes, ctx);
                 maybeAddPrintLn(decl, rand);
 
-                ctx.output().codeBlock(CodeFormatting.prettify(decl));
+                declarationsCode.append(CodeFormatting.prettify(decl));
+                declarationsCode.append("\n\n");
+
                 classesToAdd.add(decl);
             }
             classes.addAll(classesToAdd);
-
-            //
         }
 
-        // FIXME need to specify which constructor, if leaf class has more than one
-        ctx.output().paragraph("What gets printed when you create an instance of " + className + "?");
+        return new Declarations(declarationsCode.toString(), className);
     }
 
     // Create a statement like "Bar xyz = new Thing();"
-    private ExpressionStmt getObjectCreationStmt(String staticTypeName, String variableName, String runtimeTypeName) {
+    private static ExpressionStmt getObjectCreationStmt(String staticTypeName, String variableName, String runtimeTypeName) {
 
         VariableDeclarator varDecl = new VariableDeclarator(
                 new ClassOrInterfaceType(null, staticTypeName),
@@ -113,7 +129,7 @@ public class ConstructorChainPuzzle implements Puzzle {
         return new ExpressionStmt(varDeclExpr);
     }
 
-    private ExpressionStmt getObjectCreationStmtWithParam(String staticTypeName, String variableName, String runtimeTypeName, String param) {
+    private static ExpressionStmt getObjectCreationStmtWithParam(String staticTypeName, String variableName, String runtimeTypeName, String param) {
 
         NodeList<Expression> nodeList = new NodeList<>(new IntegerLiteralExpr(param));
         VariableDeclarator varDecl = new VariableDeclarator(
@@ -192,7 +208,7 @@ public class ConstructorChainPuzzle implements Puzzle {
     // parameters that depend on the difficulty level. TODO: actually figure out the logic we want.
 
     private int classHierarchyDepth(PuzzleContext ctx) {
-        return 4 + ctx.getRandom().nextInt( ctx.getDifficulty());
+        return 4 + ctx.getRandom().nextInt(ctx.getDifficulty());
     }
 
     private int numSiblings(PuzzleContext ctx) {
