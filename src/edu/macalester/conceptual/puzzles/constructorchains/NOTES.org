@@ -267,3 +267,29 @@ you aren't paying attention but neither be tedious nor be baffling
 instead. It has one main trick and exactly one other thing going on—one
 more thing and it would be too complicated, one less and it would be too
 easy. I really like it!
+
+* parameters controlling output
+:PROPERTIES:
+:CREATED:  [2025-11-13T14:28:31-0600]
+:END:
+What dials can you turn to affect the output to make the puzzle harder
+or easier?
+
+- Depth :: how deep the inheritance hierarchy goes.
+- Number of siblings :: at a given level in the hierarchy, how many
+  sibling classes are created?
+- Print statement in default ctor :: in the default constructor, do we
+  print "<classname> default constructor"?
+- Non-default constructor :: does the class have a constructor that
+  takes a single int parameter?
+- Print statement in non-default ctor :: in any given non-default
+  constructor, do we print "<classname> constructor, n = <n>"?
+- Object creation :: in a given constructor (default or otherwise), is
+  there an object created? (Type is a superclass of the current one.)
+
+Considered but not done:
+
+- Method call :: in the current class or ancestor thereof, include a
+  method that prints or returns a value; in a constructor, call that in
+  a constructor. This seems to be more about inheritance and overrides
+  than object creation and constructors, though.
