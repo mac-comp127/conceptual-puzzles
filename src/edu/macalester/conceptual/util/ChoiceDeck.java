@@ -3,10 +3,8 @@ package edu.macalester.conceptual.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Supplier;
 
 import edu.macalester.conceptual.context.PuzzleContext;
-import edu.macalester.conceptual.puzzles.relationships.Type;
 
 /**
  * A random selection utility that behaves like a repeatedly shuffled deck of cards: a client can
@@ -29,5 +27,9 @@ public class ChoiceDeck<ChoiceType> {
             Collections.shuffle(deck, ctx.getRandom());
         }
         return deck.remove(0);
+    }
+
+    public boolean isEmpty() {
+        return deck.isEmpty();
     }
 }
