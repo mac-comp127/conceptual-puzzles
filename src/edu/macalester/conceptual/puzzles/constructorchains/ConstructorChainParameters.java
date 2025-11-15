@@ -25,4 +25,73 @@ public class ConstructorChainParameters {
         this.goalDifficulty = goalDifficulty;
         this.difficulty = difficulty;
         this.rand = rand;
-    }}
+    }
+
+    public boolean addPrintLn() {
+        /*         double probability = difficultyToPrintProbability(ctx);
+        if (ctx.getRandom().nextDouble() < probability) {
+*/
+        return rand.nextDouble() < difficultyToPrintProbability();
+    }
+
+    public boolean addObjectCreationStatement() {
+        return rand.nextDouble() < difficultyToAddObjCreationProbability();
+    }
+
+    private double difficultyToAddObjCreationProbability() {
+        if (difficulty < goalDifficulty) {
+            return 0.25;
+        } else if (difficulty < 5) {
+            return 0.5;
+        } else {
+            return 0.75;
+        }
+    }
+
+    public boolean addNonDefaultCtor() {
+        return rand.nextDouble() < difficultyToNonDefaultCtorProbability();
+    }
+
+    public boolean addNonDefaultCtorObjectCreation() {
+        return rand.nextDouble() < difficultyToNonDefaultCtorProbability();
+    }
+
+    // parameters that depend on the difficulty level. TODO: actually figure out the logic we want.
+
+    public int hierarchyDepth() {
+        return 4 + rand.nextInt(difficulty);
+    }
+
+    public  int numSiblings() {
+        if (difficulty < 3) {
+            return 1;
+        } else {
+            return rand.nextInt(1, 3);
+        }
+    }
+
+
+    /**
+     * for now, just 50-50 chance we add a print statement. Higher difficulty may be more likely, so there's more output?
+     *
+     */
+    private static double difficultyToPrintProbability() {
+        return 0.5;
+    }
+
+    private double difficultyToNonDefaultCtorProbability() {
+        if (difficulty < goalDifficulty) {
+            return 0.25;
+        } else if (difficulty < 7) {
+            return 0.5;
+        } else {
+            return 0.75;
+        }
+    }
+
+    private double difficultyToNonDefaultCtorObjectCreationProbability() {
+        // for now just using above
+        return difficultyToNonDefaultCtorProbability();
+    }
+
+}

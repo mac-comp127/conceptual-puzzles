@@ -28,4 +28,8 @@ public class ChoiceDeck<ChoiceType> {
         }
         return deck.remove(0);
     }
+
+    public boolean isEmpty() {
+        return deck.isEmpty();
+    }
 }
