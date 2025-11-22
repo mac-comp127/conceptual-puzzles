@@ -55,6 +55,6 @@ class GraphicsPropertyType implements PropertyType {
         return new ExprWithDescription(
             variableName + ".moveBy(" + dx + ", 0)",
             "moves `" + variableName + "` to the right by " + dx + " pixels"
-                + "(using the `moveBy` method)");  // students shouldn't have to have this memorized
+                + " (using the `moveBy` method)");  // students shouldn't have to have this memorized
     }
 }

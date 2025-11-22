@@ -26,7 +26,7 @@ public class ClassDeclarationsPuzzle implements Puzzle {
 
     @Override
     public String name() {
-        return "clas";
+        return "class";
     }
 
     @Override
@@ -89,7 +89,12 @@ public class ClassDeclarationsPuzzle implements Puzzle {
         // We have a class spec!
 
         ctx.output().paragraph(
-            "Translate the specification below into an idiomatic Java class definition:");
+            "Translate the specification below into an idiomatic Java class definition.");
+        ctx.output().paragraph(
+            """
+            (In this context, "idiomatic" means following the common style and conventions of
+            the language.)
+            """);
 
         outputSpecification(ctx, className, features);
 
