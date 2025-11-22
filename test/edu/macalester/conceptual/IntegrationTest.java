@@ -29,15 +29,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class IntegrationTest {
     private static final List<String> PUZZLE_CODES = List.of(
-        "wtig-b8nz-u452-rLgu",  // type
-        "rjbi-1t8x-u0h0-6cjn",  // rel, difficulty = 9
-        "Lxqr-4dys-gpds-8Lfa",  // clos, difficulty = 2
-        "gewc-fit8-6tgL-hatp",  // vars
-        "2mgg-4Ldu-2mq7-Ld3",   // loop
-        "azy1-v4Lt-rq5L-7g92",  // ast
-        "5i42-dtog-jq0h-93cn",  // bool
-        "5kwo-ytu2-xjbr-tuir",  // bool, difficulty = 5
-        "c0uw-orx1-jycz-g82x"   // ast, difficulty = 50, potential operator precedence issue
+        "wtig-b8nz-u452-rLgu",   // type
+        "rjbi-1t8x-u0h0-6cjn",   // rel, difficulty = 9
+        "Lxqr-4dys-gpds-8Lfa",   // clos, difficulty = 2
+        "gewc-fit8-6tgL-hatp",   // vars
+        "2mgg-4Ldu-2mq7-Ld3",    // loop
+        "azy1-v4Lt-rq5L-7g92",   // ast
+        "5i42-dtog-jq0h-93cn",   // bool
+        "5kwo-ytu2-xjbr-tuir",   // bool, difficulty = 5
+        "17tn-p4ge-k8oL-0bjf-6", // class
+        "c0uw-orx1-jycz-g82x"    // ast, difficulty = 50, potential operator precedence issue
     );
 
     @TestFactory
