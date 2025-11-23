@@ -5,8 +5,8 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.*;
-import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
+import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.PuzzleContext;
@@ -17,6 +17,7 @@ import edu.macalester.conceptual.util.CodeFormatting;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Collections;
 
 public class ConstructorChainPuzzle implements Puzzle {
 
@@ -98,10 +99,16 @@ public class ConstructorChainPuzzle implements Puzzle {
                 decl.addConstructor(Modifier.Keyword.PUBLIC);
                 maybeAddNonDefaultCtor(decl, ctx, classes);
 
-                // TODO: for extra difficulty, shuffle the order of these
-                maybeAddObjCreation(decl.getDefaultConstructor().get().getBody(), classes, ctx);
-                maybeAddNonDefaultCtorObjectCreation(decl, classes, ctx);
-                maybeAddPrintLn(decl);
+                List<Statement> ctorstatements = new ArrayList<>();
+                maybeAddObjCreation(classes, ctx).ifPresent(ctorstatements::add);
+                maybeAddNonDefaultCtorObjectCreation(classes, ctx).ifPresent(ctorstatements::add);
+                maybePrintLn(decl.getName() + " default constructor").ifPresent(ctorstatements::add);
+                if (!ctorstatements.isEmpty()) {
+                    Collections.shuffle(ctorstatements, ctx.getRandom());
+                    for (var statement : ctorstatements) {
+                        decl.getDefaultConstructor().get().getBody().addStatement(statement);
+                    }
+                }
 
                 declarationsCode.append(CodeFormatting.prettify(decl));
                 declarationsCode.append("\n\n");
@@ -126,11 +133,23 @@ public class ConstructorChainPuzzle implements Puzzle {
     private ClassOrInterfaceDeclaration getDefaultDeclaration(String className, List<ClassOrInterfaceDeclaration> classes, PuzzleContext ctx) {
         var decl = AstUtils.classDecl(className);
         decl.addConstructor(Modifier.Keyword.PUBLIC);
-        maybeAddPrintLn(decl);
+
+        List<Statement> ctorstatements = new ArrayList<>();
+        maybePrintLn(decl.getName() + " default constructor").ifPresent(ctorstatements::add);
         if (!classes.isEmpty()) {
-            maybeAddObjCreation(decl.getDefaultConstructor().get().getBody(), classes, ctx);
-            maybeAddNonDefaultCtorObjectCreation(decl, classes, ctx);
+            maybeAddObjCreation(classes, ctx).ifPresent(ctorstatements::add);
+            maybeAddNonDefaultCtorObjectCreation(classes, ctx).ifPresent(ctorstatements::add);
         }
+        if (!ctorstatements.isEmpty()) {
+            Collections.shuffle(ctorstatements, ctx.getRandom());
+            for (var statement : ctorstatements) {
+                decl.getDefaultConstructor().get().getBody().addStatement(statement);
+                System.out.println("line 159 okay");
+
+            }
+        }
+
+
         return decl;
     }
 
@@ -170,17 +189,16 @@ public class ConstructorChainPuzzle implements Puzzle {
 
 
     /**
-     * Maybe add a "<name of class> default constructor" println to the default constructor of the provided
-     * class declaration, if the parameters object says we should.
+     * Maybe return a println statement for the provided message,
+     * if the parameters object says we should.
      *
-     * @param decl class or interface declaration
+     * @param message - argument to the println statement
      */
-    private void maybeAddPrintLn(ClassOrInterfaceDeclaration decl) {
+    private Optional<Statement> maybePrintLn(String message) {
         if (this.params.addPrintLn()) {
-            var msg = new StringLiteralExpr(decl.getName() + " default constructor");
-            var sout = new MethodCallExpr("System.out.println", msg);
-            decl.getDefaultConstructor().get().getBody().addStatement(sout);
+            return Optional.of(new ExpressionStmt(new MethodCallExpr("System.out.println", new StringLiteralExpr(message))));
         }
+        return Optional.empty();
     }
 
     /**
@@ -188,24 +206,16 @@ public class ConstructorChainPuzzle implements Puzzle {
      * int parameter.
      *
      * @param declaration class declaration
-     * @param ctx
-     * @param classes
+     * @param ctx puzzle context
+     * @param classes list of classes to choose from for object creation statements
      */
     private void maybeAddNonDefaultCtor(ClassOrInterfaceDeclaration declaration, PuzzleContext ctx, List<ClassOrInterfaceDeclaration> classes) {
         if (this.params.addNonDefaultCtor()) {
             var nonDefaultCtor = declaration.addConstructor(Modifier.Keyword.PUBLIC);
             nonDefaultCtor.addParameter("int", "n");
-            // TODO: do the "maybe" adds for object creation, nondefault ctor object
-
-            // FIXME: refactor this -- either separate method or combine somehow with maybeAddPrintln
-            if (this.params.addPrintLn()) {
-                var msg = new StringLiteralExpr(declaration.getName() + " constructor, n = \" + n + \".");
-                var sout = new MethodCallExpr("System.out.println", msg);
-                nonDefaultCtor.getBody().addStatement(sout);
-            }
-
-            maybeAddObjCreation(nonDefaultCtor.getBody(), classes, ctx);
-            maybeAddNonDefaultCtorObjectCreation(declaration, classes, ctx);
+            maybePrintLn(declaration.getName() + " constructor, n = \" + n + \".").ifPresent(nonDefaultCtor.getBody()::addStatement);
+            maybeAddObjCreation(classes, ctx).ifPresent(nonDefaultCtor.getBody()::addStatement);
+            maybeAddNonDefaultCtorObjectCreation(classes, ctx).ifPresent(nonDefaultCtor.getBody()::addStatement);
         }
     }
 
@@ -213,7 +223,7 @@ public class ConstructorChainPuzzle implements Puzzle {
      * Format provided name as a variable name -- lowercase the first letter.
      * FIXME would this belong in Nonsense, or somehow with NameFormat?
      *
-     * @param name
+     * @param name variable name
      * @return name, but first letter will be lowercase
      */
     private String variableName(String name) {
@@ -222,11 +232,10 @@ public class ConstructorChainPuzzle implements Puzzle {
 
     /**
      * add an object creation statement to the provided constructor
-     * @param constructor
-     * @param classes
-     * @param ctx
+     * @param classes list of classes to choose from for object creation statement
+     * @param ctx puzzle context
      */
-    private void maybeAddObjCreation(BlockStmt constructor, List<ClassOrInterfaceDeclaration> classes, PuzzleContext ctx) {
+    private Optional<ExpressionStmt> maybeAddObjCreation(List<ClassOrInterfaceDeclaration> classes, PuzzleContext ctx) {
         if (!classes.isEmpty() && this.params.addObjectCreationStatement()) {
             var superclassesDeck = new ChoiceDeck<>(ctx, classes);
             // TODO: for extra difficulty, allow static and runtime types to differ, so that the runtime type is
@@ -235,12 +244,12 @@ public class ConstructorChainPuzzle implements Puzzle {
 
             String variable = variableName(RandomWeatherPlace.getTypeName(ctx));
             System.out.println("object creation of type " + superClassName + " var name " + variable);
-            var objCreationStmt = getObjectCreationStmt(superClassName, variable, superClassName);
-            constructor.addStatement(objCreationStmt);
+            return Optional.of(getObjectCreationStmt(superClassName, variable, superClassName));
         }
+        return Optional.empty();
     }
 
-    private void maybeAddNonDefaultCtorObjectCreation(ClassOrInterfaceDeclaration decl, List<ClassOrInterfaceDeclaration> classes, PuzzleContext ctx) {
+    private Optional<ExpressionStmt> maybeAddNonDefaultCtorObjectCreation(List<ClassOrInterfaceDeclaration> classes, PuzzleContext ctx) {
         Optional<ClassOrInterfaceDeclaration> maybeSuperClass = superClassWithNonDefaultCtor(classes, ctx);
         if (maybeSuperClass.isPresent() && this.params.addNonDefaultCtorObjectCreation()) {
             // TODO: for extra difficulty, allow static and runtime types to differ, so that the runtime type is
@@ -252,10 +261,9 @@ public class ConstructorChainPuzzle implements Puzzle {
             var superClassName = superClass.getName().toString();
             String param = String.valueOf(ctx.getRandom().nextInt(10, 20));
             String variableName = variableName(RandomWeatherPlace.getTypeName(ctx));
-            var objCreationStmt = getObjectCreationStmtWithParam(superClassName, variableName, superClassName, param);
-            var declCtor = new ChoiceDeck<>(ctx, decl.getConstructors()).draw();
-            declCtor.getBody().addStatement(objCreationStmt);
+            return Optional.of(getObjectCreationStmtWithParam(superClassName, variableName, superClassName, param));
         }
+        return Optional.empty();
     }
 
     /**
@@ -264,7 +272,7 @@ public class ConstructorChainPuzzle implements Puzzle {
      *
      * @param classes list of classes from which to draw
      * @param ctx     PuzzleContext so we can pass random generator to ChoiceDeck
-     * @return
+     * @return class declaration that has a non-default constructor
      */
     private Optional<ClassOrInterfaceDeclaration> superClassWithNonDefaultCtor(List<ClassOrInterfaceDeclaration> classes, PuzzleContext ctx) {
         var superclassesDeck = new ChoiceDeck<>(ctx, classes);
