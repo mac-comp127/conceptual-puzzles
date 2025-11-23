@@ -14,10 +14,11 @@ import edu.macalester.conceptual.util.AstUtils;
 import edu.macalester.conceptual.util.ChoiceDeck;
 import edu.macalester.conceptual.util.CodeFormatting;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Collections;
 
 public class ConstructorChainPuzzle implements Puzzle {
 
@@ -60,6 +61,71 @@ public class ConstructorChainPuzzle implements Puzzle {
 
         // FIXME: class could have more than one constructor!
         ctx.output().paragraph("What gets printed when you create an instance of " + decls.className + "?");
+
+        /*        ctx.solution(() -> {
+            ctx.output().showGraphics(
+                ctx.currentSectionTitle() + " Solution",
+                AstDrawing.of(
+                    code.ast(),
+                    ctx.currentSectionHue()));  // coordinate graphics with section heading color in console
+
+            ctx.solutionChecklist(solutionChecklist);
+        }); */
+
+        ctx.solution(() -> {
+            System.out.print(getSolution(decls));
+
+        });
+    }
+
+    private String getSolution(Declarations decls) {
+        try {
+            File outputFile = File.createTempFile("CtorPuzzle", ".java");
+
+            String className = outputFile.getName();
+            className = className.substring(0, className.length() - 5);
+            StringBuilder sb = new StringBuilder();
+            sb.append(decls.declarationsCode());
+            sb.append("""
+            public class\s""");
+            sb.append(className);
+            sb.append("""
+            { 
+                 public static void main(String[] args) {
+                     var foo = new\s""");
+
+            sb.append(decls.className);
+            sb.append("(); } }\n");
+
+            var foo = new FileWriter(outputFile);
+            foo.write(sb.toString());
+            foo.close();
+
+
+            ProcessBuilder pbCompile = new ProcessBuilder("javac", outputFile.toString());
+            Process processCompile = pbCompile.start();
+            processCompile.waitFor();
+
+            // Execute
+            ProcessBuilder pbRun = new ProcessBuilder("java", className);
+            pbRun.directory(new File(outputFile.getParent()));
+            pbRun.redirectErrorStream(true);
+            Process processRun = pbRun.start();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(processRun.getInputStream()));
+            StringBuilder outputSB = new StringBuilder();
+            reader.lines().forEach(line -> { outputSB.append(line); outputSB.append("\n"); });
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                System.out.println("Program Output: " + line);
+//            }
+
+            return outputSB.toString();
+        }
+        catch(Exception exc){
+            System.err.println("Could not generate temporary file to get solution!");
+            return "";
+        }
     }
 
     private record Declarations(String declarationsCode, String className) {
@@ -206,8 +272,8 @@ public class ConstructorChainPuzzle implements Puzzle {
      * int parameter.
      *
      * @param declaration class declaration
-     * @param ctx puzzle context
-     * @param classes list of classes to choose from for object creation statements
+     * @param ctx         puzzle context
+     * @param classes     list of classes to choose from for object creation statements
      */
     private void maybeAddNonDefaultCtor(ClassOrInterfaceDeclaration declaration, PuzzleContext ctx, List<ClassOrInterfaceDeclaration> classes) {
         if (this.params.addNonDefaultCtor()) {
@@ -227,13 +293,14 @@ public class ConstructorChainPuzzle implements Puzzle {
      * @return name, but first letter will be lowercase
      */
     private String variableName(String name) {
-        return name.subSequence(0, 1).toString().toLowerCase() + name.subSequence(1, name.length());
+        return name.substring(0, 1).toLowerCase() + name.substring(1);
     }
 
     /**
      * add an object creation statement to the provided constructor
+     *
      * @param classes list of classes to choose from for object creation statement
-     * @param ctx puzzle context
+     * @param ctx     puzzle context
      */
     private Optional<ExpressionStmt> maybeAddObjCreation(List<ClassOrInterfaceDeclaration> classes, PuzzleContext ctx) {
         if (!classes.isEmpty() && this.params.addObjectCreationStatement()) {
