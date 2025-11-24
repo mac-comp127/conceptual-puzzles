@@ -124,6 +124,17 @@ public enum AstUtils {
     }
 
     /**
+     * Builds a variable declarations .
+     */
+    public static ExpressionStmt variableDeclarationStmt(String type, String varName, Expression initializer) {
+        return variableDeclarationStmt(
+            new VariableDeclarator(
+                classNamed(type),
+                new SimpleName(varName),
+                initializer));
+    }
+
+    /**
      * Convenience for creating a NodeList.
      */
     @SafeVarargs

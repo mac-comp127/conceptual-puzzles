@@ -1,0 +1,318 @@
+package edu.macalester.conceptual.puzzles.idea;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.IntStream;
+
+import com.github.javaparser.ast.Modifier;
+import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.IntegerLiteralExpr;
+import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.expr.NameExpr;
+import com.github.javaparser.ast.expr.ObjectCreationExpr;
+import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.ExpressionStmt;
+
+import edu.macalester.conceptual.Puzzle;
+import edu.macalester.conceptual.context.PuzzleContext;
+import edu.macalester.conceptual.util.AstUtils;
+import edu.macalester.conceptual.util.ChoiceDeck;
+import edu.macalester.conceptual.util.Nonsense;
+import edu.macalester.conceptual.util.Randomness;
+
+import static com.github.javaparser.ast.NodeList.nodeList;
+import static edu.macalester.conceptual.util.AstUtils.classNamed;
+import static edu.macalester.conceptual.util.AstUtils.nodes;
+
+public class StackAndHeap implements Puzzle {
+    private PuzzleContext ctx;
+    private List<IdeaClass> puzzleClasses;
+    private int complicationsRemaining;
+    private int nextIntValue = 0;
+
+    @Override
+    public byte id() {
+        return 9;
+    }
+
+    @Override
+    public String name() {
+        return "idea";
+    }
+
+    @Override
+    public String description() {
+        return "Stack frames and objects (like the Idea Lab activity)";
+    }
+
+    @Override
+    public byte minDifficulty() {
+        return 0;
+    }
+
+    @Override
+    public byte goalDifficulty() {
+        return 2;
+    }
+
+    @Override
+    public byte maxDifficulty() {
+        return 30;
+    }
+
+    @Override
+    public void generate(PuzzleContext ctx) {
+        this.ctx = ctx;
+
+        puzzleClasses = IntStream.range(0, Math.max(2, ctx.getDifficulty()))
+            .mapToObj(n -> IdeaClass.named(Nonsense.typeName(ctx)))
+            .toList();
+
+        complicationsRemaining = ctx.getDifficulty();
+
+        var stack = generateMethod(
+            puzzleClasses.getFirst(),
+            null,  // static method
+            "entryPoint",
+            List.of(),  // no args
+            ctx.getDifficulty(),
+            true  // trace this branch: place marker when we reach leaf node, return stack trace
+        );
+
+        for (var aClass : puzzleClasses) {
+            ctx.output().codeBlock(aClass.decl());
+        }
+
+        for (var stackFrame : stack) {
+            System.out.println(stackFrame.getTitle());
+            for (var variable : stackFrame.getVariables()) {
+                System.out.println("    " + variable.name() + ": " + variable.value().typeName());
+            }
+            System.out.println();
+        }
+    }
+
+    /**
+     * Returns the stack trace that reaches the target marker.
+     */
+    private List<VariableContainer> generateMethod(
+        IdeaClass type,
+        IdeaObject receiver,  // null if static method
+        String name,
+        List<Value> args,
+        int callDepth,
+        boolean isBranchBeingTraced
+    ) {
+        var stackFrame = new VariableContainer(name);
+
+        var methodDecl = type.decl().addMethod(name, Modifier.Keyword.PUBLIC);
+        var methodBody = new BlockStmt();
+        methodDecl.setBody(methodBody);
+
+        // Params (including implicit `this`)
+
+        if (receiver != null) {
+            stackFrame.addVariable(new Variable("this", new Value.Reference(receiver)));
+        } else {
+            methodDecl.setStatic(true);
+        }
+        for (var arg : args) {
+            String paramName = Nonsense.variableName(ctx);
+            methodDecl.addParameter(AstUtils.classNamed(arg.typeName()), paramName);
+            stackFrame.addVariable(new Variable(paramName, arg));
+        }
+
+        // Local vars
+
+        int localCount = Math.max(0, 3 - stackFrame.size()) + ctx.getRandom().nextInt(0, 2);
+        for(int n = 0; n < localCount; n++) {
+            generateLocalVar(methodBody, stackFrame);
+        }
+
+        if (callDepth <= 0) {
+            // Reached the end of the call chain
+
+            maybeComplicate(stackFrame, methodBody, callDepth);
+            if (isBranchBeingTraced) {
+                methodBody.addStatement(new ExpressionStmt(new NameExpr("___HERE___")));
+            }
+            maybeComplicate(stackFrame, methodBody, callDepth);
+            return List.of(stackFrame);
+        } else {
+            // Generate method call
+
+            maybeComplicate(stackFrame, methodBody, callDepth);
+            var calleeStack = generateMethodAndCall(stackFrame, methodBody, callDepth, isBranchBeingTraced);
+            maybeComplicate(stackFrame, methodBody, callDepth);
+
+            var result = new ArrayList<VariableContainer>(calleeStack.size() + 1);
+            result.add(stackFrame);
+            result.addAll(calleeStack);
+            return result;
+        }
+    }
+
+    private void maybeComplicate(VariableContainer stackFrame, BlockStmt methodBody, int callDepth) {
+        if (ctx.getRandom().nextFloat() < complicationsRemaining / (callDepth + 1f)) {
+            complicationsRemaining--;
+            generateMethodAndCall(stackFrame, methodBody, callDepth / 2, false);
+        }
+    }
+
+    private List<VariableContainer> generateMethodAndCall(
+        VariableContainer stackFrame,
+        BlockStmt methodBody,
+        int callDepth,
+        boolean isBranchBeingTraced
+    ) {
+        // Choose receiver next method call
+
+        var nextReceiver = chooseMethodCallReceiver(stackFrame);
+
+        // Generate args for next method call
+
+        var exprChoices = gatherExprChoices(stackFrame);
+        var nextArgs = IntStream.range(0, ctx.getRandom().nextInt(0, 4))
+            .mapToObj(i -> exprChoices.draw().get())
+            .toList();
+
+        // Generate next method call
+
+        var nextMethodName = Nonsense.methodName(ctx);
+
+        methodBody.addStatement(new ExpressionStmt(
+            new MethodCallExpr(
+                nextReceiver.expression(),
+                nextMethodName,
+                nodeList(
+                    nextArgs.stream()
+                        .map(ExprAndValue::expression)
+                        .toList()
+                )
+            )
+        ));
+
+        // Generate method to be called
+
+        var calleeStack = generateMethod(
+            nextReceiver.type(),
+            nextReceiver.object(),
+            nextMethodName,
+            nextArgs.stream().map(ExprAndValue::value).toList(),
+            callDepth - 1,
+            isBranchBeingTraced
+        );
+        return calleeStack;
+    }
+
+    private void generateLocalVar(BlockStmt methodBody, VariableContainer stackFrame) {
+        Runnable choice = Randomness.chooseWithProb(ctx,
+            0.8,  // 80% objects, 20% ints
+            () -> {
+                var varName = Nonsense.variableName(ctx);
+                var obj = generateObject();
+                methodBody.addStatement(
+                    AstUtils.variableDeclarationStmt(
+                        obj.type().name(),
+                        varName,
+                        newObjectExpr(obj)
+                ));
+                stackFrame.addVariable(new Variable(
+                    varName, new Value.Reference(obj)));
+            },
+            () -> {
+                var varName = Nonsense.variableName(ctx);
+                var intValue = String.valueOf(nextIntValue++);
+                methodBody.addStatement(
+                    AstUtils.variableDeclarationStmt(
+                        "int", varName, new IntegerLiteralExpr(intValue)));
+                stackFrame.addVariable(new Variable(
+                    varName, new Value.InlineValue("int", intValue)));
+            }
+        );
+        choice.run();
+    }
+
+    private record ExprAndValue(
+        Expression expression,
+        Value value
+    ) { }
+
+    private ChoiceDeck<Supplier<ExprAndValue>> gatherExprChoices(VariableContainer stackFrame) {
+        var possibleArgs = new ArrayList<Supplier<ExprAndValue>>();
+        for (var variable : stackFrame.getVariables()) {
+            possibleArgs.add(() ->
+                new ExprAndValue(
+                    new NameExpr(variable.name()),
+                    variable.value()
+                )
+            );
+        }
+        for (var puzzleClass : puzzleClasses) {
+            // instance method call to a new instance
+            possibleArgs.add(() -> {
+                var obj = generateObject();
+                return new ExprAndValue(
+                    newObjectExpr(obj),
+                    new Value.Reference(obj)
+                );
+            });
+        }
+        return new ChoiceDeck<>(ctx, possibleArgs);
+    }
+
+    private record MethodCallReceiver(
+        Expression expression,
+        IdeaClass type,
+        IdeaObject object  // null if static method
+    ) { }
+
+    private MethodCallReceiver chooseMethodCallReceiver(VariableContainer stackFrame) {
+        var possibleReceivers = new ArrayList<Supplier<MethodCallReceiver>>();
+        for (var variable : stackFrame.getVariables()) {
+            if (variable.value() instanceof Value.Reference ref) {
+                // instance method call to a local var
+                possibleReceivers.add(() ->
+                    new MethodCallReceiver(
+                        new NameExpr(variable.name()),
+                        ref.object().type(),
+                        ref.object()
+                    )
+                );
+            }
+        }
+        for (var puzzleClass : puzzleClasses) {
+            // instance method call to a new instance
+            possibleReceivers.add(() -> {
+                var obj = generateObject();
+                return new MethodCallReceiver(
+                    newObjectExpr(obj),
+                    puzzleClass,
+                    obj
+                );
+            });
+
+            // static method call
+            possibleReceivers.add(() ->
+                new MethodCallReceiver(
+                    new NameExpr(puzzleClass.name()),
+                    puzzleClass,
+                    null
+                )
+            );
+        }
+        return Randomness.choose(ctx, possibleReceivers).get();
+    }
+
+    private IdeaObject generateObject() {
+        return new IdeaObject(Randomness.choose(ctx, puzzleClasses), nextIntValue++);
+    }
+
+    private static Expression newObjectExpr(IdeaObject obj) {
+        return new ObjectCreationExpr(
+            null,
+            classNamed(obj.type().name()),
+            nodes(new IntegerLiteralExpr(String.valueOf(obj.id()))));
+    }
+}
