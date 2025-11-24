@@ -1,0 +1,467 @@
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
+[0J────────────────────────────────────────────────────────────────────────────────
+
+Translate the specification below into an idiomatic Java class definition.
+
+(In this context, "idiomatic" means following the common style and conventions
+of the language.)
+
+ 1. One kind of thing that exists in our model is a [4mStaice[24m.
+    
+ 2. Each [4mStaice[24m has its own [4mfeatu[24m, which is a string. The value of [4mfeatu[24m is
+    specified when a [4mStaice[24m is created. Anyone can ask a [4mStaice[24m for the value of
+    its [4mfeatu[24m. The value of [4mfeatu[24m for a specific [4mStaice[24m can never change.
+    
+ 3. Each [4mStaice[24m has a [4meersa[24m, which is a list of strings. An [4meersa[24m is part of the
+    internal state of a [4mStaice[24m: no other classes can see the value of [4meersa[24m or
+    directly change it. When a [4mStaice[24m is first created, the value of its [4meersa[24m
+    starts out as an empty mutable list.
+    
+ 4. All [4mStaice[24ms share a single [4mTHIOCMI[24m, which is a string. It is a constant. Its
+    value is "um". Other classes [1mcan[22m see its value.
+    
+ 5. A [4mStaice[24m can [4mhesmate[24m. This behavior adds "rialsoss" to [4meersa[24m. Anyone can ask
+    a [4mStaice[24m to [4mhesmate[24m.
+    
+[1m[38;5;228m[48;5;58m              [0m
+[1m[38;5;228m[48;5;58m   SOLUTION   [0m
+[1m[38;5;228m[48;5;58m              [0m
+
+    public class Staice {
+        public static final String THIOCMI = "um";
+        private final String featu;
+
+        private List<String> eersa = new ArrayList<>();
+
+        public Staice(String featu) {
+            this.featu = featu;
+        }
+
+        public String getFeatu() {
+            return featu;
+        }
+
+        public void hesmate() {
+            eersa.add("rialsoss");
+        }
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+Things to check in your solution:
+
+  - Is every [4mpublic[24m and [4mprivate[24m modifier correct?
+  - Are the correct items [4mstatic[24m?
+  - Are the correct items [4mfinal[24m?
+  - Are all the variable types and method return types correct?
+  - Are the class members in the correct order? It should be: (1) static
+    variables, (2) instance variables, (3) constructors, (4) methods.
+  - Do members have the correct capitalization?
+
+Acceptable variations in the solution:
+
+  - It is OK if you initialized [1mnon-static[22m variables" in the constructor instead
+    of in the declaration. (Ask your instructor if you aren’t clear what this
+    means.) Note that [1mstatic[22m variables [3mmust[23m be initialized in the declaration.
+  - It is OK if you used a slightly different but equivalent form of an
+    expression, such as [4m+= 1[24m instead of [4m++[24m.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Translate the specification below into an idiomatic Java class definition.
+
+(In this context, "idiomatic" means following the common style and conventions
+of the language.)
+
+ 1. One kind of thing that exists in our model is a [4mTwad[24m.
+    
+ 2. Each [4mTwad[24m has a [4mlunre[24m, which is a graphics object. A [4mlunre[24m is part of the
+    internal state of a [4mTwad[24m: no other classes can see the value of [4mlunre[24m or
+    directly change it. When a [4mTwad[24m is first created, the value of its [4mlunre[24m
+    starts out as a rectangle with a width of 34 and a height of 24.
+    
+ 3. All [4mTwad[24ms share a single [4mfoOrci[24m, which is an int. No other classes can
+    directly ask for the value of [4mfoOrci[24m. The value of [4mfoOrci[24m starts out as 7
+    when the program starts. Every time a new [4mTwad[24m is created, it adds 1 to
+    [4mfoOrci[24m.
+    
+ 4. Each [4mTwad[24m has its own [4meteur[24m, which is a graphics object. The value of [4meteur[24m
+    starts out as a rectangle with a width of 38 and a height of 10. Anyone can
+    ask a [4mTwad[24m for the value of its [4meteur[24m. Anyone can set [4meteur[24m to a new value.
+    
+ 5. Each [4mTwad[24m has a [4mvaphe[24m, which is an int. The value of [4mvaphe[24m is not part of a
+    [4mTwad[24m’s internal state; instead, it is computed on demand. The computed value
+    of [4mvaphe[24m is [4mfoOrci[24m squared.
+    
+[1m[38;5;228m[48;5;58m              [0m
+[1m[38;5;228m[48;5;58m   SOLUTION   [0m
+[1m[38;5;228m[48;5;58m              [0m
+
+    public class Twad {
+        private static int foOrci = 7;
+        private GraphicsObject lunre = new Rectangle(0, 0, 34, 24);
+
+        private GraphicsObject eteur = new Rectangle(0, 0, 38, 10);
+
+        public Twad() {
+            foOrci += 1;
+        }
+
+        public GraphicsObject getEteur() {
+            return eteur;
+        }
+
+        public void setEteur(GraphicsObject eteur) {
+            this.eteur = eteur;
+        }
+
+        public int getVaphe() {
+            return foOrci * foOrci;
+        }
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+Things to check in your solution:
+
+  - Is every [4mpublic[24m and [4mprivate[24m modifier correct?
+  - Are the correct items [4mstatic[24m?
+  - Are the correct items [4mfinal[24m?
+  - Are all the variable types and method return types correct?
+  - Are the class members in the correct order? It should be: (1) static
+    variables, (2) instance variables, (3) constructors, (4) methods.
+  - Do members have the correct capitalization?
+
+Acceptable variations in the solution:
+
+  - It is OK if you initialized [1mnon-static[22m variables" in the constructor instead
+    of in the declaration. (Ask your instructor if you aren’t clear what this
+    means.) Note that [1mstatic[22m variables [3mmust[23m be initialized in the declaration.
+  - It is OK if you used a slightly different but equivalent form of an
+    expression, such as [4m+= 1[24m instead of [4m++[24m.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Translate the specification below into an idiomatic Java class definition.
+
+(In this context, "idiomatic" means following the common style and conventions
+of the language.)
+
+ 1. One kind of thing that exists in our model is a [4mLelInses[24m.
+    
+ 2. Each [4mLelInses[24m has its own [4msirod[24m, which is a list of strings. The value of
+    [4msirod[24m starts out as an empty mutable list. Anyone can ask a [4mLelInses[24m for the
+    value of its [4msirod[24m. Anyone can set [4msirod[24m to a new value.
+    
+ 3. Each [4mLelInses[24m has its own [4mbaMi[24m, which is a graphics object. The value of
+    [4mbaMi[24m is specified when a [4mLelInses[24m is created. Anyone can ask a [4mLelInses[24m for
+    the value of its [4mbaMi[24m. The value of [4mbaMi[24m for a specific [4mLelInses[24m can never
+    change.
+    
+ 4. Each [4mLelInses[24m has a [4mcePogin[24m, which is a list of strings. A [4mcePogin[24m is part
+    of the internal state of a [4mLelInses[24m: no other classes can see the value of
+    [4mcePogin[24m or directly change it. When a [4mLelInses[24m is first created, the value
+    of its [4mcePogin[24m starts out as an empty mutable list.
+    
+ 5. A [4mLelInses[24m can [4merinate[24m. This behavior adds "ceace" to [4msirod[24m. Anyone can ask
+    a [4mLelInses[24m to [4merinate[24m.
+    
+[1m[38;5;228m[48;5;58m              [0m
+[1m[38;5;228m[48;5;58m   SOLUTION   [0m
+[1m[38;5;228m[48;5;58m              [0m
+
+    public class LelInses {
+        private List<String> sirod = new ArrayList<>();
+        private final GraphicsObject baMi;
+
+        private List<String> cePogin = new ArrayList<>();
+
+        public LelInses(GraphicsObject baMi) {
+            this.baMi = baMi;
+        }
+
+        public List<String> getSirod() {
+            return sirod;
+        }
+
+        public void setSirod(List<String> sirod) {
+            this.sirod = sirod;
+        }
+
+        public GraphicsObject getBaMi() {
+            return baMi;
+        }
+
+        public void erinate() {
+            sirod.add("ceace");
+        }
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+Things to check in your solution:
+
+  - Is every [4mpublic[24m and [4mprivate[24m modifier correct?
+  - Are the correct items [4mstatic[24m?
+  - Are the correct items [4mfinal[24m?
+  - Are all the variable types and method return types correct?
+  - Are the class members in the correct order? It should be: (1) static
+    variables, (2) instance variables, (3) constructors, (4) methods.
+  - Do members have the correct capitalization?
+
+Acceptable variations in the solution:
+
+  - It is OK if you initialized [1mnon-static[22m variables" in the constructor instead
+    of in the declaration. (Ask your instructor if you aren’t clear what this
+    means.) Note that [1mstatic[22m variables [3mmust[23m be initialized in the declaration.
+  - It is OK if you used a slightly different but equivalent form of an
+    expression, such as [4m+= 1[24m instead of [4m++[24m.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Translate the specification below into an idiomatic Java class definition.
+
+(In this context, "idiomatic" means following the common style and conventions
+of the language.)
+
+ 1. One kind of thing that exists in our model is a [4mHiostsna[24m.
+    
+ 2. Each [4mHiostsna[24m has its own [4mhaFrooc[24m, which is a graphics object. The value of
+    [4mhaFrooc[24m starts out as an ellipse with a width of 12 and a height of 32.
+    Anyone can ask a [4mHiostsna[24m for the value of its [4mhaFrooc[24m. Anyone can set
+    [4mhaFrooc[24m to a new value.
+    
+ 3. Each [4mHiostsna[24m has its own [4mxouc[24m, which is an int. The value of [4mxouc[24m is
+    specified when a [4mHiostsna[24m is created. Anyone can ask a [4mHiostsna[24m for the
+    value of its [4mxouc[24m. The value of [4mxouc[24m for a specific [4mHiostsna[24m can never
+    change.
+    
+ 4. All [4mHiostsna[24ms share a single [4mTREOUTH[24m, which is a list of strings. It is a
+    constant. Its value is ["o", "prert"]. Other classes [1mcannot[22m see its value.
+    
+ 5. A [4mHiostsna[24m can [4mpelize[24m. This behavior moves [4mhaFrooc[24m to the right by 1 pixels
+    (using the [4mmoveBy[24m method). Anyone can ask a [4mHiostsna[24m to [4mpelize[24m.
+    
+[1m[38;5;228m[48;5;58m              [0m
+[1m[38;5;228m[48;5;58m   SOLUTION   [0m
+[1m[38;5;228m[48;5;58m              [0m
+
+    public class Hiostsna {
+        private static final List<String> TREOUTH = List.of("o", "prert");
+        private GraphicsObject haFrooc = new Ellipse(0, 0, 12, 32);
+
+        private final int xouc;
+
+        public Hiostsna(int xouc) {
+            this.xouc = xouc;
+        }
+
+        public GraphicsObject getHaFrooc() {
+            return haFrooc;
+        }
+
+        public void setHaFrooc(GraphicsObject haFrooc) {
+            this.haFrooc = haFrooc;
+        }
+
+        public int getXouc() {
+            return xouc;
+        }
+
+        public void pelize() {
+            haFrooc.moveBy(1, 0);
+        }
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+Things to check in your solution:
+
+  - Is every [4mpublic[24m and [4mprivate[24m modifier correct?
+  - Are the correct items [4mstatic[24m?
+  - Are the correct items [4mfinal[24m?
+  - Are all the variable types and method return types correct?
+  - Are the class members in the correct order? It should be: (1) static
+    variables, (2) instance variables, (3) constructors, (4) methods.
+  - Do members have the correct capitalization?
+
+Acceptable variations in the solution:
+
+  - It is OK if you initialized [1mnon-static[22m variables" in the constructor instead
+    of in the declaration. (Ask your instructor if you aren’t clear what this
+    means.) Note that [1mstatic[22m variables [3mmust[23m be initialized in the declaration.
+  - It is OK if you used a slightly different but equivalent form of an
+    expression, such as [4m+= 1[24m instead of [4m++[24m.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Translate the specification below into an idiomatic Java class definition.
+
+(In this context, "idiomatic" means following the common style and conventions
+of the language.)
+
+ 1. One kind of thing that exists in our model is a [4mWiatri[24m.
+    
+ 2. Each [4mWiatri[24m has a [4mede[24m, which is a graphics object. An [4mede[24m is part of the
+    internal state of a [4mWiatri[24m: no other classes can see the value of [4mede[24m or
+    directly change it. When a [4mWiatri[24m is first created, the value of its [4mede[24m
+    starts out as an ellipse with a width of 37 and a height of 44.
+    
+ 3. All [4mWiatri[24ms share a single [4mdesu[24m, which is a graphics object. No other
+    classes can directly ask for the value of [4mdesu[24m. The value of [4mdesu[24m starts out
+    as a rectangle with a width of 37 and a height of 20 when the program
+    starts. Every time a new [4mWiatri[24m is created, it moves [4mdesu[24m to the right by 9
+    pixels (using the [4mmoveBy[24m method).
+    
+ 4. Each [4mWiatri[24m has its own [4mnaBucus[24m, which is a list of strings. The value of
+    [4mnaBucus[24m is specified when a [4mWiatri[24m is created. Anyone can ask a [4mWiatri[24m for
+    the value of its [4mnaBucus[24m. Anyone can set [4mnaBucus[24m to a new value.
+    
+ 5. A [4mWiatri[24m can [4meerutize[24m. This behavior moves [4mede[24m to the right by 2 pixels
+    (using the [4mmoveBy[24m method). Anyone can ask a [4mWiatri[24m to [4meerutize[24m.
+    
+[1m[38;5;228m[48;5;58m              [0m
+[1m[38;5;228m[48;5;58m   SOLUTION   [0m
+[1m[38;5;228m[48;5;58m              [0m
+
+    public class Wiatri {
+        private static GraphicsObject desu = new Rectangle(0, 0, 37, 20);
+        private GraphicsObject ede = new Ellipse(0, 0, 37, 44);
+
+        private List<String> naBucus;
+
+        public Wiatri(List<String> naBucus) {
+            desu.moveBy(9, 0);
+            this.naBucus = naBucus;
+        }
+
+        public List<String> getNaBucus() {
+            return naBucus;
+        }
+
+        public void setNaBucus(List<String> naBucus) {
+            this.naBucus = naBucus;
+        }
+
+        public void eerutize() {
+            ede.moveBy(2, 0);
+        }
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+Things to check in your solution:
+
+  - Is every [4mpublic[24m and [4mprivate[24m modifier correct?
+  - Are the correct items [4mstatic[24m?
+  - Are the correct items [4mfinal[24m?
+  - Are all the variable types and method return types correct?
+  - Are the class members in the correct order? It should be: (1) static
+    variables, (2) instance variables, (3) constructors, (4) methods.
+  - Do members have the correct capitalization?
+
+Acceptable variations in the solution:
+
+  - It is OK if you initialized [1mnon-static[22m variables" in the constructor instead
+    of in the declaration. (Ask your instructor if you aren’t clear what this
+    means.) Note that [1mstatic[22m variables [3mmust[23m be initialized in the declaration.
+  - It is OK if you used a slightly different but equivalent form of an
+    expression, such as [4m+= 1[24m instead of [4m++[24m.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Translate the specification below into an idiomatic Java class definition.
+
+(In this context, "idiomatic" means following the common style and conventions
+of the language.)
+
+ 1. One kind of thing that exists in our model is a [4mCeou[24m.
+    
+ 2. Each [4mCeou[24m has a [4mnac[24m, which is a graphics object. A [4mnac[24m is part of the
+    internal state of a [4mCeou[24m: no other classes can see the value of [4mnac[24m or
+    directly change it. When a [4mCeou[24m is first created, the value of its [4mnac[24m
+    starts out as an ellipse with a width of 14 and a height of 16.
+    
+ 3. Each [4mCeou[24m has its own [4mimOs[24m, which is an int. The value of [4mimOs[24m starts out as
+    18. Anyone can ask a [4mCeou[24m for the value of its [4mimOs[24m. Anyone can set [4mimOs[24m to
+    a new value.
+    
+ 4. All [4mCeou[24ms share a single [4madIa[24m, which is a list of strings. No other classes
+    can directly ask for the value of [4madIa[24m. The value of [4madIa[24m starts out as an
+    empty mutable list when the program starts. Every time a new [4mCeou[24m is
+    created, it adds "choa" to [4madIa[24m.
+    
+ 5. Each [4mCeou[24m has a [4moss[24m, which is an int. The value of [4moss[24m is not part of a
+    [4mCeou[24m’s internal state; instead, it is computed on demand. The computed value
+    of [4moss[24m is [4mimOs[24m squared.
+    
+[1m[38;5;228m[48;5;58m              [0m
+[1m[38;5;228m[48;5;58m   SOLUTION   [0m
+[1m[38;5;228m[48;5;58m              [0m
+
+    public class Ceou {
+        private static List<String> adIa = new ArrayList<>();
+        private GraphicsObject nac = new Ellipse(0, 0, 14, 16);
+
+        private int imOs = 18;
+
+        public Ceou() {
+            adIa.add("choa");
+        }
+
+        public int getImOs() {
+            return imOs;
+        }
+
+        public void setImOs(int imOs) {
+            this.imOs = imOs;
+        }
+
+        public int getOss() {
+            return imOs * imOs;
+        }
+    }
+
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+Things to check in your solution:
+
+  - Is every [4mpublic[24m and [4mprivate[24m modifier correct?
+  - Are the correct items [4mstatic[24m?
+  - Are the correct items [4mfinal[24m?
+  - Are all the variable types and method return types correct?
+  - Are the class members in the correct order? It should be: (1) static
+    variables, (2) instance variables, (3) constructors, (4) methods.
+  - Do members have the correct capitalization?
+
+Acceptable variations in the solution:
+
+  - It is OK if you initialized [1mnon-static[22m variables" in the constructor instead
+    of in the declaration. (Ask your instructor if you aren’t clear what this
+    means.) Note that [1mstatic[22m variables [3mmust[23m be initialized in the declaration.
+  - It is OK if you used a slightly different but equivalent form of an
+    expression, such as [4m+= 1[24m instead of [4m++[24m.
+
+────────────────────────────────────────────────────────────────────────────────
+
+[0m
+Want to practice more basics first? Try a simpler puzzle:
+
+  bin/puzzle gen class --difficulty 2
+
+Want a bigger challenge? Try a harder difficulty level:
+
+  bin/puzzle gen class --difficulty 4
+

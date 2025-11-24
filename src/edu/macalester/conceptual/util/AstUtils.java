@@ -3,32 +3,23 @@ package edu.macalester.conceptual.util;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.VariableDeclarator;
-import com.github.javaparser.ast.expr.AssignExpr;
-import com.github.javaparser.ast.expr.BinaryExpr;
-import com.github.javaparser.ast.expr.BooleanLiteralExpr;
-import com.github.javaparser.ast.expr.CastExpr;
-import com.github.javaparser.ast.expr.ConditionalExpr;
-import com.github.javaparser.ast.expr.EnclosedExpr;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.InstanceOfExpr;
-import com.github.javaparser.ast.expr.IntegerLiteralExpr;
-import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import com.github.javaparser.ast.expr.UnaryExpr;
-import com.github.javaparser.ast.expr.VariableDeclarationExpr;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ExpressionStmt;
-import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.expr.*;
+import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static com.github.javaparser.StaticJavaParser.parseExpression;
+import static com.github.javaparser.StaticJavaParser.parseStatement;
 import static com.github.javaparser.ast.expr.BinaryExpr.Operator.*;
 import static com.github.javaparser.ast.expr.UnaryExpr.Operator.*;
+import static com.github.javaparser.utils.Utils.capitalize;
+import static java.util.stream.Collectors.groupingBy;
 
 /**
  * Assorted utilities for creating and working with JavaParser ASTs.
@@ -54,6 +45,61 @@ public enum AstUtils {
         return new ClassOrInterfaceDeclaration(
             AstUtils.nodes(Modifier.publicModifier()), isInterface, name);
     }
+
+    /**
+     * Adds a standard getter method for the given property name (not including the "get"), whose
+     * implementation returns the instance variable with the same name as the property.
+     *
+     * @return
+     */
+    public static MethodDeclaration addGetter(
+        ClassOrInterfaceDeclaration classDecl,
+        String type,
+        String name
+    ) {
+        return addGetter(classDecl, type, name, parseExpression(name));
+    }
+    /**
+     * Adds a getter method for the given property name that returns an arbitrary expression.
+     */
+    public static MethodDeclaration addGetter(
+        ClassOrInterfaceDeclaration classDecl,
+        String type,
+        String name,
+        Expression returnValue
+    ) {
+        var getter = classDecl.addMethod("get" + capitalize(name), Modifier.Keyword.PUBLIC);
+        getter.setType(type);
+        getter.setBody(blockOf(new ReturnStmt(returnValue)));
+        return getter;
+    }
+
+    /**
+     * Adds a standard setter method for the given property name (not including the "get"), whose
+     * implementation sets the instance variable with the same name as the property to the
+     * value of the method’s single parameter.
+     */
+    public static MethodDeclaration addSetter(
+        ClassOrInterfaceDeclaration classDecl,
+        String type,
+        String name
+    ) {
+        var setter = classDecl.addMethod("set" + capitalize(name), Modifier.Keyword.PUBLIC);
+        setter.addParameter(type, name);
+        setter.setBody(blockOf(
+            buildSetterStatement(name)
+        ));
+        return setter;
+    }
+
+    /**
+     * Generates a statement of the form `this.name = name;`. Useful for both setter methods
+     * and constructors.
+     */
+    public static Statement buildSetterStatement(String name) {
+        return parseStatement("this." + name + " = " + name + ";");
+    }
+
     /**
      * Creates an IntegerLiteralExpr for the given int value.
      */
@@ -232,5 +278,36 @@ public enum AstUtils {
 
     private static Expression replaceOperator(BinaryExpr expr, BinaryExpr.Operator operator) {
         return new BinaryExpr(expr.getLeft(), expr.getRight(), operator);
+    }
+
+    /**
+     * Reorders the member variables and methods of the given declaration to appear in standard
+     * Java order: variables, then methods, then constructors, static before instance.
+     */
+    public static void orderMembersByJavaConventions(ClassOrInterfaceDeclaration classDecl) {
+        var sortedMembers = classDecl.getMembers().stream()
+            .sorted(Comparator.comparing(
+                m -> {
+                    if (m.isFieldDeclaration()) {
+                        var field = m.asFieldDeclaration();
+                        if (field.isStatic()) {
+                            if (field.isPublic() && field.isFinal()) {
+                                return 0;  // static constants
+                            } else {
+                                return 1;  // other static vars
+                            }
+                        } else {
+                            return 2;  // instance vars
+                        }
+                    } else if (m.isConstructorDeclaration()) {
+                        return 3;
+                    } else {
+                        return 4;
+                    }
+                }
+            ))
+            .toList();
+
+        classDecl.setMembers(new NodeList<>(sortedMembers));
     }
 }

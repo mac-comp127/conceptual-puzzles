@@ -104,7 +104,6 @@ Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
     }
 
     private int te = 0;
-
     private static int fic = 0;
 }</pre>
 <ol><li>What does the main method print?</li>

@@ -1,5 +1,8 @@
 package edu.macalester.conceptual.util;
 
+import java.text.Normalizer;
+import java.util.regex.Pattern;
+
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodCallExpr;
@@ -44,6 +47,15 @@ public class Nonsense {
 
     public static String methodName(PuzzleContext ctx) {
         return words(ctx, NameFormat.LOWER_CAMEL_CASE, 3, 6, 4);
+    }
+
+    public static String verbyMethodName(PuzzleContext ctx) {
+        var name = words(ctx, NameFormat.LOWER_CAMEL_CASE, 3, 5, 3);;
+        if (name.matches(".*[aeiou]$")) {
+            name += chooseConst(ctx, "l", "t", "n");
+        }
+        name += chooseConst(ctx, "ate", "ify", "ize");
+        return name;
     }
 
     public static String methodCall(PuzzleContext ctx, String... args) {
@@ -134,6 +146,43 @@ public class Nonsense {
             return word + "s";
         }
     }
+
+    /**
+     * Scans the text for the strings "a/an" and "A/An", replacing them with the correct indefinite
+     * article for the word that follows. The following word can be wrapped in punctuation, so that
+     * for example the string "a/an `Foo`" resolves to "a `Foo`".
+     */
+    public static String resolveIndefiniteArticles(String text) {
+        var matcher = indefiniteArticlePat.matcher(text);
+        var result = new StringBuilder();
+        while (matcher.find()) {
+            var a = matcher.group(1);   // Get these from the match rather than hard-cording "a"
+            var an = matcher.group(2);  // and "an", in order to preserve case
+            var separator = matcher.group(3);
+            var nextWordFirstLetter = matcher.group(4);
+
+            String article;
+            var firstLetterWithoutDiacritics =
+                Normalizer.normalize(nextWordFirstLetter, Normalizer.Form.NFKD);
+            if (vowelPat.matcher(firstLetterWithoutDiacritics).find()) {
+                article = an;
+            } else {
+                article = a;
+            }
+
+            matcher.appendReplacement(result, article);
+            result.append(separator);
+            result.append(nextWordFirstLetter);
+        }
+        matcher.appendTail(result);
+        return result.toString();
+    }
+
+    private static final Pattern
+        indefiniteArticlePat = Pattern.compile(
+            "\\b(a)/(an)\\b([\\s\\p{Punct}]*)(\\p{IsAlphabetic})",
+            Pattern.CASE_INSENSITIVE),
+        vowelPat = Pattern.compile("[aeiou]", Pattern.CASE_INSENSITIVE);
 
     public enum NameFormat {
         LOWER_CAMEL_CASE {
