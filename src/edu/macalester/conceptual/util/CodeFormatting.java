@@ -133,6 +133,7 @@ public enum CodeFormatting {
     public static String prettify(Node node) {
         return withParensAsNeeded(node)
             .toString()
+            .replace("\r\n", "\n")  // PuzzlePrinter will renormalize for platform later if needed
             .replace(ELIDED, "...")
 
             // The javaparser library we use has very limited output customization options -- it’s
