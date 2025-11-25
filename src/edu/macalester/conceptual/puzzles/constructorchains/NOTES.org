@@ -1,3 +1,23 @@
+* notes from Paul 2025-11-25
+
+** FIXME TODO ensure that each puzzle requires you to really go up the entire chain
+
+idea: first generate the actual chain, in which each class extends the
+parent. Then come back later and sprinkle in detractors: look at a
+class, and decide whether to add a sibling, or a child.
+
+Factor out code for a single class declaration? You'd need to send list
+of superclasses and one it will extend.
+
+
+** FIXME TODO: add in possibility of a super() call! Maybe use a ChoiceDeck to choose the type
+ of traversal -- can populate it with lambdas that do various things:
+
+ - labmda that adds super() call
+ - lambda that adds object creation
+ - lambda that adds object with non-default constructor call
+
+
 * notes for puzzles on constructor chains
 
 Idea here is to have some inheritance hierarchy with various
