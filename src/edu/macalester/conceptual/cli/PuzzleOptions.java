@@ -26,7 +26,8 @@ class PuzzleOptions {
 
         parts = addOption("p", "parts", "i,j,...", "Show only parts with given numbers");
         repeat = addOption("r", "repeat", "num", "Generate <num> different puzzles");
-        difficulty = addOption("d", "difficulty", "num", "Change puzzle difficulty from default");
+        difficulty = addOption("d", "difficulty", "num", "Change puzzle difficulty from default\n" +
+            "Use -1 to see range and minimum for credit");
         includeSolutions = addOption("s", "include-solutions", "Show solutions immediately when generating puzzle");
         html = addOption(null, "html", "file", "Format output as HTML (`-` for stdout)");
         solutionHtml = addOption(null, "solution-html", "file", "Also emit solution as HTML");
@@ -37,7 +38,7 @@ class PuzzleOptions {
 
         try {
             cmd = new DefaultParser().parse(options, args);
-        } catch(ParseException e) {
+        } catch (ParseException e) {
             usageError(e.getMessage());
             throw new Error();  // unreachable, but silences warnings
         }
@@ -112,11 +113,10 @@ class PuzzleOptions {
     private Option addOption(
         String shortName,
         String longName,
-        String decsription
-    ) {
+        String description) {
         var option = Option.builder(shortName)
             .longOpt(longName)
-            .desc(decsription)
+            .desc(description)
             .build();
         options.addOption(option);
         return option;
@@ -126,8 +126,7 @@ class PuzzleOptions {
         String shortName,
         String longName,
         String argName,
-        String decsription
-    ) {
+        String decsription) {
         var option = Option.builder(shortName)
             .longOpt(longName)
             .argName(argName)

@@ -1,0 +1,86 @@
+* refactor the show, generate, solve commands
+
+each does:
+
+1. validate input
+2. turn input into data needed to perform the command
+3. do the command
+
+For 2, some refactoring can be done:
+
+generate:
+#+begin_src java
+Puzzle puzzle = Puzzle.findByName(puzzleName);
+if (puzzle == null) {
+    // bad puzzle type message to stderr
+    return;
+}
+PuzzleContext ctx = PuzzleContext.generate(
+    puzzle.id(),
+    options.difficulty() != null
+        ? options.difficulty()
+        : puzzle.goalDifficulty());
+
+applyOptionsToContext(options, ctx, puzzle, false);
+#+end_src
+
+show:
+
+#+begin_src java
+PuzzleContext ctx = PuzzleContext.fromPuzzleCode(options.commandAndArgs().get(1));
+Puzzle puzzle = Puzzle.findByID(ctx.getPuzzleID());
+if (puzzle == null) {
+    // bad puzzle code message to stderr
+    return;
+}
+applyOptionsToContext(options, ctx, puzzle, false);
+#+end_src
+
+solve:
+
+#+begin_src java
+PuzzleContext ctx = PuzzleContext.fromPuzzleCode(options.commandAndArgs().get(1));
+Puzzle puzzle = Puzzle.findByID(ctx.getPuzzleID());
+if (puzzle == null) {
+    // bad puzzle code message to stderr
+    return;
+}
+applyOptionsToContext(options, ctx, puzzle, true);
+ctx.setPuzzleTitle(puzzle.description() + ": Solution");
+#+end_src
+
+To execute the command, what does each need?
+
+- generate :: puzzle, ctx, options
+- solve :: puzzle, ctx, options
+- show :: puzzle ctx, options
+
+Plan:
+
+1. factor out the above processing logic into two overloads: one takes a
+   string (puzzle type); the other a code. Also has parameters for
+   ctx, options, and modifies those as necessary. Caller looks
+   at returned puzzle object; if null, it failed, obviously.
+2. each command then validates its input, calls getPuzzle, then actually
+   does its thing.
+3. though if the first two above are the same for all three, we could
+   factor *that* out?
+4. How do distinguish puzzle types from codes? Maybe an enum for types?
+   Or identify codes by stuffing them into a String wrapper? (But String
+   is final, right?)
+
+Did not survive first contact with the enemy:
+
+- forget overloading; at this level, we just have strings, and for the
+  moment I want to stuff the logic of lookup from type or code into the
+  factored-out methods. So just use different names, who'll probably
+  be more readable anyway
+
+* include puzzle code in html output
+
+then you can print, come back later and re-show or get a solution
+
+* codes
+
+ast:
+ az9w-8nwj-165d-axjm
