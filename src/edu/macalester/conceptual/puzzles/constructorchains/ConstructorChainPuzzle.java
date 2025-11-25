@@ -55,22 +55,36 @@ public class ConstructorChainPuzzle implements Puzzle {
         ctx.output().codeBlock(decls.declarationsCode);
 
         // FIXME: class could have more than one constructor!
-        ctx.output().paragraph("What gets printed when you create an instance of " + decls.className + "?");
+        ctx.output().paragraph(getPrompt(ctx, decls.bottomClassDeclaration));
 
         ctx.solution(() -> {
             ctx.output().codeBlock(getSolution(decls));
         });
     }
 
+    private String getPrompt(PuzzleContext ctx, ClassOrInterfaceDeclaration classDeclaration) {
+        var foo = new ChoiceDeck<>(ctx, classDeclaration.getConstructors()).draw();
+
+        String prompt = "What gets printed when you create an instance of " + classDeclaration.getName() + " ";
+        if (foo.getParameters().isEmpty()) {
+            prompt += "using the default constructor?";
+        }
+        else {
+            prompt += "using the non-default constructor with an argument of " + ctx.getRandom().nextInt(1,10) + "?";
+        }
+        return prompt;
+
+    }
+
     private String getSolution(Declarations decls) {
         return Evaluator.captureOutput(
                 CodeSnippet.build()
-                    .withMainBody("var x = new " + decls.className + "();")
+                    .withMainBody("var x = new " + decls.bottomClassDeclaration.getName() + "();")
                     .withOtherClasses(decls.declarationsCode()
                 ));
     }
 
-    private record Declarations(String declarationsCode, String className) {
+    private record Declarations(String declarationsCode, ClassOrInterfaceDeclaration bottomClassDeclaration) {
     }
 
     private Declarations generateDeclarations(PuzzleContext ctx) {
@@ -126,6 +140,7 @@ public class ConstructorChainPuzzle implements Puzzle {
                         decl.getDefaultConstructor().get().getBody().addStatement(statement);
                     }
                 }
+
                 declarationsCode.append(CodeFormatting.prettify(decl));
                 declarationsCode.append("\n\n");
 
@@ -134,7 +149,7 @@ public class ConstructorChainPuzzle implements Puzzle {
             classes.addAll(classesToAdd);
         }
 
-        return new Declarations(declarationsCode.toString(), className);
+        return new Declarations(declarationsCode.toString(), decl);
     }
 
     /**
