@@ -62,70 +62,17 @@ public class ConstructorChainPuzzle implements Puzzle {
         // FIXME: class could have more than one constructor!
         ctx.output().paragraph("What gets printed when you create an instance of " + decls.className + "?");
 
-        /*        ctx.solution(() -> {
-            ctx.output().showGraphics(
-                ctx.currentSectionTitle() + " Solution",
-                AstDrawing.of(
-                    code.ast(),
-                    ctx.currentSectionHue()));  // coordinate graphics with section heading color in console
-
-            ctx.solutionChecklist(solutionChecklist);
-        }); */
-
         ctx.solution(() -> {
-            System.out.print(getSolution(decls));
-
+            ctx.output().codeBlock(getSolution(decls));
         });
     }
 
     private String getSolution(Declarations decls) {
-        try {
-            File outputFile = File.createTempFile("CtorPuzzle", ".java");
-
-            String className = outputFile.getName();
-            className = className.substring(0, className.length() - 5);
-            StringBuilder sb = new StringBuilder();
-            sb.append(decls.declarationsCode());
-            sb.append("""
-            public class\s""");
-            sb.append(className);
-            sb.append("""
-            { 
-                 public static void main(String[] args) {
-                     var foo = new\s""");
-
-            sb.append(decls.className);
-            sb.append("(); } }\n");
-
-            var foo = new FileWriter(outputFile);
-            foo.write(sb.toString());
-            foo.close();
-
-
-            ProcessBuilder pbCompile = new ProcessBuilder("javac", outputFile.toString());
-            Process processCompile = pbCompile.start();
-            processCompile.waitFor();
-
-            // Execute
-            ProcessBuilder pbRun = new ProcessBuilder("java", className);
-            pbRun.directory(new File(outputFile.getParent()));
-            pbRun.redirectErrorStream(true);
-            Process processRun = pbRun.start();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(processRun.getInputStream()));
-            StringBuilder outputSB = new StringBuilder();
-            reader.lines().forEach(line -> { outputSB.append(line); outputSB.append("\n"); });
-//            String line;
-//            while ((line = reader.readLine()) != null) {
-//                System.out.println("Program Output: " + line);
-//            }
-
-            return outputSB.toString();
-        }
-        catch(Exception exc){
-            System.err.println("Could not generate temporary file to get solution!");
-            return "";
-        }
+        return Evaluator.captureOutput(
+                CodeSnippet.build()
+                    .withMainBody("var x = new " + decls.className + "();")
+                    .withOtherClasses(decls.declarationsCode()
+                ));
     }
 
     private record Declarations(String declarationsCode, String className) {
