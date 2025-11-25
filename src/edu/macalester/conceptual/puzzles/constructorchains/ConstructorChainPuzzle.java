@@ -3,7 +3,6 @@ package edu.macalester.conceptual.puzzles.constructorchains;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
@@ -167,41 +166,6 @@ public class ConstructorChainPuzzle implements Puzzle {
         return decl;
     }
 
-    /**
-     * Create a statement like "Bar xyz = new Thing();"
-     *
-     * @param staticTypeName  static / LHS type name -- "Bar" above
-     * @param variableName    variable name
-     * @param runtimeTypeName runtiome / RHS type -- "Thing" above
-     * @return expression statement object
-     */
-    // FIXME: would this belong in AstUtils? Paul says sure
-    // can simplify some of the code inside here using snippet from Paul,
-    // then move the rest of this to AstUtills
-    private static ExpressionStmt getObjectCreationStmt(String staticTypeName, String variableName, String runtimeTypeName) {
-        return getObjectCreationStmtWithParam(staticTypeName, variableName, runtimeTypeName, AstUtils.nodes());
-    }
-
-    // FIXME: would this belong in AstUtils?
-
-    /**
-     * Return an object creation statement with the provided (possibly empty) parameters: something like
-     *
-     *     Bar xyz = new Thing(5);
-     *
-     * @param staticTypeName - compile-time type; Bar above
-     * @param variableName - variable name; xyz above
-     * @param runtimeTypeName - dynamic type; Thing above
-     * @param params - NodeList of parameters. Use AstUtils.nodes() for no parameters.
-     * @return Expression statement
-     */
-    private static ExpressionStmt getObjectCreationStmtWithParam(String staticTypeName, String variableName, String runtimeTypeName, NodeList<Expression> params) {
-        return AstUtils.variableDeclarationStmt(
-                new VariableDeclarator(
-                        AstUtils.classNamed(staticTypeName), variableName,
-                        new ObjectCreationExpr(null, AstUtils.classNamed(runtimeTypeName), params)));
-    }
-
 
     /**
      * Maybe return a println statement for the provided message,
@@ -260,7 +224,7 @@ public class ConstructorChainPuzzle implements Puzzle {
 
             String variable = variableName(RandomWeatherPlace.getTypeName(ctx));
             System.out.println("object creation of type " + superClassName + " var name " + variable);
-            return Optional.of(getObjectCreationStmt(superClassName, variable, superClassName));
+            return Optional.of(AstUtils.getObjectCreationStmt(superClassName, variable, superClassName));
         }
         return Optional.empty();
     }
@@ -275,7 +239,7 @@ public class ConstructorChainPuzzle implements Puzzle {
             String paramString = String.valueOf(ctx.getRandom().nextInt(10, 20));
             NodeList<Expression> params = new NodeList<>(new IntegerLiteralExpr(paramString));
             String variableName = variableName(RandomWeatherPlace.getTypeName(ctx));
-            return Optional.of(getObjectCreationStmtWithParam(superClassName, variableName, superClassName, params));
+            return Optional.of(AstUtils.getObjectCreationStmtWithParam(superClassName, variableName, superClassName, params));
         }
         return Optional.empty();
     }

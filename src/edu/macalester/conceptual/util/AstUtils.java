@@ -155,6 +155,41 @@ public enum AstUtils {
     }
 
     /**
+     * Return an object creation statement with no parameters in the runtime object creation call.
+     * Something like
+     *
+     *     Bar xyz = new Thing();
+     *
+     * Just a wrapper for {@link #getObjectCreationStmtWithParam(String, String, String, NodeList<Expression>) getObjectCreationStmtWithParam} with an empty parameter NodeList.
+     *
+     * @param staticTypeName
+     * @param variableName
+     * @param runtimeTypeName
+     * @return
+     */
+    public static ExpressionStmt getObjectCreationStmt(String staticTypeName, String variableName, String runtimeTypeName) {
+        return getObjectCreationStmtWithParam(staticTypeName, variableName, runtimeTypeName, AstUtils.nodes());
+    }
+
+    /**
+     * Return an object creation statement with the provided (possibly empty) parameters: something like
+     *
+     *     Bar xyz = new Thing(5);
+     *
+     * @param staticTypeName - compile-time type; Bar above
+     * @param variableName - variable name; xyz above
+     * @param runtimeTypeName - dynamic type; Thing above
+     * @param params - NodeList of parameters. Use AstUtils.nodes() for no parameters.
+     * @return Expression statement
+     */
+    public static ExpressionStmt getObjectCreationStmtWithParam(String staticTypeName, String variableName, String runtimeTypeName, NodeList<Expression> params) {
+        return AstUtils.variableDeclarationStmt(
+                new VariableDeclarator(
+                        AstUtils.classNamed(staticTypeName), variableName,
+                        new ObjectCreationExpr(null, AstUtils.classNamed(runtimeTypeName), params)));
+    }
+
+    /**
      * Convenience for creating a NodeList.
      */
     @SafeVarargs
