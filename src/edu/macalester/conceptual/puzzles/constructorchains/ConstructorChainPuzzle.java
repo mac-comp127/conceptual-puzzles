@@ -104,15 +104,9 @@ public class ConstructorChainPuzzle implements Puzzle {
         declarationsCode.append("\n\n");
         classes.add(decl);
 
-        // FIXME TODO: Paul's approach to guarantee a certain length of the chain
-        // one needs to evaluate: generate a hierarchy in which every class calls its parent
-        // then, generate some distractors.
+        // FIXME TODO see notes.org for things to fix with the hierarchy generation
 
-        // FIXME TODO: add in possibility of a super() call! Maybe use a ChoiceDeck to choose the type
-        // of traversal -- can populate it with lambdas that do various things:
-        // - labmda that adds super() call
-        // - lambda that adds object creation
-        // - lambda that adds object with non-default constructor call
+
         for (int i = 0; i < depth; i++) {
             List<ClassOrInterfaceDeclaration> classesToAdd = new ArrayList<>();
             int numSiblings = this.params.numSiblings();
