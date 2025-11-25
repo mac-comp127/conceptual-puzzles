@@ -174,30 +174,31 @@ public class ConstructorChainPuzzle implements Puzzle {
      * @param runtimeTypeName runtiome / RHS type -- "Thing" above
      * @return expression statement object
      */
-    // FIXME: would this belong in AstUtils?
+    // FIXME: would this belong in AstUtils? Paul says sure
+    // can simplify some of the code inside here using snippet from Paul,
+    // then move the rest of this to AstUtills
     private static ExpressionStmt getObjectCreationStmt(String staticTypeName, String variableName, String runtimeTypeName) {
-
-        VariableDeclarator varDecl = new VariableDeclarator(new ClassOrInterfaceType(null, staticTypeName), variableName, new ObjectCreationExpr(null, new ClassOrInterfaceType(null, runtimeTypeName), new com.github.javaparser.ast.NodeList<>()));
-        VariableDeclarationExpr varDeclExpr = new VariableDeclarationExpr(varDecl);
-        return new ExpressionStmt(varDeclExpr);
+        return getObjectCreationStmtWithParam(staticTypeName, variableName, runtimeTypeName, AstUtils.nodes());
     }
 
-    /**
-     * Create a statement like "Bar xyz = new Thing(5);"
-     *
-     * @param staticTypeName  static / LHS type name -- "Bar" above
-     * @param variableName    variable name
-     * @param runtimeTypeName runtiome / RHS type -- "Thing" above
-     * @param param           the parameter to the object creation -- "5" above.
-     * @return expression statement object
-     */
     // FIXME: would this belong in AstUtils?
-    private static ExpressionStmt getObjectCreationStmtWithParam(String staticTypeName, String variableName, String runtimeTypeName, String param) {
 
-        NodeList<Expression> nodeList = new NodeList<>(new IntegerLiteralExpr(param));
-        VariableDeclarator varDecl = new VariableDeclarator(new ClassOrInterfaceType(null, staticTypeName), variableName, new ObjectCreationExpr(null, new ClassOrInterfaceType(null, runtimeTypeName), nodeList));
-        VariableDeclarationExpr varDeclExpr = new VariableDeclarationExpr(varDecl);
-        return new ExpressionStmt(varDeclExpr);
+    /**
+     * Return an object creation statement with the provided (possibly empty) parameters: something like
+     *
+     *     Bar xyz = new Thing(5);
+     *
+     * @param staticTypeName - compile-time type; Bar above
+     * @param variableName - variable name; xyz above
+     * @param runtimeTypeName - dynamic type; Thing above
+     * @param params - NodeList of parameters. Use AstUtils.nodes() for no parameters.
+     * @return Expression statement
+     */
+    private static ExpressionStmt getObjectCreationStmtWithParam(String staticTypeName, String variableName, String runtimeTypeName, NodeList<Expression> params) {
+        return AstUtils.variableDeclarationStmt(
+                new VariableDeclarator(
+                        AstUtils.classNamed(staticTypeName), variableName,
+                        new ObjectCreationExpr(null, AstUtils.classNamed(runtimeTypeName), params)));
     }
 
 
@@ -268,14 +269,12 @@ public class ConstructorChainPuzzle implements Puzzle {
         if (maybeSuperClass.isPresent() && this.params.addNonDefaultCtorObjectCreation()) {
             // TODO: for extra difficulty, allow static and runtime types to differ, so that the runtime type is
             // a superclass of the superclass!
-
-            // ugh, wish Java did Typescript-style control flow analysis
             var superClass = maybeSuperClass.get();
-
             var superClassName = superClass.getName().toString();
-            String param = String.valueOf(ctx.getRandom().nextInt(10, 20));
+            String paramString = String.valueOf(ctx.getRandom().nextInt(10, 20));
+            NodeList<Expression> params = new NodeList<>(new IntegerLiteralExpr(paramString));
             String variableName = variableName(RandomWeatherPlace.getTypeName(ctx));
-            return Optional.of(getObjectCreationStmtWithParam(superClassName, variableName, superClassName, param));
+            return Optional.of(getObjectCreationStmtWithParam(superClassName, variableName, superClassName, params));
         }
         return Optional.empty();
     }
