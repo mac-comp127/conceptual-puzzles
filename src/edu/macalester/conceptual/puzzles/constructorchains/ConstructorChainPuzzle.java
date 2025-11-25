@@ -342,18 +342,13 @@ public class ConstructorChainPuzzle implements Puzzle {
      * @return class declaration that has a non-default constructor
      */
     private Optional<ClassOrInterfaceDeclaration> superClassWithNonDefaultCtor(List<ClassOrInterfaceDeclaration> classes, PuzzleContext ctx) {
-        var superclassesDeck = new ChoiceDeck<>(ctx, classes);
-        ClassOrInterfaceDeclaration superClass = null;
-        while (superClass == null) {
-            if (superclassesDeck.isEmpty()) {
-                return Optional.empty();
-            }
-            var candidate = superclassesDeck.draw();
-            if (candidate.getConstructorByParameterTypes("int").isPresent()) {
-                superClass = candidate;
-            }
+        List<ClassOrInterfaceDeclaration> superClasses = classes.stream().filter(c -> c.getConstructorByParameterTypes("int").isPresent()).toList();
+        if (superClasses.isEmpty()) {
+            return Optional.empty();
         }
-        return Optional.of(superClass);
+        else {
+            return Optional.of(new ChoiceDeck<>(ctx, superClasses).draw());
+        }
     }
 
 
