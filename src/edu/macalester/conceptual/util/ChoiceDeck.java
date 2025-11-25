@@ -30,6 +30,6 @@ public class ChoiceDeck<ChoiceType> {
     }
 
     public boolean isEmpty() {
-        return deck.isEmpty();
+        return cards.isEmpty();
     }
 }
