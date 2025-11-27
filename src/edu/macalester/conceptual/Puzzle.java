@@ -25,7 +25,7 @@ import edu.macalester.conceptual.puzzles.vars.VariablesPuzzle;
 public interface Puzzle {
     /**
      * All available puzzle types. Anything listed here will show up as an option in the CLI.
-     * We create new puzzles instances from scratch every time this method is caleld to prevent
+     * We create new puzzles instances from scratch every time this method is called to prevent
      * state pollution when generating multiple puzzles in succession.
      */
     static List<Puzzle> all() {
