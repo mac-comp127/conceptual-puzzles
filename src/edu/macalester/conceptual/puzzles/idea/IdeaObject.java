@@ -1,7 +1,5 @@
 package edu.macalester.conceptual.puzzles.idea;
 
-import java.util.Objects;
-
 final class IdeaObject {
     private final IdeaClass type;
     private final int id;
@@ -11,8 +9,9 @@ final class IdeaObject {
         this.type = type;
         this.id = id;
         variableContainer = new VariableContainer(type.name());
-        variableContainer.addVariable(
-            new Variable("id", new Value.InlineValue("int", String.valueOf(id))));
+        variableContainer.addVariable(new Variable(
+            type.idProperty(),
+            new Value.InlineValue("int", String.valueOf(id))));
     }
 
     public VariableContainer variableContainer() {

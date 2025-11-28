@@ -31,7 +31,6 @@ public class StackAndHeap implements Puzzle {
     private PuzzleContext ctx;
     private List<IdeaClass> puzzleClasses;
     private int complicationsRemaining;
-    private int nextIntValue = 0;
 
     @Override
     public byte id() {
@@ -68,7 +67,7 @@ public class StackAndHeap implements Puzzle {
         this.ctx = ctx;
 
         puzzleClasses = IntStream.range(0, Math.max(2, ctx.getDifficulty()))
-            .mapToObj(n -> IdeaClass.named(Nonsense.typeName(ctx)))
+            .mapToObj(n -> IdeaClass.generate(ctx))
             .toList();
 
         complicationsRemaining = ctx.getDifficulty();
@@ -85,7 +84,7 @@ public class StackAndHeap implements Puzzle {
         );
 
         for (var aClass : puzzleClasses) {
-            ctx.output().codeBlock(aClass.decl());
+            ctx.output().codeBlock(aClass.buildDeclaration(ctx));
         }
 
         ctx.solution(() -> {
@@ -108,7 +107,7 @@ public class StackAndHeap implements Puzzle {
     ) {
         var stackFrame = new VariableContainer(name);
 
-        var methodDecl = type.decl().addMethod(name, Modifier.Keyword.PUBLIC);
+        var methodDecl = type.addMethod(name);
         var methodBody = new BlockStmt();
         methodDecl.setBody(methodBody);
 
@@ -249,7 +248,7 @@ public class StackAndHeap implements Puzzle {
             },
             () -> {
                 var varName = Nonsense.variableName(ctx);
-                var intValue = String.valueOf(nextIntValue++);
+                var intValue = String.valueOf(ctx.getRandom().nextInt(100));
                 methodBody.addStatement(
                     AstUtils.variableDeclarationStmt(
                         "int", varName, new IntegerLiteralExpr(intValue)));
@@ -330,7 +329,7 @@ public class StackAndHeap implements Puzzle {
     }
 
     private IdeaObject generateObject() {
-        return new IdeaObject(Randomness.choose(ctx, puzzleClasses), nextIntValue++);
+        return new IdeaObject(Randomness.choose(ctx, puzzleClasses), ctx.getRandom().nextInt(1000));
     }
 
     private static Expression newObjectExpr(IdeaObject obj) {
