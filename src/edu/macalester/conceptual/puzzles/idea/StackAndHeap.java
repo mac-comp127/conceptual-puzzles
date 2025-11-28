@@ -127,7 +127,7 @@ public class StackAndHeap implements Puzzle {
 
         // Local vars
 
-        int localCount = Math.max(0, 2 - stackFrame.size()) + ctx.getRandom().nextInt(0, 2);
+        int localCount = ctx.getRandom().nextInt(0, Math.max(2, 4 - stackFrame.size()));
         for(int n = 0; n < localCount; n++) {
             generateLocalVar(methodBody, stackFrame);
         }
@@ -234,7 +234,7 @@ public class StackAndHeap implements Puzzle {
 
     private void generateLocalVar(BlockStmt methodBody, VariableContainer stackFrame) {
         Runnable choice = Randomness.chooseWithProb(ctx,
-            0.8,  // 80% objects, 20% ints
+            0.7,  // mostly objects, a few ints
             () -> {
                 var varName = Nonsense.variableName(ctx);
                 var obj = generateObject();
@@ -275,16 +275,14 @@ public class StackAndHeap implements Puzzle {
                 )
             );
         }
-        for (var puzzleClass : puzzleClasses) {
-            // instance method call to a new instance
-            possibleArgs.add(() -> {
-                var obj = generateObject();
-                return new ExprAndValue(
-                    newObjectExpr(obj),
-                    new Value.Reference(obj)
-                );
-            });
-        }
+        // instance method call to a new instance
+        possibleArgs.add(() -> {
+            var obj = generateObject();
+            return new ExprAndValue(
+                newObjectExpr(obj),
+                new Value.Reference(obj)
+            );
+        });
         return new ChoiceDeck<>(ctx, possibleArgs);
     }
 
