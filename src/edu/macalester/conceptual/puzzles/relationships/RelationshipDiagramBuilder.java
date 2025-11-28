@@ -1,6 +1,5 @@
 package edu.macalester.conceptual.puzzles.relationships;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -12,13 +11,11 @@ import edu.macalester.graphics.GraphicsText;
 import edu.macalester.graphics.Path;
 import edu.macalester.graphics.Point;
 import edu.macalester.graphics.Rectangle;
-import edu.macalester.graphics.Strokable;
 
 class RelationshipDiagramBuilder {
     private final Collection<Type> includedTypes;
     private final float hue;
     private final double innerMargin = 18, spacing = 24;
-    private final double arrowWidth = 12, arrowLen = 12;
 
     public RelationshipDiagramBuilder(List<Type> includedTypes, float hue) {
         this.includedTypes = List.copyOf(includedTypes);
@@ -43,9 +40,7 @@ class RelationshipDiagramBuilder {
             0, 0,
             label.getWidth() + innerMargin * 2,
             label.getLineHeight() + innerMargin * 2);
-        box.setFillColor(Color.BLACK);
-        box.setStrokeColor(Color.GRAY);
-        box.setStrokeWidth(1);
+        DiagramUtils.applyBoxStyle(box);
         label.setCenter(box.getCenter());
         boxLayer.add(box);
         boxLayer.add(label);
@@ -133,7 +128,7 @@ class RelationshipDiagramBuilder {
 
         double pathLen = Math.max(
             minPathLen,
-            label.getWidth() + leftHookSize + innerMargin * 2 + arrowLen);
+            label.getWidth() + leftHookSize + innerMargin * 2 + DiagramUtils.ARROW_LEN);
         var endPoint = new Point(pathLen, targetY - anchor.getY() + childY);
 
         var connectingPath = new Path(
@@ -145,24 +140,14 @@ class RelationshipDiagramBuilder {
             ),
             false
         );
-        styleArrowStroke(connectingPath);
+        DiagramUtils.applyArrowStrokeStyle(connectingPath, hue);
         arrow.add(connectingPath);
 
         label.setCenter(
             pathLen / 2,
             endPoint.getY() - label.getHeight());
 
-        var arrowHead = new Path(
-            List.of(
-                endPoint.add(new Point(-arrowLen, -arrowWidth / 2)),
-                endPoint,
-                endPoint.add(new Point(-arrowLen, arrowWidth / 2))
-            ), hollowArrowhead
-        );
-        styleArrowStroke(arrowHead);
-        if (hollowArrowhead) {
-            arrowHead.setFillColor(Color.BLACK);
-        }
+        var arrowHead = DiagramUtils.makeArrowhead(endPoint, hollowArrowhead, hue);
         arrow.add(arrowHead);
 
         return arrow;
@@ -173,11 +158,6 @@ class RelationshipDiagramBuilder {
         arrow.setAnchor(0, 0);
         arrow.setRotation(-90);
         return arrow;
-    }
-
-    private void styleArrowStroke(Strokable path) {
-        path.setStrokeColor(DiagramUtils.connectingLineColor(hue));
-        path.setStrokeWidth(2);
     }
 
     private record SubtreeDiagram(

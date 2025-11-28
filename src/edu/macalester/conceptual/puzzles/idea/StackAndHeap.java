@@ -16,10 +16,12 @@ import com.github.javaparser.ast.stmt.ExpressionStmt;
 
 import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.PuzzleContext;
+import edu.macalester.conceptual.puzzles.ast.AstDrawing;
 import edu.macalester.conceptual.util.AstUtils;
 import edu.macalester.conceptual.util.ChoiceDeck;
 import edu.macalester.conceptual.util.Nonsense;
 import edu.macalester.conceptual.util.Randomness;
+import edu.macalester.graphics.GraphicsGroup;
 
 import static com.github.javaparser.ast.NodeList.nodeList;
 import static edu.macalester.conceptual.util.AstUtils.classNamed;
@@ -71,10 +73,12 @@ public class StackAndHeap implements Puzzle {
 
         complicationsRemaining = ctx.getDifficulty();
 
+        var entryPointName = Nonsense.methodName(ctx);
+
         var stack = generateMethod(
             puzzleClasses.getFirst(),
             null,  // static method
-            "entryPoint",
+            entryPointName,
             List.of(),  // no args
             ctx.getDifficulty(),
             true  // trace this branch: place marker when we reach leaf node, return stack trace
@@ -84,13 +88,11 @@ public class StackAndHeap implements Puzzle {
             ctx.output().codeBlock(aClass.decl());
         }
 
-        for (var stackFrame : stack) {
-            System.out.println(stackFrame.getTitle());
-            for (var variable : stackFrame.getVariables()) {
-                System.out.println("    " + variable.name() + ": " + variable.value().typeName());
-            }
-            System.out.println();
-        }
+        ctx.solution(() -> {
+            ctx.output().showGraphics(
+                "Solution",
+                CallStackDiagram.of(stack, ctx.currentSectionHue()));
+        });
     }
 
     /**
@@ -125,7 +127,7 @@ public class StackAndHeap implements Puzzle {
 
         // Local vars
 
-        int localCount = Math.max(0, 3 - stackFrame.size()) + ctx.getRandom().nextInt(0, 2);
+        int localCount = Math.max(0, 2 - stackFrame.size()) + ctx.getRandom().nextInt(0, 2);
         for(int n = 0; n < localCount; n++) {
             generateLocalVar(methodBody, stackFrame);
         }
