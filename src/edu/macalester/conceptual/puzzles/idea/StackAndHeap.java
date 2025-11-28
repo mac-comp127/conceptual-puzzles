@@ -130,34 +130,59 @@ public class StackAndHeap implements Puzzle {
             generateLocalVar(methodBody, stackFrame);
         }
 
-        if (callDepth <= 0) {
-            // Reached the end of the call chain
+        // Optional extraneous calls
 
-            maybeComplicate(stackFrame, methodBody, callDepth);
+        boolean complicateBefore = shouldComplicate((callDepth + 1) * 2, isBranchBeingTraced);
+        boolean complicateAfter = shouldComplicate((callDepth + 1) * 2 - 1, isBranchBeingTraced);
+
+        if (complicateBefore) {
+            addComplication(stackFrame, methodBody, callDepth);
+        }
+
+        // Generate either the next call in the chain or the leaf node of this chain
+
+        var result = new ArrayList<VariableContainer>();
+        result.add(stackFrame);
+
+        if (callDepth <= 0) {
+            // We've reached the end of the call chain
             if (isBranchBeingTraced) {
                 methodBody.addStatement(new ExpressionStmt(new NameExpr("___HERE___")));
             }
-            maybeComplicate(stackFrame, methodBody, callDepth);
-            return List.of(stackFrame);
         } else {
-            // Generate method call
-
-            maybeComplicate(stackFrame, methodBody, callDepth);
-            var calleeStack = generateMethodAndCall(stackFrame, methodBody, callDepth, isBranchBeingTraced);
-            maybeComplicate(stackFrame, methodBody, callDepth);
-
-            var result = new ArrayList<VariableContainer>(calleeStack.size() + 1);
-            result.add(stackFrame);
+            // Generate next method call in chain
+            var calleeStack = generateMethodAndCall(
+                stackFrame, methodBody, callDepth, isBranchBeingTraced);
             result.addAll(calleeStack);
-            return result;
         }
+
+        // Optional extraneous call after the real one
+
+        if (complicateAfter) {
+            addComplication(stackFrame, methodBody, callDepth);
+        }
+
+        return result;
     }
 
-    private void maybeComplicate(VariableContainer stackFrame, BlockStmt methodBody, int callDepth) {
-        if (ctx.getRandom().nextFloat() < complicationsRemaining / (callDepth + 1f)) {
+    private boolean shouldComplicate(int callsRemaining, boolean isBranchBeingTraced) {
+        if (
+            isBranchBeingTraced
+            && ctx.getRandom().nextFloat() < (float) complicationsRemaining / callsRemaining
+        ) {
             complicationsRemaining--;
-            generateMethodAndCall(stackFrame, methodBody, callDepth / 2, false);
+            return true;
         }
+        return false;
+    }
+
+    private void addComplication(
+        VariableContainer stackFrame,
+        BlockStmt methodBody,
+        int callDepth
+    ) {
+        generateMethodAndCall(stackFrame, methodBody, callDepth / 2, false);
+        // Note that we ignore the returned stack trace: this isn't a call we're visualizing!
     }
 
     private List<VariableContainer> generateMethodAndCall(
@@ -195,7 +220,7 @@ public class StackAndHeap implements Puzzle {
 
         // Generate method to be called
 
-        var calleeStack = generateMethod(
+        return generateMethod(
             nextReceiver.type(),
             nextReceiver.object(),
             nextMethodName,
@@ -203,7 +228,6 @@ public class StackAndHeap implements Puzzle {
             callDepth - 1,
             isBranchBeingTraced
         );
-        return calleeStack;
     }
 
     private void generateLocalVar(BlockStmt methodBody, VariableContainer stackFrame) {
