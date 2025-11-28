@@ -20,10 +20,10 @@ class CallStackDiagram {
     private final Map<VariableContainer, GraphicsObject> boxes = new HashMap<>();
     private final Map<Integer, GraphicsGroup> columns = new HashMap<>();
     private final Map<GraphicsObject, List<GraphicsObject>> incomingConnections = new HashMap<>();
-    private final float hue;
     private final double marginX = 18, marginY = 12;
     private final double columnWidth = 240;
     private final double baseline;
+    private float hue;
 
     public static GraphicsObject of(List<VariableContainer> stack, float hue) {
         return new CallStackDiagram(stack, hue).getGraphics();
@@ -162,6 +162,7 @@ class CallStackDiagram {
                 DiagramUtils.applyArrowStrokeStyle(path, hue);
                 graphics.add(path);
                 graphics.add(DiagramUtils.makeArrowhead(endPoint, false, hue));
+                hue = (hue + 0.382f) % 1;
             }
         }
     }

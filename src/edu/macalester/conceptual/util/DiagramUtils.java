@@ -45,21 +45,25 @@ public class DiagramUtils {
 
     public static void applyArrowLabelFont(GraphicsText label, float hue) {
         label.setFont("Helvetica Neue, Tahoma, sans serif", FontStyle.ITALIC, 18);
-        label.setFillColor(connectingLineColor(hue));
+        label.setFillColor(connectingLineColor(hue, true));
     }
 
     public static Color connectingLineColor(float hue) {
-        return Color.getHSBColor(hue, 0.2f, 0.7f);
+        return connectingLineColor(hue, false);
+    }
+
+    public static Color connectingLineColor(float hue, boolean brighter) {
+        return Color.getHSBColor(hue, 0.5f, brighter ? 1.0f : 0.8f);
     }
 
     public static <GraphicsType extends Fillable & Strokable> void applyBoxStyle(GraphicsType box) {
         box.setFillColor(Color.BLACK);
-        box.setStrokeColor(Color.GRAY);
+        box.setStrokeColor(Color.LIGHT_GRAY);
         box.setStrokeWidth(1);
     }
 
     public static void applyDividerStyle(Strokable divider) {
-        divider.setStrokeColor(Color.DARK_GRAY);
+        divider.setStrokeColor(Color.GRAY);
         divider.setStrokeWidth(1);
     }
 }
