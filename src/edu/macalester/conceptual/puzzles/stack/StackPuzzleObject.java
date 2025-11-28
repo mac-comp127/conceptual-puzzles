@@ -11,7 +11,7 @@ final class StackPuzzleObject {
         variableContainer = new VariableContainer(type.name());
         variableContainer.addVariable(new Variable(
             type.idProperty(),
-            new Value.InlineValue("int", String.valueOf(id))));
+            Value.makeIntValue(String.valueOf(id))));
     }
 
     public VariableContainer variableContainer() {

@@ -19,6 +19,7 @@ import edu.macalester.conceptual.util.AstUtils;
 import edu.macalester.conceptual.util.ChoiceDeck;
 import edu.macalester.conceptual.util.Nonsense;
 import edu.macalester.conceptual.util.Randomness;
+import edu.macalester.graphics.CanvasWindow;
 
 import static com.github.javaparser.ast.NodeList.nodeList;
 import static edu.macalester.conceptual.util.AstUtils.classNamed;
@@ -27,7 +28,7 @@ import static edu.macalester.conceptual.util.AstUtils.nodes;
 public class StackAndHeapPuzzle implements Puzzle {
     private PuzzleContext ctx;
     private List<StackPuzzleClass> puzzleClasses;
-    private int complicationsRemaining;
+    private int objectsRemaining, complicationsRemaining;
 
     @Override
     public byte id() {
@@ -67,6 +68,7 @@ public class StackAndHeapPuzzle implements Puzzle {
             .mapToObj(n -> StackPuzzleClass.generate(ctx))
             .toList();
 
+        objectsRemaining = ctx.getDifficulty() + 2;
         complicationsRemaining = ctx.getDifficulty();
 
         var entryPointName = Nonsense.methodName(ctx);
@@ -230,7 +232,8 @@ public class StackAndHeapPuzzle implements Puzzle {
 
     private void generateLocalVar(BlockStmt methodBody, VariableContainer stackFrame) {
         Runnable choice = Randomness.chooseWithProb(ctx,
-            0.7,  // mostly objects, a few ints
+            // mostly objects, a few ints...unless we've made a lot of objects already
+            (objectsRemaining > 0) ? 0.7 : 0,
             () -> {
                 var varName = Nonsense.variableName(ctx);
                 var obj = generateObject();
@@ -250,7 +253,7 @@ public class StackAndHeapPuzzle implements Puzzle {
                     AstUtils.variableDeclarationStmt(
                         "int", varName, new IntegerLiteralExpr(intValue)));
                 stackFrame.addVariable(new Variable(
-                    varName, new Value.InlineValue("int", intValue)));
+                    varName, Value.makeIntValue(intValue)));
             }
         );
         choice.run();
@@ -271,14 +274,26 @@ public class StackAndHeapPuzzle implements Puzzle {
                 )
             );
         }
-        // instance method call to a new instance
-        possibleArgs.add(() -> {
-            var obj = generateObject();
-            return new ExprAndValue(
-                newObjectExpr(obj),
-                new Value.Reference(obj)
-            );
-        });
+        if (objectsRemaining > 0) {
+            // instance method call to a new instance
+            possibleArgs.add(() -> {
+                var obj = generateObject();
+                return new ExprAndValue(
+                    newObjectExpr(obj),
+                    new Value.Reference(obj)
+                );
+            });
+        }
+        if (possibleArgs.isEmpty() || ctx.getRandom().nextFloat() < 0.2) {
+            // pass an int constant
+            possibleArgs.add(() -> {
+                var intValue = String.valueOf(ctx.getRandom().nextInt(100));
+                return new ExprAndValue(
+                    new IntegerLiteralExpr(intValue),
+                    Value.makeIntValue(intValue)
+                );
+            });
+        }
         return new ChoiceDeck<>(ctx, possibleArgs);
     }
 
@@ -303,15 +318,17 @@ public class StackAndHeapPuzzle implements Puzzle {
             }
         }
         for (var puzzleClass : puzzleClasses) {
-            // instance method call to a new instance
-            possibleReceivers.add(() -> {
-                var obj = generateObject();
-                return new MethodCallReceiver(
-                    newObjectExpr(obj),
-                    puzzleClass,
-                    obj
-                );
-            });
+            if (objectsRemaining > 0) {
+                // instance method call to a new instance
+                possibleReceivers.add(() -> {
+                    var obj = generateObject();
+                    return new MethodCallReceiver(
+                        newObjectExpr(obj),
+                        puzzleClass,
+                        obj
+                    );
+                });
+            }
 
             // static method call
             possibleReceivers.add(() ->
@@ -326,7 +343,11 @@ public class StackAndHeapPuzzle implements Puzzle {
     }
 
     private StackPuzzleObject generateObject() {
-        return new StackPuzzleObject(Randomness.choose(ctx, puzzleClasses), ctx.getRandom().nextInt(1000));
+        objectsRemaining--;
+        return new StackPuzzleObject(
+            Randomness.choose(ctx, puzzleClasses),
+            ctx.getRandom().nextInt(1000)
+        );
     }
 
     private static Expression newObjectExpr(StackPuzzleObject obj) {

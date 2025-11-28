@@ -21,4 +21,8 @@ interface Value {
             return object.type().name();
         }
     }
+
+    static InlineValue makeIntValue(String n) {
+        return new InlineValue("int", n);
+    }
 }
