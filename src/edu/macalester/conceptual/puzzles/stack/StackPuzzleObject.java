@@ -1,11 +1,11 @@
-package edu.macalester.conceptual.puzzles.idea;
+package edu.macalester.conceptual.puzzles.stack;
 
-final class IdeaObject {
-    private final IdeaClass type;
+final class StackPuzzleObject {
+    private final StackPuzzleClass type;
     private final int id;
     private final VariableContainer variableContainer;
 
-    IdeaObject(IdeaClass type, int id) {
+    StackPuzzleObject(StackPuzzleClass type, int id) {
         this.type = type;
         this.id = id;
         variableContainer = new VariableContainer(type.name());
@@ -18,7 +18,7 @@ final class IdeaObject {
         return variableContainer;
     }
 
-    public IdeaClass type() {
+    public StackPuzzleClass type() {
         return type;
     }
 

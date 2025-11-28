@@ -1,6 +1,4 @@
-package edu.macalester.conceptual.puzzles.idea;
-
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+package edu.macalester.conceptual.puzzles.stack;
 
 interface Value {
     String typeName();
@@ -16,7 +14,7 @@ interface Value {
     }
 
     record Reference(
-        IdeaObject object
+        StackPuzzleObject object
     ) implements Value {
         @Override
         public String typeName() {

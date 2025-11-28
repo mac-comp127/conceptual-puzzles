@@ -1,11 +1,10 @@
-package edu.macalester.conceptual.puzzles.idea;
+package edu.macalester.conceptual.puzzles.stack;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
-import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
@@ -16,20 +15,18 @@ import com.github.javaparser.ast.stmt.ExpressionStmt;
 
 import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.PuzzleContext;
-import edu.macalester.conceptual.puzzles.ast.AstDrawing;
 import edu.macalester.conceptual.util.AstUtils;
 import edu.macalester.conceptual.util.ChoiceDeck;
 import edu.macalester.conceptual.util.Nonsense;
 import edu.macalester.conceptual.util.Randomness;
-import edu.macalester.graphics.GraphicsGroup;
 
 import static com.github.javaparser.ast.NodeList.nodeList;
 import static edu.macalester.conceptual.util.AstUtils.classNamed;
 import static edu.macalester.conceptual.util.AstUtils.nodes;
 
-public class StackAndHeap implements Puzzle {
+public class StackAndHeapPuzzle implements Puzzle {
     private PuzzleContext ctx;
-    private List<IdeaClass> puzzleClasses;
+    private List<StackPuzzleClass> puzzleClasses;
     private int complicationsRemaining;
 
     @Override
@@ -39,7 +36,7 @@ public class StackAndHeap implements Puzzle {
 
     @Override
     public String name() {
-        return "idea";
+        return "stack";
     }
 
     @Override
@@ -67,7 +64,7 @@ public class StackAndHeap implements Puzzle {
         this.ctx = ctx;
 
         puzzleClasses = IntStream.range(0, Math.max(2, ctx.getDifficulty()))
-            .mapToObj(n -> IdeaClass.generate(ctx))
+            .mapToObj(n -> StackPuzzleClass.generate(ctx))
             .toList();
 
         complicationsRemaining = ctx.getDifficulty();
@@ -98,8 +95,8 @@ public class StackAndHeap implements Puzzle {
      * Returns the stack trace that reaches the target marker.
      */
     private List<VariableContainer> generateMethod(
-        IdeaClass type,
-        IdeaObject receiver,  // null if static method
+        StackPuzzleClass type,
+        StackPuzzleObject receiver,  // null if static method
         String name,
         List<Value> args,
         int callDepth,
@@ -287,8 +284,8 @@ public class StackAndHeap implements Puzzle {
 
     private record MethodCallReceiver(
         Expression expression,
-        IdeaClass type,
-        IdeaObject object  // null if static method
+        StackPuzzleClass type,
+        StackPuzzleObject object  // null if static method
     ) { }
 
     private MethodCallReceiver chooseMethodCallReceiver(VariableContainer stackFrame) {
@@ -328,11 +325,11 @@ public class StackAndHeap implements Puzzle {
         return Randomness.choose(ctx, possibleReceivers).get();
     }
 
-    private IdeaObject generateObject() {
-        return new IdeaObject(Randomness.choose(ctx, puzzleClasses), ctx.getRandom().nextInt(1000));
+    private StackPuzzleObject generateObject() {
+        return new StackPuzzleObject(Randomness.choose(ctx, puzzleClasses), ctx.getRandom().nextInt(1000));
     }
 
-    private static Expression newObjectExpr(IdeaObject obj) {
+    private static Expression newObjectExpr(StackPuzzleObject obj) {
         return new ObjectCreationExpr(
             null,
             classNamed(obj.type().name()),

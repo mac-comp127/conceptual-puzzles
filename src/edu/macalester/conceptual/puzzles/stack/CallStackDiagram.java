@@ -1,4 +1,4 @@
-package edu.macalester.conceptual.puzzles.idea;
+package edu.macalester.conceptual.puzzles.stack;
 
 import java.awt.Color;
 import java.util.ArrayList;

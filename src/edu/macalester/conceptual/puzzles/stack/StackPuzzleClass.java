@@ -1,4 +1,4 @@
-package edu.macalester.conceptual.puzzles.idea;
+package edu.macalester.conceptual.puzzles.stack;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -17,13 +17,13 @@ import edu.macalester.conceptual.util.Randomness;
 
 import static com.github.javaparser.ast.Modifier.createModifierList;
 
-record IdeaClass(
+record StackPuzzleClass(
     String name,
     String idProperty,
     List<MethodDeclaration> methods
 ) {
-    static IdeaClass generate(PuzzleContext ctx) {
-        return new IdeaClass(
+    static StackPuzzleClass generate(PuzzleContext ctx) {
+        return new StackPuzzleClass(
             Nonsense.shortTypeName(ctx),
             Nonsense.propertyName(ctx),
             new ArrayList<>()
