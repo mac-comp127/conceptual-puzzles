@@ -78,15 +78,43 @@ public class StackAndHeapPuzzle implements Puzzle {
         complicationsRemaining = ctx.getDifficulty();
         propAssignmentsRemaining = 1 + ctx.getDifficulty() / 2;
 
-        var entryPointName = Nonsense.methodName(ctx);
+        var entryPointClass = puzzleClasses.getFirst();
+        var entryPointMethod = Nonsense.methodName(ctx);
 
         var stack = generateMethod(
-            puzzleClasses.getFirst(),
+            entryPointClass,
             null,  // static method
-            entryPointName,
+            entryPointMethod,
             List.of(),  // no args
             ctx.getDifficulty(),
             true  // trace this branch: place marker when we reach leaf node, return stack trace
+        );
+
+        ctx.output().paragraph("Given the code below, this method call:");
+        ctx.output().codeBlock(entryPointClass + "." + entryPointMethod + "();");
+        ctx.output().paragraph("...will eventually reach the point marked ___HERE___.");
+        ctx.output().paragraph(
+            """
+            Draw a diagram of the stack frames and objects (not classes, but _objects_) that exist
+            at that point. In your diagram:
+            """
+        );
+        ctx.output().bulletList(
+            "Label each stack frame with the name of the method.",
+            "Label each object with the name of its class.",
+            """
+            Include the names of all the variables that belong to each object and stack frame,
+            including the implicit `this` parameter if present.
+            (You do not need to write the types of any variables.)
+            """,
+            """
+            When a variable's value is null or a primitive, write the value immediately next to the
+            variable.
+            """,
+            """
+            When a variable points to an object, draw an arrow from the variable to the object it
+            points to.
+            """
         );
 
         for (var aClass : puzzleClasses) {

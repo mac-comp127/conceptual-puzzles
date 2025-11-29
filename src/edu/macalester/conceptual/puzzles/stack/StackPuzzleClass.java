@@ -76,4 +76,9 @@ record StackPuzzleClass(
             return AstUtils.setterName(name());
         }
     }
+
+    @Override
+    public String toString() {
+        return name();
+    }
 }

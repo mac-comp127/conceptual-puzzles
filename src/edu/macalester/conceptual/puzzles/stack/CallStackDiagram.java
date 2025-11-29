@@ -134,7 +134,7 @@ class CallStackDiagram {
     }
 
     private void addConnection(GraphicsObject from, GraphicsObject to) {
-        var toIdentity = new IdentityKey(to);
+        var toIdentity = new IdentityKey<>(to);
         incomingConnections
             .computeIfAbsent(toIdentity, __ -> new ArrayList<>())
             .add(from);
