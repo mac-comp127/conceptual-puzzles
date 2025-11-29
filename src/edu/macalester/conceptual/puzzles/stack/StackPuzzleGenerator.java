@@ -108,7 +108,24 @@ class StackPuzzleGenerator {
         ctx.solution(() -> {
             ctx.output().showGraphics(
                 "Solution",
-                CallStackDiagram.of(stack, ctx.currentSectionHue()));
+                CallStackDiagram.of(stack, ctx.currentSectionHue())
+            );
+
+            ctx.output().paragraph("Hints for practicing this puzzle:");
+            ctx.output().bulletList(
+                """
+                Practice with difficulty 0, then work your way up. This will help you get a handle
+                on what the puzzle is asking.
+                """,
+                """
+                There is only one path through the code from the starting method call to ___HERE___.
+                Start by finding that path.
+                """,
+                """
+                Be thorough. Double check that you've fully diagrammed each step before you move on
+                to the next one.
+                """
+            );
         });
     }
 
