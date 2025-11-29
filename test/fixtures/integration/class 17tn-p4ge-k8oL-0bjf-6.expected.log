@@ -32,7 +32,6 @@ of the language.)
     public class Staice {
         public static final String THIOCMI = "um";
         private final String featu;
-
         private List<String> eersa = new ArrayList<>();
 
         public Staice(String featu) {
@@ -104,7 +103,6 @@ of the language.)
     public class Twad {
         private static int foOrci = 7;
         private GraphicsObject lunre = new Rectangle(0, 0, 34, 24);
-
         private GraphicsObject eteur = new Rectangle(0, 0, 38, 10);
 
         public Twad() {
@@ -179,7 +177,6 @@ of the language.)
     public class LelInses {
         private List<String> sirod = new ArrayList<>();
         private final GraphicsObject baMi;
-
         private List<String> cePogin = new ArrayList<>();
 
         public LelInses(GraphicsObject baMi) {
@@ -257,7 +254,6 @@ of the language.)
     public class Hiostsna {
         private static final List<String> TREOUTH = List.of("o", "prert");
         private GraphicsObject haFrooc = new Ellipse(0, 0, 12, 32);
-
         private final int xouc;
 
         public Hiostsna(int xouc) {
@@ -337,7 +333,6 @@ of the language.)
     public class Wiatri {
         private static GraphicsObject desu = new Rectangle(0, 0, 37, 20);
         private GraphicsObject ede = new Ellipse(0, 0, 37, 44);
-
         private List<String> naBucus;
 
         public Wiatri(List<String> naBucus) {
@@ -414,7 +409,6 @@ of the language.)
     public class Ceou {
         private static List<String> adIa = new ArrayList<>();
         private GraphicsObject nac = new Ellipse(0, 0, 14, 16);
-
         private int imOs = 18;
 
         public Ceou() {

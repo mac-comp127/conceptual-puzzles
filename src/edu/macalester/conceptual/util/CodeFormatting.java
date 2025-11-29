@@ -146,6 +146,6 @@ public enum CodeFormatting {
 
             // - Remove blank lines between fields:
             //   (Would be nice to keep space between static and instance vars, but...good enough!)
-            .replaceAll("([^}])\n\n( *(public|private) [^(]+?(;| = .*;))", "$1\n$2");
+            .replaceAll("(?<=[^}])\n\n( *(public|private) [^(]+?(;| = .*;))", "\n$1");
     }
 }
