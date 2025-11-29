@@ -30,4 +30,8 @@ class VariableContainer {
     public int size() {
         return variables.size();
     }
+
+    public void clear() {
+        variables.clear();
+    }
 }

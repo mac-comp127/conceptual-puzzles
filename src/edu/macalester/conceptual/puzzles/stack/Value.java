@@ -4,12 +4,12 @@ interface Value {
     String typeName();
 
     record InlineValue(
-        String primitiveTypeName,
+        String typeName,
         String value
     ) implements Value {
         @Override
         public String typeName() {
-            return primitiveTypeName;
+            return typeName;
         }
     }
 
@@ -24,5 +24,9 @@ interface Value {
 
     static InlineValue makeIntValue(String n) {
         return new InlineValue("int", n);
+    }
+
+    static Value makeNullValue(StackPuzzleClass type) {
+        return new InlineValue(type.name(), "null");
     }
 }

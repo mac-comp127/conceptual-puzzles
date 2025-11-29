@@ -19,7 +19,6 @@ import edu.macalester.conceptual.util.AstUtils;
 import edu.macalester.conceptual.util.ChoiceDeck;
 import edu.macalester.conceptual.util.Nonsense;
 import edu.macalester.conceptual.util.Randomness;
-import edu.macalester.graphics.CanvasWindow;
 
 import static com.github.javaparser.ast.NodeList.nodeList;
 import static edu.macalester.conceptual.util.AstUtils.classNamed;
@@ -28,7 +27,7 @@ import static edu.macalester.conceptual.util.AstUtils.nodes;
 public class StackAndHeapPuzzle implements Puzzle {
     private PuzzleContext ctx;
     private List<StackPuzzleClass> puzzleClasses;
-    private int objectsRemaining, complicationsRemaining;
+    private int objectsRemaining, complicationsRemaining, propAssignmentsRemaining;
 
     @Override
     public byte id() {
@@ -57,19 +56,27 @@ public class StackAndHeapPuzzle implements Puzzle {
 
     @Override
     public byte maxDifficulty() {
-        return 30;
+        return 10;
     }
 
     @Override
     public void generate(PuzzleContext ctx) {
         this.ctx = ctx;
 
-        puzzleClasses = IntStream.range(0, Math.max(2, ctx.getDifficulty()))
+        puzzleClasses = IntStream.range(0, Math.max(2, ctx.getDifficulty() / 3))
             .mapToObj(n -> StackPuzzleClass.generate(ctx))
             .toList();
 
+        int propertyCount = ctx.getDifficulty() * puzzleClasses.size() / 2;
+        for(int n = 0; n < propertyCount; n++) {
+            var puzzleClass = Randomness.choose(ctx, puzzleClasses);
+            var propType = Randomness.choose(ctx, puzzleClasses);
+            puzzleClass.addProperty(Nonsense.shortPropertyName(ctx), propType);
+        }
+
         objectsRemaining = ctx.getDifficulty() + 2;
         complicationsRemaining = ctx.getDifficulty();
+        propAssignmentsRemaining = 1 + ctx.getDifficulty() / 2;
 
         var entryPointName = Nonsense.methodName(ctx);
 
@@ -125,9 +132,10 @@ public class StackAndHeapPuzzle implements Puzzle {
 
         // Local vars
 
-        int localCount = ctx.getRandom().nextInt(0, Math.max(2, 4 - stackFrame.size()));
+        int maxLocals = 2 + Math.min(4, ctx.getDifficulty()) - stackFrame.size();
+        int localCount = ctx.getRandom().nextInt(0, Math.max(1, maxLocals));
         for(int n = 0; n < localCount; n++) {
-            generateLocalVar(methodBody, stackFrame);
+            generateLocalVar(methodBody, stackFrame, isBranchBeingTraced);
         }
 
         // Optional extraneous calls
@@ -137,6 +145,16 @@ public class StackAndHeapPuzzle implements Puzzle {
 
         if (complicateBefore) {
             addComplication(stackFrame, methodBody, callDepth);
+        }
+
+        if (propAssignmentsRemaining > 0 && isBranchBeingTraced) {
+            for(int attempt = 0; attempt < 3; attempt++) {
+                var allowSelfConnection = attempt > 1;
+                if (addPropertyAssignment(stackFrame, methodBody, allowSelfConnection)) {
+                    propAssignmentsRemaining--;
+                    break;
+                }
+            }
         }
 
         // Generate either the next call in the chain or the leaf node of this chain
@@ -185,6 +203,55 @@ public class StackAndHeapPuzzle implements Puzzle {
         // Note that we ignore the returned stack trace: this isn't a call we're visualizing!
     }
 
+    private boolean addPropertyAssignment(
+        VariableContainer stackFrame,
+        BlockStmt methodBody,
+        boolean allowSelfConnection
+    ) {
+        // Pick a random available variable whose value is an object (and not null)
+
+        var varsWithObjectValue = stackFrame.getVariables().stream()
+            .filter(v -> v.value() instanceof Value.Reference)
+            .toList();
+        if (varsWithObjectValue.isEmpty()) {
+            return false;
+        }
+        var lhsVar = Randomness.choose(ctx, varsWithObjectValue);
+        var lhsObj = ((Value.Reference) lhsVar.value()).object();
+        var lhsType = lhsObj.type();
+
+        // Pick a random property from that type
+
+        if (lhsType.properties().isEmpty()) {
+            return false;
+        }
+        var lhsProp = Randomness.choose(ctx, lhsType.properties());
+
+        // Pick a random available value we can assign to that property
+
+        var availableRhsVars = varsWithObjectValue.stream()
+            .filter(v -> v.value().typeName().equals(lhsProp.type().name()))
+            .filter(v -> allowSelfConnection || ((Value.Reference) v.value()).object() != lhsObj)
+            .toList();
+        if (availableRhsVars.isEmpty()) {
+            return false;
+        }
+        var rhsVar = Randomness.choose(ctx, availableRhsVars);
+
+        // Assign it!
+
+        methodBody.addStatement(
+            new MethodCallExpr(
+                new NameExpr(lhsVar.name()),
+                lhsProp.setterName(),
+                nodes(new NameExpr(rhsVar.name()))
+            )
+        );
+        lhsObj.setProperty(lhsProp, (Value.Reference) rhsVar.value());
+
+        return true;
+    }
+
     private List<VariableContainer> generateMethodAndCall(
         VariableContainer stackFrame,
         BlockStmt methodBody,
@@ -193,16 +260,16 @@ public class StackAndHeapPuzzle implements Puzzle {
     ) {
         // Choose receiver next method call
 
-        var nextReceiver = chooseMethodCallReceiver(stackFrame);
+        var nextReceiver = chooseMethodCallReceiver(stackFrame, isBranchBeingTraced);
 
         // Generate args for next method call
 
-        var exprChoices = gatherExprChoices(stackFrame);
+        var exprChoices = gatherExprChoices(stackFrame, isBranchBeingTraced);
         var nextArgs = IntStream.range(0, ctx.getRandom().nextInt(0, 4))
             .mapToObj(i -> exprChoices.draw().get())
             .toList();
 
-        // Generate next method call
+        // Call the new method
 
         var nextMethodName = Nonsense.methodName(ctx);
 
@@ -218,7 +285,7 @@ public class StackAndHeapPuzzle implements Puzzle {
             )
         ));
 
-        // Generate method to be called
+        // Declare the new method
 
         return generateMethod(
             nextReceiver.type(),
@@ -230,13 +297,17 @@ public class StackAndHeapPuzzle implements Puzzle {
         );
     }
 
-    private void generateLocalVar(BlockStmt methodBody, VariableContainer stackFrame) {
+    private void generateLocalVar(
+        BlockStmt methodBody,
+        VariableContainer stackFrame,
+        boolean isBranchBeingTraced
+    ) {
         Runnable choice = Randomness.chooseWithProb(ctx,
             // mostly objects, a few ints...unless we've made a lot of objects already
             (objectsRemaining > 0) ? 0.7 : 0,
             () -> {
                 var varName = Nonsense.variableName(ctx);
-                var obj = generateObject();
+                var obj = generateObject(isBranchBeingTraced);
                 methodBody.addStatement(
                     AstUtils.variableDeclarationStmt(
                         obj.type().name(),
@@ -264,7 +335,10 @@ public class StackAndHeapPuzzle implements Puzzle {
         Value value
     ) { }
 
-    private ChoiceDeck<Supplier<ExprAndValue>> gatherExprChoices(VariableContainer stackFrame) {
+    private ChoiceDeck<Supplier<ExprAndValue>> gatherExprChoices(
+        VariableContainer stackFrame,
+        boolean isBranchBeingTraced
+    ) {
         var possibleArgs = new ArrayList<Supplier<ExprAndValue>>();
         for (var variable : stackFrame.getVariables()) {
             possibleArgs.add(() ->
@@ -277,7 +351,7 @@ public class StackAndHeapPuzzle implements Puzzle {
         if (objectsRemaining > 0) {
             // instance method call to a new instance
             possibleArgs.add(() -> {
-                var obj = generateObject();
+                var obj = generateObject(isBranchBeingTraced);
                 return new ExprAndValue(
                     newObjectExpr(obj),
                     new Value.Reference(obj)
@@ -303,7 +377,10 @@ public class StackAndHeapPuzzle implements Puzzle {
         StackPuzzleObject object  // null if static method
     ) { }
 
-    private MethodCallReceiver chooseMethodCallReceiver(VariableContainer stackFrame) {
+    private MethodCallReceiver chooseMethodCallReceiver(
+        VariableContainer stackFrame,
+        boolean isBranchBeingTraced
+    ) {
         var possibleReceivers = new ArrayList<Supplier<MethodCallReceiver>>();
         for (var variable : stackFrame.getVariables()) {
             if (variable.value() instanceof Value.Reference ref) {
@@ -321,7 +398,7 @@ public class StackAndHeapPuzzle implements Puzzle {
             if (objectsRemaining > 0) {
                 // instance method call to a new instance
                 possibleReceivers.add(() -> {
-                    var obj = generateObject();
+                    var obj = generateObject(isBranchBeingTraced);
                     return new MethodCallReceiver(
                         newObjectExpr(obj),
                         puzzleClass,
@@ -342,8 +419,10 @@ public class StackAndHeapPuzzle implements Puzzle {
         return Randomness.choose(ctx, possibleReceivers).get();
     }
 
-    private StackPuzzleObject generateObject() {
-        objectsRemaining--;
+    private StackPuzzleObject generateObject(boolean isBranchBeingTraced) {
+        if (isBranchBeingTraced) {
+            objectsRemaining--;  // doesn't count if it won't be in the diagram
+        }
         return new StackPuzzleObject(
             Randomness.choose(ctx, puzzleClasses),
             ctx.getRandom().nextInt(1000)

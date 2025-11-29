@@ -68,10 +68,14 @@ public enum AstUtils {
         String name,
         Expression returnValue
     ) {
-        var getter = classDecl.addMethod("get" + capitalize(name), Modifier.Keyword.PUBLIC);
+        var getter = classDecl.addMethod(getterName(name), Modifier.Keyword.PUBLIC);
         getter.setType(type);
         getter.setBody(blockOf(new ReturnStmt(returnValue)));
         return getter;
+    }
+
+    public static String getterName(String propName) {
+        return "get" + capitalize(propName);
     }
 
     /**
@@ -84,12 +88,16 @@ public enum AstUtils {
         String type,
         String name
     ) {
-        var setter = classDecl.addMethod("set" + capitalize(name), Modifier.Keyword.PUBLIC);
+        var setter = classDecl.addMethod(setterName(name), Modifier.Keyword.PUBLIC);
         setter.addParameter(type, name);
         setter.setBody(blockOf(
             buildSetterStatement(name)
         ));
         return setter;
+    }
+
+    public static String setterName(String propName) {
+        return "set" + capitalize(propName);
     }
 
     /**

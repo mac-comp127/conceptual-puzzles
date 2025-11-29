@@ -90,6 +90,10 @@ public class Nonsense {
         return words(ctx, NameFormat.LOWER_CAMEL_CASE, 2, 5, 3);
     }
 
+    public static String shortPropertyName(PuzzleContext ctx) {
+        return words(ctx, NameFormat.LOWER_CAMEL_CASE, 2, 4, 2);
+    }
+
     public static String variableName(PuzzleContext ctx) {
         return words(ctx, NameFormat.LOWER_CAMEL_CASE, 1, 4, 1);
     }
