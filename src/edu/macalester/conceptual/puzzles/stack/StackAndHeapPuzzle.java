@@ -28,6 +28,7 @@ public class StackAndHeapPuzzle implements Puzzle {
     private PuzzleContext ctx;
     private List<StackPuzzleClass> puzzleClasses;
     private int objectsRemaining, complicationsRemaining, propAssignmentsRemaining;
+    private long arrowCount;
 
     @Override
     public byte id() {
@@ -175,14 +176,8 @@ public class StackAndHeapPuzzle implements Puzzle {
             addComplication(stackFrame, methodBody, callDepth);
         }
 
-        if (propAssignmentsRemaining > 0 && isBranchBeingTraced) {
-            for(int attempt = 0; attempt < 3; attempt++) {
-                var allowSelfConnection = (attempt >= 2);
-                if (addPropertyAssignment(stackFrame, methodBody, allowSelfConnection)) {
-                    propAssignmentsRemaining--;
-                    break;
-                }
-            }
+        if (isBranchBeingTraced && propAssignmentsRemaining > 0) {
+            addPropertyAssignment(stackFrame, methodBody);
         }
 
         // Generate either the next call in the chain or the leaf node of this chain
@@ -208,6 +203,10 @@ public class StackAndHeapPuzzle implements Puzzle {
             addComplication(stackFrame, methodBody, callDepth);
         }
 
+        if (isBranchBeingTraced) {
+            countReferences(stackFrame.getVariables());
+        }
+
         return result;
     }
 
@@ -231,7 +230,17 @@ public class StackAndHeapPuzzle implements Puzzle {
         // Note that we ignore the returned stack trace: this isn't a call we're visualizing!
     }
 
-    private boolean addPropertyAssignment(
+    private void addPropertyAssignment(VariableContainer stackFrame, BlockStmt methodBody) {
+        for(int attempt = 0; attempt < 3; attempt++) {
+            var allowSelfConnection = (attempt >= 2);
+            if (attemptPropertyAssignment(stackFrame, methodBody, allowSelfConnection)) {
+                propAssignmentsRemaining--;
+                return;
+            }
+        }
+    }
+
+    private boolean attemptPropertyAssignment(
         VariableContainer stackFrame,
         BlockStmt methodBody,
         boolean allowSelfConnection
@@ -276,6 +285,8 @@ public class StackAndHeapPuzzle implements Puzzle {
             )
         );
         lhsObj.setProperty(lhsProp, (Value.Reference) rhsVar.value());
+
+        countReferences(List.of(new Variable(lhsProp.name(), rhsVar.value())));
 
         return true;
     }
@@ -342,8 +353,7 @@ public class StackAndHeapPuzzle implements Puzzle {
                         varName,
                         newObjectExpr(obj)
                 ));
-                stackFrame.addVariable(new Variable(
-                    varName, new Value.Reference(obj)));
+                stackFrame.addVariable(new Variable(varName, new Value.Reference(obj)));
             },
             () -> {
                 var varName = Nonsense.variableName(ctx);
@@ -462,5 +472,9 @@ public class StackAndHeapPuzzle implements Puzzle {
             null,
             classNamed(obj.type().name()),
             nodes(new IntegerLiteralExpr(String.valueOf(obj.id()))));
+    }
+
+    private void countReferences(List<Variable> vars) {
+        arrowCount += vars.stream().filter(v -> v.value() instanceof Value.Reference).count();
     }
 }
