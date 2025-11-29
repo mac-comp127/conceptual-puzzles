@@ -149,7 +149,7 @@ public class StackAndHeapPuzzle implements Puzzle {
 
         if (propAssignmentsRemaining > 0 && isBranchBeingTraced) {
             for(int attempt = 0; attempt < 3; attempt++) {
-                var allowSelfConnection = attempt > 1;
+                var allowSelfConnection = (attempt >= 2);
                 if (addPropertyAssignment(stackFrame, methodBody, allowSelfConnection)) {
                     propAssignmentsRemaining--;
                     break;

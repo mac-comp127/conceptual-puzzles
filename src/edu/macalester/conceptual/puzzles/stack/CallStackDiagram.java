@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.macalester.conceptual.util.DiagramUtils;
+import edu.macalester.conceptual.util.IdentityKey;
 import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.GraphicsObject;
 import edu.macalester.graphics.GraphicsText;
@@ -19,7 +20,8 @@ class CallStackDiagram {
     private final GraphicsGroup graphics = new GraphicsGroup();
     private final Map<VariableContainer, GraphicsObject> boxes = new HashMap<>();
     private final Map<Integer, GraphicsGroup> columns = new HashMap<>();
-    private final Map<GraphicsObject, List<GraphicsObject>> incomingConnections = new HashMap<>();
+    private final Map<IdentityKey<GraphicsObject>, List<GraphicsObject>> incomingConnections =
+        new HashMap<>();
     private final double marginX = 18, marginY = 12;
     private final double columnWidth = 240;
     private final double baseline;
@@ -132,39 +134,80 @@ class CallStackDiagram {
     }
 
     private void addConnection(GraphicsObject from, GraphicsObject to) {
+        var toIdentity = new IdentityKey(to);
         incomingConnections
-            .computeIfAbsent(to, __ -> new ArrayList<>())
+            .computeIfAbsent(toIdentity, __ -> new ArrayList<>())
             .add(from);
     }
 
     private void renderConnections() {
         for (var connection : incomingConnections.entrySet()) {
-            var to = connection.getKey();
+            var to = connection.getKey().object();
             int incomingCount = connection.getValue().size();
-            int n = incomingCount;
+            int index = incomingCount;
             for (var from : connection.getValue()) {
-                n--;
-                var startPoint = convertToCanvas(from, new Point(
-                    from.getBounds().getMaxX() + marginX / 2,
-                    fractionOfYExtent(from, 0.5)));
-                var endPoint = convertToCanvas(to, new Point(
-                    to.getBounds().getMinX(),
-                    fractionOfYExtent(to, (float) (n + 1) / (incomingCount + 1))));
-                var path = new Path(
-                    List.of(
-                        startPoint,
-                        startPoint.add(new Point(marginX * 2, 0)),
-                        endPoint.subtract(new Point(marginX * 2, 0)),
-                        endPoint
-                    ),
-                    false
-                );
-                DiagramUtils.applyArrowStrokeStyle(path, hue);
-                graphics.add(path);
-                graphics.add(DiagramUtils.makeArrowhead(endPoint, false, hue));
-                hue = (hue + 0.382f) % 1;
+                index--;
+                renderConnection(from, to, index, incomingCount);
             }
         }
+    }
+
+    private void renderConnection(
+        GraphicsObject from,
+        GraphicsObject to,
+        int index,
+        int incomingCount
+    ) {
+        var startPoint = convertToCanvas(
+            from, new Point(
+                from.getBounds().getMaxX() + marginX / 2,
+                fractionOfYExtent(from, 0.5)
+            )
+        );
+        boolean pointingRight = convertToCanvas(to, to.getPosition()).getX() > startPoint.getX();
+        var endPoint = convertToCanvas(
+            to, new Point(
+                pointingRight ? to.getBounds().getMinX() : to.getBounds().getMaxX(),
+                fractionOfYExtent(to, (float) (index + 1) / (incomingCount + 1))
+            )
+        );
+
+        var startElbow = startPoint.add(new Point(marginX * 2, 0));
+        var endElbow = endPoint.add(new Point(marginX * (pointingRight ? -2 : 2), 0));
+        if (!pointingRight) {
+            // Clean up back-pointing arrows, especially to self
+            double minElbowGap = DiagramUtils.ARROW_WIDTH * 2;
+            double startElbowY;
+            if (startElbow.getY() < endElbow.getY()) {
+                startElbowY = Math.min(
+                    startElbow.getY(),
+                    endElbow.getY() - minElbowGap
+                );
+            } else {
+                startElbowY = Math.max(
+                    startElbow.getY(),
+                    endElbow.getY() + minElbowGap
+                );
+            }
+
+            startElbow = new Point(Math.max(startElbow.getX(), endElbow.getX()), startElbowY);
+        }
+
+        var path = new Path(List.of(startPoint, startElbow, endElbow, endPoint), false);
+        DiagramUtils.applyArrowStrokeStyle(path, hue);
+        graphics.add(path);
+
+        // Placing the actual arrowhead path inside a group cleans up the rotation logic
+        var arrowhead = new GraphicsGroup();
+        arrowhead.add(DiagramUtils.makeArrowhead(Point.ORIGIN, false, hue));
+        if (!pointingRight) {
+            arrowhead.setAnchor(0, 0);
+            arrowhead.setRotation(180);
+        }
+        arrowhead.setPosition(endPoint);
+        graphics.add(arrowhead);
+
+        hue = (hue + 0.382f) % 1;
     }
 
     private double fractionOfYExtent(GraphicsObject obj, double fraction) {
