@@ -8,6 +8,8 @@ import org.junit.jupiter.api.TestFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,6 +22,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+import edu.macalester.conceptual.cli.CommandLine;
 import edu.macalester.conceptual.context.InvalidPuzzleCodeException;
 import edu.macalester.conceptual.context.PuzzleContext;
 
@@ -83,35 +86,8 @@ public class IntegrationTest {
                 var expectedOutputFile = Path.of("test", "fixtures", "integration", name + ".expected.log");
                 var actualOutputFile = File.createTempFile(name + "-", ".actual.log").toPath();
 
-                var command = new ArrayList<String>();
-                command.add(Path.of("bin", "puzzle" + (isWindows() ? ".bat" : "")).toString());
-                command.addAll(Arrays.asList(cliArgs));
-                System.out.println(String.join(" ", command));
-                var builder = new ProcessBuilder()
-                    .command(command.toArray(new String[0]))
-                    .redirectErrorStream(true);
-                builder.environment().put("PUZZLE_EXIT_IMMEDIATELY", "1");
-                builder.environment().put("IGNORE_CONSOLE_WIDTH", "1");
-                builder.environment().put("COLORTERM", "");
-                builder.environment().put("_JAVA_OPTIONS", "-Dfile.encoding=UTF-8");
-
-                var process = builder.start();
-
-                // ProcessBuilder.redirectOutput does not reliably use UTF-8 in all Java versions on
-                // all platforms, even if we set file.encoding=UTF-8 on JVM launch, so we manually
-                // pipe output to a UTF-8-encoded file:
-                try (
-                    var pipe = new BufferedReader(new InputStreamReader(process.getInputStream(), UTF_8));
-                    var fileOutput = new PrintWriter(new FileWriter(actualOutputFile.toFile(), UTF_8))
-                ) {
-                    String line;
-                    while ((line = pipe.readLine()) != null) {
-                        if (line.contains("+[IMK")) {  // macOS UI logging generates spurious diffs
-                            continue;
-                        }
-                        fileOutput.println(line);
-                    }
-                }
+                runInSameProcess(cliArgs, actualOutputFile);
+//                runInSeparateProcess(cliArgs, actualOutputFile);
 
                 if (!Files.exists(expectedOutputFile)) {
                     fail(MessageFormat.format(
@@ -159,6 +135,49 @@ public class IntegrationTest {
                             formattedDiff(expectedOutput, actualOutput)));
                 }
             });
+    }
+
+    private void runInSameProcess(String[] args, Path actualOutputFile) throws FileNotFoundException {
+        try (PrintWriter out = new PrintWriter(new FileOutputStream(actualOutputFile.toFile()))) {
+            new CommandLine(out, out).invoke(args);
+            out.flush();
+        }
+    }
+
+    private static void runInSeparateProcess(String[] args, Path actualOutputFile) throws IOException {
+        var command = new ArrayList<String>();
+        command.add(Path.of("bin", "puzzle" + (isWindows() ? ".bat" : "")).toString());
+        command.addAll(Arrays.asList(args));
+        System.out.println(String.join(" ", command));
+
+        var builder = new ProcessBuilder()
+            .command(command)
+            .redirectErrorStream(true);
+        builder.environment().put("PUZZLE_EXIT_IMMEDIATELY", "1");
+        builder.environment().put("IGNORE_CONSOLE_WIDTH", "1");
+        builder.environment().put("COLORTERM", "");
+        builder.environment().put("_JAVA_OPTIONS", "-Dfile.encoding=UTF-8");
+
+        var process = builder.start();
+
+        // ProcessBuilder.redirectOutput does not reliably use UTF-8 in all Java versions on
+        // all platforms, even if we set file.encoding=UTF-8 on JVM launch, so we manually
+        // pipe output to a UTF-8-encoded file:
+        try (
+            var pipe = new BufferedReader(new InputStreamReader(process.getInputStream(), UTF_8));
+            var fileOutput = new PrintWriter(new FileWriter(actualOutputFile.toFile(), UTF_8))
+        ) {
+            String line;
+            while ((line = pipe.readLine()) != null) {
+                if (
+                    line.contains("Picked up _JAVA_OPTIONS")  // Java unhelpfully logs this
+                    || line.contains("+[IMK")  // macOS UI logging generates spurious diffs
+                ) {
+                    continue;
+                }
+                fileOutput.println(line);
+            }
+        }
     }
 
     private static List<String> readPuzzleLog(Path file) throws IOException {

@@ -1,7 +1,4 @@
-Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
-Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
-Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
-<!DOCTYPE html>
+[0J<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -160,7 +157,7 @@ while (inme &gt; deCa) {
 
 </body>
 </html>
-[0J***************** PLEASE NOTE ******************
+***************** PLEASE NOTE ******************
 ***                                          ***
 *** The puzzle above has a difficulty of 4.  ***
 *** The difficulty level to get credit is 3. ***

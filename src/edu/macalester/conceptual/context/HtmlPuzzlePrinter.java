@@ -38,10 +38,6 @@ public class HtmlPuzzlePrinter implements PuzzlePrinter {
         /* italics */     new TextFormatter.Style("<i>", "</i>"),
         /* placeholder */ new TextFormatter.Style("<span class='placeholder'>", "</span>"));
 
-    public HtmlPuzzlePrinter() {
-        this(System.out);
-    }
-
     public HtmlPuzzlePrinter(OutputStream out) {
         this(new PrintWriter(out, false, StandardCharsets.UTF_8));
     }
