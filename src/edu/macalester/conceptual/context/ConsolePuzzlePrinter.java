@@ -19,6 +19,8 @@ import edu.macalester.graphics.GraphicsObject;
  * text styling, and applies word wrapping. See also {@link HtmlPuzzlePrinter}.
  */
 public class ConsolePuzzlePrinter implements PuzzlePrinter {
+    private static boolean graphicsEnabled = true;
+
     private final PrintWriter out;
 
     private int curColumn = 0, outputWidth;
@@ -59,7 +61,6 @@ public class ConsolePuzzlePrinter implements PuzzlePrinter {
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     // Public Output API
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
 
     @Override
     public void title(String title) {
@@ -179,6 +180,10 @@ public class ConsolePuzzlePrinter implements PuzzlePrinter {
         paragraph(ansiCode('m', 3) + "<< See window titled “" + title + "” >>" + ansiCode('m', 23));
         out.flush();
 
+        if (!graphicsEnabled) {
+            return;
+        }
+
         double margin = 24;
         var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double scale = Math.min(
@@ -194,6 +199,14 @@ public class ConsolePuzzlePrinter implements PuzzlePrinter {
         graphics.setAnchor(0, 0);
         window.setBackground(new Color(0x222222));
         window.draw();
+    }
+
+    /**
+     * Prevents the creation of windows. This is for the tests: they don't check graphics, and
+     * window creation slows them down quite a bit
+     */
+    public static void disableGraphics() {
+        graphicsEnabled = false;
     }
 
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––

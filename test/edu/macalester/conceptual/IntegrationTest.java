@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import edu.macalester.conceptual.cli.CommandLine;
+import edu.macalester.conceptual.context.ConsolePuzzlePrinter;
 import edu.macalester.conceptual.context.InvalidPuzzleCodeException;
 import edu.macalester.conceptual.context.PuzzleContext;
 
@@ -46,6 +47,8 @@ public class IntegrationTest {
 
     @TestFactory
     List<DynamicTest> integrationTests() throws InvalidPuzzleCodeException {
+        ConsolePuzzlePrinter.disableGraphics();
+
         var tests = new ArrayList<DynamicTest>();
         tests.add(createIntegrationTest("no args"));
         tests.add(createIntegrationTest("help", "--help"));
