@@ -163,7 +163,6 @@ public class IntegrationTest {
         var builder = new ProcessBuilder()
             .command(command)
             .redirectErrorStream(true);
-        builder.environment().put("PUZZLE_EXIT_IMMEDIATELY", "1");
         builder.environment().put("IGNORE_CONSOLE_WIDTH", "1");
         builder.environment().put("COLORTERM", "");
         builder.environment().put("_JAVA_OPTIONS", "-Dfile.encoding=UTF-8");

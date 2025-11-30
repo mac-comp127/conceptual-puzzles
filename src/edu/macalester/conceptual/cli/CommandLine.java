@@ -78,10 +78,6 @@ public class CommandLine {
             stdout.flush();
             stderr.flush();
         }
-
-        if (System.getenv().containsKey("PUZZLE_EXIT_IMMEDIATELY")) {
-            System.exit(0);  // so integration tests don't hang waiting for CanvasWindows to close
-        }
     }
 
     private void requireCommandArgs(int expectedArgCount, PuzzleOptions options) {
