@@ -10,6 +10,7 @@ import edu.macalester.conceptual.puzzles.classes.ClassDeclarationsPuzzle;
 import edu.macalester.conceptual.puzzles.closures.ClosuresPuzzle;
 import edu.macalester.conceptual.puzzles.loops.LoopPuzzle;
 import edu.macalester.conceptual.puzzles.relationships.RelationshipsPuzzle;
+import edu.macalester.conceptual.puzzles.stack.StackAndHeapPuzzle;
 import edu.macalester.conceptual.puzzles.types.StaticAndRuntimeTypesPuzzle;
 import edu.macalester.conceptual.puzzles.vars.VariablesPuzzle;
 
@@ -33,8 +34,9 @@ public interface Puzzle {
             new AstDrawingPuzzle(),
             new BooleansAndConditionalsPuzzle(),
             new LoopPuzzle(),
-            new VariablesPuzzle(),
             new ClassDeclarationsPuzzle(),
+            new StackAndHeapPuzzle(),
+            new VariablesPuzzle(),
             new RelationshipsPuzzle(),
             new StaticAndRuntimeTypesPuzzle(),
             new ClosuresPuzzle()

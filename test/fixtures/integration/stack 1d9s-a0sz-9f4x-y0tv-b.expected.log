@@ -1,0 +1,539 @@
+[0J────────────────────────────────────────────────────────────────────────────────
+
+Given the code below, this method call:
+
+    Cisit.omhar();
+
+...will eventually reach the point marked [100m[97m  HERE  [39m[49m.
+
+Draw a diagram of the stack frames and objects (not classes, but [3mobjects[23m) that
+exist at that point. In your diagram:
+
+  - Label each stack frame with the name of the method.
+  - Label each object with the name of its class.
+  - Include the names of all the variables that belong to each object and stack
+    frame, including the implicit [4mthis[24m parameter if present. (You do not need to
+    write the types of any variables.)
+  - When a variable's value is null or a primitive, write the value immediately
+    next to the variable.
+  - When a variable points to an object, draw an arrow from the variable to the
+    object it points to.
+
+    public class Cisit {
+        private int itMa;
+
+        Cisit(int itMa) {
+            this.itMa = itMa;
+        }
+
+        public static void aght(Apant ba) {
+            Cisit cu = new Cisit(90);
+        }
+
+        public static void omhar() {
+            Cisit.aght(new Apant(40));
+            new Apant(800).hess(new Cisit(741));
+        }
+
+        public void hess(Cisit iw) {
+            Apant.mond(55, this, new Cisit(805));
+            this.setRoos(this);
+            this.deshi();
+        }
+    }
+
+    public class Apant {
+        private int riFlel;
+        private Apant ces;
+        private Apant roos;
+
+        Apant(int riFlel) {
+            this.riFlel = riFlel;
+        }
+
+        public void setCes(Apant ces) {
+            this.ces = ces;
+        }
+
+        public void setRoos(Apant roos) {
+            this.roos = roos;
+        }
+
+        public void deshi() {
+            Apant he = new Apant(198);
+            he.setRoos(this);
+            [100m[97m  HERE  [39m[49m;
+        }
+
+        public static void mond(int diar, Apant in, Cisit ul) {
+        }
+    }
+
+[1m[38;5;111m[48;5;17m              [0m
+[1m[38;5;111m[48;5;17m   SOLUTION   [0m
+[1m[38;5;111m[48;5;17m              [0m
+
+[3m<< See window titled “Solution” >>[23m
+
+Hints for practicing this puzzle:
+
+  - Practice with difficulty 0, then work your way up. This will help you get a
+    handle on what the puzzle is asking.
+  - There is only one path through the code from the starting method call to [100m[97m 
+    HERE  [39m[49m. Start by finding that path.
+  - Be thorough. Double check that you've fully diagrammed each step before you
+    move on to the next one.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Given the code below, this method call:
+
+    Zix.ipiPiresh();
+
+...will eventually reach the point marked [100m[97m  HERE  [39m[49m.
+
+Draw a diagram of the stack frames and objects (not classes, but [3mobjects[23m) that
+exist at that point. In your diagram:
+
+  - Label each stack frame with the name of the method.
+  - Label each object with the name of its class.
+  - Include the names of all the variables that belong to each object and stack
+    frame, including the implicit [4mthis[24m parameter if present. (You do not need to
+    write the types of any variables.)
+  - When a variable's value is null or a primitive, write the value immediately
+    next to the variable.
+  - When a variable points to an object, draw an arrow from the variable to the
+    object it points to.
+
+    public class Zix {
+        private int telmi;
+        private Dorka qi;
+        private Dorka idfi;
+
+        Zix(int telmi) {
+            this.telmi = telmi;
+        }
+
+        public void setQi(Dorka qi) {
+            this.qi = qi;
+        }
+
+        public void setIdfi(Dorka idfi) {
+            this.idfi = idfi;
+        }
+
+        public static void ipiPiresh() {
+            Zix caud = new Zix(183);
+            Dorka.umtha();
+            Dorka.pidism();
+        }
+    }
+
+    public class Dorka {
+        private int xep;
+
+        Dorka(int xep) {
+            this.xep = xep;
+        }
+
+        public void noct() {
+        }
+
+        public static void pidism() {
+            int vasm = 78;
+            int po = 99;
+            int wopa = 95;
+        }
+
+        public void bror(Zix ka, Zix lehe) {
+            ka.setIdfi(this);
+            [100m[97m  HERE  [39m[49m;
+            this.noct();
+        }
+
+        public static void umtha() {
+            int ohon = 89;
+            Zix e = new Zix(425);
+            new Dorka(683).bror(new Zix(772), e);
+        }
+    }
+
+[1m[38;5;111m[48;5;17m              [0m
+[1m[38;5;111m[48;5;17m   SOLUTION   [0m
+[1m[38;5;111m[48;5;17m              [0m
+
+[3m<< See window titled “Solution” >>[23m
+
+Hints for practicing this puzzle:
+
+  - Practice with difficulty 0, then work your way up. This will help you get a
+    handle on what the puzzle is asking.
+  - There is only one path through the code from the starting method call to [100m[97m 
+    HERE  [39m[49m. Start by finding that path.
+  - Be thorough. Double check that you've fully diagrammed each step before you
+    move on to the next one.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Given the code below, this method call:
+
+    Irge.usasm();
+
+...will eventually reach the point marked [100m[97m  HERE  [39m[49m.
+
+Draw a diagram of the stack frames and objects (not classes, but [3mobjects[23m) that
+exist at that point. In your diagram:
+
+  - Label each stack frame with the name of the method.
+  - Label each object with the name of its class.
+  - Include the names of all the variables that belong to each object and stack
+    frame, including the implicit [4mthis[24m parameter if present. (You do not need to
+    write the types of any variables.)
+  - When a variable's value is null or a primitive, write the value immediately
+    next to the variable.
+  - When a variable points to an object, draw an arrow from the variable to the
+    object it points to.
+
+    public class Irge {
+        private int clac;
+        private Irge vec;
+
+        Irge(int clac) {
+            this.clac = clac;
+        }
+
+        public void setVec(Irge vec) {
+            this.vec = vec;
+        }
+
+        public static void usasm() {
+            Essma mi = new Essma(893);
+            Essma.eaed(new Essma(808), mi, new Essma(233));
+        }
+
+        public static void gari(Essma od) {
+        }
+    }
+
+    public class Essma {
+        private int hunip;
+        private Irge reun;
+
+        Essma(int hunip) {
+            this.hunip = hunip;
+        }
+
+        public void setReun(Irge reun) {
+            this.reun = reun;
+        }
+
+        public void stelen(Essma olde, int heda) {
+        }
+
+        public void anpun(Essma runi, Essma ouer) {
+            ouer.stelen(ouer, 22);
+            [100m[97m  HERE  [39m[49m;
+            Irge.gari(ouer);
+        }
+
+        public static void eaed(Essma ho, Essma plon, Essma plen) {
+            new Essma(765).anpun(plon, plen);
+        }
+    }
+
+[1m[38;5;111m[48;5;17m              [0m
+[1m[38;5;111m[48;5;17m   SOLUTION   [0m
+[1m[38;5;111m[48;5;17m              [0m
+
+[3m<< See window titled “Solution” >>[23m
+
+Hints for practicing this puzzle:
+
+  - Practice with difficulty 0, then work your way up. This will help you get a
+    handle on what the puzzle is asking.
+  - There is only one path through the code from the starting method call to [100m[97m 
+    HERE  [39m[49m. Start by finding that path.
+  - Be thorough. Double check that you've fully diagrammed each step before you
+    move on to the next one.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Given the code below, this method call:
+
+    Etrer.biaGidmot();
+
+...will eventually reach the point marked [100m[97m  HERE  [39m[49m.
+
+Draw a diagram of the stack frames and objects (not classes, but [3mobjects[23m) that
+exist at that point. In your diagram:
+
+  - Label each stack frame with the name of the method.
+  - Label each object with the name of its class.
+  - Include the names of all the variables that belong to each object and stack
+    frame, including the implicit [4mthis[24m parameter if present. (You do not need to
+    write the types of any variables.)
+  - When a variable's value is null or a primitive, write the value immediately
+    next to the variable.
+  - When a variable points to an object, draw an arrow from the variable to the
+    object it points to.
+
+    public class Etrer {
+        private int erres;
+
+        Etrer(int erres) {
+            this.erres = erres;
+        }
+
+        public void kirgoc(Pid meor, Etrer u, Etrer amer) {
+        }
+
+        public static void biaGidmot() {
+            new Pid(81).icen();
+        }
+    }
+
+    public class Pid {
+        private int orSaro;
+        private Pid pou;
+        private Pid ec;
+
+        Pid(int orSaro) {
+            this.orSaro = orSaro;
+        }
+
+        public void setPou(Pid pou) {
+            this.pou = pou;
+        }
+
+        public void setEc(Pid ec) {
+            this.ec = ec;
+        }
+
+        public void chesme(Etrer eped, Pid sti) {
+            sti.setPou(sti);
+            [100m[97m  HERE  [39m[49m;
+            this.kirgoc(sti, new Etrer(323), eped);
+        }
+
+        public void icen() {
+            this.setPou(this);
+            new Etrer(864).chesme(new Etrer(251), this);
+            new Etrer(496).leic(new Etrer(715), this, this);
+        }
+
+        public void leic(Etrer sper, Pid fo, Pid si) {
+        }
+    }
+
+[1m[38;5;111m[48;5;17m              [0m
+[1m[38;5;111m[48;5;17m   SOLUTION   [0m
+[1m[38;5;111m[48;5;17m              [0m
+
+[3m<< See window titled “Solution” >>[23m
+
+Hints for practicing this puzzle:
+
+  - Practice with difficulty 0, then work your way up. This will help you get a
+    handle on what the puzzle is asking.
+  - There is only one path through the code from the starting method call to [100m[97m 
+    HERE  [39m[49m. Start by finding that path.
+  - Be thorough. Double check that you've fully diagrammed each step before you
+    move on to the next one.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Given the code below, this method call:
+
+    Incel.anth();
+
+...will eventually reach the point marked [100m[97m  HERE  [39m[49m.
+
+Draw a diagram of the stack frames and objects (not classes, but [3mobjects[23m) that
+exist at that point. In your diagram:
+
+  - Label each stack frame with the name of the method.
+  - Label each object with the name of its class.
+  - Include the names of all the variables that belong to each object and stack
+    frame, including the implicit [4mthis[24m parameter if present. (You do not need to
+    write the types of any variables.)
+  - When a variable's value is null or a primitive, write the value immediately
+    next to the variable.
+  - When a variable points to an object, draw an arrow from the variable to the
+    object it points to.
+
+    public class Incel {
+        private int furd;
+        private Incel dotu;
+
+        Incel(int furd) {
+            this.furd = furd;
+        }
+
+        public void setDotu(Incel dotu) {
+            this.dotu = dotu;
+        }
+
+        public static void anth() {
+            Zasm.dastvo(new Incel(473));
+            Zasm.xasChrict(new Incel(231));
+        }
+
+        public static void ipuThi(Zasm oo, Incel epou) {
+            oo.setTi(epou);
+            [100m[97m  HERE  [39m[49m;
+            epou.edil();
+        }
+
+        public void edil() {
+        }
+    }
+
+    public class Zasm {
+        private int ieed;
+        private Incel ti;
+
+        Zasm(int ieed) {
+            this.ieed = ieed;
+        }
+
+        public void setTi(Incel ti) {
+            this.ti = ti;
+        }
+
+        public static void dastvo(Incel hec) {
+            Zasm rion = new Zasm(529);
+            int gru = 19;
+            rion.setTi(hec);
+            Incel.ipuThi(new Zasm(577), hec);
+        }
+
+        public static void xasChrict(Incel la) {
+            Zasm pras = new Zasm(362);
+            Incel go = new Incel(583);
+        }
+    }
+
+[1m[38;5;111m[48;5;17m              [0m
+[1m[38;5;111m[48;5;17m   SOLUTION   [0m
+[1m[38;5;111m[48;5;17m              [0m
+
+[3m<< See window titled “Solution” >>[23m
+
+Hints for practicing this puzzle:
+
+  - Practice with difficulty 0, then work your way up. This will help you get a
+    handle on what the puzzle is asking.
+  - There is only one path through the code from the starting method call to [100m[97m 
+    HERE  [39m[49m. Start by finding that path.
+  - Be thorough. Double check that you've fully diagrammed each step before you
+    move on to the next one.
+
+────────────────────────────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+
+Given the code below, this method call:
+
+    Prua.dauspi();
+
+...will eventually reach the point marked [100m[97m  HERE  [39m[49m.
+
+Draw a diagram of the stack frames and objects (not classes, but [3mobjects[23m) that
+exist at that point. In your diagram:
+
+  - Label each stack frame with the name of the method.
+  - Label each object with the name of its class.
+  - Include the names of all the variables that belong to each object and stack
+    frame, including the implicit [4mthis[24m parameter if present. (You do not need to
+    write the types of any variables.)
+  - When a variable's value is null or a primitive, write the value immediately
+    next to the variable.
+  - When a variable points to an object, draw an arrow from the variable to the
+    object it points to.
+
+    public class Prua {
+        private int irn;
+        private Prua di;
+        private Prua ta;
+
+        Prua(int irn) {
+            this.irn = irn;
+        }
+
+        public void setDi(Prua di) {
+            this.di = di;
+        }
+
+        public void setTa(Prua ta) {
+            this.ta = ta;
+        }
+
+        public void stio(Prua angi, Prua ku) {
+            Ili.soios();
+            this.setTa(angi);
+            [100m[97m  HERE  [39m[49m;
+        }
+
+        public void desh(Ili reu, Prua buc) {
+        }
+
+        public static void dauspi() {
+            new Prua(430).ganxu();
+        }
+    }
+
+    public class Ili {
+        private int ost;
+
+        Ili(int ost) {
+            this.ost = ost;
+        }
+
+        public void ganxu() {
+            Ili er = new Ili(395);
+            this.setTa(this);
+            this.stio(new Prua(751), this);
+            new Ili(576).desh(er, this);
+        }
+
+        public static void soios() {
+            Ili nu = new Ili(572);
+            Ili sor = new Ili(547);
+            int asm = 95;
+        }
+    }
+
+[1m[38;5;111m[48;5;17m              [0m
+[1m[38;5;111m[48;5;17m   SOLUTION   [0m
+[1m[38;5;111m[48;5;17m              [0m
+
+[3m<< See window titled “Solution” >>[23m
+
+Hints for practicing this puzzle:
+
+  - Practice with difficulty 0, then work your way up. This will help you get a
+    handle on what the puzzle is asking.
+  - There is only one path through the code from the starting method call to [100m[97m 
+    HERE  [39m[49m. Start by finding that path.
+  - Be thorough. Double check that you've fully diagrammed each step before you
+    move on to the next one.
+
+────────────────────────────────────────────────────────────────────────────────
+
+[0m
+Want to practice more basics first? Try a simpler puzzle:
+
+  puzzle gen stack --difficulty 1
+
+Want a bigger challenge? Try a harder difficulty level:
+
+  puzzle gen stack --difficulty 3
+
