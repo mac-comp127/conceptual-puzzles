@@ -108,9 +108,7 @@ public final class PuzzleContext {
      */
     public void emitPuzzle(Runnable puzzleGenerator) throws IOException {
         requireState(State.SETUP, "start emitting puzzle");
-        if (printer == null) {
-            printer = new ConsolePuzzlePrinter();
-        }
+
         PuzzlePrinter printer = this.printer;
         try (printer) {
             state = State.WORKING;
