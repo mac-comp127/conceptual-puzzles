@@ -1,6 +1,3 @@
-Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
-Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
-Picked up _JAVA_OPTIONS: -Dfile.encoding=UTF-8
 Commands:
   puzzle list           List available puzzle types
   puzzle gen <type>     Generate a new puzzle
