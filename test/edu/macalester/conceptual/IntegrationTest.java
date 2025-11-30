@@ -50,7 +50,8 @@ public class IntegrationTest {
         tests.add(createIntegrationTest("no args"));
         tests.add(createIntegrationTest("help", "--help"));
         tests.add(createIntegrationTest("html vars", "solve", "gem8-9kcc-zm63-yo71", "--html", "-"));
-        tests.add(createIntegrationTest("html loop", "solve", "37jv-6084-d1bb-ev4", "--html", "-"));
+        final var inSeparateProcess = true;
+        tests.add(createIntegrationTest("html loop", inSeparateProcess, "solve", "37jv-6084-d1bb-ev4", "--html", "-"));
 
         var puzzlesNotCovered = new HashSet<>(Puzzle.all().stream().map(Puzzle::name).toList());
         for (var code : PUZZLE_CODES) {
@@ -80,14 +81,21 @@ public class IntegrationTest {
     }
 
     private DynamicTest createIntegrationTest(String name, String... cliArgs) {
+        return createIntegrationTest(name, false, cliArgs);  // run in same process by default
+    }
+
+    private DynamicTest createIntegrationTest(String name, boolean spawn, String... cliArgs) {
         return DynamicTest.dynamicTest(
             name,
             () -> {
                 var expectedOutputFile = Path.of("test", "fixtures", "integration", name + ".expected.log");
                 var actualOutputFile = File.createTempFile(name + "-", ".actual.log").toPath();
 
-                runInSameProcess(cliArgs, actualOutputFile);
-//                runInSeparateProcess(cliArgs, actualOutputFile);
+                if (spawn) {
+                    runInSeparateProcess(cliArgs, actualOutputFile);
+                } else {
+                    runInSameProcess(cliArgs, actualOutputFile);
+                }
 
                 if (!Files.exists(expectedOutputFile)) {
                     fail(MessageFormat.format(
@@ -137,7 +145,7 @@ public class IntegrationTest {
             });
     }
 
-    private void runInSameProcess(String[] args, Path actualOutputFile) throws FileNotFoundException {
+    private static void runInSameProcess(String[] args, Path actualOutputFile) throws FileNotFoundException {
         try (PrintWriter out = new PrintWriter(new FileOutputStream(actualOutputFile.toFile()))) {
             new CommandLine(out, out).invoke(args);
             out.flush();
