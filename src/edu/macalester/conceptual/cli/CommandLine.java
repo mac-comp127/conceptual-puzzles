@@ -2,6 +2,7 @@ package edu.macalester.conceptual.cli;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
@@ -27,15 +28,12 @@ public class CommandLine {
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
     public static void main(String[] args) {
-        new CommandLine(
-            new PrintWriter(System.out, true),
-            new PrintWriter(System.err, true)
-        ).invoke(args);
+        new CommandLine(System.out, System.err).invoke(args);
     }
 
-    public CommandLine(PrintWriter stdout, PrintWriter stderr) {
-        this.stdout = stdout;
-        this.stderr = stderr;
+    public CommandLine(OutputStream stdout, OutputStream stderr) {
+        this.stdout = new PrintWriter(stdout, true, StandardCharsets.UTF_8);
+        this.stderr = new PrintWriter(stderr, true, StandardCharsets.UTF_8);
     }
 
     public void invoke(String[] args) {

@@ -1,5 +1,7 @@
 package edu.macalester.conceptual.util;
 
+import java.io.PrintWriter;
+
 import org.junit.jupiter.api.Test;
 
 import edu.macalester.conceptual.context.ConsolePuzzlePrinter;
@@ -12,7 +14,7 @@ class NonsenseTest {
     @Test
     void word() throws Exception {
         var ctx = PuzzleContext.fromPuzzleCode("gewc-fit8-6tgL-hatp");
-        ctx.setOutput(new ConsolePuzzlePrinter());
+        ctx.setOutput(new ConsolePuzzlePrinter(new PrintWriter(System.out)));
         ctx.emitPuzzle(() -> {
             for (int i = 0; i < 10000; i++) {
                 var word = Nonsense.word(ctx);

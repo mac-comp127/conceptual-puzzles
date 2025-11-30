@@ -37,10 +37,6 @@ public class ConsolePuzzlePrinter implements PuzzlePrinter {
             ansiCode('m', 100) + ansiCode('m', 97) + "  ",
             "  " + ansiCode('m', 39) + ansiCode('m', 49)));
 
-    public ConsolePuzzlePrinter() {
-        this(new PrintWriter(System.out, true, StandardCharsets.UTF_8));
-    }
-
     public ConsolePuzzlePrinter(PrintWriter writer) {
         out = writer;
         try {
@@ -357,7 +353,7 @@ public class ConsolePuzzlePrinter implements PuzzlePrinter {
     }
 
     public static void main(String[] args) {
-        try (ConsolePuzzlePrinter output = new ConsolePuzzlePrinter()) {
+        try (var output = new ConsolePuzzlePrinter(new PrintWriter(System.out, true, StandardCharsets.UTF_8))) {
             output.colorTest();
         }
     }

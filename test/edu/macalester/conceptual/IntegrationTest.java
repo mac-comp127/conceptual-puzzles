@@ -145,10 +145,9 @@ public class IntegrationTest {
             });
     }
 
-    private static void runInSameProcess(String[] args, Path actualOutputFile) throws FileNotFoundException {
-        try (PrintWriter out = new PrintWriter(new FileOutputStream(actualOutputFile.toFile()))) {
+    private static void runInSameProcess(String[] args, Path actualOutputFile) throws IOException {
+        try (var out = new FileOutputStream(actualOutputFile.toFile())) {
             new CommandLine(out, out).invoke(args);
-            out.flush();
         }
     }
 
