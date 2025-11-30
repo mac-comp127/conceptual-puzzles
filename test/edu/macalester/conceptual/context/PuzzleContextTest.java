@@ -176,16 +176,16 @@ class PuzzleContextTest {
 
     @Test
     void canOnlyConfigureOptionsBeforeEmitting() throws IOException {
-        ctx.setOutput(new ConsolePuzzlePrinter());
+        ctx.setOutput(createTestPrinter());
         ctx.setPartsToShow(Set.of(1, 3));
         ctx.enableSolution();
 
         ctx.emitPuzzle(() -> {
-            assertIllegalStateTransition(() -> ctx.setOutput(new ConsolePuzzlePrinter()));
+            assertIllegalStateTransition(() -> ctx.setOutput(createTestPrinter()));
             assertIllegalStateTransition(() -> ctx.setPartsToShow(Set.of(1, 3)));
             assertIllegalStateTransition(() -> ctx.enableSolution());
         });
-        assertIllegalStateTransition(() -> ctx.setOutput(new ConsolePuzzlePrinter()));
+        assertIllegalStateTransition(() -> ctx.setOutput(createTestPrinter()));
         assertIllegalStateTransition(() -> ctx.setPartsToShow(Set.of(1, 3)));
         assertIllegalStateTransition(() -> ctx.enableSolution());
     }
@@ -255,5 +255,9 @@ class PuzzleContextTest {
 
     private void assertIllegalStateTransition(Executable action) {
         assertThrows(IllegalStateException.class, action);
+    }
+
+    private static ConsolePuzzlePrinter createTestPrinter() {
+        return new ConsolePuzzlePrinter(new PrintWriter(new StringWriter()));
     }
 }

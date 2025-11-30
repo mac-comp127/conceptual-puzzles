@@ -2,6 +2,7 @@ package edu.macalester.conceptual.cli;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
@@ -10,6 +11,7 @@ import java.util.Properties;
 import com.google.common.io.Files;
 
 import edu.macalester.conceptual.Puzzle;
+import edu.macalester.conceptual.context.ConsolePuzzlePrinter;
 import edu.macalester.conceptual.context.HtmlPuzzlePrinter;
 import edu.macalester.conceptual.context.InvalidPuzzleCodeException;
 import edu.macalester.conceptual.context.PuzzleContext;
@@ -19,55 +21,66 @@ import edu.macalester.conceptual.context.PuzzleContext;
  * <code>bin/puzzle</code> script, which in turn triggers the <code>run-cli</code> Gradle task.
  */
 public class CommandLine {
+    private final PrintWriter stdout, stderr;  // customizable output for testing
 
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     // Parsing Commands
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
     public static void main(String[] args) {
-        var options = new PuzzleOptions(args);
+        new CommandLine(System.out, System.err).invoke(args);
+    }
 
-        if (options.version()) {
-            printVersion();
-            return;
-        }
+    public CommandLine(OutputStream stdout, OutputStream stderr) {
+        this.stdout = new PrintWriter(stdout, true, StandardCharsets.UTF_8);
+        this.stderr = new PrintWriter(stderr, true, StandardCharsets.UTF_8);
+    }
 
-        if (options.help() || options.commandAndArgs().isEmpty()) {
-            printHelp(options, false);
-            return;
-        }
-
+    public void invoke(String[] args) {
         try {
-            String command = options.commandAndArgs().get(0);
-            switch(command) {
-                case "help" -> {
-                    printHelp(options, true);
-                }
-                case "list" -> {
-                    listPuzzles(options);
-                }
-                case "gen" -> {
-                    generate(options);
-                }
-                case "solve" -> {
-                    solve(options);
-                }
-                default -> options.usageError("Unknown command: " + command);
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-            System.err.println();
-            System.err.println("Command line args: " + String.join(" ", args));
-            System.err.println();
-            System.exit(1);
-        }
+            var options = new PuzzleOptions(args);
 
-        if (System.getenv().containsKey("PUZZLE_EXIT_IMMEDIATELY")) {
-            System.exit(0);  // so integration tests don't hang waiting for CanvasWindows to close
+            if (options.version()) {
+                printVersion();
+                return;
+            }
+
+            if (options.help() || options.commandAndArgs().isEmpty()) {
+                printHelp(options, false);
+                return;
+            }
+
+            try {
+                String command = options.commandAndArgs().get(0);
+                switch(command) {
+                    case "help" -> {
+                        printHelp(options, true);
+                    }
+                    case "list" -> {
+                        listPuzzles(options);
+                    }
+                    case "gen" -> {
+                        generate(options);
+                    }
+                    case "solve" -> {
+                        solve(options);
+                    }
+                    default -> options.usageError("Unknown command: " + command);
+                }
+            } catch(Exception e) {
+                e.printStackTrace();
+                stderr.println();
+                stderr.println("Command line args: " + String.join(" ", args));
+                stderr.println();
+                System.exit(1);
+            }
+        } finally {
+            stdout.flush();
+            stderr.flush();
         }
     }
 
-    private static void requireCommandArgs(int expectedArgCount, PuzzleOptions options) {
+    private void requireCommandArgs(int expectedArgCount, PuzzleOptions options) {
         int actualArgCount = options.commandAndArgs().size() - 1;
         if (actualArgCount != expectedArgCount) {
             options.usageError(
@@ -83,13 +96,13 @@ public class CommandLine {
     // Generating and Solving Puzzles
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-    private static void generate(PuzzleOptions options) throws IOException {
+    private void generate(PuzzleOptions options) throws IOException {
         requireCommandArgs(1, options);
         var puzzleName = options.commandAndArgs().get(1);
         var puzzle = Puzzle.findByName(puzzleName);
         if(puzzle == null) {
-            System.err.println("Unknown puzzle type: " + puzzleName);
-            System.err.println("Use `puzzle list` to see available options");
+            stderr.println("Unknown puzzle type: " + puzzleName);
+            stderr.println("Use `puzzle list` to see available options");
             return;
         }
 
@@ -111,20 +124,20 @@ public class CommandLine {
             emitPuzzle(puzzleForSolution, solveCtx, options);
         }
 
-        System.out.println();
-        System.out.println("Puzzle code: \u001b[7m " + ctx.getPuzzleCode() + " \u001b[0m");
-        System.out.println();
-        System.out.println("To see solution:");
-        System.out.println("  " + executableName() + " solve " + ctx.getPuzzleCode());
+        stdout.println();
+        stdout.println("Puzzle code: \u001b[7m " + ctx.getPuzzleCode() + " \u001b[0m");
+        stdout.println();
+        stdout.println("To see solution:");
+        stdout.println("  " + executableName() + " solve " + ctx.getPuzzleCode());
     }
 
-    private static void solve(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
+    private void solve(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
         requireCommandArgs(1, options);
         var ctx = PuzzleContext.fromPuzzleCode(options.commandAndArgs().get(1));
         var puzzle = Puzzle.findByID(ctx.getPuzzleID());
         if(puzzle == null) {
-            System.err.println("This puzzle code refers to a puzzle type that no longer exists.");
-            System.err.println("Are you using an outdated code from a previous semester?");
+            stderr.println("This puzzle code refers to a puzzle type that no longer exists.");
+            stderr.println("Are you using an outdated code from a previous semester?");
             return;
         }
 
@@ -133,7 +146,7 @@ public class CommandLine {
         emitPuzzle(puzzle, ctx, options);
 
         if (ctx.getDifficulty() != puzzle.goalDifficulty()) {
-            System.out.println(MessageFormat.format(
+            stdout.println(MessageFormat.format(
                 """
                 ***************** PLEASE NOTE ******************
                 ***                                          ***
@@ -150,27 +163,29 @@ public class CommandLine {
         if (ctx.getDifficulty() > puzzle.minDifficulty()
             && puzzle.minDifficulty() < puzzle.goalDifficulty()
         ) {
-            System.out.println("Want to practice more basics first? Try a simpler puzzle:");
-            System.out.println();
-            System.out.println("  " + executableName() + " gen " + puzzle.name()
+            stdout.println("Want to practice more basics first? Try a simpler puzzle:");
+            stdout.println();
+            stdout.println("  " + executableName() + " gen " + puzzle.name()
                 + " --difficulty " + (ctx.getDifficulty() - 1));
-            System.out.println();
+            stdout.println();
         }
         if (ctx.getDifficulty() < puzzle.maxDifficulty()) {
-            System.out.println("Want a bigger challenge? Try a harder difficulty level:");
-            System.out.println();
-            System.out.println("  " + executableName() + " gen " + puzzle.name()
+            stdout.println("Want a bigger challenge? Try a harder difficulty level:");
+            stdout.println();
+            stdout.println("  " + executableName() + " gen " + puzzle.name()
                 + " --difficulty " + (ctx.getDifficulty() + 1));
-            System.out.println();
+            stdout.println();
         }
     }
 
-    private static void applyOptionsToContext(
+    private void applyOptionsToContext(
         PuzzleOptions options,
         PuzzleContext ctx,
         Puzzle puzzle,
         boolean solutionOutput
     ) throws IOException {
+        ctx.setOutput(new ConsolePuzzlePrinter(stdout));
+
         ctx.setPuzzleTitle(puzzle.description());
 
         if (options.includeSolutions() || solutionOutput) {
@@ -178,10 +193,10 @@ public class CommandLine {
         }
 
         if (ctx.getDifficulty() < puzzle.minDifficulty() || ctx.getDifficulty() > puzzle.maxDifficulty()) {
-            System.err.println("Illegal difficulty level: " + ctx.getDifficulty());
-            System.err.println("The `" + puzzle.name() + "` puzzle must have a difficulty in the range "
+            stderr.println("Illegal difficulty level: " + ctx.getDifficulty());
+            stderr.println("The `" + puzzle.name() + "` puzzle must have a difficulty in the range "
                 + puzzle.minDifficulty() + "..." + puzzle.maxDifficulty() + ".");
-            System.err.println("(The difficulty level to get credit is " + puzzle.goalDifficulty() + ".)");
+            stderr.println("(The difficulty level to get credit is " + puzzle.goalDifficulty() + ".)");
             System.exit(0);
         }
 
@@ -194,7 +209,7 @@ public class CommandLine {
         if (htmlOutput != null) {
             var htmlPrinter =
                 "-".equals(htmlOutput)
-                    ? new HtmlPuzzlePrinter()
+                    ? new HtmlPuzzlePrinter(stdout)
                     : new HtmlPuzzlePrinter(new FileOutputStream(htmlOutput));
             if (!ctx.isSolutionEnabled()) {
                 htmlPrinter.enableCopyPasteObfuscation();
@@ -211,7 +226,7 @@ public class CommandLine {
                 out.println("Puzzle code: " + ctx.getPuzzleCode());
                 out.println();
                 out.println("Options: " + String.join(" ", options.rawArgs()));
-                System.out.println("Saving puzzle code and metadata to " + options.saveCode());
+                out.println("Saving puzzle code and metadata to " + options.saveCode());
 
                 ctx.addInstructions(() -> {
                     ctx.output().paragraph("Submit your solution on paper.");
@@ -226,7 +241,7 @@ public class CommandLine {
         }
     }
 
-    private static void emitPuzzle(Puzzle puzzle, PuzzleContext ctx, PuzzleOptions options) throws IOException {
+    private void emitPuzzle(Puzzle puzzle, PuzzleContext ctx, PuzzleOptions options) throws IOException {
         ctx.emitPuzzle(() -> {
             for (int repeat = options.repeat(); repeat > 0; repeat--) {
                 puzzle.generate(ctx);
@@ -241,48 +256,47 @@ public class CommandLine {
     // CLI Help
     // –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-    private static void printHelp(PuzzleOptions options, boolean forceFullHelp) {
-        PrintWriter out = new PrintWriter(System.err, true);
-        printCommands(out);
+    private void printHelp(PuzzleOptions options, boolean forceFullHelp) {
+        printCommands(stderr);
         if (forceFullHelp || options.help()) {
-            options.printOptions(out);
-            printExamples(out);
+            options.printOptions(stderr);
+            printExamples(stderr);
         } else {
-            out.println("To see all options:");
-            out.println("  " + executableName() + " --help");
+            stderr.println("To see all options:");
+            stderr.println("  " + executableName() + " --help");
         }
     }
 
-    private static void printVersion() {
+    private void printVersion() {
         var properties = new Properties();
         try (var stream = CommandLine.class.getResourceAsStream("/git.properties")) {
             properties.load(stream);
         } catch(IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("puzzle generator version:");
-        System.out.print("  commit: " + properties.get("git.commit.id.abbrev"));
+        stdout.println("puzzle generator version:");
+        stdout.print("  commit: " + properties.get("git.commit.id.abbrev"));
         if (properties.get("git.dirty").equals("true")) {
-            System.out.print(" + uncommitted changes");
+            stdout.print(" + uncommitted changes");
         }
-        System.out.println();
-        System.out.println("    date: " + properties.get("git.commit.time"));
+        stdout.println();
+        stdout.println("    date: " + properties.get("git.commit.time"));
     }
 
     /**
      * The wrapper script can optionally provide a path to the <code>puzzle</code> script for usage
      * examples.
      */
-    private static String executableName() {
+    private String executableName() {
         // wrapper script passes the name + path with which it was invoked
         return System.getenv().getOrDefault("puzzle_command", "puzzle");
     }
 
-    private static void listPuzzles(PuzzleOptions options) {
+    private void listPuzzles(PuzzleOptions options) {
         requireCommandArgs(0, options);
 
-        System.out.println("Available puzzle types:");
-        System.out.println();
+        stdout.println("Available puzzle types:");
+        stdout.println();
 
         int nameWidth = Puzzle.all().stream()
             .map(Puzzle::name)
@@ -291,18 +305,18 @@ public class CommandLine {
 
         for (var puzzle : Puzzle.all()) {
             if (puzzle.isVisible()) {
-                System.out.printf("  %-" + nameWidth + "s  %s",
+                stdout.printf("  %-" + nameWidth + "s  %s",
                     puzzle.name(),
                     puzzle.description());
-                System.out.println();
+                stdout.println();
             }
         }
-        System.out.println();
-        System.out.println("To generate a puzzle:");
-        System.out.println("  " + executableName() + " gen <puzzletype>");
+        stdout.println();
+        stdout.println("To generate a puzzle:");
+        stdout.println("  " + executableName() + " gen <puzzletype>");
     }
 
-    public static void printCommands(PrintWriter out) {
+    public void printCommands(PrintWriter out) {
         out.println(
             """
             Commands:
@@ -312,7 +326,7 @@ public class CommandLine {
             """);
     }
 
-    public static void printExamples(PrintWriter out) {
+    public void printExamples(PrintWriter out) {
         out.println(
             """
             Usage examples:
