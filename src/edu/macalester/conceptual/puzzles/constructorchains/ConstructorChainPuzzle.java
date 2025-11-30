@@ -3,7 +3,11 @@ package edu.macalester.conceptual.puzzles.constructorchains;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.expr.*;
+import com.github.javaparser.ast.body.ConstructorDeclaration;
+import com.github.javaparser.ast.expr.Expression;
+import com.github.javaparser.ast.expr.IntegerLiteralExpr;
+import com.github.javaparser.ast.expr.MethodCallExpr;
+import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import edu.macalester.conceptual.Puzzle;
@@ -52,6 +56,7 @@ public class ConstructorChainPuzzle implements Puzzle {
 
         // FIXME need to specify which constructor, if leaf class has more than one
         var decls = generateDeclarations(ctx);
+
         ctx.output().codeBlock(decls.declarationsCode);
 
         // FIXME: class could have more than one constructor!
@@ -63,14 +68,13 @@ public class ConstructorChainPuzzle implements Puzzle {
     }
 
     private String getPrompt(PuzzleContext ctx, ClassOrInterfaceDeclaration classDeclaration) {
-        var foo = new ChoiceDeck<>(ctx, classDeclaration.getConstructors()).draw();
+        var ctorsDeck = new ChoiceDeck<>(ctx, classDeclaration.getConstructors()).draw();
 
         String prompt = "What gets printed when you create an instance of " + classDeclaration.getName() + " ";
-        if (foo.getParameters().isEmpty()) {
+        if (ctorsDeck.getParameters().isEmpty()) {
             prompt += "using the default constructor?";
-        }
-        else {
-            prompt += "using the non-default constructor with an argument of " + ctx.getRandom().nextInt(1,10) + "?";
+        } else {
+            prompt += "using the non-default constructor with an argument of " + ctx.getRandom().nextInt(1, 10) + "?";
         }
         return prompt;
 
@@ -79,9 +83,9 @@ public class ConstructorChainPuzzle implements Puzzle {
     private String getSolution(Declarations decls) {
         return Evaluator.captureOutput(
                 CodeSnippet.build()
-                    .withMainBody("var x = new " + decls.bottomClassDeclaration.getName() + "();")
-                    .withOtherClasses(decls.declarationsCode()
-                ));
+                        .withMainBody("var x = new " + decls.bottomClassDeclaration.getName() + "();")
+                        .withOtherClasses(decls.declarationsCode()
+                        ));
     }
 
     private record Declarations(String declarationsCode, ClassOrInterfaceDeclaration bottomClassDeclaration) {
@@ -97,20 +101,22 @@ public class ConstructorChainPuzzle implements Puzzle {
         // so "bottom-up" here means "rightmost-indented left" there, so to speak
 
         List<ClassOrInterfaceDeclaration> classes = new ArrayList<>();
-        String className = RandomLoch.getTypeName(ctx);
-        var decl = getDefaultDeclaration(className, classes, ctx);
-        maybeAddNonDefaultCtor(decl, ctx, classes);
-        declarationsCode.append(CodeFormatting.prettify(decl));
-        declarationsCode.append("\n\n");
-        classes.add(decl);
+
+        var decl = appendClass(ctx, classes, declarationsCode);
+        String className;
 
         // FIXME TODO see notes.org for things to fix with the hierarchy generation
 
 
         for (int i = 0; i < depth; i++) {
             List<ClassOrInterfaceDeclaration> classesToAdd = new ArrayList<>();
-            int numSiblings = this.params.numSiblings();
-            String parentClass = classes.getLast().getNameAsString();
+
+            int numSiblings = 1;
+            this.params.numSiblings();
+            // disabling the "siblings" stuff for now -- we will, in effect, handle those when we fully
+            // implement the idea of first generating the actual chain, and *then* sprinkling in distractors.
+
+            String parentClassName = classes.getLast().getNameAsString();
             for (int j = 0; j < numSiblings; j++) {
                 // TODO for now, just using the last class in `classes` as the parent, but
                 // what if there are two siblings in the previous level? Do we want to be able
@@ -118,32 +124,23 @@ public class ConstructorChainPuzzle implements Puzzle {
                 // unwieldly if we want full generality...OTOH if we can detect if a class has
                 // no descendants, we could just randomly choose classes until we one of those.
 
-                className = RandomLoch.getTypeName(ctx);
-                decl = AstUtils.classDecl(className);
-                decl.addExtendedType(parentClass);
-                decl.addConstructor(Modifier.Keyword.PUBLIC);
-                maybeAddNonDefaultCtor(decl, ctx, classes);
-
-                List<Statement> ctorstatements = new ArrayList<>();
-                maybeAddObjCreation(classes, ctx).ifPresent(ctorstatements::add);
-                maybeAddNonDefaultCtorObjectCreation(classes, ctx).ifPresent(ctorstatements::add);
-                maybePrintLn(decl.getName() + " default constructor").ifPresent(ctorstatements::add);
-                if (!ctorstatements.isEmpty()) {
-                    Collections.shuffle(ctorstatements, ctx.getRandom());
-                    for (var statement : ctorstatements) {
-                        decl.getDefaultConstructor().get().getBody().addStatement(statement);
-                    }
-                }
-
-                declarationsCode.append(CodeFormatting.prettify(decl));
-                declarationsCode.append("\n\n");
-
+                decl = appendClass(ctx, classes, declarationsCode);
                 classesToAdd.add(decl);
             }
             classes.addAll(classesToAdd);
         }
 
         return new Declarations(declarationsCode.toString(), decl);
+    }
+
+    private ClassOrInterfaceDeclaration appendClass(PuzzleContext ctx, List<ClassOrInterfaceDeclaration> classes, StringBuilder declarationsCode) {
+        String className = RandomLoch.getTypeName(ctx);
+        var decl = getDefaultDeclaration(className, classes, ctx);
+        maybeAddNonDefaultCtor(decl, ctx, classes);
+        declarationsCode.append(CodeFormatting.prettify(decl));
+        declarationsCode.append("\n\n");
+        classes.add(decl);
+        return decl;
     }
 
     /**
@@ -161,7 +158,12 @@ public class ConstructorChainPuzzle implements Puzzle {
 
         List<Statement> ctorstatements = new ArrayList<>();
         maybePrintLn(decl.getName() + " default constructor").ifPresent(ctorstatements::add);
+
         if (!classes.isEmpty()) {
+            String parentClassName = classes.getLast().getNameAsString();
+            decl.addExtendedType(parentClassName);
+            maybeAddSuperCall(ctx, classes.getLast()).ifPresent(decl.getDefaultConstructor().get().getBody()::addStatement);
+
             maybeAddObjCreation(classes, ctx).ifPresent(ctorstatements::add);
             maybeAddNonDefaultCtorObjectCreation(classes, ctx).ifPresent(ctorstatements::add);
         }
@@ -173,6 +175,7 @@ public class ConstructorChainPuzzle implements Puzzle {
         }
 
         return decl;
+
     }
 
 
@@ -185,6 +188,18 @@ public class ConstructorChainPuzzle implements Puzzle {
     private Optional<Statement> maybePrintLn(String message) {
         if (this.params.addPrintLn()) {
             return Optional.of(new ExpressionStmt(new MethodCallExpr("System.out.println", new StringLiteralExpr(message))));
+        }
+        return Optional.empty();
+    }
+
+    private Optional<Statement> maybeAddSuperCall(PuzzleContext ctx, ClassOrInterfaceDeclaration parentClass) {
+        if (this.params.addSuperCall()) {
+            var ctor = (new ChoiceDeck<ConstructorDeclaration>(ctx, parentClass.getConstructors())).draw();
+            if (ctor.getParameters().isEmpty()) {
+                return Optional.of(new ExpressionStmt(new MethodCallExpr("super")));
+            } else {
+                return Optional.of(new ExpressionStmt(new MethodCallExpr("super", new IntegerLiteralExpr("123"))));
+            }
         }
         return Optional.empty();
     }
@@ -265,8 +280,7 @@ public class ConstructorChainPuzzle implements Puzzle {
         List<ClassOrInterfaceDeclaration> superClasses = classes.stream().filter(c -> c.getConstructorByParameterTypes("int").isPresent()).toList();
         if (superClasses.isEmpty()) {
             return Optional.empty();
-        }
-        else {
+        } else {
             return Optional.of(new ChoiceDeck<>(ctx, superClasses).draw());
         }
     }

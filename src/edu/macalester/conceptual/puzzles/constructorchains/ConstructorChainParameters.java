@@ -34,6 +34,10 @@ public class ConstructorChainParameters {
         return rand.nextDouble() < difficultyToPrintProbability();
     }
 
+    public boolean addSuperCall() {
+        return rand.nextDouble() < difficultyToSuperCallProbability();
+    }
+
     public boolean addObjectCreationStatement() {
         return rand.nextDouble() < difficultyToAddObjCreationProbability();
     }
@@ -77,6 +81,16 @@ public class ConstructorChainParameters {
      */
     private static double difficultyToPrintProbability() {
         return 0.5;
+    }
+
+    private double difficultyToSuperCallProbability() {
+        if (difficulty < goalDifficulty) {
+            return 0.25;
+        } else if (difficulty < 7) {
+            return 0.5;
+        } else {
+            return 0.75;
+        }
     }
 
     private double difficultyToNonDefaultCtorProbability() {
