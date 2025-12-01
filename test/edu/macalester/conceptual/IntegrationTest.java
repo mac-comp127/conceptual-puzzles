@@ -42,6 +42,7 @@ public class IntegrationTest {
         "5i42-dtog-jq0h-93cn",   // bool
         "5kwo-ytu2-xjbr-tuir",   // bool, difficulty = 5
         "17tn-p4ge-k8oL-0bjf-6", // class
+        "1d9s-a0sz-9f4x-y0tv-b", // stack
         "c0uw-orx1-jycz-g82x"    // ast, difficulty = 50, potential operator precedence issue
     );
 

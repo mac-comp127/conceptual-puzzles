@@ -10,6 +10,7 @@ import edu.macalester.conceptual.puzzles.classes.ClassDeclarationsPuzzle;
 import edu.macalester.conceptual.puzzles.closures.ClosuresPuzzle;
 import edu.macalester.conceptual.puzzles.loops.LoopPuzzle;
 import edu.macalester.conceptual.puzzles.relationships.RelationshipsPuzzle;
+import edu.macalester.conceptual.puzzles.stack.StackAndHeapPuzzle;
 import edu.macalester.conceptual.puzzles.types.StaticAndRuntimeTypesPuzzle;
 import edu.macalester.conceptual.puzzles.vars.VariablesPuzzle;
 
@@ -25,7 +26,7 @@ import edu.macalester.conceptual.puzzles.vars.VariablesPuzzle;
 public interface Puzzle {
     /**
      * All available puzzle types. Anything listed here will show up as an option in the CLI.
-     * We create new puzzles instances from scratch every time this method is caleld to prevent
+     * We create new puzzles instances from scratch every time this method is called to prevent
      * state pollution when generating multiple puzzles in succession.
      */
     static List<Puzzle> all() {
@@ -33,8 +34,9 @@ public interface Puzzle {
             new AstDrawingPuzzle(),
             new BooleansAndConditionalsPuzzle(),
             new LoopPuzzle(),
-            new VariablesPuzzle(),
             new ClassDeclarationsPuzzle(),
+            new StackAndHeapPuzzle(),
+            new VariablesPuzzle(),
             new RelationshipsPuzzle(),
             new StaticAndRuntimeTypesPuzzle(),
             new ClosuresPuzzle()

@@ -45,6 +45,10 @@ public class Nonsense {
         return words(ctx, NameFormat.CAPITALIZED_CAMEL_CASE, 3, 10, 4);
     }
 
+    public static String shortTypeName(PuzzleContext ctx) {
+        return words(ctx, NameFormat.CAPITALIZED_CAMEL_CASE, 3, 5, 3);
+    }
+
     public static String methodName(PuzzleContext ctx) {
         return words(ctx, NameFormat.LOWER_CAMEL_CASE, 3, 6, 4);
     }
@@ -84,6 +88,10 @@ public class Nonsense {
 
     public static String propertyName(PuzzleContext ctx) {
         return words(ctx, NameFormat.LOWER_CAMEL_CASE, 2, 5, 3);
+    }
+
+    public static String shortPropertyName(PuzzleContext ctx) {
+        return words(ctx, NameFormat.LOWER_CAMEL_CASE, 2, 4, 2);
     }
 
     public static String variableName(PuzzleContext ctx) {
