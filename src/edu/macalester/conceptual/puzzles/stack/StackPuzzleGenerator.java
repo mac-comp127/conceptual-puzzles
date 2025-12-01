@@ -1,34 +1,19 @@
 package edu.macalester.conceptual.puzzles.stack;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.IntegerLiteralExpr;
-import com.github.javaparser.ast.expr.MethodCallExpr;
-import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ExpressionStmt;
-
 import edu.macalester.conceptual.context.PuzzleContext;
-import edu.macalester.conceptual.util.AstUtils;
-import edu.macalester.conceptual.util.ChoiceDeck;
 import edu.macalester.conceptual.util.Nonsense;
 import edu.macalester.conceptual.util.Randomness;
 
 import static com.github.javaparser.ast.NodeList.nodeList;
-import static edu.macalester.conceptual.util.AstUtils.classNamed;
-import static edu.macalester.conceptual.util.AstUtils.nodes;
 
 class StackPuzzleGenerator {
     private final PuzzleContext ctx;
-    private final ComplexityTracker complexity;
+    private final GeneratorContext genCtx;
 
     // Generator output
-    private final List<StackPuzzleClass> puzzleClasses;
     private final StackPuzzleClass entryPointClass;
     private final String entryPointMethod;
     private final List<VariableContainer> stack;
@@ -36,23 +21,12 @@ class StackPuzzleGenerator {
     StackPuzzleGenerator(PuzzleContext ctx) {
         this.ctx = ctx;
 
-        puzzleClasses = IntStream.range(0, Math.max(2, ctx.getDifficulty() / 3))
-            .mapToObj(n -> StackPuzzleClass.generate(ctx))
-            .toList();
+        genCtx = GeneratorContext.generate(ctx);
 
-        int propertyCount = ctx.getDifficulty() * puzzleClasses.size() / 2;
-        for(int n = 0; n < propertyCount; n++) {
-            var puzzleClass = Randomness.choose(ctx, puzzleClasses);
-            var propType = Randomness.choose(ctx, puzzleClasses);
-            puzzleClass.addProperty(Nonsense.shortPropertyName(ctx), propType);
-        }
-
-        complexity = new ComplexityTracker(ctx.getDifficulty());
-
-        entryPointClass = puzzleClasses.getFirst();
+        entryPointClass = genCtx.puzzleClasses().getFirst();
         entryPointMethod = Nonsense.methodName(ctx);
 
-        var methodGenerator = new MethodCallGenerator(ctx, complexity, puzzleClasses);
+        var methodGenerator = new MethodCallGenerator(genCtx);
 
         stack = methodGenerator.generate(
             entryPointClass,
@@ -65,7 +39,7 @@ class StackPuzzleGenerator {
     }
 
     public boolean isWellBalanced() {
-        return complexity.isWellBalanced();
+        return genCtx.complexity().isWellBalanced();
     }
 
     public void outputPuzzle() {
@@ -96,7 +70,7 @@ class StackPuzzleGenerator {
             """
         );
 
-        for (var aClass : puzzleClasses) {
+        for (var aClass : genCtx.puzzleClasses()) {
             ctx.output().codeBlock(aClass.buildDeclaration(ctx));
         }
 

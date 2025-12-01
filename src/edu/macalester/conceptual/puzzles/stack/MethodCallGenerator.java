@@ -22,14 +22,12 @@ import static com.github.javaparser.ast.NodeList.nodeList;
 import static edu.macalester.conceptual.util.AstUtils.nodes;
 
 class MethodCallGenerator {
+    private final GeneratorContext genCtx;
     private final PuzzleContext ctx;
-    private final ComplexityTracker complexity;
-    private final List<StackPuzzleClass> puzzleClasses;
 
-    MethodCallGenerator(PuzzleContext ctx, ComplexityTracker complexity, List<StackPuzzleClass> puzzleClasses) {
-        this.ctx = ctx;
-        this.complexity = complexity;
-        this.puzzleClasses = puzzleClasses;
+    MethodCallGenerator(GeneratorContext genCtx) {
+        this.genCtx = genCtx;
+        this.ctx = genCtx.ctx();
     }
 
     /**
@@ -49,7 +47,7 @@ class MethodCallGenerator {
         var methodBody = new BlockStmt();
         methodDecl.setBody(methodBody);
 
-        // Params (including implicit `this`)
+        // Add params (including implicit `this`) to both method decl and stack frame
 
         if (receiver != null) {
             stackFrame.addVariable(new Variable("this", new Value.Reference(receiver)));
@@ -62,7 +60,7 @@ class MethodCallGenerator {
             stackFrame.addVariable(new Variable(paramName, arg));
         }
 
-        // Local vars
+        // Generate local vars, add to method body and stack frame
 
         int maxLocals = 2 + Math.min(4, ctx.getDifficulty()) - stackFrame.size();
         int localCount = ctx.getRandom().nextInt(0, Math.max(1, maxLocals));
@@ -70,7 +68,7 @@ class MethodCallGenerator {
             generateLocalVar(methodBody, stackFrame, isBranchBeingTraced);
         }
 
-        // Optional extraneous calls
+        // Add optional extraneous calls
 
         boolean complicateBefore = shouldComplicate((callDepth + 1) * 2, isBranchBeingTraced);
         boolean complicateAfter = shouldComplicate((callDepth + 1) * 2 - 1, isBranchBeingTraced);
@@ -79,7 +77,7 @@ class MethodCallGenerator {
             addComplication(stackFrame, methodBody, callDepth);
         }
 
-        if (isBranchBeingTraced && complexity.hasPropAssignmentsRemaining()) {
+        if (isBranchBeingTraced && genCtx.complexity().hasPropAssignmentsRemaining()) {
             addPropertyAssignment(stackFrame, methodBody);
         }
 
@@ -100,14 +98,14 @@ class MethodCallGenerator {
             result.addAll(calleeStack);
         }
 
-        // Optional extraneous call after the real one
+        // Add optional extraneous call after the real one
 
         if (complicateAfter) {
             addComplication(stackFrame, methodBody, callDepth);
         }
 
         if (isBranchBeingTraced) {
-            complexity.countReferencesAsArrows(stackFrame.getVariables());
+            genCtx.complexity().countReferencesAsArrows(stackFrame.getVariables());
         }
 
         return result;
@@ -116,9 +114,9 @@ class MethodCallGenerator {
     private boolean shouldComplicate(int callsRemaining, boolean isBranchBeingTraced) {
         if (
             isBranchBeingTraced
-            && ctx.getRandom().nextFloat() < (float) complexity.getComplicationsRemaining() / callsRemaining
+            && ctx.getRandom().nextFloat() < (float) genCtx.complexity().getComplicationsRemaining() / callsRemaining
         ) {
-            complexity.countComplication();
+            genCtx.complexity().countComplication();
             return true;
         }
         return false;
@@ -137,7 +135,7 @@ class MethodCallGenerator {
         for(int attempt = 0; attempt < 3; attempt++) {
             var allowSelfConnection = (attempt >= 2);
             if (attemptPropertyAssignment(stackFrame, methodBody, allowSelfConnection)) {
-                complexity.countPropAssignment();
+                genCtx.complexity().countPropAssignment();
                 return;
             }
         }
@@ -189,7 +187,7 @@ class MethodCallGenerator {
         );
         lhsObj.setProperty(lhsProp, (Value.Reference) rhsVar.value());
 
-        complexity.countArrow();
+        genCtx.complexity().countArrow();
 
         return true;
     }
@@ -246,7 +244,7 @@ class MethodCallGenerator {
     ) {
         Runnable choice = Randomness.chooseWithProb(ctx,
             // mostly objects, a few ints...unless we've made a lot of objects already
-            complexity.hasObjectsRemaining() ? 0.7 : 0,
+            genCtx.complexity().hasObjectsRemaining() ? 0.7 : 0,
             () -> {
                 var varName = Nonsense.variableName(ctx);
                 var obj = generateObject(isBranchBeingTraced);
@@ -289,7 +287,7 @@ class MethodCallGenerator {
                 )
             );
         }
-        if (complexity.hasObjectsRemaining()) {
+        if (genCtx.complexity().hasObjectsRemaining()) {
             // instance method call to a new instance
             possibleArgs.add(() -> {
                 var obj = generateObject(isBranchBeingTraced);
@@ -335,8 +333,8 @@ class MethodCallGenerator {
                 );
             }
         }
-        for (var puzzleClass : puzzleClasses) {
-            if (complexity.hasObjectsRemaining()) {
+        for (var puzzleClass : genCtx.puzzleClasses()) {
+            if (genCtx.complexity().hasObjectsRemaining()) {
                 // instance method call to a new instance
                 possibleReceivers.add(() -> {
                     var obj = generateObject(isBranchBeingTraced);
@@ -362,10 +360,10 @@ class MethodCallGenerator {
 
     private StackPuzzleObject generateObject(boolean isBranchBeingTraced) {
         if (isBranchBeingTraced) {  // doesn't count if it won't be in the diagram
-            complexity.countObject();
+            genCtx.complexity().countObject();
         }
         return new StackPuzzleObject(
-            Randomness.choose(ctx, puzzleClasses),
+            Randomness.choose(ctx, genCtx.puzzleClasses()),
             ctx.getRandom().nextInt(1000)
         );
     }
