@@ -21,7 +21,7 @@ class StackPuzzleGenerator {
 
         genCtx = GeneratorContext.generate(ctx);
 
-        entryPointClass = genCtx.puzzleClasses().getFirst();
+        entryPointClass = genCtx.puzzleClasses().get(0);
         entryPointMethod = Nonsense.methodName(ctx);
 
         stack = new MethodCall(

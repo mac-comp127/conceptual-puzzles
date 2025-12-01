@@ -2,6 +2,7 @@ package edu.macalester.conceptual.puzzles.stack;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +94,10 @@ class CallStackDiagram {
             valueRenderings.add(
                 () -> renderValue(variable, varLabel, box, columnNum));
         }
-        valueRenderings.reversed().forEach(Runnable::run);
+        // TODO: When we move to Java 21, this can become:
+        // valueRenderings.reversed().forEach(Runnable::run);
+        Collections.reverse(valueRenderings);
+        valueRenderings.forEach(Runnable::run);
 
         // Size enclosing box and add to appropriate column
 
