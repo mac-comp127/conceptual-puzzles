@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
+import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
@@ -21,19 +22,16 @@ import edu.macalester.conceptual.util.Randomness;
 import static com.github.javaparser.ast.NodeList.nodeList;
 import static edu.macalester.conceptual.util.AstUtils.nodes;
 
-class MethodCallGenerator {
+class MethodCall {
     private final GeneratorContext genCtx;
     private final PuzzleContext ctx;
 
-    MethodCallGenerator(GeneratorContext genCtx) {
-        this.genCtx = genCtx;
-        this.ctx = genCtx.ctx();
-    }
+    private final VariableContainer stackFrame;
+    private final BlockStmt methodBody;
+    private final List<VariableContainer> targetStackTrace;
 
-    /**
-     * Returns the stack trace that reaches the target marker.
-     */
-    List<VariableContainer> generate(
+    MethodCall(
+        GeneratorContext genCtx,
         StackPuzzleClass type,
         StackPuzzleObject receiver,  // null if static method
         String name,
@@ -41,32 +39,23 @@ class MethodCallGenerator {
         int callDepth,
         boolean isBranchBeingTraced
     ) {
-        var stackFrame = new VariableContainer(name);
+        this.genCtx = genCtx;
+        this.ctx = genCtx.ctx();
+
+        stackFrame = new VariableContainer(name);
 
         var methodDecl = type.addMethod(name);
-        var methodBody = new BlockStmt();
-        methodDecl.setBody(methodBody);
-
-        // Add params (including implicit `this`) to both method decl and stack frame
-
-        if (receiver != null) {
-            stackFrame.addVariable(new Variable("this", new Value.Reference(receiver)));
-        } else {
+        if (receiver == null) {
             methodDecl.setStatic(true);
         }
-        for (var arg : args) {
-            String paramName = Nonsense.variableName(ctx);
-            methodDecl.addParameter(AstUtils.classNamed(arg.typeName()), paramName);
-            stackFrame.addVariable(new Variable(paramName, arg));
-        }
+        methodBody = new BlockStmt();
+        methodDecl.setBody(methodBody);
 
-        // Generate local vars, add to method body and stack frame
+        // Set up variables that appear in stack frame
 
-        int maxLocals = 2 + Math.min(4, ctx.getDifficulty()) - stackFrame.size();
-        int localCount = ctx.getRandom().nextInt(0, Math.max(1, maxLocals));
-        for(int n = 0; n < localCount; n++) {
-            generateLocalVar(methodBody, stackFrame, isBranchBeingTraced);
-        }
+        addParams(receiver, args, methodDecl);
+
+        generateLocalVars(isBranchBeingTraced);
 
         // Add optional extraneous calls
 
@@ -74,17 +63,17 @@ class MethodCallGenerator {
         boolean complicateAfter = shouldComplicate((callDepth + 1) * 2 - 1, isBranchBeingTraced);
 
         if (complicateBefore) {
-            addComplication(stackFrame, methodBody, callDepth);
+            addComplication(callDepth);
         }
 
         if (isBranchBeingTraced && genCtx.complexity().hasPropAssignmentsRemaining()) {
-            addPropertyAssignment(stackFrame, methodBody);
+            addPropertyAssignment();
         }
 
         // Generate either the next call in the chain or the leaf node of this chain
 
-        var result = new ArrayList<VariableContainer>();
-        result.add(stackFrame);
+        var stack = new ArrayList<VariableContainer>();
+        stack.add(stackFrame);
 
         if (callDepth <= 0) {
             // We've reached the end of the call chain
@@ -93,22 +82,54 @@ class MethodCallGenerator {
             }
         } else {
             // Generate next method call in chain
-            var calleeStack = generateMethodAndCall(
-                stackFrame, methodBody, callDepth, isBranchBeingTraced);
-            result.addAll(calleeStack);
+            var calleeStack = generateMethodAndCall(callDepth, isBranchBeingTraced);
+            stack.addAll(calleeStack);
         }
 
         // Add optional extraneous call after the real one
 
         if (complicateAfter) {
-            addComplication(stackFrame, methodBody, callDepth);
+            addComplication(callDepth);
         }
 
         if (isBranchBeingTraced) {
             genCtx.complexity().countReferencesAsArrows(stackFrame.getVariables());
         }
 
-        return result;
+        this.targetStackTrace = stack;
+    }
+
+    /**
+     * Add params (including implicit `this`) to both the method decl and the stack frame.
+     */
+    private void addParams(
+        StackPuzzleObject receiver,
+        List<Value> args,
+        MethodDeclaration methodDecl
+    ) {
+        if (receiver != null) {
+            stackFrame.addVariable(new Variable("this", new Value.Reference(receiver)));
+        }
+        for (var arg : args) {
+            String paramName = Nonsense.variableName(ctx);
+            methodDecl.addParameter(AstUtils.classNamed(arg.typeName()), paramName);
+            stackFrame.addVariable(new Variable(paramName, arg));
+        }
+    }
+
+    /**
+     * Generate local vars, adding them to both the method body and the stack frame.
+     */
+    private void generateLocalVars(boolean isBranchBeingTraced) {
+        int maxLocals = 2 + Math.min(4, ctx.getDifficulty()) - stackFrame.size();
+        int localCount = ctx.getRandom().nextInt(0, Math.max(1, maxLocals));
+        for(int n = 0; n < localCount; n++) {
+            generateLocalVar(isBranchBeingTraced);
+        }
+    }
+
+    List<VariableContainer> getTargetStackTrace() {
+        return targetStackTrace;
     }
 
     private boolean shouldComplicate(int callsRemaining, boolean isBranchBeingTraced) {
@@ -122,30 +143,22 @@ class MethodCallGenerator {
         return false;
     }
 
-    private void addComplication(
-        VariableContainer stackFrame,
-        BlockStmt methodBody,
-        int callDepth
-    ) {
-        generateMethodAndCall(stackFrame, methodBody, callDepth / 2, false);
+    private void addComplication(int callDepth) {
+        generateMethodAndCall(callDepth / 2, false);
         // Note that we ignore the returned stack trace: this isn't a call we're visualizing!
     }
 
-    private void addPropertyAssignment(VariableContainer stackFrame, BlockStmt methodBody) {
+    private void addPropertyAssignment() {
         for(int attempt = 0; attempt < 3; attempt++) {
             var allowSelfConnection = (attempt >= 2);
-            if (attemptPropertyAssignment(stackFrame, methodBody, allowSelfConnection)) {
+            if (attemptPropertyAssignment(allowSelfConnection)) {
                 genCtx.complexity().countPropAssignment();
                 return;
             }
         }
     }
 
-    private boolean attemptPropertyAssignment(
-        VariableContainer stackFrame,
-        BlockStmt methodBody,
-        boolean allowSelfConnection
-    ) {
+    private boolean attemptPropertyAssignment(boolean allowSelfConnection) {
         // Pick a random available variable whose value is an object (and not null)
 
         var varsWithObjectValue = stackFrame.getVariables().stream()
@@ -192,19 +205,14 @@ class MethodCallGenerator {
         return true;
     }
 
-    private List<VariableContainer> generateMethodAndCall(
-        VariableContainer stackFrame,
-        BlockStmt methodBody,
-        int callDepth,
-        boolean isBranchBeingTraced
-    ) {
+    private List<VariableContainer> generateMethodAndCall(int callDepth, boolean isBranchBeingTraced) {
         // Choose receiver next method call
 
-        var nextReceiver = chooseMethodCallReceiver(stackFrame, isBranchBeingTraced);
+        var nextReceiver = chooseMethodCallReceiver(isBranchBeingTraced);
 
         // Generate args for next method call
 
-        var exprChoices = gatherExprChoices(stackFrame, isBranchBeingTraced);
+        var exprChoices = gatherExprChoices(isBranchBeingTraced);
         var nextArgs = IntStream.range(0, ctx.getRandom().nextInt(0, 4))
             .mapToObj(i -> exprChoices.draw().get())
             .toList();
@@ -227,21 +235,18 @@ class MethodCallGenerator {
 
         // Declare the new method
 
-        return generate(
+        return new MethodCall(
+            genCtx,
             nextReceiver.type(),
             nextReceiver.object(),
             nextMethodName,
             nextArgs.stream().map(ExprAndValue::value).toList(),
             callDepth - 1,
             isBranchBeingTraced
-        );
+        ).getTargetStackTrace();
     }
 
-    private void generateLocalVar(
-        BlockStmt methodBody,
-        VariableContainer stackFrame,
-        boolean isBranchBeingTraced
-    ) {
+    private void generateLocalVar(boolean isBranchBeingTraced) {
         Runnable choice = Randomness.chooseWithProb(ctx,
             // mostly objects, a few ints...unless we've made a lot of objects already
             genCtx.complexity().hasObjectsRemaining() ? 0.7 : 0,
@@ -274,10 +279,7 @@ class MethodCallGenerator {
         Value value
     ) { }
 
-    private ChoiceDeck<Supplier<ExprAndValue>> gatherExprChoices(
-        VariableContainer stackFrame,
-        boolean isBranchBeingTraced
-    ) {
+    private ChoiceDeck<Supplier<ExprAndValue>> gatherExprChoices(boolean isBranchBeingTraced) {
         var possibleArgs = new ArrayList<Supplier<ExprAndValue>>();
         for (var variable : stackFrame.getVariables()) {
             possibleArgs.add(() ->
@@ -316,10 +318,7 @@ class MethodCallGenerator {
         StackPuzzleObject object  // null if static method
     ) { }
 
-    private MethodCallReceiver chooseMethodCallReceiver(
-        VariableContainer stackFrame,
-        boolean isBranchBeingTraced
-    ) {
+    private MethodCallReceiver chooseMethodCallReceiver(boolean isBranchBeingTraced) {
         var possibleReceivers = new ArrayList<Supplier<MethodCallReceiver>>();
         for (var variable : stackFrame.getVariables()) {
             if (variable.value() instanceof Value.Reference ref) {

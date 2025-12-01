@@ -1,11 +1,9 @@
 package edu.macalester.conceptual.puzzles.stack;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.util.Nonsense;
-import edu.macalester.conceptual.util.Randomness;
 
 import static com.github.javaparser.ast.NodeList.nodeList;
 
@@ -26,16 +24,15 @@ class StackPuzzleGenerator {
         entryPointClass = genCtx.puzzleClasses().getFirst();
         entryPointMethod = Nonsense.methodName(ctx);
 
-        var methodGenerator = new MethodCallGenerator(genCtx);
-
-        stack = methodGenerator.generate(
+        stack = new MethodCall(
+            genCtx,
             entryPointClass,
             null,  // static method
             entryPointMethod,
             List.of(),  // no args
             ctx.getDifficulty(),
             true  // trace this branch: place marker when we reach leaf node, return stack trace
-        );
+        ).getTargetStackTrace();
     }
 
     public boolean isWellBalanced() {
