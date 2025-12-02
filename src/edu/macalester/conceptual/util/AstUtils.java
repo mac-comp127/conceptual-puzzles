@@ -1,5 +1,6 @@
 package edu.macalester.conceptual.util;
 
+import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
@@ -118,6 +119,15 @@ public enum AstUtils {
     public static ClassOrInterfaceDeclaration typeDecl(String name, boolean isInterface) {
         return new ClassOrInterfaceDeclaration(
                 AstUtils.nodes(), isInterface, name);
+    }
+
+    /**
+     * Returns a list of the class declarations in a CompilationUnit.
+     * @param unit - CompilationUnit
+     * @return list of the class or interface declarations in the compilation unit.
+     */
+    public static List<ClassOrInterfaceDeclaration> classesInCompilationUnit(CompilationUnit unit) {
+        return unit.getTypes().stream().map(TypeDeclaration::asClassOrInterfaceDeclaration).toList();
     }
 
     /**

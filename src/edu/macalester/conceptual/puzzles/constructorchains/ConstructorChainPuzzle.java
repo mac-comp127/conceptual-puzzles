@@ -1,18 +1,23 @@
 package edu.macalester.conceptual.puzzles.constructorchains;
 
+import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
-import com.github.javaparser.ast.body.ConstructorDeclaration;
+import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.utils.Utils;
 import edu.macalester.conceptual.Puzzle;
 import edu.macalester.conceptual.context.PuzzleContext;
-import edu.macalester.conceptual.util.*;
+import edu.macalester.conceptual.util.AstUtils;
+import edu.macalester.conceptual.util.ChoiceDeck;
+import edu.macalester.conceptual.util.CodeSnippet;
+import edu.macalester.conceptual.util.Evaluator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +27,8 @@ import java.util.Optional;
 public class ConstructorChainPuzzle implements Puzzle {
 
     private ConstructorChainParameters params;
+    private RandomLoch randomLoch;
+    private RandomWeatherPlace randomWeatherPlace;
 
     @Override
     public byte id() {
@@ -51,23 +58,26 @@ public class ConstructorChainPuzzle implements Puzzle {
     @Override
     public void generate(PuzzleContext ctx) {
         this.params = new ConstructorChainParameters(goalDifficulty(), ctx.getDifficulty(), ctx.getRandom());
+        this.randomLoch = new RandomLoch(ctx);
+        this.randomWeatherPlace = new RandomWeatherPlace(ctx);
 
         ctx.output().paragraph("With the following class declarations:");
 
         // FIXME need to specify which constructor, if leaf class has more than one
         var decls = generateDeclarations(ctx);
 
-        ctx.output().codeBlock(decls.declarationsCode);
+
+        ctx.output().codeBlock(decls);
 
         // FIXME: class could have more than one constructor!
-        ctx.output().paragraph(getPrompt(ctx, decls.bottomClassDeclaration));
+        // does decls.declarationsCode respect the ordering? Can get bottom class declaration from that?
 
-        ctx.solution(() -> {
-            ctx.output().codeBlock(getSolution(decls));
-        });
+        ctx.output().paragraph(getPrompt(ctx, (TypeDeclaration<ClassOrInterfaceDeclaration>) decls.getTypes().getLast().orElseThrow()));
+
+        ctx.solution(() -> ctx.output().codeBlock(getSolution(decls)));
     }
 
-    private String getPrompt(PuzzleContext ctx, ClassOrInterfaceDeclaration classDeclaration) {
+    private String getPrompt(PuzzleContext ctx, TypeDeclaration<ClassOrInterfaceDeclaration> classDeclaration) {
         var ctorsDeck = new ChoiceDeck<>(ctx, classDeclaration.getConstructors()).draw();
 
         String prompt = "What gets printed when you create an instance of " + classDeclaration.getName() + " ";
@@ -80,50 +90,39 @@ public class ConstructorChainPuzzle implements Puzzle {
 
     }
 
-    private String getSolution(Declarations decls) {
+    private String getSolution(CompilationUnit decls) {
+        var bottomClass = decls.getTypes().getLast().orElseThrow();
         return Evaluator.captureOutput(
                 CodeSnippet.build()
-                        .withMainBody("var x = new " + decls.bottomClassDeclaration.getName() + "();")
-                        .withOtherClasses(decls.declarationsCode()
+                        .withMainBody("var x = new " + bottomClass.getName() + "();")
+                        .withOtherClasses(decls.toString()
                         ));
     }
 
-    private record Declarations(String declarationsCode, ClassOrInterfaceDeclaration bottomClassDeclaration) {
-    }
-
-    private Declarations generateDeclarations(PuzzleContext ctx) {
+    private CompilationUnit generateDeclarations(PuzzleContext ctx) {
         int depth = this.params.hierarchyDepth();
-        StringBuilder declarationsCode = new StringBuilder();
-        List<ClassOrInterfaceDeclaration> classes = new ArrayList<>();
-        var decl = appendClass(ctx, classes, declarationsCode);
+        CompilationUnit declarations = new CompilationUnit();
+        appendClass(ctx, declarations);
 
         // FIXME TODO see notes.org for things to fix with the hierarchy generation
 
         for (int i = 0; i < depth; i++) {
-            List<ClassOrInterfaceDeclaration> classesToAdd = new ArrayList<>();
-
             int numSiblings = 1; // this.params.numSiblings();
             // disabling the "siblings" stuff for now -- we will, in effect, handle those when we fully
             // implement the idea of first generating the actual chain, and *then* sprinkling in distractors.
 
-            String parentClassName = classes.getLast().getNameAsString();
             for (int j = 0; j < numSiblings; j++) {
-                decl = appendClass(ctx, classes, declarationsCode);
-                classesToAdd.add(decl);
+                appendClass(ctx, declarations);
             }
-            classes.addAll(classesToAdd);
         }
-
-        return new Declarations(declarationsCode.toString(), decl);
+        return declarations;
     }
 
-    private ClassOrInterfaceDeclaration appendClass(PuzzleContext ctx, List<ClassOrInterfaceDeclaration> classes, StringBuilder declarationsCode) {
-        String className = RandomLoch.getTypeName(ctx);
-        var decl = getDefaultDeclaration(className, classes, ctx);
-        maybeAddNonDefaultCtor(decl, ctx, classes);
-        declarationsCode.append(CodeFormatting.prettify(decl));
-        declarationsCode.append("\n\n");
-        classes.add(decl);
+    private ClassOrInterfaceDeclaration appendClass(PuzzleContext ctx, CompilationUnit declarations) {
+        String className = randomLoch.draw();
+        var decl = getDefaultDeclaration(className, declarations, ctx);
+        maybeAddNonDefaultCtor(decl, ctx, AstUtils.classesInCompilationUnit(declarations));
+        declarations.addType(decl);
         return decl;
     }
 
@@ -131,30 +130,31 @@ public class ConstructorChainPuzzle implements Puzzle {
      * Create a class declaration with a default constructor that may or may include print statements, object creation,
      * or other code related to the difficulty level.
      *
-     * @param className name of the class
-     * @param ctx       puzzle context, used for difficulty level and random generator
-     * @param classes   list of ancestor classes
+     * @param className    name of the class
+     * @param declarations list of ancestor classes
+     * @param ctx          puzzle context, used for difficulty level and random generator
      * @return class declaration object
      */
-    private ClassOrInterfaceDeclaration getDefaultDeclaration(String className, List<ClassOrInterfaceDeclaration> classes, PuzzleContext ctx) {
+    private ClassOrInterfaceDeclaration getDefaultDeclaration(String className, CompilationUnit declarations, PuzzleContext ctx) {
         var decl = AstUtils.classDecl(className);
         decl.addConstructor(Modifier.Keyword.PUBLIC);
 
         List<Statement> ctorstatements = new ArrayList<>();
         maybePrintLn(decl.getName() + " default constructor").ifPresent(ctorstatements::add);
-
+        var classes = AstUtils.classesInCompilationUnit(declarations);
         if (!classes.isEmpty()) {
-            String parentClassName = classes.getLast().getNameAsString();
-            decl.addExtendedType(parentClassName);
-            maybeAddSuperCall(ctx, classes.getLast()).ifPresent(decl.getDefaultConstructor().get().getBody()::addStatement);
 
+            var parentClass = classes.getLast().getNameAsString();
+            decl.addExtendedType(parentClass);
+
+            maybeAddSuperCall(ctx, classes.getLast()).ifPresent(decl.getDefaultConstructor().orElseThrow().getBody()::addStatement);
             maybeAddObjCreation(classes, ctx).ifPresent(ctorstatements::add);
             maybeAddNonDefaultCtorObjectCreation(classes, ctx).ifPresent(ctorstatements::add);
         }
         if (!ctorstatements.isEmpty()) {
             Collections.shuffle(ctorstatements, ctx.getRandom());
             for (var statement : ctorstatements) {
-                decl.getDefaultConstructor().get().getBody().addStatement(statement);
+                decl.getDefaultConstructor().orElseThrow().getBody().addStatement(statement);
             }
         }
 
@@ -178,7 +178,7 @@ public class ConstructorChainPuzzle implements Puzzle {
 
     private Optional<Statement> maybeAddSuperCall(PuzzleContext ctx, ClassOrInterfaceDeclaration parentClass) {
         if (this.params.addSuperCall()) {
-            var ctor = (new ChoiceDeck<ConstructorDeclaration>(ctx, parentClass.getConstructors())).draw();
+            var ctor = (new ChoiceDeck<>(ctx, parentClass.getConstructors())).draw();
             if (ctor.getParameters().isEmpty()) {
                 return Optional.of(new ExpressionStmt(new MethodCallExpr("super")));
             } else {
@@ -197,24 +197,15 @@ public class ConstructorChainPuzzle implements Puzzle {
      * @param classes     list of classes to choose from for object creation statements
      */
     private void maybeAddNonDefaultCtor(ClassOrInterfaceDeclaration declaration, PuzzleContext ctx, List<ClassOrInterfaceDeclaration> classes) {
+
         if (this.params.addNonDefaultCtor()) {
             var nonDefaultCtor = declaration.addConstructor(Modifier.Keyword.PUBLIC);
             nonDefaultCtor.addParameter("int", "n");
             maybePrintLn(declaration.getName() + " constructor, n = \" + n + \".").ifPresent(nonDefaultCtor.getBody()::addStatement);
+
             maybeAddObjCreation(classes, ctx).ifPresent(nonDefaultCtor.getBody()::addStatement);
             maybeAddNonDefaultCtorObjectCreation(classes, ctx).ifPresent(nonDefaultCtor.getBody()::addStatement);
         }
-    }
-
-    /**
-     * Format provided name as a variable name -- lowercase the first letter.
-     * FIXME would this belong in Nonsense, or somehow with NameFormat?
-     *
-     * @param name variable name
-     * @return name, but first letter will be lowercase
-     */
-    private String variableName(String name) {
-        return name.substring(0, 1).toLowerCase() + name.substring(1);
     }
 
     /**
@@ -230,8 +221,7 @@ public class ConstructorChainPuzzle implements Puzzle {
             // a superclass of the superclass!
             var superClassName = superclassesDeck.draw().getName().toString();
 
-            String variable = variableName(RandomWeatherPlace.getTypeName(ctx));
-            System.out.println("object creation of type " + superClassName + " var name " + variable);
+            String variable = Utils.decapitalize(randomWeatherPlace.draw());
             return Optional.of(AstUtils.getObjectCreationStmt(superClassName, variable, superClassName));
         }
         return Optional.empty();
@@ -246,7 +236,7 @@ public class ConstructorChainPuzzle implements Puzzle {
             var superClassName = superClass.getName().toString();
             String paramString = String.valueOf(ctx.getRandom().nextInt(10, 20));
             NodeList<Expression> params = new NodeList<>(new IntegerLiteralExpr(paramString));
-            String variableName = variableName(RandomWeatherPlace.getTypeName(ctx));
+            String variableName = Utils.decapitalize(randomWeatherPlace.draw());
             return Optional.of(AstUtils.getObjectCreationStmtWithParam(superClassName, variableName, superClassName, params));
         }
         return Optional.empty();
