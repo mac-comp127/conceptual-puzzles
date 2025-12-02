@@ -4,10 +4,14 @@ Given the code below, this method call:
 
     Cisit.omhar();
 
-...will eventually reach the point marked [100m[97m  HERE  [39m[49m.
+...will eventually reach the point marked [100m[97m  HERE  [39m[49m. Draw a diagram of the stack
+and the heap at that point.
 
-Draw a diagram of the stack frames and objects (not classes, but [3mobjects[23m) that
-exist at that point. In your diagram:
+(The [1mstack[22m contains the local variables of all the function calls that are
+currently in progress, one [1mstack frame[22m per function call. The [1mheap[22m contains all
+of the objects that currently exist.)
+
+In your diagram:
 
   - Label each stack frame with the name of the method.
   - Label each object with the name of its class.
@@ -18,6 +22,8 @@ exist at that point. In your diagram:
     next to the variable.
   - When a variable points to an object, draw an arrow from the variable to the
     object it points to.
+
+The code:
 
     public class Cisit {
         private int itMa;
@@ -83,6 +89,9 @@ Hints for practicing this puzzle:
     HERE  [39m[49m. Start by finding that path.
   - Be thorough. Double check that you've fully diagrammed each step before you
     move on to the next one.
+  - You can feed this code into https://pythontutor.com and watch a diagram like
+    this build up step by step. (Yes, despite the web site's name, it also works
+    with Java.)
 
 ────────────────────────────────────────────────────────────────────────────────
 
@@ -92,10 +101,14 @@ Given the code below, this method call:
 
     Zix.ipiPiresh();
 
-...will eventually reach the point marked [100m[97m  HERE  [39m[49m.
+...will eventually reach the point marked [100m[97m  HERE  [39m[49m. Draw a diagram of the stack
+and the heap at that point.
 
-Draw a diagram of the stack frames and objects (not classes, but [3mobjects[23m) that
-exist at that point. In your diagram:
+(The [1mstack[22m contains the local variables of all the function calls that are
+currently in progress, one [1mstack frame[22m per function call. The [1mheap[22m contains all
+of the objects that currently exist.)
+
+In your diagram:
 
   - Label each stack frame with the name of the method.
   - Label each object with the name of its class.
@@ -106,6 +119,8 @@ exist at that point. In your diagram:
     next to the variable.
   - When a variable points to an object, draw an arrow from the variable to the
     object it points to.
+
+The code:
 
     public class Zix {
         private int telmi;
@@ -174,6 +189,9 @@ Hints for practicing this puzzle:
     HERE  [39m[49m. Start by finding that path.
   - Be thorough. Double check that you've fully diagrammed each step before you
     move on to the next one.
+  - You can feed this code into https://pythontutor.com and watch a diagram like
+    this build up step by step. (Yes, despite the web site's name, it also works
+    with Java.)
 
 ────────────────────────────────────────────────────────────────────────────────
 
@@ -183,10 +201,14 @@ Given the code below, this method call:
 
     Irge.usasm();
 
-...will eventually reach the point marked [100m[97m  HERE  [39m[49m.
+...will eventually reach the point marked [100m[97m  HERE  [39m[49m. Draw a diagram of the stack
+and the heap at that point.
 
-Draw a diagram of the stack frames and objects (not classes, but [3mobjects[23m) that
-exist at that point. In your diagram:
+(The [1mstack[22m contains the local variables of all the function calls that are
+currently in progress, one [1mstack frame[22m per function call. The [1mheap[22m contains all
+of the objects that currently exist.)
+
+In your diagram:
 
   - Label each stack frame with the name of the method.
   - Label each object with the name of its class.
@@ -197,6 +219,8 @@ exist at that point. In your diagram:
     next to the variable.
   - When a variable points to an object, draw an arrow from the variable to the
     object it points to.
+
+The code:
 
     public class Irge {
         private int clac;
@@ -259,6 +283,9 @@ Hints for practicing this puzzle:
     HERE  [39m[49m. Start by finding that path.
   - Be thorough. Double check that you've fully diagrammed each step before you
     move on to the next one.
+  - You can feed this code into https://pythontutor.com and watch a diagram like
+    this build up step by step. (Yes, despite the web site's name, it also works
+    with Java.)
 
 ────────────────────────────────────────────────────────────────────────────────
 
@@ -268,10 +295,14 @@ Given the code below, this method call:
 
     Etrer.biaGidmot();
 
-...will eventually reach the point marked [100m[97m  HERE  [39m[49m.
+...will eventually reach the point marked [100m[97m  HERE  [39m[49m. Draw a diagram of the stack
+and the heap at that point.
 
-Draw a diagram of the stack frames and objects (not classes, but [3mobjects[23m) that
-exist at that point. In your diagram:
+(The [1mstack[22m contains the local variables of all the function calls that are
+currently in progress, one [1mstack frame[22m per function call. The [1mheap[22m contains all
+of the objects that currently exist.)
+
+In your diagram:
 
   - Label each stack frame with the name of the method.
   - Label each object with the name of its class.
@@ -282,6 +313,8 @@ exist at that point. In your diagram:
     next to the variable.
   - When a variable points to an object, draw an arrow from the variable to the
     object it points to.
+
+The code:
 
     public class Etrer {
         private int erres;
@@ -345,6 +378,9 @@ Hints for practicing this puzzle:
     HERE  [39m[49m. Start by finding that path.
   - Be thorough. Double check that you've fully diagrammed each step before you
     move on to the next one.
+  - You can feed this code into https://pythontutor.com and watch a diagram like
+    this build up step by step. (Yes, despite the web site's name, it also works
+    with Java.)
 
 ────────────────────────────────────────────────────────────────────────────────
 
@@ -354,10 +390,14 @@ Given the code below, this method call:
 
     Incel.anth();
 
-...will eventually reach the point marked [100m[97m  HERE  [39m[49m.
+...will eventually reach the point marked [100m[97m  HERE  [39m[49m. Draw a diagram of the stack
+and the heap at that point.
 
-Draw a diagram of the stack frames and objects (not classes, but [3mobjects[23m) that
-exist at that point. In your diagram:
+(The [1mstack[22m contains the local variables of all the function calls that are
+currently in progress, one [1mstack frame[22m per function call. The [1mheap[22m contains all
+of the objects that currently exist.)
+
+In your diagram:
 
   - Label each stack frame with the name of the method.
   - Label each object with the name of its class.
@@ -368,6 +408,8 @@ exist at that point. In your diagram:
     next to the variable.
   - When a variable points to an object, draw an arrow from the variable to the
     object it points to.
+
+The code:
 
     public class Incel {
         private int furd;
@@ -435,6 +477,9 @@ Hints for practicing this puzzle:
     HERE  [39m[49m. Start by finding that path.
   - Be thorough. Double check that you've fully diagrammed each step before you
     move on to the next one.
+  - You can feed this code into https://pythontutor.com and watch a diagram like
+    this build up step by step. (Yes, despite the web site's name, it also works
+    with Java.)
 
 ────────────────────────────────────────────────────────────────────────────────
 
@@ -444,10 +489,14 @@ Given the code below, this method call:
 
     Prua.dauspi();
 
-...will eventually reach the point marked [100m[97m  HERE  [39m[49m.
+...will eventually reach the point marked [100m[97m  HERE  [39m[49m. Draw a diagram of the stack
+and the heap at that point.
 
-Draw a diagram of the stack frames and objects (not classes, but [3mobjects[23m) that
-exist at that point. In your diagram:
+(The [1mstack[22m contains the local variables of all the function calls that are
+currently in progress, one [1mstack frame[22m per function call. The [1mheap[22m contains all
+of the objects that currently exist.)
+
+In your diagram:
 
   - Label each stack frame with the name of the method.
   - Label each object with the name of its class.
@@ -458,6 +507,8 @@ exist at that point. In your diagram:
     next to the variable.
   - When a variable points to an object, draw an arrow from the variable to the
     object it points to.
+
+The code:
 
     public class Prua {
         private int irn;
@@ -525,6 +576,9 @@ Hints for practicing this puzzle:
     HERE  [39m[49m. Start by finding that path.
   - Be thorough. Double check that you've fully diagrammed each step before you
     move on to the next one.
+  - You can feed this code into https://pythontutor.com and watch a diagram like
+    this build up step by step. (Yes, despite the web site's name, it also works
+    with Java.)
 
 ────────────────────────────────────────────────────────────────────────────────
 

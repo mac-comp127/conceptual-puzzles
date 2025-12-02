@@ -45,6 +45,7 @@ class CallStackDiagram {
 
         centerColumns();
         renderConnections();
+        labelColumns();
     }
 
     /**
@@ -266,6 +267,20 @@ class CallStackDiagram {
     private void centerColumns() {
         for (var column : columns.values()) {
             column.setCenter(column.getCenter().getX(), 0);
+        }
+    }
+
+    private void labelColumns() {
+        double colTop = columns.values().stream()
+            .mapToDouble(col -> col.getBoundsInParent().getMinY())
+            .min().orElseThrow();
+
+        double x = 0;
+        for (var labelText : List.of("Stack", "Heap")) {
+            var label = new GraphicsText(labelText, x, colTop - marginY * 2);
+            DiagramUtils.applyLabelFont(label);
+            graphics.add(label);
+            x += columnWidth;
         }
     }
 

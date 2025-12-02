@@ -23,6 +23,10 @@ public class DiagramUtils {
         label.setFontStyle(FontStyle.PLAIN);
     }
 
+    public static void applyLabelFont(GraphicsText label) {
+        label.setFont("Helvetica Neue, Tahoma, sans serif", FontStyle.PLAIN, 24);
+        label.setFillColor(Color.LIGHT_GRAY);
+    }
     public static Path makeArrowhead(Point tip, boolean hollow, float hue) {
         var arrowHead = new Path(
             List.of(

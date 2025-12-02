@@ -47,13 +47,19 @@ class StackPuzzleGenerator {
     public void outputPuzzle() {
         ctx.output().paragraph("Given the code below, this method call:");
         ctx.output().codeBlock(entryPointClass + "." + entryPointMethod + "();");
-        ctx.output().paragraph("...will eventually reach the point marked ___HERE___.");
         ctx.output().paragraph(
             """
-            Draw a diagram of the stack frames and objects (not classes, but _objects_) that exist
-            at that point. In your diagram:
+            ...will eventually reach the point marked ___HERE___.
+            Draw a diagram of the stack and the heap at that point.
+            """);
+        ctx.output().paragraph(
+            """
+            (The *stack* contains the local variables of all the function calls that are currently
+            in progress, one *stack frame* per function call. The *heap* contains all of the objects
+            that currently exist.)
             """
         );
+        ctx.output().paragraph("In your diagram:");
         ctx.output().bulletList(
             "Label each stack frame with the name of the method.",
             "Label each object with the name of its class.",
@@ -72,6 +78,7 @@ class StackPuzzleGenerator {
             """
         );
 
+        ctx.output().paragraph("The code:");
         for (var aClass : genCtx.puzzleClasses()) {
             ctx.output().codeBlock(aClass.buildDeclaration(ctx));
         }
@@ -95,6 +102,10 @@ class StackPuzzleGenerator {
                 """
                 Be thorough. Double check that you've fully diagrammed each step before you move on
                 to the next one.
+                """,
+                """
+                You can feed this code into https://pythontutor.com and watch a diagram like this
+                build up step by step. (Yes, despite the web site's name, it also works with Java.)
                 """
             );
         });
