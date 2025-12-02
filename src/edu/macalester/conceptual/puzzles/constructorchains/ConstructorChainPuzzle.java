@@ -94,36 +94,20 @@ public class ConstructorChainPuzzle implements Puzzle {
     private Declarations generateDeclarations(PuzzleContext ctx) {
         int depth = this.params.hierarchyDepth();
         StringBuilder declarationsCode = new StringBuilder();
-
-        // cat file-with-class-decl | bin/astprinter class
-        // use the output to inform the code below that builds your AST;
-        // the AST is built bottom-up, and the text output uses indentation for the tree,
-        // so "bottom-up" here means "rightmost-indented left" there, so to speak
-
         List<ClassOrInterfaceDeclaration> classes = new ArrayList<>();
-
         var decl = appendClass(ctx, classes, declarationsCode);
-        String className;
 
         // FIXME TODO see notes.org for things to fix with the hierarchy generation
-
 
         for (int i = 0; i < depth; i++) {
             List<ClassOrInterfaceDeclaration> classesToAdd = new ArrayList<>();
 
-            int numSiblings = 1;
-            this.params.numSiblings();
+            int numSiblings = 1; // this.params.numSiblings();
             // disabling the "siblings" stuff for now -- we will, in effect, handle those when we fully
             // implement the idea of first generating the actual chain, and *then* sprinkling in distractors.
 
             String parentClassName = classes.getLast().getNameAsString();
             for (int j = 0; j < numSiblings; j++) {
-                // TODO for now, just using the last class in `classes` as the parent, but
-                // what if there are two siblings in the previous level? Do we want to be able
-                // to choose any one? I suspect continuing to use a list here is going to get
-                // unwieldly if we want full generality...OTOH if we can detect if a class has
-                // no descendants, we could just randomly choose classes until we one of those.
-
                 decl = appendClass(ctx, classes, declarationsCode);
                 classesToAdd.add(decl);
             }

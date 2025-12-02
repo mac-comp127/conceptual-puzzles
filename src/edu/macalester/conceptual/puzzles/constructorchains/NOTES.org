@@ -17,6 +17,17 @@ of superclasses and one it will extend.
  - lambda that adds object creation
  - lambda that adds object with non-default constructor call
 
+* source code → AST generation code
+How to go from source code to the javaparser API calls that create the
+same code?
+
+Try something like
+
+: cat file-with-class-decl | bin/astprinter class
+
+Use the output to inform the code below that builds your AST; the AST is
+built bottom-up, and the text output uses indentation for the tree, so
+"bottom-up" here means "rightmost-indented left" there, so to speak
 
 * notes for puzzles on constructor chains
 
