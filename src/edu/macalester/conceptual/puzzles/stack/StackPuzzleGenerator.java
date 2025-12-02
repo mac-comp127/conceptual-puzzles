@@ -7,6 +7,11 @@ import edu.macalester.conceptual.util.Nonsense;
 
 import static com.github.javaparser.ast.NodeList.nodeList;
 
+/**
+ * Wrapper for the generation process. This is from the main StackAndHeapPuzzle class only to
+ * avoid state pollution: we have to reattempt generation several times to get a well-balanced
+ * difficulty, and we want to make sure we're starting with a clean slate on each attempt.
+ */
 class StackPuzzleGenerator {
     private final PuzzleContext ctx;
     private final GeneratorContext genCtx;

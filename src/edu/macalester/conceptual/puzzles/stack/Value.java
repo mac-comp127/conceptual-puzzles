@@ -1,9 +1,14 @@
 package edu.macalester.conceptual.puzzles.stack;
 
+/**
+ * The value of a variable. Here we don't distinguish primitive vs object types; rather, we
+ * distinguish things that need an arrow (Reference) vs. things that we'll diagram as text next to
+ * the variable name (Inline).
+ */
 interface Value {
     String typeName();
 
-    record InlineValue(
+    record Inline(
         String typeName,
         String value
     ) implements Value {
@@ -22,11 +27,11 @@ interface Value {
         }
     }
 
-    static InlineValue makeIntValue(String n) {
-        return new InlineValue("int", n);
+    static Inline makeIntValue(String n) {
+        return new Inline("int", n);
     }
 
     static Value makeNullValue(StackPuzzleClass type) {
-        return new InlineValue(type.name(), "null");
+        return new Inline(type.name(), "null");
     }
 }

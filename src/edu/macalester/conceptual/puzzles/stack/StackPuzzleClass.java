@@ -17,6 +17,10 @@ import edu.macalester.conceptual.util.Randomness;
 
 import static com.github.javaparser.ast.Modifier.createModifierList;
 
+/**
+ * One of the classes in this puzzle. This object gathers generated methods and properties as we
+ * recursively build the call chain.
+ */
 record StackPuzzleClass(
     String name,
     String idProperty,

@@ -3,7 +3,7 @@ package edu.macalester.conceptual.puzzles.stack;
 import java.util.Collection;
 
 /**
- * Keeps track of puzzle element counts to help with difficulty balance.
+ * Keeps track of puzzle element counts during puzzle building, to help with difficulty balance.
  */
 class ComplexityTracker {
     private final int puzzleDifficulty;

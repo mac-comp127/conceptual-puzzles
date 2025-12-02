@@ -23,7 +23,7 @@ class CallStackDiagram {
     private final Map<Integer, GraphicsGroup> columns = new HashMap<>();
     private final Map<IdentityKey<GraphicsObject>, List<GraphicsObject>> incomingConnections =
         new HashMap<>();
-    private final double marginX = 18, marginY = 12;
+    private final double marginX = 18, marginY = 12, arrowTipGap = 2.5;
     private final double columnWidth = 240;
     private final double baseline;
     private float hue;
@@ -47,6 +47,9 @@ class CallStackDiagram {
         renderConnections();
     }
 
+    /**
+     * Renders one stack frame or object
+     */
     private GraphicsObject render(VariableContainer container, int columnNum) {
         // Reuse existing if present
 
@@ -110,6 +113,9 @@ class CallStackDiagram {
         return box;
     }
 
+    /**
+     * The renderer groups the items into columns: stack frames in column 0, objects in 1+
+     */
     private GraphicsGroup getColumn(int columnNum) {
         return columns.computeIfAbsent(columnNum, __ -> {
             var column = new GraphicsGroup();
@@ -119,8 +125,11 @@ class CallStackDiagram {
         });
     }
 
+    /**
+     * One row of a variable container
+     */
     private void renderValue(Variable variable, GraphicsText varLabel, GraphicsGroup box, int columnNum) {
-        if (variable.value() instanceof Value.InlineValue inlineValue) {
+        if (variable.value() instanceof Value.Inline inlineValue) {
             var valueLabel = new GraphicsText(
                 inlineValue.value(),
                 varLabel.getBoundsInParent().getMaxX() + marginX,
@@ -137,6 +146,9 @@ class CallStackDiagram {
         }
     }
 
+    /**
+     * Gather an arrow connecting two items for later rendering
+     */
     private void addConnection(GraphicsObject from, GraphicsObject to) {
         var toIdentity = new IdentityKey<>(to);
         incomingConnections
@@ -144,6 +156,10 @@ class CallStackDiagram {
             .add(from);
     }
 
+    /**
+     * We draw all the arrows after the boxes, both so that they are in the foreground and so that
+     * we can space out the incoming connections evenly for each box.
+     */
     private void renderConnections() {
         for (var connection : incomingConnections.entrySet()) {
             var to = connection.getKey().object();
@@ -156,6 +172,9 @@ class CallStackDiagram {
         }
     }
 
+    /**
+     * Draws one arrow
+     */
     private void renderConnection(
         GraphicsObject from,
         GraphicsObject to,
@@ -171,11 +190,29 @@ class CallStackDiagram {
         boolean pointingRight = convertToCanvas(to, to.getPosition()).getX() > startPoint.getX();
         var endPoint = convertToCanvas(
             to, new Point(
-                pointingRight ? to.getBounds().getMinX() : to.getBounds().getMaxX(),
+                pointingRight
+                    ? to.getBounds().getMinX() - arrowTipGap
+                    : to.getBounds().getMaxX() + arrowTipGap,
                 fractionOfYExtent(to, (float) (index + 1) / (incomingCount + 1))
             )
         );
 
+        addConnectingPath(startPoint, endPoint, pointingRight);
+
+        addArrowhead(endPoint, pointingRight);
+
+        hue = (hue + 0.382f) % 1;
+    }
+
+    /**
+     * Helper to space arrows along edge of box
+     */
+    private double fractionOfYExtent(GraphicsObject obj, double fraction) {
+        var bounds = obj.getBounds();
+        return bounds.getMinY() * (1 - fraction) + bounds.getMaxY() * fraction;
+    }
+
+    private void addConnectingPath(Point startPoint, Point endPoint, boolean pointingRight) {
         var startElbow = startPoint.add(new Point(marginX * 2, 0));
         var endElbow = endPoint.add(new Point(marginX * (pointingRight ? -2 : 2), 0));
         if (!pointingRight) {
@@ -200,25 +237,24 @@ class CallStackDiagram {
         var path = new Path(List.of(startPoint, startElbow, endElbow, endPoint), false);
         DiagramUtils.applyArrowStrokeStyle(path, hue);
         graphics.add(path);
+    }
 
+    private void addArrowhead(Point tip, boolean pointingRight) {
         // Placing the actual arrowhead path inside a group cleans up the rotation logic
         var arrowhead = new GraphicsGroup();
         arrowhead.add(DiagramUtils.makeArrowhead(Point.ORIGIN, false, hue));
         if (!pointingRight) {
-            arrowhead.setAnchor(0, 0);
+            arrowhead.setAnchor(Point.ORIGIN);
             arrowhead.setRotation(180);
         }
-        arrowhead.setPosition(endPoint);
+        arrowhead.setPosition(tip);
         graphics.add(arrowhead);
-
-        hue = (hue + 0.382f) % 1;
     }
 
-    private double fractionOfYExtent(GraphicsObject obj, double fraction) {
-        var bounds = obj.getBounds();
-        return bounds.getMinY() * (1 - fraction) + bounds.getMaxY() * fraction;
-    }
-
+    /**
+     * Converts a point from the given GraphicsObject’s local coordinates to canvas coordinate.
+     * This really ought to live in Kilt Graphics, but it doesn't...yet!
+     */
     private Point convertToCanvas(GraphicsObject context, Point p) {
         while (context.getParent() != null) {
             p = p.add(context.getPosition());

@@ -10,15 +10,22 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import static edu.macalester.conceptual.util.AstUtils.classNamed;
 import static edu.macalester.conceptual.util.AstUtils.nodes;
 
+/**
+ * One object instance in the puzzle.
+ */
 final class StackPuzzleObject {
     private final StackPuzzleClass type;
     private final int id;
-    private final VariableContainer variableContainer;
     private final Map<String, Value.Reference> propertyValues = new HashMap<>();
+
+    private final VariableContainer variableContainer;
 
     StackPuzzleObject(StackPuzzleClass type, int id) {
         this.type = type;
         this.id = id;
+
+        // We regenerate the variableContainer on demand, but the way the diagrammer relies on
+        // object identity means that we always have to return the same (newly updated) object.
         variableContainer = new VariableContainer(type.name());
     }
 

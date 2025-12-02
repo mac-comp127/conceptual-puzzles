@@ -7,8 +7,11 @@ import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.util.Nonsense;
 import edu.macalester.conceptual.util.Randomness;
 
+/**
+ * Context and state recursively passed done through the entire method call tree.
+ */
 record GeneratorContext(
-    PuzzleContext ctx,
+    PuzzleContext puzzleContext,
     ComplexityTracker complexity,
     List<StackPuzzleClass> puzzleClasses
 ) {
