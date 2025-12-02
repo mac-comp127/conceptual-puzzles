@@ -9,6 +9,8 @@ import java.io.StringWriter;
 import java.util.List;
 import java.util.Set;
 
+import edu.macalester.conceptual.TestPuzzlePrinters;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SuppressWarnings({"Convert2MethodRef", "ResultOfMethodCallIgnored"})
@@ -84,9 +86,8 @@ class PuzzleContextTest {
             recreated.getPuzzleID(),
             "puzzle ID mismatch for " + original);
 
-        PuzzlePrinter silent = new ConsolePuzzlePrinter(new PrintWriter(new StringWriter()));
-        original.setOutput(silent);
-        recreated.setOutput(silent);
+        original.setOutput(TestPuzzlePrinters.silent());
+        recreated.setOutput(TestPuzzlePrinters.silent());
 
         original.emitPuzzle(() -> {
             try {
@@ -176,16 +177,16 @@ class PuzzleContextTest {
 
     @Test
     void canOnlyConfigureOptionsBeforeEmitting() throws IOException {
-        ctx.setOutput(createTestPrinter());
+        ctx.setOutput(TestPuzzlePrinters.silent());
         ctx.setPartsToShow(Set.of(1, 3));
         ctx.enableSolution();
 
         ctx.emitPuzzle(() -> {
-            assertIllegalStateTransition(() -> ctx.setOutput(createTestPrinter()));
+            assertIllegalStateTransition(() -> ctx.setOutput(TestPuzzlePrinters.silent()));
             assertIllegalStateTransition(() -> ctx.setPartsToShow(Set.of(1, 3)));
             assertIllegalStateTransition(() -> ctx.enableSolution());
         });
-        assertIllegalStateTransition(() -> ctx.setOutput(createTestPrinter()));
+        assertIllegalStateTransition(() -> ctx.setOutput(TestPuzzlePrinters.silent()));
         assertIllegalStateTransition(() -> ctx.setPartsToShow(Set.of(1, 3)));
         assertIllegalStateTransition(() -> ctx.enableSolution());
     }
@@ -255,9 +256,5 @@ class PuzzleContextTest {
 
     private void assertIllegalStateTransition(Executable action) {
         assertThrows(IllegalStateException.class, action);
-    }
-
-    private static ConsolePuzzlePrinter createTestPrinter() {
-        return new ConsolePuzzlePrinter(new PrintWriter(new StringWriter()));
     }
 }

@@ -1,5 +1,8 @@
 package edu.macalester.conceptual;
 
+import java.io.PrintWriter;
+
+import edu.macalester.conceptual.context.ConsolePuzzlePrinter;
 import edu.macalester.conceptual.context.PuzzleContext;
 import edu.macalester.conceptual.puzzles.ast.AstDrawingPuzzle;
 
@@ -15,6 +18,7 @@ public class ManualPuzzleTest {
         // PuzzleContext ctx = PuzzleContext.fromPuzzleCode("1d9L-m1xq-a4t0-ypys-7");
 
         ctx.enableSolution();
+        ctx.setOutput(TestPuzzlePrinters.toStdout());
         ctx.emitPuzzle(() -> puzzle.generate(ctx));
         System.out.println("Puzzle code: " + ctx.getPuzzleCode());
     }
