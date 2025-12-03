@@ -36,7 +36,7 @@ public class ClassDeclarationsPuzzle implements Puzzle {
 
     @Override
     public byte goalDifficulty() {
-        return 3;
+        return 2;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ClassDeclarationsPuzzle implements Puzzle {
 
         // We then add “complications,” features that depend on other features:
 
-        int numComplications = Math.max(0, ctx.getDifficulty() - 2);
+        int numComplications = Math.max(0, ctx.getDifficulty() - 1);
         var complicationsDeck = new ChoiceDeck<Supplier<ClassFeature>>(ctx, List.of(
             () -> withRandomStateVariable(ctx, features, false,
                 stateVariable -> ClassFeature.generateMutatingBehavior(ctx, stateVariable)),
