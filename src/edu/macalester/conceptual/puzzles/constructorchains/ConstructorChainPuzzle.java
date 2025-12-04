@@ -62,39 +62,31 @@ public class ConstructorChainPuzzle implements Puzzle {
         this.randomWeatherPlace = new RandomWeatherPlace(ctx);
 
         ctx.output().paragraph("With the following class declarations:");
-
-        // FIXME need to specify which constructor, if leaf class has more than one
         var decls = generateDeclarations(ctx);
-
-
         ctx.output().codeBlock(decls);
-
-        // FIXME: class could have more than one constructor!
-        // does decls.declarationsCode respect the ordering? Can get bottom class declaration from that?
-
         ctx.output().paragraph(getPrompt(ctx, (TypeDeclaration<ClassOrInterfaceDeclaration>) decls.getTypes().getLast().orElseThrow()));
-
         ctx.solution(() -> ctx.output().codeBlock(getSolution(decls)));
     }
 
+    String constructorArgs = "";
     private String getPrompt(PuzzleContext ctx, TypeDeclaration<ClassOrInterfaceDeclaration> classDeclaration) {
-        var ctorsDeck = new ChoiceDeck<>(ctx, classDeclaration.getConstructors()).draw();
+        var constructor = new ChoiceDeck<>(ctx, classDeclaration.getConstructors()).draw();
 
         String prompt = "What gets printed when you create an instance of " + classDeclaration.getName() + " ";
-        if (ctorsDeck.getParameters().isEmpty()) {
+        if (constructor.getParameters().isEmpty()) {
             prompt += "using the default constructor?";
         } else {
-            prompt += "using the non-default constructor with an argument of " + ctx.getRandom().nextInt(1, 10) + "?";
+            constructorArgs = String.valueOf(ctx.getRandom().nextInt(1, 10));
+            prompt += "using the non-default constructor with an argument of " + constructorArgs + "?";
         }
         return prompt;
-
     }
 
     private String getSolution(CompilationUnit decls) {
         var bottomClass = decls.getTypes().getLast().orElseThrow();
         return Evaluator.captureOutput(
                 CodeSnippet.build()
-                        .withMainBody("var x = new " + bottomClass.getName() + "();")
+                        .withMainBody("var x = new " + bottomClass.getName() + "(" + constructorArgs + ");")
                         .withOtherClasses(decls.toString()
                         ));
     }
