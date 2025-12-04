@@ -20,8 +20,7 @@ public class ConstructorChainParameters {
         throw new IllegalArgumentException("You need to provide a random number generator and difficulty.");
     }
 
-    public ConstructorChainParameters(byte goalDifficulty, byte difficulty, Random rand)
-    {
+    public ConstructorChainParameters(byte goalDifficulty, byte difficulty, Random rand) {
         this.goalDifficulty = goalDifficulty;
         this.difficulty = difficulty;
         this.rand = rand;
@@ -60,13 +59,16 @@ public class ConstructorChainParameters {
         return rand.nextDouble() < difficultyToNonDefaultCtorProbability();
     }
 
-    // parameters that depend on the difficulty level. TODO: actually figure out the logic we want.
-
+    /**
+     * How deep should the class hierarchy be at this difficulty?
+     *
+     * @return
+     */
     public int hierarchyDepth() {
         return 4 + rand.nextInt(difficulty);
     }
 
-    public  int numSiblings() {
+    public int numSiblings() {
         if (difficulty < 3) {
             return 1;
         } else {
@@ -93,6 +95,10 @@ public class ConstructorChainParameters {
         }
     }
 
+    /**
+     * Probability that a class declaration includes a non-default constructor.
+     * @return
+     */
     private double difficultyToNonDefaultCtorProbability() {
         if (difficulty < goalDifficulty) {
             return 0.25;
