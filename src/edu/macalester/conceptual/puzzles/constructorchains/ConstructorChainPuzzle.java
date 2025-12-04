@@ -62,10 +62,10 @@ public class ConstructorChainPuzzle implements Puzzle {
         this.randomWeatherPlace = new RandomWeatherPlace(ctx);
 
         ctx.output().paragraph("With the following class declarations:");
-        var decls = generateDeclarations(ctx);
-        ctx.output().codeBlock(decls);
-        ctx.output().paragraph(getPrompt(ctx, (TypeDeclaration<ClassOrInterfaceDeclaration>) decls.getTypes().getLast().orElseThrow()));
-        ctx.solution(() -> ctx.output().codeBlock(getSolution(decls)));
+        var declarations = generateDeclarations(ctx);
+        ctx.output().codeBlock(declarations);
+        ctx.output().paragraph(getPrompt(ctx, (TypeDeclaration<ClassOrInterfaceDeclaration>) declarations.getTypes().getLast().orElseThrow()));
+        ctx.solution(() -> ctx.output().codeBlock(getSolution(declarations)));
     }
 
     String constructorArgs = "";
@@ -82,12 +82,12 @@ public class ConstructorChainPuzzle implements Puzzle {
         return prompt;
     }
 
-    private String getSolution(CompilationUnit decls) {
-        var bottomClass = decls.getTypes().getLast().orElseThrow();
+    private String getSolution(CompilationUnit declarations) {
+        var bottomClass = declarations.getTypes().getLast().orElseThrow();
         return Evaluator.captureOutput(
                 CodeSnippet.build()
                         .withMainBody("var x = new " + bottomClass.getName() + "(" + constructorArgs + ");")
-                        .withOtherClasses(decls.toString()
+                        .withOtherClasses(declarations.toString()
                         ));
     }
 
@@ -110,12 +110,18 @@ public class ConstructorChainPuzzle implements Puzzle {
         return declarations;
     }
 
+    /**
+     * Create a new class declaration and append it to the provided compilation unit.
+     * @param ctx - puzzle context
+     * @param declarations - current compilation unit
+     * @return declaration of the new class; side effect: compilation unit has new class declaration appended
+     */
     private ClassOrInterfaceDeclaration appendClass(PuzzleContext ctx, CompilationUnit declarations) {
         String className = randomLoch.draw();
-        var decl = getDefaultDeclaration(className, declarations, ctx);
-        maybeAddNonDefaultCtor(decl, ctx, AstUtils.classesInCompilationUnit(declarations));
-        declarations.addType(decl);
-        return decl;
+        var declaration = getDefaultDeclaration(className, declarations, ctx);
+        maybeAddNonDefaultCtor(declaration, ctx, AstUtils.classesInCompilationUnit(declarations));
+        declarations.addType(declaration);
+        return declaration;
     }
 
     /**
@@ -128,29 +134,29 @@ public class ConstructorChainPuzzle implements Puzzle {
      * @return class declaration object
      */
     private ClassOrInterfaceDeclaration getDefaultDeclaration(String className, CompilationUnit declarations, PuzzleContext ctx) {
-        var decl = AstUtils.classDecl(className);
-        decl.addConstructor(Modifier.Keyword.PUBLIC);
+        var declaration = AstUtils.classDecl(className);
+        declaration.addConstructor(Modifier.Keyword.PUBLIC);
 
-        List<Statement> ctorstatements = new ArrayList<>();
-        maybePrintLn(decl.getName() + " default constructor").ifPresent(ctorstatements::add);
+        List<Statement> constructorStatements = new ArrayList<>();
+        maybePrintLn(declaration.getName() + " default constructor").ifPresent(constructorStatements::add);
         var classes = AstUtils.classesInCompilationUnit(declarations);
         if (!classes.isEmpty()) {
 
             var parentClass = classes.getLast().getNameAsString();
-            decl.addExtendedType(parentClass);
+            declaration.addExtendedType(parentClass);
 
-            maybeAddSuperCall(ctx, classes.getLast()).ifPresent(decl.getDefaultConstructor().orElseThrow().getBody()::addStatement);
-            maybeAddObjCreation(classes, ctx).ifPresent(ctorstatements::add);
-            maybeAddNonDefaultCtorObjectCreation(classes, ctx).ifPresent(ctorstatements::add);
+            maybeAddSuperCall(ctx, classes.getLast()).ifPresent(declaration.getDefaultConstructor().orElseThrow().getBody()::addStatement);
+            maybeAddObjCreation(classes, ctx).ifPresent(constructorStatements::add);
+            maybeAddNonDefaultCtorObjectCreation(classes, ctx).ifPresent(constructorStatements::add);
         }
-        if (!ctorstatements.isEmpty()) {
-            Collections.shuffle(ctorstatements, ctx.getRandom());
-            for (var statement : ctorstatements) {
-                decl.getDefaultConstructor().orElseThrow().getBody().addStatement(statement);
+        if (!constructorStatements.isEmpty()) {
+            Collections.shuffle(constructorStatements, ctx.getRandom());
+            for (var statement : constructorStatements) {
+                declaration.getDefaultConstructor().orElseThrow().getBody().addStatement(statement);
             }
         }
 
-        return decl;
+        return declaration;
 
     }
 
@@ -170,8 +176,8 @@ public class ConstructorChainPuzzle implements Puzzle {
 
     private Optional<Statement> maybeAddSuperCall(PuzzleContext ctx, ClassOrInterfaceDeclaration parentClass) {
         if (this.params.addSuperCall()) {
-            var ctor = (new ChoiceDeck<>(ctx, parentClass.getConstructors())).draw();
-            if (ctor.getParameters().isEmpty()) {
+            var constructor = (new ChoiceDeck<>(ctx, parentClass.getConstructors())).draw();
+            if (constructor.getParameters().isEmpty()) {
                 return Optional.of(new ExpressionStmt(new MethodCallExpr("super")));
             } else {
                 return Optional.of(new ExpressionStmt(new MethodCallExpr("super", new IntegerLiteralExpr("123"))));
