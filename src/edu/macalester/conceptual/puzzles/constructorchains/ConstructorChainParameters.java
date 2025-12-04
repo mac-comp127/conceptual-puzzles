@@ -56,7 +56,7 @@ public class ConstructorChainParameters {
     }
 
     public boolean addNonDefaultCtorObjectCreation() {
-        return rand.nextDouble() < difficultyToNonDefaultCtorProbability();
+        return rand.nextDouble() < difficultyToNonDefaultCtorObjectCreationProbability();
     }
 
     /**
@@ -85,6 +85,10 @@ public class ConstructorChainParameters {
         return 0.5;
     }
 
+    /**
+     * Probability that a constructor includes a super() call.,
+     * @return
+     */
     private double difficultyToSuperCallProbability() {
         if (difficulty < goalDifficulty) {
             return 0.25;
@@ -113,5 +117,4 @@ public class ConstructorChainParameters {
         // for now just using above
         return difficultyToNonDefaultCtorProbability();
     }
-
 }

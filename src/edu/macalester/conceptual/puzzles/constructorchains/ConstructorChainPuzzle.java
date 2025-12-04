@@ -199,10 +199,22 @@ public class ConstructorChainPuzzle implements Puzzle {
         if (this.params.addNonDefaultCtor()) {
             var nonDefaultCtor = declaration.addConstructor(Modifier.Keyword.PUBLIC);
             nonDefaultCtor.addParameter("int", "n");
-            maybePrintLn(declaration.getName() + " constructor, n = \" + n + \".").ifPresent(nonDefaultCtor.getBody()::addStatement);
 
-            maybeAddObjCreation(classes, ctx).ifPresent(nonDefaultCtor.getBody()::addStatement);
-            maybeAddNonDefaultCtorObjectCreation(classes, ctx).ifPresent(nonDefaultCtor.getBody()::addStatement);
+            List<Statement> constructorStatements = new ArrayList<>();
+            if (!classes.isEmpty()) {
+                maybeAddSuperCall(ctx, classes.getLast()).ifPresent(nonDefaultCtor.getBody()::addStatement);
+            }
+
+            maybePrintLn(declaration.getName() + " constructor, n = \" + n + \".").ifPresent(constructorStatements::add);
+            maybeAddObjCreation(classes, ctx).ifPresent(constructorStatements::add);
+            maybeAddNonDefaultCtorObjectCreation(classes, ctx).ifPresent(constructorStatements::add);
+
+            if (!constructorStatements.isEmpty()) {
+                Collections.shuffle(constructorStatements, ctx.getRandom());
+                for (var statement : constructorStatements) {
+                    nonDefaultCtor.getBody().addStatement(statement);
+                }
+            }
         }
     }
 
