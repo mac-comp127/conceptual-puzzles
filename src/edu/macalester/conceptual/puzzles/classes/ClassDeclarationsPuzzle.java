@@ -117,7 +117,7 @@ public class ClassDeclarationsPuzzle implements Puzzle {
             ctx.output().paragraph("Acceptable variations in the solution:");
             ctx.output().bulletList(
                 """
-                It is OK if you initialized *non-static* variables"
+                It is OK if you initialized *non-static* variables
                 in the constructor instead of in the declaration.
                 (Ask your instructor if you aren’t clear what this means.)
                 Note that *static* variables _must_ be initialized in the declaration.
