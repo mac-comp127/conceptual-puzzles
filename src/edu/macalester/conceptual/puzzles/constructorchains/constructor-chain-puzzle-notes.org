@@ -324,3 +324,17 @@ Considered but not done:
   method that prints or returns a value; in a constructor, call that in
   a constructor. This seems to be more about inheritance and overrides
   than object creation and constructors, though.
+
+* distractors?
+Right now the generated puzzle uses every class it outputs, and the
+hierarchy is linear.
+
+Earlier the plan was to generate some distractors -- class declarations
+that just never get used. But it's not clear that having them
+meaningfully exercises the students' conceptual understanding.
+
+We could use the distractors (which makes them...not distractors any
+more?) for object creation statements, but then handling the topology of
+the hierarchy (so that we don't create an object whose type is a
+subclass and throws us into an infinite loop) is more complex. The juice
+does not seem worth the squeeze, I think.

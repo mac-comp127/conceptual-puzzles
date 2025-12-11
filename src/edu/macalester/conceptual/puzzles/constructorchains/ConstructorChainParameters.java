@@ -51,6 +51,22 @@ public class ConstructorChainParameters {
         }
     }
 
+    public boolean typeNamesDiffer() {
+        return rand.nextDouble() < difficultyToTypeNamesDiffer();
+    }
+
+    private double difficultyToTypeNamesDiffer() {
+        if (difficulty < goalDifficulty) {
+            return 0;
+        }
+        else if (difficulty < 5) {
+            return 0.5;
+        }
+        else {
+            return 0.75;
+        }
+    }
+
     public boolean addNonDefaultCtor() {
         return rand.nextDouble() < difficultyToNonDefaultCtorProbability();
     }
@@ -87,6 +103,7 @@ public class ConstructorChainParameters {
 
     /**
      * Probability that a constructor includes a super() call.,
+     *
      * @return
      */
     private double difficultyToSuperCallProbability() {
@@ -101,6 +118,7 @@ public class ConstructorChainParameters {
 
     /**
      * Probability that a class declaration includes a non-default constructor.
+     *
      * @return
      */
     private double difficultyToNonDefaultCtorProbability() {
