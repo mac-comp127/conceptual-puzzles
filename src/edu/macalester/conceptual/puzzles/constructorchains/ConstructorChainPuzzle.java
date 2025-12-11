@@ -18,11 +18,14 @@ import edu.macalester.conceptual.util.AstUtils;
 import edu.macalester.conceptual.util.ChoiceDeck;
 import edu.macalester.conceptual.util.CodeSnippet;
 import edu.macalester.conceptual.util.Evaluator;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ConstructorChainPuzzle implements Puzzle {
 
@@ -37,7 +40,7 @@ public class ConstructorChainPuzzle implements Puzzle {
 
     @Override
     public String name() {
-        return "ctors";
+        return "ctor";
     }
 
     @Override
@@ -69,6 +72,7 @@ public class ConstructorChainPuzzle implements Puzzle {
     }
 
     String constructorArgs = "";
+
     private String getPrompt(PuzzleContext ctx, TypeDeclaration<ClassOrInterfaceDeclaration> classDeclaration) {
         var constructor = new ChoiceDeck<>(ctx, classDeclaration.getConstructors()).draw();
 
@@ -140,14 +144,14 @@ public class ConstructorChainPuzzle implements Puzzle {
         List<Statement> constructorStatements = new ArrayList<>();
         maybePrintLn(declaration.getName() + " default constructor").ifPresent(constructorStatements::add);
         var classes = AstUtils.classesInCompilationUnit(declarations);
-        if (!classes.isEmpty()) {
 
-            var parentClass = classes.getLast().getNameAsString();
+        if (!classes.isEmpty()) {
+            String parentClass = classes.getLast().getNameAsString();
             declaration.addExtendedType(parentClass);
 
-            maybeAddSuperCall(ctx, classes.getLast()).ifPresent(declaration.getDefaultConstructor().orElseThrow().getBody()::addStatement);
-            maybeAddObjCreation(classes, ctx).ifPresent(constructorStatements::add);
-            maybeAddNonDefaultCtorObjectCreation(classes, ctx).ifPresent(constructorStatements::add);
+            maybeSuperCall(ctx, classes.getLast()).ifPresent(declaration.getDefaultConstructor().orElseThrow().getBody()::addStatement);
+            maybeObjCreation(classes, ctx).ifPresent(constructorStatements::add);
+            maybeNonDefaultCtorObjectCreation(classes, ctx).ifPresent(constructorStatements::add);
         }
         if (!constructorStatements.isEmpty()) {
             Collections.shuffle(constructorStatements, ctx.getRandom());
@@ -155,11 +159,8 @@ public class ConstructorChainPuzzle implements Puzzle {
                 declaration.getDefaultConstructor().orElseThrow().getBody().addStatement(statement);
             }
         }
-
         return declaration;
-
     }
-
 
     /**
      * Maybe return a println statement for the provided message,
@@ -174,9 +175,16 @@ public class ConstructorChainPuzzle implements Puzzle {
         return Optional.empty();
     }
 
-    private Optional<Statement> maybeAddSuperCall(PuzzleContext ctx, ClassOrInterfaceDeclaration parentClass) {
+    /**
+     * Maybe return an explicit <code>super()</code> call. Randomly chooses among the constructors
+     * of <code>superClass</code>.
+     * @param ctx puzzle context
+     * @param superClass declaration for the superclass.
+     * @return Optional expression statement <code>super()</code> or <code>super(123)</code>.
+     */
+    private Optional<Statement> maybeSuperCall(PuzzleContext ctx, ClassOrInterfaceDeclaration superClass) {
         if (this.params.addSuperCall()) {
-            var constructor = (new ChoiceDeck<>(ctx, parentClass.getConstructors())).draw();
+            var constructor = (new ChoiceDeck<>(ctx, superClass.getConstructors())).draw();
             if (constructor.getParameters().isEmpty()) {
                 return Optional.of(new ExpressionStmt(new MethodCallExpr("super")));
             } else {
@@ -195,19 +203,18 @@ public class ConstructorChainPuzzle implements Puzzle {
      * @param classes     list of classes to choose from for object creation statements
      */
     private void maybeAddNonDefaultCtor(ClassOrInterfaceDeclaration declaration, PuzzleContext ctx, List<ClassOrInterfaceDeclaration> classes) {
-
         if (this.params.addNonDefaultCtor()) {
             var nonDefaultCtor = declaration.addConstructor(Modifier.Keyword.PUBLIC);
             nonDefaultCtor.addParameter("int", "n");
 
             List<Statement> constructorStatements = new ArrayList<>();
             if (!classes.isEmpty()) {
-                maybeAddSuperCall(ctx, classes.getLast()).ifPresent(nonDefaultCtor.getBody()::addStatement);
+                maybeSuperCall(ctx, classes.getLast()).ifPresent(nonDefaultCtor.getBody()::addStatement);
             }
 
             maybePrintLn(declaration.getName() + " constructor, n = \" + n + \".").ifPresent(constructorStatements::add);
-            maybeAddObjCreation(classes, ctx).ifPresent(constructorStatements::add);
-            maybeAddNonDefaultCtorObjectCreation(classes, ctx).ifPresent(constructorStatements::add);
+            maybeObjCreation(classes, ctx).ifPresent(constructorStatements::add);
+            maybeNonDefaultCtorObjectCreation(classes, ctx).ifPresent(constructorStatements::add);
 
             if (!constructorStatements.isEmpty()) {
                 Collections.shuffle(constructorStatements, ctx.getRandom());
@@ -219,55 +226,89 @@ public class ConstructorChainPuzzle implements Puzzle {
     }
 
     /**
-     * add an object creation statement to the provided constructor
+     * Add an object creation statement to the provided constructor
      *
      * @param classes list of classes to choose from for object creation statement
      * @param ctx     puzzle context
+     * @return an Optional object creation statement
      */
-    private Optional<ExpressionStmt> maybeAddObjCreation(List<ClassOrInterfaceDeclaration> classes, PuzzleContext ctx) {
+    private Optional<ExpressionStmt> maybeObjCreation(List<ClassOrInterfaceDeclaration> classes, PuzzleContext ctx) {
         if (!classes.isEmpty() && this.params.addObjectCreationStatement()) {
-            var superclassesDeck = new ChoiceDeck<>(ctx, classes);
-            // TODO: for extra difficulty, allow static and runtime types to differ, so that the runtime type is
-            // a superclass of the superclass!
-            var superClassName = superclassesDeck.draw().getName().toString();
-
+            TypeNames names = getTypeNames(classes, ctx);
             String variable = Utils.decapitalize(randomWeatherPlace.draw());
-            return Optional.of(AstUtils.getObjectCreationStmt(superClassName, variable, superClassName));
-        }
-        return Optional.empty();
-    }
-
-    private Optional<ExpressionStmt> maybeAddNonDefaultCtorObjectCreation(List<ClassOrInterfaceDeclaration> classes, PuzzleContext ctx) {
-        Optional<ClassOrInterfaceDeclaration> maybeSuperClass = superClassWithNonDefaultCtor(classes, ctx);
-        if (maybeSuperClass.isPresent() && this.params.addNonDefaultCtorObjectCreation()) {
-            // TODO: for extra difficulty, allow static and runtime types to differ, so that the runtime type is
-            // a superclass of the superclass!
-            var superClass = maybeSuperClass.get();
-            var superClassName = superClass.getName().toString();
-            String paramString = String.valueOf(ctx.getRandom().nextInt(10, 20));
-            NodeList<Expression> params = new NodeList<>(new IntegerLiteralExpr(paramString));
-            String variableName = Utils.decapitalize(randomWeatherPlace.draw());
-            return Optional.of(AstUtils.getObjectCreationStmtWithParam(superClassName, variableName, superClassName, params));
+            return Optional.of(AstUtils.getObjectCreationStmt(names.staticTypeName(), variable, names.dynamicTypeName()));
         }
         return Optional.empty();
     }
 
     /**
-     * Get a superclass from the list of classes that has a non-default constructor. Use Optional since there may not be such
-     * a class in the list.
+     * Get the type names to be used in an object creation statement: the static and dynamic (compile-time and run-time) types.
      *
-     * @param classes list of classes from which to draw
-     * @param ctx     PuzzleContext so we can pass random generator to ChoiceDeck
-     * @return class declaration that has a non-default constructor
+     * @param classes list of classes to choose from for object creation statement
+     * @param ctx     puzzle context
+     * @return TypeNames record with static and dynamic type names
      */
-    private Optional<ClassOrInterfaceDeclaration> superClassWithNonDefaultCtor(List<ClassOrInterfaceDeclaration> classes, PuzzleContext ctx) {
-        List<ClassOrInterfaceDeclaration> superClasses = classes.stream().filter(c -> c.getConstructorByParameterTypes("int").isPresent()).toList();
-        if (superClasses.isEmpty()) {
-            return Optional.empty();
+    private @NonNull TypeNames getTypeNames(List<ClassOrInterfaceDeclaration> classes, PuzzleContext ctx) {
+        if (this.params.typeNamesDiffer()) {
+            var indices = new ChoiceDeck<>(ctx, IntStream.range(0, classes.size()).boxed().collect(Collectors.toList()));
+            int indexA = indices.draw();
+            int indexB = indices.draw();
+            int dynamicTypeIndex = Math.max(indexA, indexB);
+            int staticTypeIndex = Math.min(indexA, indexB);
+            String dynamicTypeName = classes.get(dynamicTypeIndex).getName().toString();
+            String staticTypeName = classes.get(staticTypeIndex).getName().toString();
+            return new TypeNames(dynamicTypeName, staticTypeName);
         } else {
-            return Optional.of(new ChoiceDeck<>(ctx, superClasses).draw());
+            String typeName = (new ChoiceDeck<>(ctx, classes)).draw().getName().toString().toString();
+            return new TypeNames(typeName, typeName);
         }
     }
 
+    private record TypeNames(String dynamicTypeName, String staticTypeName) {
+    }
 
+    /**
+     * Same as {@link #maybeObjCreation(List, PuzzleContext) maybeAddObjCreation}, but creates an
+     * object using a non-default constructor.
+     *
+     * The handling here is a bit different because we need to first find a class that *has* a
+     * non-default constructor (if one even exists); only then can we choose a class for the static
+     * type.
+     * @param classes list of classes to choose from for object creation statement
+     * @param ctx     puzzle context
+     * @return an Optional object creation statement that calls a non-default constructor
+     */
+    private Optional<ExpressionStmt> maybeNonDefaultCtorObjectCreation(List<ClassOrInterfaceDeclaration> classes, PuzzleContext ctx) {
+        List<ClassOrInterfaceDeclaration> superClasses = superClassesWithNonDefaultConstructor(classes, ctx);
+        if (!superClasses.isEmpty() && this.params.addNonDefaultCtorObjectCreation()) {
+            var superClass = new ChoiceDeck<>(ctx, superClasses).draw();
+            String dynamicTypeName = superClass.getName().toString();
+            String staticTypeName;
+            if (this.params.typeNamesDiffer()) {
+                int dynamicTypeIndex = classes.indexOf(superClass);
+                int staticTypeIndex = ctx.getRandom().nextInt(dynamicTypeIndex + 1);
+                staticTypeName = classes.get(staticTypeIndex).getName().toString();
+            } else {
+                staticTypeName = dynamicTypeName;
+            }
+
+            String paramString = String.valueOf(ctx.getRandom().nextInt(10, 20));
+            NodeList<Expression> params = new NodeList<>(new IntegerLiteralExpr(paramString));
+            String variableName = Utils.decapitalize(randomWeatherPlace.draw());
+
+            return Optional.of(AstUtils.getObjectCreationStmtWithParam(staticTypeName, variableName, dynamicTypeName, params));
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Return the list of classes that have a non-default constructor. Can be empty, of course.
+     *
+     * @param classes list of classes from which to draw
+     * @param ctx     PuzzleContext so we can pass random generator to ChoiceDeck
+     * @return list of class declarations that have a non-default constructor
+     */
+    private List<ClassOrInterfaceDeclaration> superClassesWithNonDefaultConstructor(List<ClassOrInterfaceDeclaration> classes, PuzzleContext ctx) {
+        return classes.stream().filter(c -> c.getConstructorByParameterTypes("int").isPresent()).toList();
+    }
 }
