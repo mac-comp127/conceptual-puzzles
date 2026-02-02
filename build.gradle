@@ -11,10 +11,10 @@ java {
 
 repositories {
     mavenCentral()
-    maven { url 'https://jitpack.io' }
+    maven { url = 'https://jitpack.io' }
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
@@ -37,7 +37,8 @@ test {
     'run-cli':   'edu.macalester.conceptual.cli.CommandLine',
     'print-ast': 'edu.macalester.conceptual.util.AstPrinter'
 ].each { taskName, mainClassName ->
-    task(taskName, dependsOn: 'classes', type: JavaExec) {
+    tasks.register(taskName, JavaExec) {
+        dependsOn = ['classes']
         mainClass = mainClassName
         classpath = sourceSets.main.runtimeClasspath
         standardInput = System.in
@@ -59,7 +60,7 @@ gitProperties {
 // in bin/ (where the CLI lives) instead of build/ (where they belong, and where
 // both Gradle and IntelliJ manage to put them)
 // Adapted from https://github.com/gradle/gradle/issues/3839#issuecomment-512805239
-project.buildDir = 'build'
+project.layout.buildDirectory = 'build'
 eclipse.classpath {
     defaultOutputDir = file('build')
     file.whenMerged {

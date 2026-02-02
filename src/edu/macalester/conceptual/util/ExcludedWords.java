@@ -8,6 +8,8 @@ import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -31,6 +33,7 @@ class ExcludedWords {
                 bloom = BloomFilter.readFrom(bloomInput, Funnels.unencodedCharsFunnel());
             }
         } catch(IOException e) {
+            //noinspection CallToPrintStackTrace
             e.printStackTrace();
         }
 
@@ -45,7 +48,7 @@ class ExcludedWords {
     /*
      * Regenerates the serialized prohibited words file from an online dict file + all Java keywords.
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, URISyntaxException {
         var words = allDictWords();
         System.out.println(words.size() + " prohibited words");
         BloomFilter<String> bloom = BloomFilter.create(Funnels.unencodedCharsFunnel(), words.size(), 0.01);
@@ -54,17 +57,17 @@ class ExcludedWords {
         System.out.println("New prohibited words file created");
     }
 
-    private static List<String> allDictWords() throws IOException {
+    private static List<String> allDictWords() throws IOException, URISyntaxException {
         return Streams.concat(
-            streamWords(Path.of("res/java-reserved-words.txt").toUri().toURL()),
-            streamWords(new URL("https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt"))
+            streamWords(Path.of("res/java-reserved-words.txt").toUri()),
+            streamWords(new URI("https://raw.githubusercontent.com/dwyl/english-words/master/words_alpha.txt"))
                 .filter(word -> word.length() >= 3 && word.length() <= 8)
         ).toList();
     }
 
-    private static Stream<String> streamWords(URL url) throws IOException {
+    private static Stream<String> streamWords(URI url) throws IOException {
         System.out.println("Reading words from " + url);
-        return new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8))
+        return new BufferedReader(new InputStreamReader(url.toURL().openStream(), StandardCharsets.UTF_8))
             .lines();
     }
 
