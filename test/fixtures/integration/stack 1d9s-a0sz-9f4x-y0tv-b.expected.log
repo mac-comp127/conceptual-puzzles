@@ -40,12 +40,6 @@ The code:
             Cisit.aght(new Apant(40));
             new Apant(800).hess(new Cisit(741));
         }
-
-        public void hess(Cisit iw) {
-            Apant.mond(55, this, new Cisit(805));
-            this.setRoos(this);
-            this.deshi();
-        }
     }
 
     public class Apant {
@@ -69,6 +63,12 @@ The code:
             Apant he = new Apant(198);
             he.setRoos(this);
             [100m[97m  HERE  [39m[49m;
+        }
+
+        public void hess(Cisit iw) {
+            Apant.mond(55, this, new Cisit(805));
+            this.setRoos(this);
+            this.deshi();
         }
 
         public static void mond(int diar, Apant in, Cisit ul) {
@@ -323,11 +323,20 @@ The code:
             this.erres = erres;
         }
 
-        public void kirgoc(Pid meor, Etrer u, Etrer amer) {
+        public void leic(Etrer sper, Pid fo, Pid si) {
         }
 
         public static void biaGidmot() {
             new Pid(81).icen();
+        }
+
+        public void kirgoc(Pid meor, Etrer u, Etrer amer) {
+        }
+
+        public void chesme(Etrer eped, Pid sti) {
+            sti.setPou(sti);
+            [100m[97m  HERE  [39m[49m;
+            this.kirgoc(sti, new Etrer(323), eped);
         }
     }
 
@@ -348,19 +357,10 @@ The code:
             this.ec = ec;
         }
 
-        public void chesme(Etrer eped, Pid sti) {
-            sti.setPou(sti);
-            [100m[97m  HERE  [39m[49m;
-            this.kirgoc(sti, new Etrer(323), eped);
-        }
-
         public void icen() {
             this.setPou(this);
             new Etrer(864).chesme(new Etrer(251), this);
             new Etrer(496).leic(new Etrer(715), this, this);
-        }
-
-        public void leic(Etrer sper, Pid fo, Pid si) {
         }
     }
 
@@ -527,13 +527,17 @@ The code:
             this.ta = ta;
         }
 
+        public void ganxu() {
+            Ili er = new Ili(395);
+            this.setTa(this);
+            this.stio(new Prua(751), this);
+            new Ili(576).desh(er, this);
+        }
+
         public void stio(Prua angi, Prua ku) {
             Ili.soios();
             this.setTa(angi);
             [100m[97m  HERE  [39m[49m;
-        }
-
-        public void desh(Ili reu, Prua buc) {
         }
 
         public static void dauspi() {
@@ -548,17 +552,13 @@ The code:
             this.ost = ost;
         }
 
-        public void ganxu() {
-            Ili er = new Ili(395);
-            this.setTa(this);
-            this.stio(new Prua(751), this);
-            new Ili(576).desh(er, this);
-        }
-
         public static void soios() {
             Ili nu = new Ili(572);
             Ili sor = new Ili(547);
             int asm = 95;
+        }
+
+        public void desh(Ili reu, Prua buc) {
         }
     }
 

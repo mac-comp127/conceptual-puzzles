@@ -374,7 +374,7 @@ class MethodCall {
                     var obj = generateObject(isOnTargetPath);
                     return new MethodCallReceiver(
                         obj.instantiationExpr(),
-                        puzzleClass,
+                        obj.type(),
                         obj
                     );
                 });
