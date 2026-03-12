@@ -66,7 +66,7 @@ Things to check in your solution:
 
 Acceptable variations in the solution:
 
-  - It is OK if you initialized [1mnon-static[22m variables" in the constructor instead
+  - It is OK if you initialized [1mnon-static[22m variables in the constructor instead
     of in the declaration. (Ask your instructor if you aren’t clear what this
     means.) Note that [1mstatic[22m variables [3mmust[23m be initialized in the declaration.
   - It is OK if you used a slightly different but equivalent form of an
@@ -148,7 +148,7 @@ Things to check in your solution:
 
 Acceptable variations in the solution:
 
-  - It is OK if you initialized [1mnon-static[22m variables" in the constructor instead
+  - It is OK if you initialized [1mnon-static[22m variables in the constructor instead
     of in the declaration. (Ask your instructor if you aren’t clear what this
     means.) Note that [1mstatic[22m variables [3mmust[23m be initialized in the declaration.
   - It is OK if you used a slightly different but equivalent form of an
@@ -234,7 +234,7 @@ Things to check in your solution:
 
 Acceptable variations in the solution:
 
-  - It is OK if you initialized [1mnon-static[22m variables" in the constructor instead
+  - It is OK if you initialized [1mnon-static[22m variables in the constructor instead
     of in the declaration. (Ask your instructor if you aren’t clear what this
     means.) Note that [1mstatic[22m variables [3mmust[23m be initialized in the declaration.
   - It is OK if you used a slightly different but equivalent form of an
@@ -314,7 +314,7 @@ Things to check in your solution:
 
 Acceptable variations in the solution:
 
-  - It is OK if you initialized [1mnon-static[22m variables" in the constructor instead
+  - It is OK if you initialized [1mnon-static[22m variables in the constructor instead
     of in the declaration. (Ask your instructor if you aren’t clear what this
     means.) Note that [1mstatic[22m variables [3mmust[23m be initialized in the declaration.
   - It is OK if you used a slightly different but equivalent form of an
@@ -392,7 +392,7 @@ Things to check in your solution:
 
 Acceptable variations in the solution:
 
-  - It is OK if you initialized [1mnon-static[22m variables" in the constructor instead
+  - It is OK if you initialized [1mnon-static[22m variables in the constructor instead
     of in the declaration. (Ask your instructor if you aren’t clear what this
     means.) Note that [1mstatic[22m variables [3mmust[23m be initialized in the declaration.
   - It is OK if you used a slightly different but equivalent form of an
@@ -469,7 +469,7 @@ Things to check in your solution:
 
 Acceptable variations in the solution:
 
-  - It is OK if you initialized [1mnon-static[22m variables" in the constructor instead
+  - It is OK if you initialized [1mnon-static[22m variables in the constructor instead
     of in the declaration. (Ask your instructor if you aren’t clear what this
     means.) Note that [1mstatic[22m variables [3mmust[23m be initialized in the declaration.
   - It is OK if you used a slightly different but equivalent form of an
