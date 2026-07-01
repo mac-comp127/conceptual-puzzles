@@ -1,3 +1,8 @@
+:PROPERTIES:
+:ID:       20260701T101910.577011
+:END:
+#+TITLE: COMP 127 conceptual puzzles: constructor chains
+
 * notes from Paul 2025-11-25
 
 ** FIXME TODO ensure that each puzzle requires you to really go up the entire chain
@@ -338,3 +343,7 @@ more?) for object creation statements, but then handling the topology of
 the hierarchy (so that we don't create an object whose type is a
 subclass and throws us into an infinite loop) is more complex. The juice
 does not seem worth the squeeze, I think.
+* [2026-07-01 Wed] returning to this trying to get it merged soon
+:PROPERTIES:
+:ID:       20260701T101928.699643
+:END:

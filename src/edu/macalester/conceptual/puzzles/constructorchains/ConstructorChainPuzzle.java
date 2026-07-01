@@ -33,6 +33,7 @@ public class ConstructorChainPuzzle implements Puzzle {
     private RandomLoch randomLoch;
     private RandomWeatherPlace randomWeatherPlace;
 
+
     @Override
     public byte id() {
         return 7;
@@ -98,33 +99,58 @@ public class ConstructorChainPuzzle implements Puzzle {
     private CompilationUnit generateDeclarations(PuzzleContext ctx) {
         int depth = this.params.hierarchyDepth();
         CompilationUnit declarations = new CompilationUnit();
-        appendClass(ctx, declarations);
+        appendClass(ctx, declarations, null);
 
-        // FIXME TODO see notes.org for things to fix with the hierarchy generation
+        // FIXME TODO see constructor-chain-puzzle-notes.org for things to fix with the hierarchy generation
+
 
         for (int i = 0; i < depth; i++) {
-            int numSiblings = 1; // this.params.numSiblings();
-            // disabling the "siblings" stuff for now -- we will, in effect, handle those when we fully
-            // implement the idea of first generating the actual chain, and *then* sprinkling in distractors.
+            var classes = AstUtils.classesInCompilationUnit(declarations);
+            ClassOrInterfaceDeclaration parentClass = classes.getLast();
+            appendClass(ctx, declarations, parentClass);
+        }
 
-            for (int j = 0; j < numSiblings; j++) {
-                appendClass(ctx, declarations);
+        /*
+         Something like this could be used to add distractor siblings through the hierarchy.
+         It has two problems: first, it appends all the distractors at the end, which makes them not very distracting.
+         Second, you can get object creation in which the static and dynamic type are incompatible because it randomly chooses
+         from all the classes, not just ancestors.
+
+         Since it's not clear that the distractors add anything -- that is, does their presence exercise the
+         student's conceptual understanding in a meaningful way? -- commenting this out.
+
+        for (int i = 0; i < depth; i++) {
+            var classes = AstUtils.classesInCompilationUnit(declarations);
+            for (var parent : classes) {
+                for (int j = 0; j < params.numSiblings(); j++) {
+                    var declaration = getClassDeclaration(ctx, declarations, parent);
+                    declarations.addType(declaration);
+                }
             }
         }
+        */
+
         return declarations;
     }
 
     /**
      * Create a new class declaration and append it to the provided compilation unit.
-     * @param ctx - puzzle context
+     *
+     * @param ctx          - puzzle context
      * @param declarations - current compilation unit
+     * @param parentClass  - name of the parent class
      * @return declaration of the new class; side effect: compilation unit has new class declaration appended
      */
-    private ClassOrInterfaceDeclaration appendClass(PuzzleContext ctx, CompilationUnit declarations) {
-        String className = randomLoch.draw();
-        var declaration = getDefaultDeclaration(className, declarations, ctx);
-        maybeAddNonDefaultCtor(declaration, ctx, AstUtils.classesInCompilationUnit(declarations));
+    private ClassOrInterfaceDeclaration appendClass(PuzzleContext ctx, CompilationUnit declarations, ClassOrInterfaceDeclaration parentClass) {
+        var declaration = getClassDeclaration(ctx, declarations, parentClass);
         declarations.addType(declaration);
+        return declaration;
+    }
+
+    private @NonNull ClassOrInterfaceDeclaration getClassDeclaration(PuzzleContext ctx, CompilationUnit declarations, ClassOrInterfaceDeclaration parentClass) {
+        String className = randomLoch.draw();
+        var declaration = getDefaultDeclaration(className, declarations, ctx, parentClass);
+        maybeAddNonDefaultCtor(declaration, ctx, AstUtils.classesInCompilationUnit(declarations));
         return declaration;
     }
 
@@ -135,9 +161,10 @@ public class ConstructorChainPuzzle implements Puzzle {
      * @param className    name of the class
      * @param declarations list of ancestor classes
      * @param ctx          puzzle context, used for difficulty level and random generator
+     * @param parentClass
      * @return class declaration object
      */
-    private ClassOrInterfaceDeclaration getDefaultDeclaration(String className, CompilationUnit declarations, PuzzleContext ctx) {
+    private ClassOrInterfaceDeclaration getDefaultDeclaration(String className, CompilationUnit declarations, PuzzleContext ctx, ClassOrInterfaceDeclaration parentClass) {
         var declaration = AstUtils.classDecl(className);
         declaration.addConstructor(Modifier.Keyword.PUBLIC);
 
@@ -145,9 +172,8 @@ public class ConstructorChainPuzzle implements Puzzle {
         maybePrintLn(declaration.getName() + " default constructor").ifPresent(constructorStatements::add);
         var classes = AstUtils.classesInCompilationUnit(declarations);
 
-        if (!classes.isEmpty()) {
-            String parentClass = classes.getLast().getNameAsString();
-            declaration.addExtendedType(parentClass);
+        if (parentClass != null) {
+            declaration.addExtendedType(parentClass.getNameAsString());
 
             maybeSuperCall(ctx, classes.getLast()).ifPresent(declaration.getDefaultConstructor().orElseThrow().getBody()::addStatement);
             maybeObjCreation(classes, ctx).ifPresent(constructorStatements::add);
@@ -178,7 +204,8 @@ public class ConstructorChainPuzzle implements Puzzle {
     /**
      * Maybe return an explicit <code>super()</code> call. Randomly chooses among the constructors
      * of <code>superClass</code>.
-     * @param ctx puzzle context
+     *
+     * @param ctx        puzzle context
      * @param superClass declaration for the superclass.
      * @return Optional expression statement <code>super()</code> or <code>super(123)</code>.
      */
@@ -270,10 +297,11 @@ public class ConstructorChainPuzzle implements Puzzle {
     /**
      * Same as {@link #maybeObjCreation(List, PuzzleContext) maybeAddObjCreation}, but creates an
      * object using a non-default constructor.
-     *
+     * <p>
      * The handling here is a bit different because we need to first find a class that *has* a
      * non-default constructor (if one even exists); only then can we choose a class for the static
      * type.
+     *
      * @param classes list of classes to choose from for object creation statement
      * @param ctx     puzzle context
      * @return an Optional object creation statement that calls a non-default constructor
