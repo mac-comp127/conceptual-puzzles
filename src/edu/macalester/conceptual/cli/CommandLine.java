@@ -62,6 +62,9 @@ public class CommandLine {
                     case "gen" -> {
                         generate(options);
                     }
+                    case "show" -> {
+                        show(options);
+                    }
                     case "solve" -> {
                         solve(options);
                     }
@@ -131,8 +134,9 @@ public class CommandLine {
         stdout.println("  " + executableName() + " solve " + ctx.getPuzzleCode());
     }
 
-    private void solve(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
+    private void displayPuzzle(PuzzleOptions options, boolean showSolution) throws InvalidPuzzleCodeException, IOException {
         requireCommandArgs(1, options);
+
         var ctx = PuzzleContext.fromPuzzleCode(options.commandAndArgs().get(1));
         var puzzle = Puzzle.findByID(ctx.getPuzzleID());
         if(puzzle == null) {
@@ -141,9 +145,18 @@ public class CommandLine {
             return;
         }
 
-        applyOptionsToContext(options, ctx, puzzle, true);
-        ctx.setPuzzleTitle(puzzle.description() + ": Solution");
+        applyOptionsToContext(options, ctx, puzzle, showSolution);
+        String puzzleTitle = puzzle.description() + (showSolution ? ": Solution" : "");
+        ctx.setPuzzleTitle(puzzleTitle);
         emitPuzzle(puzzle, ctx, options);
+
+        stdout.println();
+        stdout.println("Puzzle code: \u001b[7m " + ctx.getPuzzleCode() + " \u001b[0m");
+        stdout.println();
+        if (!showSolution) {
+            stdout.println("To see solution:");
+            stdout.println("  " + executableName() + " solve " + ctx.getPuzzleCode());
+        }
 
         if (ctx.getDifficulty() != puzzle.goalDifficulty()) {
             stdout.println(MessageFormat.format(
@@ -176,6 +189,14 @@ public class CommandLine {
                 + " --difficulty " + (ctx.getDifficulty() + 1));
             stdout.println();
         }
+    }
+
+    private void show(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
+        displayPuzzle(options, false);
+    }
+
+    private void solve(PuzzleOptions options) throws InvalidPuzzleCodeException, IOException {
+        displayPuzzle(options, true);
     }
 
     private void applyOptionsToContext(

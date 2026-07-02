@@ -26,9 +26,9 @@ of the language.)
     of a [4mStaice[24m’s internal state; instead, it is computed on demand. The
     computed value of [4minLunre[24m is the length of [4mfeatu[24m.
     
-[1m[38;5;228m[48;5;58m              [0m
-[1m[38;5;228m[48;5;58m   SOLUTION   [0m
-[1m[38;5;228m[48;5;58m              [0m
+[1m[38;2;255;229;102m[48;2;51;47;26m              [0m
+[1m[38;2;255;229;102m[48;2;51;47;26m   SOLUTION   [0m
+[1m[38;2;255;229;102m[48;2;51;47;26m              [0m
 
     public class Staice {
         public static final String THIOCMI = "um";
@@ -104,9 +104,9 @@ of the language.)
     an [4mAndfo[24m’s internal state; instead, it is computed on demand. The computed
     value of [4mtader[24m is the width of [4mSO_TRUGHTWHAN[24m.
     
-[1m[38;5;228m[48;5;58m              [0m
-[1m[38;5;228m[48;5;58m   SOLUTION   [0m
-[1m[38;5;228m[48;5;58m              [0m
+[1m[38;2;255;229;102m[48;2;51;47;26m              [0m
+[1m[38;2;255;229;102m[48;2;51;47;26m   SOLUTION   [0m
+[1m[38;2;255;229;102m[48;2;51;47;26m              [0m
 
     public class Andfo {
         public static final GraphicsObject SO_TRUGHTWHAN = new Rectangle(0, 0, 20, 27);
@@ -186,9 +186,9 @@ of the language.)
  6. A [4mCulnal[24m can [4mcapnenize[24m. This behavior adds "stostar" to [4meri[24m. Anyone can ask
     a [4mCulnal[24m to [4mcapnenize[24m.
     
-[1m[38;5;228m[48;5;58m              [0m
-[1m[38;5;228m[48;5;58m   SOLUTION   [0m
-[1m[38;5;228m[48;5;58m              [0m
+[1m[38;2;255;229;102m[48;2;51;47;26m              [0m
+[1m[38;2;255;229;102m[48;2;51;47;26m   SOLUTION   [0m
+[1m[38;2;255;229;102m[48;2;51;47;26m              [0m
 
     public class Culnal {
         private final GraphicsObject smirm;
@@ -273,9 +273,9 @@ of the language.)
  6. A [4mSissdar[24m can [4mfikgilify[24m. This behavior adds "sewl" to [4mmaAri[24m. Anyone can ask
     a [4mSissdar[24m to [4mfikgilify[24m.
     
-[1m[38;5;228m[48;5;58m              [0m
-[1m[38;5;228m[48;5;58m   SOLUTION   [0m
-[1m[38;5;228m[48;5;58m              [0m
+[1m[38;2;255;229;102m[48;2;51;47;26m              [0m
+[1m[38;2;255;229;102m[48;2;51;47;26m   SOLUTION   [0m
+[1m[38;2;255;229;102m[48;2;51;47;26m              [0m
 
     public class Sissdar {
         private static GraphicsObject dus = new Rectangle(0, 0, 42, 18);
@@ -351,9 +351,9 @@ of the language.)
  6. A [4mSphontal[24m can [4mchoatify[24m. This behavior adds "beehprau" to [4mbeit[24m. Anyone can
     ask a [4mSphontal[24m to [4mchoatify[24m.
     
-[1m[38;5;228m[48;5;58m              [0m
-[1m[38;5;228m[48;5;58m   SOLUTION   [0m
-[1m[38;5;228m[48;5;58m              [0m
+[1m[38;2;255;229;102m[48;2;51;47;26m              [0m
+[1m[38;2;255;229;102m[48;2;51;47;26m   SOLUTION   [0m
+[1m[38;2;255;229;102m[48;2;51;47;26m              [0m
 
     public class Sphontal {
         public static final String HIO_HASTCROR = "ostde";
@@ -428,9 +428,9 @@ of the language.)
  6. A [4mBecges[24m can [4mermify[24m. This behavior adds 8 to [4mteo[24m. Anyone can ask a [4mBecges[24m to
     [4mermify[24m.
     
-[1m[38;5;228m[48;5;58m              [0m
-[1m[38;5;228m[48;5;58m   SOLUTION   [0m
-[1m[38;5;228m[48;5;58m              [0m
+[1m[38;2;255;229;102m[48;2;51;47;26m              [0m
+[1m[38;2;255;229;102m[48;2;51;47;26m   SOLUTION   [0m
+[1m[38;2;255;229;102m[48;2;51;47;26m              [0m
 
     public class Becges {
         public static final GraphicsObject SQAN_MOV = new Rectangle(0, 0, 13, 33);
@@ -478,6 +478,9 @@ Acceptable variations in the solution:
 ────────────────────────────────────────────────────────────────────────────────
 
 [0m
+
+Puzzle code: [7m 17tn-p4ge-k8oL-0bjf-6 [0m
+
 ***************** PLEASE NOTE ******************
 ***                                          ***
 *** The puzzle above has a difficulty of 3.  ***

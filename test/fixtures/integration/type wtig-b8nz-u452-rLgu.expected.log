@@ -23,9 +23,9 @@ Given the following type declarations:
     OalRinstar foo = new NacCisa();
     OalRinstar bar = new Detpha();
 
-[1m[38;5;16m[48;5;207m            [0m
-[1m[38;5;16m[48;5;207m   PART 1   [0m
-[1m[38;5;16m[48;5;207m            [0m
+[1m[38;2;0;0;0m[48;2;232;51;255m            [0m
+[1m[38;2;0;0;0m[48;2;232;51;255m   PART 1   [0m
+[1m[38;2;0;0;0m[48;2;232;51;255m            [0m
 
 Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k.a.
 [1mcompile-time type[22m) of each node in the tree:
@@ -35,17 +35,17 @@ Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k
 (The static type of an expression is the type that the compiler uses to check
 the code [3mbefore[23m it runs.)
 
-[1m[38;5;213m[48;5;53m              [0m
-[1m[38;5;213m[48;5;53m   SOLUTION   [0m
-[1m[38;5;213m[48;5;53m              [0m
+[1m[38;2;238;102;255m[48;2;48;26;51m              [0m
+[1m[38;2;238;102;255m[48;2;48;26;51m   SOLUTION   [0m
+[1m[38;2;238;102;255m[48;2;48;26;51m              [0m
 
 [3m<< See window titled “Part 1 Solution” >>[23m
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;227m            [0m
-[1m[38;5;16m[48;5;227m   PART 2   [0m
-[1m[38;5;16m[48;5;227m            [0m
+[1m[38;2;0;0;0m[48;2;219;255;51m            [0m
+[1m[38;2;0;0;0m[48;2;219;255;51m   PART 2   [0m
+[1m[38;2;0;0;0m[48;2;219;255;51m            [0m
 
 Draw an AST for the same expression, this time labeling the [1mruntime type[22m of each
 node in the tree.
@@ -53,9 +53,9 @@ node in the tree.
 (The runtime type of an expression is the type of the actual value that appears
 when the code runs.)
 
-[1m[38;5;228m[48;5;58m              [0m
-[1m[38;5;228m[48;5;58m   SOLUTION   [0m
-[1m[38;5;228m[48;5;58m              [0m
+[1m[38;2;228;255;102m[48;2;46;51;26m              [0m
+[1m[38;2;228;255;102m[48;2;46;51;26m   SOLUTION   [0m
+[1m[38;2;228;255;102m[48;2;46;51;26m              [0m
 
 [3m<< See window titled “Part 2 Solution” >>[23m
 
@@ -86,9 +86,9 @@ Given the following type declarations:
     Macas foo = new Broe();
     Eont bar = new Eont();
 
-[1m[38;5;16m[48;5;75m            [0m
-[1m[38;5;16m[48;5;75m   PART 1   [0m
-[1m[38;5;16m[48;5;75m            [0m
+[1m[38;2;0;0;0m[48;2;51;159;255m            [0m
+[1m[38;2;0;0;0m[48;2;51;159;255m   PART 1   [0m
+[1m[38;2;0;0;0m[48;2;51;159;255m            [0m
 
 Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k.a.
 [1mcompile-time type[22m) of each node in the tree:
@@ -98,17 +98,17 @@ Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k
 (The static type of an expression is the type that the compiler uses to check
 the code [3mbefore[23m it runs.)
 
-[1m[38;5;117m[48;5;17m              [0m
-[1m[38;5;117m[48;5;17m   SOLUTION   [0m
-[1m[38;5;117m[48;5;17m              [0m
+[1m[38;2;102;183;255m[48;2;26;39;51m              [0m
+[1m[38;2;102;183;255m[48;2;26;39;51m   SOLUTION   [0m
+[1m[38;2;102;183;255m[48;2;26;39;51m              [0m
 
 [3m<< See window titled “Part 1 Solution” >>[23m
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;204m            [0m
-[1m[38;5;16m[48;5;204m   PART 2   [0m
-[1m[38;5;16m[48;5;204m            [0m
+[1m[38;2;0;0;0m[48;2;255;51;99m            [0m
+[1m[38;2;0;0;0m[48;2;255;51;99m   PART 2   [0m
+[1m[38;2;0;0;0m[48;2;255;51;99m            [0m
 
 Draw an AST for the same expression, this time labeling the [1mruntime type[22m of each
 node in the tree.
@@ -116,9 +116,9 @@ node in the tree.
 (The runtime type of an expression is the type of the actual value that appears
 when the code runs.)
 
-[1m[38;5;211m[48;5;52m              [0m
-[1m[38;5;211m[48;5;52m   SOLUTION   [0m
-[1m[38;5;211m[48;5;52m              [0m
+[1m[38;2;255;102;138m[48;2;51;26;32m              [0m
+[1m[38;2;255;102;138m[48;2;51;26;32m   SOLUTION   [0m
+[1m[38;2;255;102;138m[48;2;51;26;32m              [0m
 
 [3m<< See window titled “Part 2 Solution” >>[23m
 
@@ -149,9 +149,9 @@ Given the following type declarations:
     Spodga foo = new Bioum();
     Spodga bar = new UalPhlusprer();
 
-[1m[38;5;16m[48;5;83m            [0m
-[1m[38;5;16m[48;5;83m   PART 1   [0m
-[1m[38;5;16m[48;5;83m            [0m
+[1m[38;2;0;0;0m[48;2;51;255;62m            [0m
+[1m[38;2;0;0;0m[48;2;51;255;62m   PART 1   [0m
+[1m[38;2;0;0;0m[48;2;51;255;62m            [0m
 
 Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k.a.
 [1mcompile-time type[22m) of each node in the tree:
@@ -161,17 +161,17 @@ Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k
 (The static type of an expression is the type that the compiler uses to check
 the code [3mbefore[23m it runs.)
 
-[1m[38;5;120m[48;5;22m              [0m
-[1m[38;5;120m[48;5;22m   SOLUTION   [0m
-[1m[38;5;120m[48;5;22m              [0m
+[1m[38;2;102;255;110m[48;2;26;51;27m              [0m
+[1m[38;2;102;255;110m[48;2;26;51;27m   SOLUTION   [0m
+[1m[38;2;102;255;110m[48;2;26;51;27m              [0m
 
 [3m<< See window titled “Part 1 Solution” >>[23m
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;99m            [0m
-[1m[38;5;16m[48;5;99m   PART 2   [0m
-[1m[38;5;16m[48;5;99m            [0m
+[1m[38;2;0;0;0m[48;2;122;51;255m            [0m
+[1m[38;2;0;0;0m[48;2;122;51;255m   PART 2   [0m
+[1m[38;2;0;0;0m[48;2;122;51;255m            [0m
 
 Draw an AST for the same expression, this time labeling the [1mruntime type[22m of each
 node in the tree.
@@ -179,9 +179,9 @@ node in the tree.
 (The runtime type of an expression is the type of the actual value that appears
 when the code runs.)
 
-[1m[38;5;141m[48;5;17m              [0m
-[1m[38;5;141m[48;5;17m   SOLUTION   [0m
-[1m[38;5;141m[48;5;17m              [0m
+[1m[38;2;155;102;255m[48;2;34;26;51m              [0m
+[1m[38;2;155;102;255m[48;2;34;26;51m   SOLUTION   [0m
+[1m[38;2;155;102;255m[48;2;34;26;51m              [0m
 
 [3m<< See window titled “Part 2 Solution” >>[23m
 
@@ -212,9 +212,9 @@ Given the following type declarations:
     Cedfal foo = new Bodweu();
     Cedfal bar = new BeuScrilda();
 
-[1m[38;5;16m[48;5;221m            [0m
-[1m[38;5;16m[48;5;221m   PART 1   [0m
-[1m[38;5;16m[48;5;221m            [0m
+[1m[38;2;0;0;0m[48;2;255;181;51m            [0m
+[1m[38;2;0;0;0m[48;2;255;181;51m   PART 1   [0m
+[1m[38;2;0;0;0m[48;2;255;181;51m            [0m
 
 Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k.a.
 [1mcompile-time type[22m) of each node in the tree:
@@ -224,17 +224,17 @@ Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k
 (The static type of an expression is the type that the compiler uses to check
 the code [3mbefore[23m it runs.)
 
-[1m[38;5;222m[48;5;52m              [0m
-[1m[38;5;222m[48;5;52m   SOLUTION   [0m
-[1m[38;5;222m[48;5;52m              [0m
+[1m[38;2;255;200;102m[48;2;51;42;26m              [0m
+[1m[38;2;255;200;102m[48;2;51;42;26m   SOLUTION   [0m
+[1m[38;2;255;200;102m[48;2;51;42;26m              [0m
 
 [3m<< See window titled “Part 1 Solution” >>[23m
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;87m            [0m
-[1m[38;5;16m[48;5;87m   PART 2   [0m
-[1m[38;5;16m[48;5;87m            [0m
+[1m[38;2;0;0;0m[48;2;51;255;241m            [0m
+[1m[38;2;0;0;0m[48;2;51;255;241m   PART 2   [0m
+[1m[38;2;0;0;0m[48;2;51;255;241m            [0m
 
 Draw an AST for the same expression, this time labeling the [1mruntime type[22m of each
 node in the tree.
@@ -242,9 +242,9 @@ node in the tree.
 (The runtime type of an expression is the type of the actual value that appears
 when the code runs.)
 
-[1m[38;5;123m[48;5;23m              [0m
-[1m[38;5;123m[48;5;23m   SOLUTION   [0m
-[1m[38;5;123m[48;5;23m              [0m
+[1m[38;2;102;255;244m[48;2;26;51;49m              [0m
+[1m[38;2;102;255;244m[48;2;26;51;49m   SOLUTION   [0m
+[1m[38;2;102;255;244m[48;2;26;51;49m              [0m
 
 [3m<< See window titled “Part 2 Solution” >>[23m
 
@@ -277,9 +277,9 @@ Given the following type declarations:
     Rila foo = new Sasjou();
     Flatro bar = new Flatro();
 
-[1m[38;5;16m[48;5;206m            [0m
-[1m[38;5;16m[48;5;206m   PART 1   [0m
-[1m[38;5;16m[48;5;206m            [0m
+[1m[38;2;0;0;0m[48;2;255;51;210m            [0m
+[1m[38;2;0;0;0m[48;2;255;51;210m   PART 1   [0m
+[1m[38;2;0;0;0m[48;2;255;51;210m            [0m
 
 Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k.a.
 [1mcompile-time type[22m) of each node in the tree:
@@ -289,17 +289,17 @@ Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k
 (The static type of an expression is the type that the compiler uses to check
 the code [3mbefore[23m it runs.)
 
-[1m[38;5;213m[48;5;53m              [0m
-[1m[38;5;213m[48;5;53m   SOLUTION   [0m
-[1m[38;5;213m[48;5;53m              [0m
+[1m[38;2;255;102;221m[48;2;51;26;45m              [0m
+[1m[38;2;255;102;221m[48;2;51;26;45m   SOLUTION   [0m
+[1m[38;2;255;102;221m[48;2;51;26;45m              [0m
 
 [3m<< See window titled “Part 1 Solution” >>[23m
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;155m            [0m
-[1m[38;5;16m[48;5;155m   PART 2   [0m
-[1m[38;5;16m[48;5;155m            [0m
+[1m[38;2;0;0;0m[48;2;150;255;51m            [0m
+[1m[38;2;0;0;0m[48;2;150;255;51m   PART 2   [0m
+[1m[38;2;0;0;0m[48;2;150;255;51m            [0m
 
 Draw an AST for the same expression, this time labeling the [1mruntime type[22m of each
 node in the tree.
@@ -307,9 +307,9 @@ node in the tree.
 (The runtime type of an expression is the type of the actual value that appears
 when the code runs.)
 
-[1m[38;5;192m[48;5;22m              [0m
-[1m[38;5;192m[48;5;22m   SOLUTION   [0m
-[1m[38;5;192m[48;5;22m              [0m
+[1m[38;2;176;255;102m[48;2;38;51;26m              [0m
+[1m[38;2;176;255;102m[48;2;38;51;26m   SOLUTION   [0m
+[1m[38;2;176;255;102m[48;2;38;51;26m              [0m
 
 [3m<< See window titled “Part 2 Solution” >>[23m
 
@@ -342,9 +342,9 @@ Given the following type declarations:
     Ronen foo = new Ripsalt();
     Ronen bar = new CioBian();
 
-[1m[38;5;16m[48;5;69m            [0m
-[1m[38;5;16m[48;5;69m   PART 1   [0m
-[1m[38;5;16m[48;5;69m            [0m
+[1m[38;2;0;0;0m[48;2;51;90;255m            [0m
+[1m[38;2;0;0;0m[48;2;51;90;255m   PART 1   [0m
+[1m[38;2;0;0;0m[48;2;51;90;255m            [0m
 
 Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k.a.
 [1mcompile-time type[22m) of each node in the tree:
@@ -354,17 +354,17 @@ Draw an AST for the following expression, labeling the [1mstatic type[22m (a.k
 (The static type of an expression is the type that the compiler uses to check
 the code [3mbefore[23m it runs.)
 
-[1m[38;5;111m[48;5;17m              [0m
-[1m[38;5;111m[48;5;17m   SOLUTION   [0m
-[1m[38;5;111m[48;5;17m              [0m
+[1m[38;2;102;132;255m[48;2;26;30;51m              [0m
+[1m[38;2;102;132;255m[48;2;26;30;51m   SOLUTION   [0m
+[1m[38;2;102;132;255m[48;2;26;30;51m              [0m
 
 [3m<< See window titled “Part 1 Solution” >>[23m
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;203m            [0m
-[1m[38;5;16m[48;5;203m   PART 2   [0m
-[1m[38;5;16m[48;5;203m            [0m
+[1m[38;2;0;0;0m[48;2;255;71;51m            [0m
+[1m[38;2;0;0;0m[48;2;255;71;51m   PART 2   [0m
+[1m[38;2;0;0;0m[48;2;255;71;51m            [0m
 
 Draw an AST for the same expression, this time labeling the [1mruntime type[22m of each
 node in the tree.
@@ -372,12 +372,15 @@ node in the tree.
 (The runtime type of an expression is the type of the actual value that appears
 when the code runs.)
 
-[1m[38;5;210m[48;5;52m              [0m
-[1m[38;5;210m[48;5;52m   SOLUTION   [0m
-[1m[38;5;210m[48;5;52m              [0m
+[1m[38;2;255;117;102m[48;2;51;28;26m              [0m
+[1m[38;2;255;117;102m[48;2;51;28;26m   SOLUTION   [0m
+[1m[38;2;255;117;102m[48;2;51;28;26m              [0m
 
 [3m<< See window titled “Part 2 Solution” >>[23m
 
 ────────────────────────────────────────────────────────────────────────────────
 
 [0m
+
+Puzzle code: [7m wtig-b8nz-u452-rLgu [0m
+

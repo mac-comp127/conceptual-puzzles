@@ -8,9 +8,9 @@ For each of the Java expressions below:
 Be sure that your tree accurately reflects how Java would evaluate the
 expression.
 
-[1m[38;5;16m[48;5;99m            [0m
-[1m[38;5;16m[48;5;99m   PART 1   [0m
-[1m[38;5;16m[48;5;99m            [0m
+[1m[38;2;0;0;0m[48;2;106;51;255m            [0m
+[1m[38;2;0;0;0m[48;2;106;51;255m   PART 1   [0m
+[1m[38;2;0;0;0m[48;2;106;51;255m            [0m
 
 Given the following variables:
 
@@ -23,9 +23,9 @@ Given the following variables:
 
     corpis % in - ho * urm
 
-[1m[38;5;141m[48;5;17m              [0m
-[1m[38;5;141m[48;5;17m   SOLUTION   [0m
-[1m[38;5;141m[48;5;17m              [0m
+[1m[38;2;143;102;255m[48;2;32;26;51m              [0m
+[1m[38;2;143;102;255m[48;2;32;26;51m   SOLUTION   [0m
+[1m[38;2;143;102;255m[48;2;32;26;51m              [0m
 
 [3m<< See window titled “Part 1 Solution” >>[23m
 
@@ -36,9 +36,9 @@ Things to double-check in your solution:
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;215m            [0m
-[1m[38;5;16m[48;5;215m   PART 2   [0m
-[1m[38;5;16m[48;5;215m            [0m
+[1m[38;2;0;0;0m[48;2;255;165;51m            [0m
+[1m[38;2;0;0;0m[48;2;255;165;51m   PART 2   [0m
+[1m[38;2;0;0;0m[48;2;255;165;51m            [0m
 
 Given the following variables:
 
@@ -50,9 +50,9 @@ Given the following variables:
 
     voawess <= 1 && (up != 3 && muthord)
 
-[1m[38;5;222m[48;5;52m              [0m
-[1m[38;5;222m[48;5;52m   SOLUTION   [0m
-[1m[38;5;222m[48;5;52m              [0m
+[1m[38;2;255;188;102m[48;2;51;40;26m              [0m
+[1m[38;2;255;188;102m[48;2;51;40;26m   SOLUTION   [0m
+[1m[38;2;255;188;102m[48;2;51;40;26m              [0m
 
 [3m<< See window titled “Part 2 Solution” >>[23m
 
@@ -65,17 +65,17 @@ Things to double-check in your solution:
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;87m            [0m
-[1m[38;5;16m[48;5;87m   PART 3   [0m
-[1m[38;5;16m[48;5;87m            [0m
+[1m[38;2;0;0;0m[48;2;51;255;225m            [0m
+[1m[38;2;0;0;0m[48;2;51;255;225m   PART 3   [0m
+[1m[38;2;0;0;0m[48;2;51;255;225m            [0m
 
 Draw the AST and evaluation results for the following expression:
 
     0 + "1" + (2 + 3 + 4)
 
-[1m[38;5;123m[48;5;23m              [0m
-[1m[38;5;123m[48;5;23m   SOLUTION   [0m
-[1m[38;5;123m[48;5;23m              [0m
+[1m[38;2;102;255;232m[48;2;26;51;47m              [0m
+[1m[38;2;102;255;232m[48;2;26;51;47m   SOLUTION   [0m
+[1m[38;2;102;255;232m[48;2;26;51;47m              [0m
 
 [3m<< See window titled “Part 3 Solution” >>[23m
 
@@ -96,9 +96,9 @@ For each of the Java expressions below:
 Be sure that your tree accurately reflects how Java would evaluate the
 expression.
 
-[1m[38;5;16m[48;5;207m            [0m
-[1m[38;5;16m[48;5;207m   PART 1   [0m
-[1m[38;5;16m[48;5;207m            [0m
+[1m[38;2;0;0;0m[48;2;255;51;226m            [0m
+[1m[38;2;0;0;0m[48;2;255;51;226m   PART 1   [0m
+[1m[38;2;0;0;0m[48;2;255;51;226m            [0m
 
 Given the following variables:
 
@@ -109,9 +109,9 @@ Given the following variables:
 
     idpri + (6 / ascel / 2)
 
-[1m[38;5;213m[48;5;53m              [0m
-[1m[38;5;213m[48;5;53m   SOLUTION   [0m
-[1m[38;5;213m[48;5;53m              [0m
+[1m[38;2;255;102;233m[48;2;51;26;47m              [0m
+[1m[38;2;255;102;233m[48;2;51;26;47m   SOLUTION   [0m
+[1m[38;2;255;102;233m[48;2;51;26;47m              [0m
 
 [3m<< See window titled “Part 1 Solution” >>[23m
 
@@ -122,9 +122,9 @@ Things to double-check in your solution:
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;155m            [0m
-[1m[38;5;16m[48;5;155m   PART 2   [0m
-[1m[38;5;16m[48;5;155m            [0m
+[1m[38;2;0;0;0m[48;2;166;255;51m            [0m
+[1m[38;2;0;0;0m[48;2;166;255;51m   PART 2   [0m
+[1m[38;2;0;0;0m[48;2;166;255;51m            [0m
 
 Given the following variables:
 
@@ -137,9 +137,9 @@ Given the following variables:
 
     sioulper != 2 && 0 >= i && pouphtesm != edphiss
 
-[1m[38;5;192m[48;5;22m              [0m
-[1m[38;5;192m[48;5;22m   SOLUTION   [0m
-[1m[38;5;192m[48;5;22m              [0m
+[1m[38;2;188;255;102m[48;2;40;51;26m              [0m
+[1m[38;2;188;255;102m[48;2;40;51;26m   SOLUTION   [0m
+[1m[38;2;188;255;102m[48;2;40;51;26m              [0m
 
 [3m<< See window titled “Part 2 Solution” >>[23m
 
@@ -152,17 +152,17 @@ Things to double-check in your solution:
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;69m            [0m
-[1m[38;5;16m[48;5;69m   PART 3   [0m
-[1m[38;5;16m[48;5;69m            [0m
+[1m[38;2;0;0;0m[48;2;51;107;255m            [0m
+[1m[38;2;0;0;0m[48;2;51;107;255m   PART 3   [0m
+[1m[38;2;0;0;0m[48;2;51;107;255m            [0m
 
 Draw the AST and evaluation results for the following expression:
 
     0 + 1 + 2 + 3 + "4"
 
-[1m[38;5;111m[48;5;17m              [0m
-[1m[38;5;111m[48;5;17m   SOLUTION   [0m
-[1m[38;5;111m[48;5;17m              [0m
+[1m[38;2;102;144;255m[48;2;26;32;51m              [0m
+[1m[38;2;102;144;255m[48;2;26;32;51m   SOLUTION   [0m
+[1m[38;2;102;144;255m[48;2;26;32;51m              [0m
 
 [3m<< See window titled “Part 3 Solution” >>[23m
 
@@ -183,9 +183,9 @@ For each of the Java expressions below:
 Be sure that your tree accurately reflects how Java would evaluate the
 expression.
 
-[1m[38;5;16m[48;5;203m            [0m
-[1m[38;5;16m[48;5;203m   PART 1   [0m
-[1m[38;5;16m[48;5;203m            [0m
+[1m[38;2;0;0;0m[48;2;255;55;51m            [0m
+[1m[38;2;0;0;0m[48;2;255;55;51m   PART 1   [0m
+[1m[38;2;0;0;0m[48;2;255;55;51m            [0m
 
 Given the following variables:
 
@@ -195,9 +195,9 @@ Given the following variables:
 
     2 * 8 + 0 - mepnis
 
-[1m[38;5;210m[48;5;52m              [0m
-[1m[38;5;210m[48;5;52m   SOLUTION   [0m
-[1m[38;5;210m[48;5;52m              [0m
+[1m[38;2;255;105;102m[48;2;51;26;26m              [0m
+[1m[38;2;255;105;102m[48;2;51;26;26m   SOLUTION   [0m
+[1m[38;2;255;105;102m[48;2;51;26;26m              [0m
 
 [3m<< See window titled “Part 1 Solution” >>[23m
 
@@ -208,9 +208,9 @@ Things to double-check in your solution:
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;84m            [0m
-[1m[38;5;16m[48;5;84m   PART 2   [0m
-[1m[38;5;16m[48;5;84m            [0m
+[1m[38;2;0;0;0m[48;2;51;255;115m            [0m
+[1m[38;2;0;0;0m[48;2;51;255;115m   PART 2   [0m
+[1m[38;2;0;0;0m[48;2;51;255;115m            [0m
 
 Given the following variables:
 
@@ -221,9 +221,9 @@ Given the following variables:
 
     3 >= pren || eciac != 2 && 1 != 1
 
-[1m[38;5;121m[48;5;22m              [0m
-[1m[38;5;121m[48;5;22m   SOLUTION   [0m
-[1m[38;5;121m[48;5;22m              [0m
+[1m[38;2;102;255;150m[48;2;26;51;33m              [0m
+[1m[38;2;102;255;150m[48;2;26;51;33m   SOLUTION   [0m
+[1m[38;2;102;255;150m[48;2;26;51;33m              [0m
 
 [3m<< See window titled “Part 2 Solution” >>[23m
 
@@ -236,17 +236,17 @@ Things to double-check in your solution:
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;171m            [0m
-[1m[38;5;16m[48;5;171m   PART 3   [0m
-[1m[38;5;16m[48;5;171m            [0m
+[1m[38;2;0;0;0m[48;2;174;51;255m            [0m
+[1m[38;2;0;0;0m[48;2;174;51;255m   PART 3   [0m
+[1m[38;2;0;0;0m[48;2;174;51;255m            [0m
 
 Draw the AST and evaluation results for the following expression:
 
     (0 + 1 + "2" + 3) + 4
 
-[1m[38;5;177m[48;5;17m              [0m
-[1m[38;5;177m[48;5;17m   SOLUTION   [0m
-[1m[38;5;177m[48;5;17m              [0m
+[1m[38;2;194;102;255m[48;2;41;26;51m              [0m
+[1m[38;2;194;102;255m[48;2;41;26;51m   SOLUTION   [0m
+[1m[38;2;194;102;255m[48;2;41;26;51m              [0m
 
 [3m<< See window titled “Part 3 Solution” >>[23m
 
@@ -267,9 +267,9 @@ For each of the Java expressions below:
 Be sure that your tree accurately reflects how Java would evaluate the
 expression.
 
-[1m[38;5;16m[48;5;227m            [0m
-[1m[38;5;16m[48;5;227m   PART 1   [0m
-[1m[38;5;16m[48;5;227m            [0m
+[1m[38;2;0;0;0m[48;2;255;234;51m            [0m
+[1m[38;2;0;0;0m[48;2;255;234;51m   PART 1   [0m
+[1m[38;2;0;0;0m[48;2;255;234;51m            [0m
 
 Given the following variables:
 
@@ -280,9 +280,9 @@ Given the following variables:
 
     0 + (gamod + 6 + sti)
 
-[1m[38;5;228m[48;5;58m              [0m
-[1m[38;5;228m[48;5;58m   SOLUTION   [0m
-[1m[38;5;228m[48;5;58m              [0m
+[1m[38;2;255;239;102m[48;2;51;48;26m              [0m
+[1m[38;2;255;239;102m[48;2;51;48;26m   SOLUTION   [0m
+[1m[38;2;255;239;102m[48;2;51;48;26m              [0m
 
 [3m<< See window titled “Part 1 Solution” >>[23m
 
@@ -293,9 +293,9 @@ Things to double-check in your solution:
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;87m            [0m
-[1m[38;5;16m[48;5;87m   PART 2   [0m
-[1m[38;5;16m[48;5;87m            [0m
+[1m[38;2;0;0;0m[48;2;51;217;255m            [0m
+[1m[38;2;0;0;0m[48;2;51;217;255m   PART 2   [0m
+[1m[38;2;0;0;0m[48;2;51;217;255m            [0m
 
 Given the following variables:
 
@@ -307,9 +307,9 @@ Given the following variables:
 
     (lun && eu >= 7 || ossgead >= 8)
 
-[1m[38;5;123m[48;5;23m              [0m
-[1m[38;5;123m[48;5;23m   SOLUTION   [0m
-[1m[38;5;123m[48;5;23m              [0m
+[1m[38;2;102;226;255m[48;2;26;46;51m              [0m
+[1m[38;2;102;226;255m[48;2;26;46;51m   SOLUTION   [0m
+[1m[38;2;102;226;255m[48;2;26;46;51m              [0m
 
 [3m<< See window titled “Part 2 Solution” >>[23m
 
@@ -322,17 +322,17 @@ Things to double-check in your solution:
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;205m            [0m
-[1m[38;5;16m[48;5;205m   PART 3   [0m
-[1m[38;5;16m[48;5;205m            [0m
+[1m[38;2;0;0;0m[48;2;255;51;157m            [0m
+[1m[38;2;0;0;0m[48;2;255;51;157m   PART 3   [0m
+[1m[38;2;0;0;0m[48;2;255;51;157m            [0m
 
 Draw the AST and evaluation results for the following expression:
 
     0 + 1 + 2 + 3 + "4"
 
-[1m[38;5;212m[48;5;52m              [0m
-[1m[38;5;212m[48;5;52m   SOLUTION   [0m
-[1m[38;5;212m[48;5;52m              [0m
+[1m[38;2;255;102;182m[48;2;51;26;39m              [0m
+[1m[38;2;255;102;182m[48;2;51;26;39m   SOLUTION   [0m
+[1m[38;2;255;102;182m[48;2;51;26;39m              [0m
 
 [3m<< See window titled “Part 3 Solution” >>[23m
 
@@ -353,9 +353,9 @@ For each of the Java expressions below:
 Be sure that your tree accurately reflects how Java would evaluate the
 expression.
 
-[1m[38;5;16m[48;5;119m            [0m
-[1m[38;5;16m[48;5;119m   PART 1   [0m
-[1m[38;5;16m[48;5;119m            [0m
+[1m[38;2;0;0;0m[48;2;98;255;51m            [0m
+[1m[38;2;0;0;0m[48;2;98;255;51m   PART 1   [0m
+[1m[38;2;0;0;0m[48;2;98;255;51m            [0m
 
 Given the following variables:
 
@@ -366,9 +366,9 @@ Given the following variables:
 
     3 - 5 * efes / blun
 
-[1m[38;5;156m[48;5;22m              [0m
-[1m[38;5;156m[48;5;22m   SOLUTION   [0m
-[1m[38;5;156m[48;5;22m              [0m
+[1m[38;2;137;255;102m[48;2;31;51;26m              [0m
+[1m[38;2;137;255;102m[48;2;31;51;26m   SOLUTION   [0m
+[1m[38;2;137;255;102m[48;2;31;51;26m              [0m
 
 [3m<< See window titled “Part 1 Solution” >>[23m
 
@@ -379,9 +379,9 @@ Things to double-check in your solution:
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;63m            [0m
-[1m[38;5;16m[48;5;63m   PART 2   [0m
-[1m[38;5;16m[48;5;63m            [0m
+[1m[38;2;0;0;0m[48;2;64;51;255m            [0m
+[1m[38;2;0;0;0m[48;2;64;51;255m   PART 2   [0m
+[1m[38;2;0;0;0m[48;2;64;51;255m            [0m
 
 Given the following variables:
 
@@ -393,9 +393,9 @@ Given the following variables:
 
     3 < tralwur || 8 <= 6 || pem < stanilk
 
-[1m[38;5;105m[48;5;17m              [0m
-[1m[38;5;105m[48;5;17m   SOLUTION   [0m
-[1m[38;5;105m[48;5;17m              [0m
+[1m[38;2;112;102;255m[48;2;27;26;51m              [0m
+[1m[38;2;112;102;255m[48;2;27;26;51m   SOLUTION   [0m
+[1m[38;2;112;102;255m[48;2;27;26;51m              [0m
 
 [3m<< See window titled “Part 2 Solution” >>[23m
 
@@ -408,17 +408,17 @@ Things to double-check in your solution:
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;209m            [0m
-[1m[38;5;16m[48;5;209m   PART 3   [0m
-[1m[38;5;16m[48;5;209m            [0m
+[1m[38;2;0;0;0m[48;2;255;123;51m            [0m
+[1m[38;2;0;0;0m[48;2;255;123;51m   PART 3   [0m
+[1m[38;2;0;0;0m[48;2;255;123;51m            [0m
 
 Draw the AST and evaluation results for the following expression:
 
     0 + 1 + "2" + 3 + 4
 
-[1m[38;5;216m[48;5;52m              [0m
-[1m[38;5;216m[48;5;52m   SOLUTION   [0m
-[1m[38;5;216m[48;5;52m              [0m
+[1m[38;2;255;156;102m[48;2;51;35;26m              [0m
+[1m[38;2;255;156;102m[48;2;51;35;26m   SOLUTION   [0m
+[1m[38;2;255;156;102m[48;2;51;35;26m              [0m
 
 [3m<< See window titled “Part 3 Solution” >>[23m
 
@@ -439,9 +439,9 @@ For each of the Java expressions below:
 Be sure that your tree accurately reflects how Java would evaluate the
 expression.
 
-[1m[38;5;16m[48;5;86m            [0m
-[1m[38;5;16m[48;5;86m   PART 1   [0m
-[1m[38;5;16m[48;5;86m            [0m
+[1m[38;2;0;0;0m[48;2;51;255;183m            [0m
+[1m[38;2;0;0;0m[48;2;51;255;183m   PART 1   [0m
+[1m[38;2;0;0;0m[48;2;51;255;183m            [0m
 
 Given the following variables:
 
@@ -451,9 +451,9 @@ Given the following variables:
 
     whoss / (4 * 5 - 8)
 
-[1m[38;5;122m[48;5;22m              [0m
-[1m[38;5;122m[48;5;22m   SOLUTION   [0m
-[1m[38;5;122m[48;5;22m              [0m
+[1m[38;2;102;255;201m[48;2;26;51;42m              [0m
+[1m[38;2;102;255;201m[48;2;26;51;42m   SOLUTION   [0m
+[1m[38;2;102;255;201m[48;2;26;51;42m              [0m
 
 [3m<< See window titled “Part 1 Solution” >>[23m
 
@@ -464,9 +464,9 @@ Things to double-check in your solution:
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;207m            [0m
-[1m[38;5;16m[48;5;207m   PART 2   [0m
-[1m[38;5;16m[48;5;207m            [0m
+[1m[38;2;0;0;0m[48;2;243;51;255m            [0m
+[1m[38;2;0;0;0m[48;2;243;51;255m   PART 2   [0m
+[1m[38;2;0;0;0m[48;2;243;51;255m            [0m
 
 Given the following variables:
 
@@ -478,9 +478,9 @@ Given the following variables:
 
     oss && 3 >= hidme || eltant < 9
 
-[1m[38;5;213m[48;5;53m              [0m
-[1m[38;5;213m[48;5;53m   SOLUTION   [0m
-[1m[38;5;213m[48;5;53m              [0m
+[1m[38;2;246;102;255m[48;2;49;26;51m              [0m
+[1m[38;2;246;102;255m[48;2;49;26;51m   SOLUTION   [0m
+[1m[38;2;246;102;255m[48;2;49;26;51m              [0m
 
 [3m<< See window titled “Part 2 Solution” >>[23m
 
@@ -493,17 +493,17 @@ Things to double-check in your solution:
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;191m            [0m
-[1m[38;5;16m[48;5;191m   PART 3   [0m
-[1m[38;5;16m[48;5;191m            [0m
+[1m[38;2;0;0;0m[48;2;208;255;51m            [0m
+[1m[38;2;0;0;0m[48;2;208;255;51m   PART 3   [0m
+[1m[38;2;0;0;0m[48;2;208;255;51m            [0m
 
 Draw the AST and evaluation results for the following expression:
 
     0 + 1 + "2" + 3 + 4
 
-[1m[38;5;228m[48;5;58m              [0m
-[1m[38;5;228m[48;5;58m   SOLUTION   [0m
-[1m[38;5;228m[48;5;58m              [0m
+[1m[38;2;220;255;102m[48;2;45;51;26m              [0m
+[1m[38;2;220;255;102m[48;2;45;51;26m   SOLUTION   [0m
+[1m[38;2;220;255;102m[48;2;45;51;26m              [0m
 
 [3m<< See window titled “Part 3 Solution” >>[23m
 
@@ -515,11 +515,14 @@ Things to double-check in your solution:
 ────────────────────────────────────────────────────────────────────────────────
 
 [0m
+
+Puzzle code: [7m azy1-v4Lt-rq5L-7g92 [0m
+
 Want to practice more basics first? Try a simpler puzzle:
 
-  bin/puzzle gen ast --difficulty 1
+  puzzle gen ast --difficulty 1
 
 Want a bigger challenge? Try a harder difficulty level:
 
-  bin/puzzle gen ast --difficulty 3
+  puzzle gen ast --difficulty 3
 

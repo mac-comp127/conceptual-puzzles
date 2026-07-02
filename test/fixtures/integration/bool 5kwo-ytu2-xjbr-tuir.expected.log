@@ -1,8 +1,8 @@
 [0J────────────────────────────────────────────────────────────────────────────────
 
-[1m[38;5;16m[48;5;86m            [0m
-[1m[38;5;16m[48;5;86m   PART 1   [0m
-[1m[38;5;16m[48;5;86m            [0m
+[1m[38;2;0;0;0m[48;2;51;255;210m            [0m
+[1m[38;2;0;0;0m[48;2;51;255;210m   PART 1   [0m
+[1m[38;2;0;0;0m[48;2;51;255;210m            [0m
 
 This if statement has a very long first clause, and a very short else clause.
 This makes it hard to read: the tiny else clause is so far from the condition,
@@ -22,9 +22,9 @@ Improve readability by refactoring this conditional so that its [1mtwo clauses 
 swapped[22m: what is now the second clause (the [4melse[24m clause) comes first, and the
 first clause comes second.
 
-[1m[38;5;123m[48;5;23m              [0m
-[1m[38;5;123m[48;5;23m   SOLUTION   [0m
-[1m[38;5;123m[48;5;23m              [0m
+[1m[38;2;102;255;221m[48;2;26;51;45m              [0m
+[1m[38;2;102;255;221m[48;2;26;51;45m   SOLUTION   [0m
+[1m[38;2;102;255;221m[48;2;26;51;45m              [0m
 
     if (is != cang && !roth && eock() <= mu && (ru || coem() >= 8 && frehum() == 8)) {
         ollTre();
@@ -47,9 +47,9 @@ Things to double-check in your solution:
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;207m            [0m
-[1m[38;5;16m[48;5;207m   PART 2   [0m
-[1m[38;5;16m[48;5;207m            [0m
+[1m[38;2;0;0;0m[48;2;255;51;240m            [0m
+[1m[38;2;0;0;0m[48;2;255;51;240m   PART 2   [0m
+[1m[38;2;0;0;0m[48;2;255;51;240m            [0m
 
 Simplify the following conditional chain so that it is a single return
 statement.
@@ -75,9 +75,9 @@ statement.
     }
     return false;
 
-[1m[38;5;213m[48;5;53m              [0m
-[1m[38;5;213m[48;5;53m   SOLUTION   [0m
-[1m[38;5;213m[48;5;53m              [0m
+[1m[38;2;255;102;244m[48;2;51;26;49m              [0m
+[1m[38;2;255;102;244m[48;2;51;26;49m   SOLUTION   [0m
+[1m[38;2;255;102;244m[48;2;51;26;49m              [0m
 
     return il && te || geshbo() && pengpi() == 9 || griNuro() < 6 || duss || assa;
 
@@ -87,9 +87,9 @@ Bonus challenge: rewrite the if/else chain above so that instead of consisting
 of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the end, it has many
 [4mreturn false;[24m statements with one [4mreturn true;[24m at the end.
 
-[1m[38;5;213m[48;5;53m              [0m
-[1m[38;5;213m[48;5;53m   SOLUTION   [0m
-[1m[38;5;213m[48;5;53m              [0m
+[1m[38;2;255;102;244m[48;2;51;26;49m              [0m
+[1m[38;2;255;102;244m[48;2;51;26;49m   SOLUTION   [0m
+[1m[38;2;255;102;244m[48;2;51;26;49m              [0m
 
     if (!il) {
         if (!geshbo()) {
@@ -135,9 +135,9 @@ of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the 
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;191m            [0m
-[1m[38;5;16m[48;5;191m   PART 3   [0m
-[1m[38;5;16m[48;5;191m            [0m
+[1m[38;2;0;0;0m[48;2;181;255;51m            [0m
+[1m[38;2;0;0;0m[48;2;181;255;51m   PART 3   [0m
+[1m[38;2;0;0;0m[48;2;181;255;51m            [0m
 
 Simplify the following messy chain of conditionals:
 
@@ -158,9 +158,9 @@ Simplify the following messy chain of conditionals:
         suest();
     }
 
-[1m[38;5;192m[48;5;22m              [0m
-[1m[38;5;192m[48;5;22m   SOLUTION   [0m
-[1m[38;5;192m[48;5;22m              [0m
+[1m[38;2;199;255;102m[48;2;42;51;26m              [0m
+[1m[38;2;199;255;102m[48;2;42;51;26m   SOLUTION   [0m
+[1m[38;2;199;255;102m[48;2;42;51;26m              [0m
 
     if (alge) {
         spho();
@@ -185,9 +185,9 @@ Things to double-check in your solution:
 
 ────────────────────────────────────────────────────────────────────────────────
 
-[1m[38;5;16m[48;5;69m            [0m
-[1m[38;5;16m[48;5;69m   PART 1   [0m
-[1m[38;5;16m[48;5;69m            [0m
+[1m[38;2;0;0;0m[48;2;51;121;255m            [0m
+[1m[38;2;0;0;0m[48;2;51;121;255m   PART 1   [0m
+[1m[38;2;0;0;0m[48;2;51;121;255m            [0m
 
 This if statement has a very long first clause, and a very short else clause.
 This makes it hard to read: the tiny else clause is so far from the condition,
@@ -207,9 +207,9 @@ Improve readability by refactoring this conditional so that its [1mtwo clauses 
 swapped[22m: what is now the second clause (the [4melse[24m clause) comes first, and the
 first clause comes second.
 
-[1m[38;5;111m[48;5;17m              [0m
-[1m[38;5;111m[48;5;17m   SOLUTION   [0m
-[1m[38;5;111m[48;5;17m              [0m
+[1m[38;2;102;155;255m[48;2;26;34;51m              [0m
+[1m[38;2;102;155;255m[48;2;26;34;51m   SOLUTION   [0m
+[1m[38;2;102;155;255m[48;2;26;34;51m              [0m
 
     if ((spla || ed) && (grif || !tessun()) && (!dass || !eern())) {
         iorPhocpe();
@@ -232,9 +232,9 @@ Things to double-check in your solution:
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;203m            [0m
-[1m[38;5;16m[48;5;203m   PART 2   [0m
-[1m[38;5;16m[48;5;203m            [0m
+[1m[38;2;0;0;0m[48;2;255;51;62m            [0m
+[1m[38;2;0;0;0m[48;2;255;51;62m   PART 2   [0m
+[1m[38;2;0;0;0m[48;2;255;51;62m            [0m
 
 Simplify the following conditional chain so that it is a single return
 statement.
@@ -258,9 +258,9 @@ statement.
     }
     return false;
 
-[1m[38;5;210m[48;5;52m              [0m
-[1m[38;5;210m[48;5;52m   SOLUTION   [0m
-[1m[38;5;210m[48;5;52m              [0m
+[1m[38;2;255;102;110m[48;2;51;26;27m              [0m
+[1m[38;2;255;102;110m[48;2;51;26;27m   SOLUTION   [0m
+[1m[38;2;255;102;110m[48;2;51;26;27m              [0m
 
     return ondel() && rasick() && niec >= 9 && (antva() != da || nesEwdo() && draee() || fleoc());
 
@@ -270,9 +270,9 @@ Bonus challenge: rewrite the if/else chain above so that instead of consisting
 of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the end, it has many
 [4mreturn false;[24m statements with one [4mreturn true;[24m at the end.
 
-[1m[38;5;210m[48;5;52m              [0m
-[1m[38;5;210m[48;5;52m   SOLUTION   [0m
-[1m[38;5;210m[48;5;52m              [0m
+[1m[38;2;255;102;110m[48;2;51;26;27m              [0m
+[1m[38;2;255;102;110m[48;2;51;26;27m   SOLUTION   [0m
+[1m[38;2;255;102;110m[48;2;51;26;27m              [0m
 
     if (!ondel()) {
         return false;
@@ -299,9 +299,9 @@ of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the 
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;84m            [0m
-[1m[38;5;16m[48;5;84m   PART 3   [0m
-[1m[38;5;16m[48;5;84m            [0m
+[1m[38;2;0;0;0m[48;2;51;255;100m            [0m
+[1m[38;2;0;0;0m[48;2;51;255;100m   PART 3   [0m
+[1m[38;2;0;0;0m[48;2;51;255;100m            [0m
 
 Simplify the following messy chain of conditionals:
 
@@ -321,9 +321,9 @@ Simplify the following messy chain of conditionals:
         peiIasm();
     }
 
-[1m[38;5;121m[48;5;22m              [0m
-[1m[38;5;121m[48;5;22m   SOLUTION   [0m
-[1m[38;5;121m[48;5;22m              [0m
+[1m[38;2;102;255;139m[48;2;26;51;32m              [0m
+[1m[38;2;102;255;139m[48;2;26;51;32m   SOLUTION   [0m
+[1m[38;2;102;255;139m[48;2;26;51;32m              [0m
 
     if (ciw) {
         trobzo();
@@ -348,9 +348,9 @@ Things to double-check in your solution:
 
 ────────────────────────────────────────────────────────────────────────────────
 
-[1m[38;5;16m[48;5;135m            [0m
-[1m[38;5;16m[48;5;135m   PART 1   [0m
-[1m[38;5;16m[48;5;135m            [0m
+[1m[38;2;0;0;0m[48;2;159;51;255m            [0m
+[1m[38;2;0;0;0m[48;2;159;51;255m   PART 1   [0m
+[1m[38;2;0;0;0m[48;2;159;51;255m            [0m
 
 This if statement has a very long first clause, and a very short else clause.
 This makes it hard to read: the tiny else clause is so far from the condition,
@@ -370,9 +370,9 @@ Improve readability by refactoring this conditional so that its [1mtwo clauses 
 swapped[22m: what is now the second clause (the [4melse[24m clause) comes first, and the
 first clause comes second.
 
-[1m[38;5;177m[48;5;17m              [0m
-[1m[38;5;177m[48;5;17m   SOLUTION   [0m
-[1m[38;5;177m[48;5;17m              [0m
+[1m[38;2;183;102;255m[48;2;39;26;51m              [0m
+[1m[38;2;183;102;255m[48;2;39;26;51m   SOLUTION   [0m
+[1m[38;2;183;102;255m[48;2;39;26;51m              [0m
 
     if (umo <= 6 && (ahec() != 2 || !maeche()) || isdu != 4 || arac == 1 && ael == 8) {
         rilToing();
@@ -395,9 +395,9 @@ Things to double-check in your solution:
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;227m            [0m
-[1m[38;5;16m[48;5;227m   PART 2   [0m
-[1m[38;5;16m[48;5;227m            [0m
+[1m[38;2;0;0;0m[48;2;255;219;51m            [0m
+[1m[38;2;0;0;0m[48;2;255;219;51m   PART 2   [0m
+[1m[38;2;0;0;0m[48;2;255;219;51m            [0m
 
 Simplify the following conditional chain so that it is a single return
 statement.
@@ -423,9 +423,9 @@ statement.
     }
     return false;
 
-[1m[38;5;228m[48;5;58m              [0m
-[1m[38;5;228m[48;5;58m   SOLUTION   [0m
-[1m[38;5;228m[48;5;58m              [0m
+[1m[38;2;255;228;102m[48;2;51;47;26m              [0m
+[1m[38;2;255;228;102m[48;2;51;47;26m   SOLUTION   [0m
+[1m[38;2;255;228;102m[48;2;51;47;26m              [0m
 
     return tipha() && bri > pii || isas() || ipa == 3 || kriar() <= fewrer() || or != 0 && oss;
 
@@ -435,9 +435,9 @@ Bonus challenge: rewrite the if/else chain above so that instead of consisting
 of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the end, it has many
 [4mreturn false;[24m statements with one [4mreturn true;[24m at the end.
 
-[1m[38;5;228m[48;5;58m              [0m
-[1m[38;5;228m[48;5;58m   SOLUTION   [0m
-[1m[38;5;228m[48;5;58m              [0m
+[1m[38;2;255;228;102m[48;2;51;47;26m              [0m
+[1m[38;2;255;228;102m[48;2;51;47;26m   SOLUTION   [0m
+[1m[38;2;255;228;102m[48;2;51;47;26m              [0m
 
     if (!tipha()) {
         if (!isas()) {
@@ -471,9 +471,9 @@ of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the 
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;87m            [0m
-[1m[38;5;16m[48;5;87m   PART 3   [0m
-[1m[38;5;16m[48;5;87m            [0m
+[1m[38;2;0;0;0m[48;2;51;231;255m            [0m
+[1m[38;2;0;0;0m[48;2;51;231;255m   PART 3   [0m
+[1m[38;2;0;0;0m[48;2;51;231;255m            [0m
 
 Simplify the following messy chain of conditionals:
 
@@ -493,9 +493,9 @@ Simplify the following messy chain of conditionals:
         sinet();
     }
 
-[1m[38;5;123m[48;5;23m              [0m
-[1m[38;5;123m[48;5;23m   SOLUTION   [0m
-[1m[38;5;123m[48;5;23m              [0m
+[1m[38;2;102;237;255m[48;2;26;48;51m              [0m
+[1m[38;2;102;237;255m[48;2;26;48;51m   SOLUTION   [0m
+[1m[38;2;102;237;255m[48;2;26;48;51m              [0m
 
     if (stao) {
         stil();
@@ -520,9 +520,9 @@ Things to double-check in your solution:
 
 ────────────────────────────────────────────────────────────────────────────────
 
-[1m[38;5;16m[48;5;206m            [0m
-[1m[38;5;16m[48;5;206m   PART 1   [0m
-[1m[38;5;16m[48;5;206m            [0m
+[1m[38;2;0;0;0m[48;2;255;51;172m            [0m
+[1m[38;2;0;0;0m[48;2;255;51;172m   PART 1   [0m
+[1m[38;2;0;0;0m[48;2;255;51;172m            [0m
 
 This if statement has a very long first clause, and a very short else clause.
 This makes it hard to read: the tiny else clause is so far from the condition,
@@ -542,9 +542,9 @@ Improve readability by refactoring this conditional so that its [1mtwo clauses 
 swapped[22m: what is now the second clause (the [4melse[24m clause) comes first, and the
 first clause comes second.
 
-[1m[38;5;212m[48;5;52m              [0m
-[1m[38;5;212m[48;5;52m   SOLUTION   [0m
-[1m[38;5;212m[48;5;52m              [0m
+[1m[38;2;255;102;193m[48;2;51;26;41m              [0m
+[1m[38;2;255;102;193m[48;2;51;26;41m   SOLUTION   [0m
+[1m[38;2;255;102;193m[48;2;51;26;41m              [0m
 
     if (!daci && (nolord() || meir() >= 3) && su && psit != we && !he) {
         genta();
@@ -567,9 +567,9 @@ Things to double-check in your solution:
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;119m            [0m
-[1m[38;5;16m[48;5;119m   PART 2   [0m
-[1m[38;5;16m[48;5;119m            [0m
+[1m[38;2;0;0;0m[48;2;112;255;51m            [0m
+[1m[38;2;0;0;0m[48;2;112;255;51m   PART 2   [0m
+[1m[38;2;0;0;0m[48;2;112;255;51m            [0m
 
 Simplify the following conditional chain so that it is a single return
 statement.
@@ -605,9 +605,9 @@ statement.
     }
     return false;
 
-[1m[38;5;156m[48;5;22m              [0m
-[1m[38;5;156m[48;5;22m   SOLUTION   [0m
-[1m[38;5;156m[48;5;22m              [0m
+[1m[38;2;148;255;102m[48;2;33;51;26m              [0m
+[1m[38;2;148;255;102m[48;2;33;51;26m   SOLUTION   [0m
+[1m[38;2;148;255;102m[48;2;33;51;26m              [0m
 
     return (enn || ghir() || cec != 0 && rar) && !ocol && !esi && elid();
 
@@ -617,9 +617,9 @@ Bonus challenge: rewrite the if/else chain above so that instead of consisting
 of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the end, it has many
 [4mreturn false;[24m statements with one [4mreturn true;[24m at the end.
 
-[1m[38;5;156m[48;5;22m              [0m
-[1m[38;5;156m[48;5;22m   SOLUTION   [0m
-[1m[38;5;156m[48;5;22m              [0m
+[1m[38;2;148;255;102m[48;2;33;51;26m              [0m
+[1m[38;2;148;255;102m[48;2;33;51;26m   SOLUTION   [0m
+[1m[38;2;148;255;102m[48;2;33;51;26m              [0m
 
     if (!enn) {
         if (!ghir()) {
@@ -644,9 +644,9 @@ of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the 
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;63m            [0m
-[1m[38;5;16m[48;5;63m   PART 3   [0m
-[1m[38;5;16m[48;5;63m            [0m
+[1m[38;2;0;0;0m[48;2;51;53;255m            [0m
+[1m[38;2;0;0;0m[48;2;51;53;255m   PART 3   [0m
+[1m[38;2;0;0;0m[48;2;51;53;255m            [0m
 
 Simplify the following messy chain of conditionals:
 
@@ -667,9 +667,9 @@ Simplify the following messy chain of conditionals:
         hite();
     }
 
-[1m[38;5;105m[48;5;17m              [0m
-[1m[38;5;105m[48;5;17m   SOLUTION   [0m
-[1m[38;5;105m[48;5;17m              [0m
+[1m[38;2;102;103;255m[48;2;26;26;51m              [0m
+[1m[38;2;102;103;255m[48;2;26;26;51m   SOLUTION   [0m
+[1m[38;2;102;103;255m[48;2;26;26;51m              [0m
 
     if (pri != 7) {
         angco();
@@ -694,9 +694,9 @@ Things to double-check in your solution:
 
 ────────────────────────────────────────────────────────────────────────────────
 
-[1m[38;5;16m[48;5;209m            [0m
-[1m[38;5;16m[48;5;209m   PART 1   [0m
-[1m[38;5;16m[48;5;209m            [0m
+[1m[38;2;0;0;0m[48;2;255;109;51m            [0m
+[1m[38;2;0;0;0m[48;2;255;109;51m   PART 1   [0m
+[1m[38;2;0;0;0m[48;2;255;109;51m            [0m
 
 This if statement has a very long first clause, and a very short else clause.
 This makes it hard to read: the tiny else clause is so far from the condition,
@@ -716,9 +716,9 @@ Improve readability by refactoring this conditional so that its [1mtwo clauses 
 swapped[22m: what is now the second clause (the [4melse[24m clause) comes first, and the
 first clause comes second.
 
-[1m[38;5;216m[48;5;52m              [0m
-[1m[38;5;216m[48;5;52m   SOLUTION   [0m
-[1m[38;5;216m[48;5;52m              [0m
+[1m[38;2;255;145;102m[48;2;51;33;26m              [0m
+[1m[38;2;255;145;102m[48;2;51;33;26m   SOLUTION   [0m
+[1m[38;2;255;145;102m[48;2;51;33;26m              [0m
 
     if (!us || flei || (!crousa() || scre() != 8 && lal != 0) && !pepid()) {
         sasssa();
@@ -741,9 +741,9 @@ Things to double-check in your solution:
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;85m            [0m
-[1m[38;5;16m[48;5;85m   PART 2   [0m
-[1m[38;5;16m[48;5;85m            [0m
+[1m[38;2;0;0;0m[48;2;51;255;168m            [0m
+[1m[38;2;0;0;0m[48;2;51;255;168m   PART 2   [0m
+[1m[38;2;0;0;0m[48;2;51;255;168m            [0m
 
 Simplify the following conditional chain so that it is a single return
 statement.
@@ -772,9 +772,9 @@ statement.
     }
     return false;
 
-[1m[38;5;122m[48;5;22m              [0m
-[1m[38;5;122m[48;5;22m   SOLUTION   [0m
-[1m[38;5;122m[48;5;22m              [0m
+[1m[38;2;102;255;190m[48;2;26;51;40m              [0m
+[1m[38;2;102;255;190m[48;2;26;51;40m   SOLUTION   [0m
+[1m[38;2;102;255;190m[48;2;26;51;40m              [0m
 
     return (ia && pruec() && esmBofo() && seio || diho) && (!ceid || !ece);
 
@@ -784,9 +784,9 @@ Bonus challenge: rewrite the if/else chain above so that instead of consisting
 of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the end, it has many
 [4mreturn false;[24m statements with one [4mreturn true;[24m at the end.
 
-[1m[38;5;122m[48;5;22m              [0m
-[1m[38;5;122m[48;5;22m   SOLUTION   [0m
-[1m[38;5;122m[48;5;22m              [0m
+[1m[38;2;102;255;190m[48;2;26;51;40m              [0m
+[1m[38;2;102;255;190m[48;2;26;51;40m   SOLUTION   [0m
+[1m[38;2;102;255;190m[48;2;26;51;40m              [0m
 
     if (!ia) {
         if (!diho) {
@@ -817,9 +817,9 @@ of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the 
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;207m            [0m
-[1m[38;5;16m[48;5;207m   PART 3   [0m
-[1m[38;5;16m[48;5;207m            [0m
+[1m[38;2;0;0;0m[48;2;228;51;255m            [0m
+[1m[38;2;0;0;0m[48;2;228;51;255m   PART 3   [0m
+[1m[38;2;0;0;0m[48;2;228;51;255m            [0m
 
 Simplify the following messy chain of conditionals:
 
@@ -839,9 +839,9 @@ Simplify the following messy chain of conditionals:
         elpann();
     }
 
-[1m[38;5;213m[48;5;53m              [0m
-[1m[38;5;213m[48;5;53m   SOLUTION   [0m
-[1m[38;5;213m[48;5;53m              [0m
+[1m[38;2;235;102;255m[48;2;48;26;51m              [0m
+[1m[38;2;235;102;255m[48;2;48;26;51m   SOLUTION   [0m
+[1m[38;2;235;102;255m[48;2;48;26;51m              [0m
 
     if (!spe) {
         eeax();
@@ -866,9 +866,9 @@ Things to double-check in your solution:
 
 ────────────────────────────────────────────────────────────────────────────────
 
-[1m[38;5;16m[48;5;227m            [0m
-[1m[38;5;16m[48;5;227m   PART 1   [0m
-[1m[38;5;16m[48;5;227m            [0m
+[1m[38;2;0;0;0m[48;2;222;255;51m            [0m
+[1m[38;2;0;0;0m[48;2;222;255;51m   PART 1   [0m
+[1m[38;2;0;0;0m[48;2;222;255;51m            [0m
 
 This if statement has a very long first clause, and a very short else clause.
 This makes it hard to read: the tiny else clause is so far from the condition,
@@ -888,9 +888,9 @@ Improve readability by refactoring this conditional so that its [1mtwo clauses 
 swapped[22m: what is now the second clause (the [4melse[24m clause) comes first, and the
 first clause comes second.
 
-[1m[38;5;228m[48;5;58m              [0m
-[1m[38;5;228m[48;5;58m   SOLUTION   [0m
-[1m[38;5;228m[48;5;58m              [0m
+[1m[38;2;231;255;102m[48;2;47;51;26m              [0m
+[1m[38;2;231;255;102m[48;2;47;51;26m   SOLUTION   [0m
+[1m[38;2;231;255;102m[48;2;47;51;26m              [0m
 
     if (pi < siurio() && (!ang && !oma || pa <= 9 || !flik() || !iilRoa())) {
         clotol();
@@ -913,9 +913,9 @@ Things to double-check in your solution:
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;75m            [0m
-[1m[38;5;16m[48;5;75m   PART 2   [0m
-[1m[38;5;16m[48;5;75m            [0m
+[1m[38;2;0;0;0m[48;2;51;163;255m            [0m
+[1m[38;2;0;0;0m[48;2;51;163;255m   PART 2   [0m
+[1m[38;2;0;0;0m[48;2;51;163;255m            [0m
 
 Simplify the following conditional chain so that it is a single return
 statement.
@@ -941,9 +941,9 @@ statement.
     }
     return false;
 
-[1m[38;5;117m[48;5;17m              [0m
-[1m[38;5;117m[48;5;17m   SOLUTION   [0m
-[1m[38;5;117m[48;5;17m              [0m
+[1m[38;2;102;186;255m[48;2;26;39;51m              [0m
+[1m[38;2;102;186;255m[48;2;26;39;51m   SOLUTION   [0m
+[1m[38;2;102;186;255m[48;2;26;39;51m              [0m
 
     return !scas || iloCobe() == 1 || me || prip && castea() && (oas || helda());
 
@@ -953,9 +953,9 @@ Bonus challenge: rewrite the if/else chain above so that instead of consisting
 of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the end, it has many
 [4mreturn false;[24m statements with one [4mreturn true;[24m at the end.
 
-[1m[38;5;117m[48;5;17m              [0m
-[1m[38;5;117m[48;5;17m   SOLUTION   [0m
-[1m[38;5;117m[48;5;17m              [0m
+[1m[38;2;102;186;255m[48;2;26;39;51m              [0m
+[1m[38;2;102;186;255m[48;2;26;39;51m   SOLUTION   [0m
+[1m[38;2;102;186;255m[48;2;26;39;51m              [0m
 
     if (scas) {
         if (iloCobe() != 1) {
@@ -978,9 +978,9 @@ of many [4mreturn true;[24m statements with one [4mreturn false;[24m at the 
 
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-[1m[38;5;16m[48;5;204m            [0m
-[1m[38;5;16m[48;5;204m   PART 3   [0m
-[1m[38;5;16m[48;5;204m            [0m
+[1m[38;2;0;0;0m[48;2;255;51;103m            [0m
+[1m[38;2;0;0;0m[48;2;255;51;103m   PART 3   [0m
+[1m[38;2;0;0;0m[48;2;255;51;103m            [0m
 
 Simplify the following messy chain of conditionals:
 
@@ -1001,9 +1001,9 @@ Simplify the following messy chain of conditionals:
         breKesoth();
     }
 
-[1m[38;5;211m[48;5;52m              [0m
-[1m[38;5;211m[48;5;52m   SOLUTION   [0m
-[1m[38;5;211m[48;5;52m              [0m
+[1m[38;2;255;102;141m[48;2;51;26;32m              [0m
+[1m[38;2;255;102;141m[48;2;51;26;32m   SOLUTION   [0m
+[1m[38;2;255;102;141m[48;2;51;26;32m              [0m
 
     if (ol) {
         sqat();
@@ -1027,6 +1027,9 @@ Things to double-check in your solution:
 ────────────────────────────────────────────────────────────────────────────────
 
 [0m
+
+Puzzle code: [7m 5kwo-ytu2-xjbr-tuir [0m
+
 ***************** PLEASE NOTE ******************
 ***                                          ***
 *** The puzzle above has a difficulty of 5.  ***
@@ -1038,9 +1041,9 @@ To try the puzzle at the goal difficulty, generate a puzzle without the --diffic
 
 Want to practice more basics first? Try a simpler puzzle:
 
-  bin/puzzle gen bool --difficulty 4
+  puzzle gen bool --difficulty 4
 
 Want a bigger challenge? Try a harder difficulty level:
 
-  bin/puzzle gen bool --difficulty 6
+  puzzle gen bool --difficulty 6
 
