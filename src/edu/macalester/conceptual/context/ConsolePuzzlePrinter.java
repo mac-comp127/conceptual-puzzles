@@ -312,14 +312,7 @@ public class ConsolePuzzlePrinter implements PuzzlePrinter {
     }
 
     private String textColorCode(Color color, boolean foreground) {
-        String terminalColorMode = System.getenv("COLORTERM");
-        if (terminalColorMode != null && terminalColorMode.matches("truecolor|24bit")) {
-            // 24-bit (true color) ANSI code
-            // Only some terminals support it (VS Code = yes, Apple Terminal = no)
-            return ansiCode('m',
-                foreground ? 38 : 48, 2,
-                color.getRed(), color.getGreen(), color.getBlue());
-        } else {
+
             // 256-color ANSI code: better compatibility
             return ansiCode(
                 'm',
@@ -328,7 +321,7 @@ public class ConsolePuzzlePrinter implements PuzzlePrinter {
                 16  + scale256To6(color.getBlue())
                     + scale256To6(color.getGreen()) * 6
                     + scale256To6(color.getRed()) * 36);
-        }
+        
     }
 
     private String plainTextColorCode() {
