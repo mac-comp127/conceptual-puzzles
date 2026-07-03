@@ -175,7 +175,8 @@ public class ConstructorChainPuzzle implements Puzzle {
         if (parentClass != null) {
             declaration.addExtendedType(parentClass.getNameAsString());
 
-            maybeSuperCall(ctx, classes.getLast()).ifPresent(declaration.getDefaultConstructor().orElseThrow().getBody()::addStatement);
+            // in Java 21, we can replace the clunky size-1 index access below with just classes.getLast().
+            maybeSuperCall(ctx, classes.get(classes.size() - 1)).ifPresent(declaration.getDefaultConstructor().orElseThrow().getBody()::addStatement);
             maybeObjCreation(classes, ctx).ifPresent(constructorStatements::add);
             maybeNonDefaultCtorObjectCreation(classes, ctx).ifPresent(constructorStatements::add);
         }
