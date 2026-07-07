@@ -61,7 +61,7 @@ public class ConstructorChainPuzzle implements Puzzle {
 
     @Override
     public void generate(PuzzleContext ctx) {
-        this.params = new ConstructorChainParameters(goalDifficulty(), ctx.getDifficulty(), ctx.getRandom());
+        this.params = new ConstructorChainParameters(ctx, goalDifficulty(), ctx.getDifficulty(), ctx.getRandom());
         this.randomLoch = new RandomLoch(ctx);
         this.randomWeatherPlace = new RandomWeatherPlace(ctx);
 
@@ -97,17 +97,21 @@ public class ConstructorChainPuzzle implements Puzzle {
     }
 
     private CompilationUnit generateDeclarations(PuzzleContext ctx) {
-        int depth = this.params.hierarchyDepth();
+        int totalDepth = this.params.hierarchyDepth();
+
+        System.out.println("depth is euqal to " + totalDepth);
+
+
         CompilationUnit declarations = new CompilationUnit();
-        appendClass(ctx, declarations, null);
+        appendClass(ctx, declarations, null, 0);
 
         // FIXME TODO see constructor-chain-puzzle-notes.org for things to fix with the hierarchy generation
 
 
-        for (int i = 0; i < depth; i++) {
+        for (int depth = 1; depth < totalDepth; depth++) {
             var classes = AstUtils.classesInCompilationUnit(declarations);
             ClassOrInterfaceDeclaration parentClass = classes.getLast();
-            appendClass(ctx, declarations, parentClass);
+            appendClass(ctx, declarations, parentClass, depth);
         }
 
         /*
@@ -141,16 +145,16 @@ public class ConstructorChainPuzzle implements Puzzle {
      * @param parentClass  - name of the parent class
      * @return declaration of the new class; side effect: compilation unit has new class declaration appended
      */
-    private ClassOrInterfaceDeclaration appendClass(PuzzleContext ctx, CompilationUnit declarations, ClassOrInterfaceDeclaration parentClass) {
-        var declaration = getClassDeclaration(ctx, declarations, parentClass);
+    private ClassOrInterfaceDeclaration appendClass(PuzzleContext ctx, CompilationUnit declarations, ClassOrInterfaceDeclaration parentClass, int depth) {
+        var declaration = getClassDeclaration(ctx, declarations, parentClass, depth);
         declarations.addType(declaration);
         return declaration;
     }
 
-    private @NonNull ClassOrInterfaceDeclaration getClassDeclaration(PuzzleContext ctx, CompilationUnit declarations, ClassOrInterfaceDeclaration parentClass) {
+    private @NonNull ClassOrInterfaceDeclaration getClassDeclaration(PuzzleContext ctx, CompilationUnit declarations, ClassOrInterfaceDeclaration parentClass, int depth) {
         String className = randomLoch.draw();
-        var declaration = getDefaultDeclaration(className, declarations, ctx, parentClass);
-        maybeAddNonDefaultCtor(declaration, ctx, AstUtils.classesInCompilationUnit(declarations));
+        var declaration = getDefaultDeclaration(className, declarations, ctx, parentClass, depth);
+        maybeAddNonDefaultCtor(declaration, ctx, AstUtils.classesInCompilationUnit(declarations), depth);
         return declaration;
     }
 
@@ -164,7 +168,7 @@ public class ConstructorChainPuzzle implements Puzzle {
      * @param parentClass
      * @return class declaration object
      */
-    private ClassOrInterfaceDeclaration getDefaultDeclaration(String className, CompilationUnit declarations, PuzzleContext ctx, ClassOrInterfaceDeclaration parentClass) {
+    private ClassOrInterfaceDeclaration getDefaultDeclaration(String className, CompilationUnit declarations, PuzzleContext ctx, ClassOrInterfaceDeclaration parentClass, int depth) {
         var declaration = AstUtils.classDecl(className);
         declaration.addConstructor(Modifier.Keyword.PUBLIC);
 
@@ -177,7 +181,7 @@ public class ConstructorChainPuzzle implements Puzzle {
 
             // in Java 21, we can replace the clunky size-1 index access below with just classes.getLast().
             maybeSuperCall(ctx, classes.get(classes.size() - 1)).ifPresent(declaration.getDefaultConstructor().orElseThrow().getBody()::addStatement);
-            maybeObjCreation(classes, ctx).ifPresent(constructorStatements::add);
+            maybeObjCreation(classes, ctx, depth).ifPresent(constructorStatements::add);
             maybeNonDefaultCtorObjectCreation(classes, ctx).ifPresent(constructorStatements::add);
         }
         if (!constructorStatements.isEmpty()) {
@@ -230,7 +234,7 @@ public class ConstructorChainPuzzle implements Puzzle {
      * @param ctx         puzzle context
      * @param classes     list of classes to choose from for object creation statements
      */
-    private void maybeAddNonDefaultCtor(ClassOrInterfaceDeclaration declaration, PuzzleContext ctx, List<ClassOrInterfaceDeclaration> classes) {
+    private void maybeAddNonDefaultCtor(ClassOrInterfaceDeclaration declaration, PuzzleContext ctx, List<ClassOrInterfaceDeclaration> classes, int depth) {
         if (this.params.addNonDefaultCtor()) {
             var nonDefaultCtor = declaration.addConstructor(Modifier.Keyword.PUBLIC);
             nonDefaultCtor.addParameter("int", "n");
@@ -241,7 +245,7 @@ public class ConstructorChainPuzzle implements Puzzle {
             }
 
             maybePrintLn(declaration.getName() + " constructor, n = \" + n + \".").ifPresent(constructorStatements::add);
-            maybeObjCreation(classes, ctx).ifPresent(constructorStatements::add);
+            maybeObjCreation(classes, ctx, depth).ifPresent(constructorStatements::add);
             maybeNonDefaultCtorObjectCreation(classes, ctx).ifPresent(constructorStatements::add);
 
             if (!constructorStatements.isEmpty()) {
@@ -260,7 +264,9 @@ public class ConstructorChainPuzzle implements Puzzle {
      * @param ctx     puzzle context
      * @return an Optional object creation statement
      */
-    private Optional<ExpressionStmt> maybeObjCreation(List<ClassOrInterfaceDeclaration> classes, PuzzleContext ctx) {
+    private Optional<ExpressionStmt> maybeObjCreation(List<ClassOrInterfaceDeclaration> classes, PuzzleContext ctx, int depth) {
+        System.out.println("should create object at depth " + depth + " is..." + params.shouldCreateObjectAtDepth(depth));
+
         if (!classes.isEmpty() && this.params.addObjectCreationStatement()) {
             TypeNames names = getTypeNames(classes, ctx);
             String variable = Utils.decapitalize(randomWeatherPlace.draw());
@@ -287,7 +293,7 @@ public class ConstructorChainPuzzle implements Puzzle {
             String staticTypeName = classes.get(staticTypeIndex).getName().toString();
             return new TypeNames(dynamicTypeName, staticTypeName);
         } else {
-            String typeName = (new ChoiceDeck<>(ctx, classes)).draw().getName().toString().toString();
+            String typeName = (new ChoiceDeck<>(ctx, classes)).draw().getName().toString();
             return new TypeNames(typeName, typeName);
         }
     }
@@ -296,7 +302,7 @@ public class ConstructorChainPuzzle implements Puzzle {
     }
 
     /**
-     * Same as {@link #maybeObjCreation(List, PuzzleContext) maybeAddObjCreation}, but creates an
+     * Same as {@link #maybeObjCreation(List, PuzzleContext, int) maybeAddObjCreation}, but creates an
      * object using a non-default constructor.
      * <p>
      * The handling here is a bit different because we need to first find a class that *has* a

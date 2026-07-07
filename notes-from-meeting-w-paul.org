@@ -1,0 +1,46 @@
+
+
+
+* [2026-07-03 Fri] at Dogwood on Lake
+
+* ensuring at least one of a feature (and at lest
+
+params class could track this
+
+* decide at start how many of each feature
+
+begin by deciding a depth. Number of classes with non-def ctors.
+
+but if you decide to call a superclass's nondef, gotta make sure it
+exists when doing object creation and so on
+
+just do a ChoiceDeck with, say 3 true and 5 falses.
+
+static method: specify number of trues and falses; that's
+
+* classes.getLast can fail on earlier versions of Java!
+
+will show up in CI
+
+need a helper might already be one Paul wrote
+
+search for "java 21" and see Paul's various comments
+* difference integration tests ANSI escape
+
+what is causing that? Find root cause.
+
+But...Paul is not seeing that?
+
+
+AH! unset COLORTERM in zsh etc
+
+his ANSI code escape generator looks at that
+
+he's filing an issue
+
+
+
+
+
+* remove changes to gradle scripts etc
+will fix those other weird integration test failures

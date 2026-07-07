@@ -1,5 +1,9 @@
 package edu.macalester.conceptual.puzzles.constructorchains;
 
+import edu.macalester.conceptual.context.PuzzleContext;
+import edu.macalester.conceptual.util.ChoiceDeck;
+
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -16,6 +20,9 @@ public class ConstructorChainParameters {
     private final byte difficulty;
     private final Random rand;
 
+    public final int depth;
+    private final List<Boolean> createObjectAtDepth;
+
     /**
      * Doesn't make sense to have an instance of this without difficulties or a puzzle context random generator.
      */
@@ -23,10 +30,42 @@ public class ConstructorChainParameters {
         throw new IllegalArgumentException("You need to provide a random number generator and difficulty.");
     }
 
-    public ConstructorChainParameters(byte goalDifficulty, byte difficulty, Random rand) {
+    public ConstructorChainParameters(PuzzleContext ctx, byte goalDifficulty, byte difficulty, Random rand) {
         this.goalDifficulty = goalDifficulty;
         this.difficulty = difficulty;
         this.rand = rand;
+
+        // features to decide on here:
+        // depths
+        // num classes with non-def ctor
+        // num ctors with super() call
+        // num ctors with super(..) to non-default
+        // num object creations with def ctor
+        // num objs created with non-default constructor
+        // num ctors with printlns
+
+        depth = hierarchyDepth();
+        int numObjCreations = (int)Math.round(difficultyToAddObjCreationProbability() * depth);
+        // value at index i = should we create an object in the default contsructor at depth i?
+        // one minor thing here: if element 0 is true, no object will be created because there's no superclass, so in that situation strictly speaking
+        // we are creating one fewer object than numObjCreations specifies.
+        createObjectAtDepth = ChoiceDeck.makeBooleanDeck(ctx, numObjCreations, depth - numObjCreations).dealEntireDeck();
+
+        
+
+
+
+
+        for (int i = 0; i < depth; i++) {
+            System.out.println("Depth " + i + " createobject: " + shouldCreateObjectAtDepth(i));
+        }
+
+
+
+    }
+
+    public boolean shouldCreateObjectAtDepth(int depth) {
+            return createObjectAtDepth.get(depth);
     }
 
     /*
