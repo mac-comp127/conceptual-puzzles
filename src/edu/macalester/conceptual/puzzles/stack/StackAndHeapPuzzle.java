@@ -26,7 +26,7 @@ public class StackAndHeapPuzzle implements Puzzle {
 
     @Override
     public byte goalDifficulty() {
-        return 1;
+        return 2;
     }
 
     @Override

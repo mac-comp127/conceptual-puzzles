@@ -583,15 +583,6 @@ Hints for practicing this puzzle:
 ────────────────────────────────────────────────────────────────────────────────
 
 [0m
-***************** PLEASE NOTE ******************
-***                                          ***
-*** The puzzle above has a difficulty of 2.  ***
-*** The difficulty level to get credit is 1. ***
-***                                          ***
-************************************************
-
-To try the puzzle at the goal difficulty, generate a puzzle without the --difficulty option.
-
 Want to practice more basics first? Try a simpler puzzle:
 
   puzzle gen stack --difficulty 1
